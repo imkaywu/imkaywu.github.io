@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kai Wu | PLY file read and write</title>
+  <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <link rel="shortcut icon" href="http://localhost:4000/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+  <link rel="stylesheet" href="http://localhost:4000">
+  <link rel="canonical" href="http://localhost:4000/blog/2016/ply/">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    
+    <span class="site-title">
+        
+        <strong>Kai</strong> Wu
+    </span>
+    
+
+    <nav class="site-nav">
+
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="http://localhost:4000/">about</a>
+
+        <!-- Blog -->
+        <a class="page-link" href="http://localhost:4000/blog/">blog</a>
+
+        <!-- Pages -->
+        
+          
+        
+          
+        
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000/projects/">projects</a>
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000/publications/">publications</a>
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000/teaching/">teaching</a>
+          
+        
+          
+        
+          
+        
+
+        <!-- CV link -->
+        <!-- <a class="page-link" href="http://localhost:4000/assets/pdf/CV.pdf">vitae</a> -->
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">PLY file read and write</h1>
+    <p class="post-meta">April 26, 2016</p>
+  </header>
+
+  <article class="post-content">
+    <p>The PLY file format was developed at Stanford University. Some well-known models in Computer Graphics, such as the models of <a href="http://graphics.stanford.edu/data/3Dscanrep/">The Stanford 3D Scanning Repository</a> (including the Stanford Bunny, Happy Buddha and Dragon), the models of the <a href="http://www.cc.gatech.edu/projects/large_models/">Large Geometric Models Archive</a>, and the <a href="http://gamma.cs.unc.edu/Powerplant/">Power Plant Model</a> are in the PLY format.</p>
+
+<p>Here is some C++ libraries for PLY reading and writing. I used <a href="http://w3.impa.br/~diego/software/rply/">RPly</a> because the code is really well written and documented. My task is to read to and write from 2 data structure <code class="highlighter-rouge">Point_3D</code>, storing the 3D position and other information for all 3D points, and <code class="highlighter-rouge">Face</code>, storing the vertex index of each face of the triangulated surface.</p>
+
+<p><a href="http://w3.impa.br/~diego/software/rply/">RPly</a><br />
+<a href="https://people.cs.kuleuven.be/~ares.lagae/libply/">libply</a></p>
+
+<h2 id="data-structure">Data structure</h2>
+<p>The declaration of data structure of <code class="highlighter-rouge">Point_3D</code> and <code class="highlighter-rouge">Face</code>.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Point_3D</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ind_vis_views</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">Face</span>
+<span class="p">{</span>
+    <span class="kt">long</span> <span class="n">inds</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<h2 id="header">Header</h2>
+<p>The header defines the format of the PLY file. The typical format is as follows</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ply
+format ascii 1.0
+comment an example of a PLY header
+element vertex 3
+property float x
+property float y
+property float z
+element face 1
+property list uchar int vertex_indices
+comment this is a comment
+end_header
+</code></pre>
+</div>
+
+<p>The format can be <code class="highlighter-rouge">ascii</code>, <code class="highlighter-rouge">binary_little_endian</code> or <code class="highlighter-rouge">binary_big_endian</code>. The <code class="highlighter-rouge">element</code> keyword introduces a description of how some particular data element is stored and how many of them there are. Each element consists of one or more properties, which can be either of type scalar or list. For instance, the <code class="highlighter-rouge">vertex</code> consists of scalaer properties <code class="highlighter-rouge">x</code>, <code class="highlighter-rouge">y</code>, and <code class="highlighter-rouge">z</code>, the <code class="highlighter-rouge">face</code> element consists of one list property <code class="highlighter-rouge">vertex_idx</code>.</p>
+
+<p>This is how you define the file header in the code:</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">ply_add_element</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"vertex"</span><span class="p">,</span> <span class="n">num_vertices</span><span class="p">);</span>
+<span class="n">ply_add_scalar_property</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"x"</span><span class="p">,</span> <span class="n">PLY_FLOAT</span><span class="p">);</span>
+<span class="c1">// define other properties for `vertex`
+</span>
+<span class="n">ply_add_element</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"face"</span><span class="p">,</span> <span class="n">num_faces</span><span class="p">);</span>
+<span class="n">ply_add_list_property</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"ind_vertex"</span><span class="p">,</span> <span class="n">PLY_UCHAR</span><span class="p">,</span> <span class="n">PLY_INT</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h2 id="ply-read">PLY Read</h2>
+<p>Actual reading happens in a callback function the user develops, here is how it works: the method <code class="highlighter-rouge">ply_read()</code> is called, which will further invoke <code class="highlighter-rouge">ply_read_element()</code>, then <code class="highlighter-rouge">ply_read_scalar_property()</code> or <code class="highlighter-rouge">ply_read_list_property()</code> depending on the property type. The actually data is read in by <code class="highlighter-rouge">handler</code> and stored in <code class="highlighter-rouge">argument-value</code>, where <code class="highlighter-rouge">argument</code> is the argument for the callback function. Finally, this callback function is invoked in <code class="highlighter-rouge">read_cb(argument)</code> and the user can do further processing in the callback function.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">ply_read2file</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// create a p_ply instance
+</span>    <span class="n">p_ply</span> <span class="n">ply</span> <span class="o">=</span> <span class="n">ply_open</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">ply</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// read the header/file format
+</span>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">ply_read_header</span><span class="p">(</span><span class="n">ply</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// link properties to the callback function `vertex_cb`
+</span>    <span class="n">ply_set_read_cb</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"vertex"</span><span class="p">,</span> <span class="s">"ind_vis_views"</span><span class="p">,</span> <span class="n">vertex_cb</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="c1">// link other properties to the callback function, omitted
+</span>
+    <span class="c1">// read file
+</span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ply_read</span><span class="p">(</span><span class="n">ply</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// close ply file
+</span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ply_close</span><span class="p">(</span><span class="n">ply</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// callback function
+</span><span class="kt">int</span> <span class="n">PLY_IO</span><span class="o">::</span><span class="n">vertex_cb</span><span class="p">(</span><span class="n">p_ply_argument</span> <span class="n">argument</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Further processing with the read data
+</span><span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="writing">Writing</h2>
+<p>Writing is even easier, there is no need to write a callback function. The only thing to keep in mind is that the order of writing should follow that defined in the header.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">ply_write2file</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">name</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Point_3D</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">points_3d</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Face</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">faces</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">long</span> <span class="n">num_vertices</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">long</span><span class="o">&gt;</span><span class="p">(</span><span class="n">points_3d</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="kt">long</span> <span class="n">num_faces</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">long</span><span class="o">&gt;</span><span class="p">(</span><span class="n">faces</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    
+    <span class="n">p_ply</span> <span class="n">ply</span> <span class="o">=</span> <span class="n">ply_create</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">PLY_ASCII</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ply</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="n">ply_add_element</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"vertex"</span><span class="p">,</span> <span class="n">num_vertices</span><span class="p">);</span>
+    <span class="n">ply_add_scalar_property</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"u"</span><span class="p">,</span> <span class="n">PLY_INT</span><span class="p">);</span>
+    <span class="n">ply_add_scalar_property</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"v"</span><span class="p">,</span> <span class="n">PLY_INT</span><span class="p">);</span>
+    <span class="n">ply_add_scalar_property</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"x"</span><span class="p">,</span> <span class="n">PLY_FLOAT</span><span class="p">);</span>
+    <span class="n">ply_add_scalar_property</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"y"</span><span class="p">,</span> <span class="n">PLY_FLOAT</span><span class="p">);</span>
+    <span class="n">ply_add_scalar_property</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"z"</span><span class="p">,</span> <span class="n">PLY_FLOAT</span><span class="p">);</span>
+    <span class="n">ply_add_list_property</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"ind_vis_views"</span><span class="p">,</span> <span class="n">PLY_INT</span><span class="p">,</span> <span class="n">PLY_INT</span><span class="p">);</span>
+    
+    <span class="n">ply_add_element</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"face"</span><span class="p">,</span> <span class="n">num_faces</span><span class="p">);</span>
+    <span class="n">ply_add_list_property</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="s">"ind_vertex"</span><span class="p">,</span> <span class="n">PLY_UCHAR</span><span class="p">,</span> <span class="n">PLY_INT</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ply_write_header</span><span class="p">(</span><span class="n">ply</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="c1">// write vertices
+</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"#### Writing vertices..."</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_vertices</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ply_write</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="n">points_3d</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">u</span><span class="p">);</span>
+        <span class="n">ply_write</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="n">points_3d</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">v</span><span class="p">);</span>
+        <span class="n">ply_write</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="n">points_3d</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">x</span><span class="p">);</span>
+        <span class="n">ply_write</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="n">points_3d</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">y</span><span class="p">);</span>
+        <span class="n">ply_write</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="n">points_3d</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">z</span><span class="p">);</span>
+        
+        <span class="kt">int</span> <span class="n">num_vis_views</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">points_3d</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">ind_vis_views</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+        <span class="n">ply_write</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="n">num_vis_views</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">num_vis_views</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="o">::</span><span class="n">ply_write</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="n">points_3d</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">ind_vis_views</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// write faces
+</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"#### Writing polygons..."</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_faces</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">num_faces</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+        <span class="n">ply_write</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="n">num_faces</span><span class="p">);</span>
+        
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">num_faces</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">ply_write</span><span class="p">(</span><span class="n">ply</span><span class="p">,</span> <span class="n">faces</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">inds</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ply_close</span><span class="p">(</span><span class="n">ply</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+  </article>
+
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <footer>
+
+  <div class="wrapper">
+    &copy; Copyright 2017 Kai Wu.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
+
+    
+  </div>
+
+</footer>
+
+
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="http://localhost:4000/assets/js/common.js"></script>
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+<script src="http://localhost:4000/assets/js/katex.js"></script>
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.min.css">
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-XXXXXXXX-X', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+
+</html>

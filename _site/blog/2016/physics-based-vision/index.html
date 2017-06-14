@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kai Wu | Physics-based vision</title>
+  <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <link rel="shortcut icon" href="http://localhost:4000/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+  <link rel="stylesheet" href="http://localhost:4000">
+  <link rel="canonical" href="http://localhost:4000/blog/2016/physics-based-vision/">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    
+    <span class="site-title">
+        
+        <strong>Kai</strong> Wu
+    </span>
+    
+
+    <nav class="site-nav">
+
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="http://localhost:4000/">about</a>
+
+        <!-- Blog -->
+        <a class="page-link" href="http://localhost:4000/blog/">blog</a>
+
+        <!-- Pages -->
+        
+          
+        
+          
+        
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000/projects/">projects</a>
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000/publications/">publications</a>
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000/teaching/">teaching</a>
+          
+        
+          
+        
+          
+        
+
+        <!-- CV link -->
+        <!-- <a class="page-link" href="http://localhost:4000/assets/pdf/CV.pdf">vitae</a> -->
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Physics-based vision</h1>
+    <p class="post-meta">May 4, 2016</p>
+  </header>
+
+  <article class="post-content">
+    <p>Since I first got exposed to this topic - physics based vision, there is only one thing in my mind: it’s hard, and I hate it. Yet, I spent a lot of time reading textbooks, articles, papers, trying to understand the intuition and math. But this area is so vastly broad and after a while, the only recollection I had started to fade away. That’s why I decided to write this post, put down everything that I can or cannot understand.</p>
+
+<p>From my own experience, the hardest part of this topic is the gap between the intuitiveness of the phenomena and the abstractness of the algorithms. It makes things even worse especially when you don’t implement every algorithm yourself.</p>
+
+<p>The majority of the content is taken from the CPSC 505 course that I took in UBC (Courtesy to Prof. Bob Woodham and Prof. Jim Little), a CMU course <a href="http://www.cs.cmu.edu/afs/cs/academic/class/16823-s16/www/">Physics based Methods in Vision</a>, and Computer Vision: a modern approach.</p>
+
+<h2 id="what-is-physics-based-vision">What is Physics-based vision</h2>
+
+<ul>
+  <li>How did the pixel get its value - Jitendra Malik</li>
+  <li>We must understand scene appearance.</li>
+</ul>
+
+<p>So what is scene appearance?</p>
+
+<ul>
+  <li>Light and shadows</li>
+  <li>Reflections</li>
+  <li>Refractions</li>
+  <li>Interreflections</li>
+  <li>Scattering</li>
+</ul>
+
+<!-- Here is a list of light behaviour
+
+* Reflection
+* Refraction
+* Polarization
+* Diffraction
+* Caustics
+* Interreflection
+* Scattering
+* interference -->
+
+<h2 id="image-formation-geometry">Image Formation (Geometry)</h2>
+
+<p>Before we can estimate object/scene shape from images, we need to understand the geometric and radiometric relationship between the scene and its image.</p>
+
+<h3 id="perspective-projection">Perspective Projection</h3>
+<p><img src="/assets/img/pbv/pinhole camera.png" alt="pinhole camera" /></p>
+
+<script type="math/tex; mode=display">\begin{align}
+ \frac{\mathbf{r}'}{f'}=\frac{\mathbf{r}}{z} \Rightarrow
+ \frac{x'}{f'}=\frac{x}{z}, 
+ \frac{y'}{f'}=\frac{y}{z}
+\end{align}</script>
+
+<h3 id="orthographic-projection">Orthographic Projection</h3>
+
+<p>This is only possible when \(z » \Delta z\), i.e., the range of scene depths is assumed to be much smaller than the average scene depth.</p>
+
+<p><img src="/assets/img/pbv/orthographic projection.png" alt="orthographic projection" /></p>
+
+<h3 id="better-approximations-to-perspective-projection">Better approximations to Perspective Projection</h3>
+<p>There are two alternative camera model that can better approximate perspective projection than orthographic projection: weak-perspective and para-perspective.</p>
+
+<p>Weak-perspective: perspective projection onto a plane can be approximated by orthographic projection, followed by scaling, when (1) the object dimensions are small compared to the distance from the center of projection; (2) compared to this distance, the object is close to the optic axis.</p>
+
+<p><img src="/assets/img/pbv/weak perspective.png" alt="weak perspective" /></p>
+
+<p>Para-perspective: perspective projection onto a plane can be approximated by parallel projection, followed by scaling, whenever the object dimensions are small compared to the distance of the object from the center of projection. The direction of parallel projection is along the “average direction” of perspective projection. Parallel projection onto a plane is a generalisation of orthographic projection in which all the object points are projected along a set of parallel straight lines that may or may not be orthogonal to the image plane.</p>
+
+<p><img src="/assets/img/pbv/parallel perspective.png" alt="parallel perspective" /></p>
+
+<h2 id="image-formation-radiometry">Image Formation (Radiometry)</h2>
+
+<p>We need to understand Radiometric Concepts and Reflectance Properties to interpret image intensities.</p>
+
+<h3 id="image-intensity">Image intensity</h3>
+
+<p>Image intensity is a function of illumination, surface reflectance and orientation, and surface reflection depends on both the viewing and illumination direction.</p>
+
+<script type="math/tex; mode=display">I = \int_A \int_{\Omega_i} \int_{\Omega_r} f(x, y, \omega_i, \omega_r) d\omega_i d\omega_r dA</script>
+
+<h3 id="radiometric-concepts">Radiometric concepts</h3>
+
+<p><img src="/assets/img/pbv/radiometric concepts.png" alt="radiometric concepts" /></p>
+
+<ul>
+  <li>Solid angle: \(d\omega = \frac{dA’}{R^2}=\frac{dA cos\theta}{R^2}\) (steradian).</li>
+  <li>Radiant Intensity of Source: \(J=\frac{d\Phi}{d\omega}\) (watts/steradian): Light Flux (power) emitted per unit solid angle.</li>
+  <li>
+    <p>Surface Irradiance: \(E=\frac{d\Phi}{dA}\) (watts/\(m^2\): Light Flux (power) incident per unit surface area. Does not depend on where the light is coming from.</p>
+
+    <ul>
+      <li>Inverse-square law: moving a point light source away from a surface reduces irradiance in proportion to the inverse square of the distance.</li>
+      <li>Tilting a surface away from a point light results in a lower irradiance, in proportion to the cosine of the angle between the surface normal and the direction toward the light.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>\[E(P) = \frac{1}{dA}L_i(P, \theta_i, \phi_i)(cos\theta_i dA)d\omega = L_i(P, \theta_i, \phi_i)cos\theta_i d\omega\]</p>
+
+<ul>
+  <li><strong>Surface Radiance</strong>: \(L = \frac{d^2\Phi}{(dAcos\theta_r)d\omega}\) (watts/\(m^2\) steradian), \(^2\) means there are 2 infinitesimal terms involved.
+    <ul>
+      <li>Flux emitted per unit foreshortened/projected area per unit solid angle</li>
+      <li>\(L\) depends on direction \(\theta_r\)</li>
+      <li>Surface can radiate into whole hemisphere</li>
+      <li>\(L\) depends on reflectance properties of surface</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="radiance-properties">Radiance properties</h3>
+
+<p>The distribution of light in space is a function of position and direction. The effect of illumination can be represented in terms of the power an infinitesimal patch of surface would receive if it were placed into space at a particular point and orientation. In other words, a small surface patch viewing the source frontally collects more evergy than the same patch viewing a source along a nearly tangent direction - the amoun of energy a patch collects from a source depends both on how large the source looks from the patch and on how large the patch looks from the source.</p>
+
+<ul>
+  <li>Radiance is constant as it propagates along ray. More precisely, the radiance leaving \(P_1\) in the direction of \(P_2\) is the same as the radiance arriving \(P_2\) from the direction of \(P_1\).</li>
+</ul>
+
+<p><img src="/assets/img/pbv/radiance constancy.png" alt="radiometric concepts" /></p>
+
+<script type="math/tex; mode=display">d\Phi_1 = L_1d\omega_1dA_1 = L_2d\omega_2dA_2 = d\Phi_2\\
+d\omega_1 = \frac{dA_2}{r^2} \quad d\omega_2 = \frac{dA_1}{r^2}\\
+d\omega_1dA_1 = \frac{dA_1dA_2}{r^2} = d\omega_2dA_2\\
+L_1=L_2</script>
+
+<h3 id="relation-between-scene-and-image-brightness">Relation between scene and image brightness</h3>
+
+<p>Before lihgt hits the image plane (Linear Mapping):</p>
+
+<script type="math/tex; mode=display">\textit{Scene} \Rightarrow \textbf{Scene Radiance L} \Rightarrow \textit{Lens} \Rightarrow \textbf{Image Irradiance E}</script>
+
+<p>\[E = L\frac{pi}{4}(\frac{d}{f})^2cos\alpha^4\]</p>
+
+<p>where \(L\) is the object/scene radiance, \(d\) is the lens diameter, \(f\) is the focal length, \(\alpha\) is the angle between the normal of the image plane and the direction from image point to center of lens. This relationship implies:</p>
+
+<ul>
+  <li>The image irradiance is proportional to the object radiance</li>
+  <li>The image irradiance is proportional to the area of the lens and inversely proportional to the distance between its center and the image plane.</li>
+  <li>The image irradiance is proportional to \(cos^4\alpha\) and falls off as the light rays deviate from the optical axis</li>
+</ul>
+
+<p>After light hits the image plane (Non-linear Mapping):
+<script type="math/tex">\textbf{Image Irradiance E} \Rightarrow \textit{Camera Electronics} \Rightarrow \textbf{Measured Pixel Values, I}</script></p>
+
+<h2 id="surface-model-2">Surface Model [2]</h2>
+
+<p>The following section is summarized from Chap 3 of the paper - Surface Reflection: Physical and Geometrical Perspectives.</p>
+
+<p>The way in which light is reflected by a surface is dependent on, among other factors, the microscopic shape characteristics of the surface. A smooth surface may reflect incident light in a single direction, while a rough surface may scatter the light in various directions. We need prior knowledge of the microscopic surface irregularities, or a model of the surface to determine the reflection of incident light.</p>
+
+<p>The possible surface models are divided into 2 categories: surface with exactly known profiles and surfaces with random irregularities. An exact profile may be determined by measuring the height at each point on the surface by means of a sensor such as the <em>stylus profilometer</em>. This method is cumbersome and impractical. Hence, it’s more reasonable to model the surface as a random process, where it is described by a statistical distribution of either its height above a certain mean level, or its slope w.r.t its mean (macroscopic) slope. The section only discusses these two statistical approaches.</p>
+
+<h3 id="height-distribution-model">Height Distribution Model</h3>
+
+<p>The height coordinate \(h\) of the surface is expressed as random function of the coordinates \(x\) and \(y\).</p>
+
+<p><img src="/assets/img/pbv/surface representation 1.png" alt="surface representation 1" /></p>
+
+<p>The shape of the surface is determined by the probability distribution of \(h\). For instance, let \(h\) be normally distributed, with mean value \(\bar{h}=0\) and standard deviation \(\sigma_h\). Then, the distribution of \(h\) is given by:</p>
+
+<script type="math/tex; mode=display">p_h(h)=\frac{1}{\sqrt{2\pi}\sigma_h}e^{-\frac{h^2}{2\sigma_h^2}}</script>
+
+<p>The \(\sigma_h\) is the root-mean-square of \(h\) and represents the roughness of the surface. The surface is not uniquely described by the distribution of \(h\), as it does not tell us anything about the distance between the hills and valleys of the surface.</p>
+
+<p>The surfaces below have the same height distribution function, i.e., the same mean value and standard deviation. However, they don’t resemble each other in appearance.</p>
+
+<p><img src="/assets/img/pbv/same mean SD.png" alt="same mean, SD" /></p>
+
+<p>An autocorrelation coefficient \(C(\tau)\) is introduced, that determines the correlation (or lack of independence) between the random values assumed by the height \(h\) at two surface points \((x_1, y_1)\) and \((x_2, y_2)\), separated by a distance \(\tau\). The autocorrelation coefficient can be:</p>
+
+<script type="math/tex; mode=display">C(\tau)=e^{-\frac{\tau^2}{T^2}}</script>
+
+<p>where \(T\) is the <em>correlation distance</em>. Therefore, the above surfaces have small and large correlation distances respectively.</p>
+
+<h3 id="slope-distribution-model">Slope Distribution Model</h3>
+
+<p>We can also think of a surface as a collection of planar micro-facets.</p>
+
+<p><img src="/assets/img/pbv/surface representation 2.png" alt="surface representation 2" /></p>
+
+<p>A large set of micro-facets constitutes an infinitesimal surface patch that has a mean surface orientation \(\vec{n}\). Each micro-facet has its own orientation, which may deviate from the mean surface orientation by an angle \(\alpha\).</p>
+
+<p>We will use the parameter \(\alpha\) to represent the slope of individual facets. Surfaces can be modeled by a statistical distribution of the micro-facet slopes. If the surface is isotropic, the probability distribution of the micro-facet slopes can be assumed to be rotationally symmetric w.r.t the mean surface normal \(\vec{n}\).  Therefore, facet slopes can be described by a one-dimensional probability distribution function. For instance, the surface may be modeled by assuming a normal distribution for the facet slope \(\alpha\), with mean value \(\bar{\alpha}=0\) and standard deviation \(\sigma_\alpha\):</p>
+
+<script type="math/tex; mode=display">p_\alpha(\alpha)=\frac{1}{\sqrt{2\pi}\sigma_\alpha}e^{-\frac{\alpha^2}{2\sigma_\alpha^2}}</script>
+
+<p>The surface model is determined by a single parameter \(\sigma_\alpha\), and larger \(\sigma_\alpha\) can be used to model rougher surfaces. While autocorrelation coefficient is important, the concept of slope correlation is more difficult to interpret and is not that useful in the generation of surface, which results in a weaker model compared to the height model. However, slope distribution model is popular in the analysis of surface reflection, as the scattering of light rays is dependent on the local slope of the surface and not the local height of the surface.</p>
+
+<h3 id="surface-roughness">Surface roughness</h3>
+
+<p>Surface reflection theory relates irregularities to the wavelength of incident light and the angle of incidence. For incident light of a given wavelength, the roughness of a surface may be estimated by studying the manner in which the surface scatters light in different directions. If the surface irregularities are small compared to the wavelength of incident light, a large fraction of the incident light will be reflected specularly in a single direction. If the surface irregularities are large compared to the wavelength, the surface will scatter the incident light in various directions. Conversely, the same surface can be made to appear smooth or rough by varying the wavelength of incident light; or for the same wavelength it can be made to appear smooth or rough by varying the angle of incidence.</p>
+
+<p><img src="/assets/img/pbv/surface roughness.png" alt="raleigh criterion" /></p>
+
+<p>Raleigh suggested a way of relating surface roughness to wavelength and angle of incidence, and established a simple criterion for classifying surfaces as smooth or rough. Consider ray 1 and ray 2 in the figure above, incident at an angle \(\beta\) on a surface with irregularities of height \(H\). Since the two rays strike the surface at locally smooth patches, both rays are specularly reflected. The rays originate from a source plane that is perpendicular to the rays, and they are received by a detector that is perpendicular to the reflected rays. We are interested in finding the difference between the paths traveled by the two rays. We can get</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\Delta d&=AOB\\
+&=2Hsin\beta
+\end{align} %]]></script>
+
+<p>If \(\lambda\) is the wavelength of the incident rays, the phase difference between the rays received by the detector may be determined from the path difference as:</p>
+
+<script type="math/tex; mode=display">\Delta \Omega = \frac{4\pi H}{\lambda}sin\beta</script>
+
+<p>If \(\Omega\) is small, the two rays received by the detector will be almost in phase with each other, and the received energy will be nearly equal to the sum of the energies carried by the two rays. In this case, the surface reflects light specularly and is thus smooth.</p>
+
+<p>If \(\Omega\) approaches \(\pi\), the two rays will be in phas opposition and will tend to cancel the effects of each other. If \(\Omega=\pi\), no energy will flow in the direction of the detector. The incident energy is thus redistributed in other directions, and thus rough.</p>
+
+<p>By selecting a threshold value of \(\frac{\pi}{2}\), we have <em>Raleigh criterion</em> that states that a surface is considered to be rough when:</p>
+
+<script type="math/tex; mode=display">H>\frac{\lambda}{8sin\beta}</script>
+
+<h2 id="brdf">BRDF</h2>
+
+<p>BRDF is short for Bidirectional Reflectance Distribution Function. It’s defined as</p>
+
+<blockquote>
+  <p>The ratio of the radiance in the outgoing direction to the incident irradiance.</p>
+</blockquote>
+
+<p><img src="/assets/img/pbv/brdf.png" alt="BRDF" /></p>
+
+<p>\[f(\theta_i, \phi_i; \theta_r, \phi_r) = \frac{L^{surface}(\theta_r ,\phi_r)}{E^{surface}(\theta_i, \phi_i)}\]</p>
+
+<p>where \(L^{surface}(\theta_r ,\phi_r)\) is the radiance of surface in direction \(\theta_r ,\phi_r\), and \(E^{surface}(\theta_i, \phi_i)\) is irradiance at surface in direction \(\theta_i, \phi_i\)</p>
+
+<h3 id="properties">Properties</h3>
+
+<p>The term <em>physically plausible BRDF</em> is used for reflectance functions that satisfy energy conservation and reciprocity.</p>
+
+<ul>
+  <li>Energy Conservation: the integral of BRDF over all outgoing directions, scaled by the cosine term to accout for foreshortening, must be less than 1.</li>
+  <li>Helmholtz Reciprocity: BRDF doesn’t change when source and viewing directions are swapped, which is due to the symmetry of light transport.</li>
+</ul>
+
+<p>Some, but not all, BRDFs have a property called <strong>isotropy</strong>: they are unchanged if the incoming and outgoing directions are rotated by the same amount about the surface normal. In this case, the BRDF is a 3D function, and depends only on the difference between the azimuthal angles of incidence and exitance.</p>
+
+<h3 id="constraints">Constraints</h3>
+
+<p>The total energy arriving at a surface patch \(dA\) in a time interval \(dt\) is</p>
+
+<script type="math/tex; mode=display">(\int_{\Omega_i} L_i(P, \theta_i, \phi_i)cos\theta_i d\omega_i)dA dt = \int_0^{2\pi} \int_0^{\pi/2} L_i(P, \theta_i, \phi_i)cos\theta_i sin\theta_i d\theta_i d\phi_i)dA dt</script>
+
+<p>We assume that any energy leaving at the surface leaves from the same point at which it arrived and no energy is generated within the surface. This means that the total energy leaving the surface during that interval is less than or equal to the amount arriving. This means, the inequality must hold, whatever the choice of \(L_i\).</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+(\int_{\Omega_i} L_i(P, \theta_i, \phi_i)cos\theta_i d\omega_i)dA dt & \geq (\int_{\Omega_r} L_o(P, \theta_r, \phi_r)cos\theta_r d\omega_r)dA dt\\
+& \geq (\int_{\Omega_r} \int_{\Omega_i} f(\theta_i, \phi_i; \theta_r, \phi_r) L_i(P, \theta_i, \phi_i)cos\theta_i d\omega_i cos\theta_r d\omega_r)dA dt
+\end{align} %]]></script>
+
+<h3 id="representation-1">Representation [1]</h3>
+
+<p>The main efforts in BRDF representation have focused on either analytic formulas that can represent some narrow class of BRDFs, or generic techniques suitable for storing arbitrary 4D functions.</p>
+
+<h4 id="analytic-model---physically-based-and-phenomenological">Analytic model - Physically-based and Phenomenological</h4>
+
+<p>Many of these analytic models are the result of modeling the properties of a real surface and mathematically computing the amount of light that would be reflected by a surface with those properties. For example, physically-based BRDFs have been derived for primarily specular surfaces (e.g. the Cook-Torrance-Sparrow model), for rough diffuse surfaces (the Oren-Nayar model), and for dusty surfaces (the Hapke/Lommel-Seeliger model). Those physically-based models, to a large degree, satisfy the criteria of physical plausibility.</p>
+
+<p>An inherent property of physically-based models is that because they start with specific assumptions about microgeometry, they can only predict the reflectance of surfaces that closely match those assumptions. As a result, even the most elaborate theoretical models cannot predict reflectance from surfaces with complex microstructure or mesostructure.</p>
+
+<p>Phenomenological models have been used to widen the range of representable BRDFs. For instance, Minnaert BRDF is used to model lunar reflection, Lafortune’s generalized cosine lobes can represent a wide range of phenomena.</p>
+
+<h4 id="decomposition-into-basis-functions">Decomposition into Basis Functions</h4>
+
+<p>Describing a complex function as a linear combination of some set of basis functions is a widely used technique for representing continuous functions. The most classes of basis functions are tensor products of the spherical harmonics, Zernike polynomials, and spherical wavelets.</p>
+
+<p>Spherical harmonics, the spherical analogue of sines and cosines, are a popular choice for representing BRDFs.</p>
+
+<p>An alternative is to use a basis of functions on a disk, then map those functions onto a hemisphere. For instance, Zernike polynomials.</p>
+
+<p>Both the spherical harmonics and Zernike polynomials require large numbers of basis functions in order to represent quickly-varying BRDFs accurately, and evaluating a BRDF represented in terms of these functions requires computation time proportional to the total number of nonzero coefficients.</p>
+
+<p>Wavelets have been proposed as an alternative set of basis functions for BRDF representation, because they help reduce evaluation time and storage cost.</p>
+
+<h4 id="change-of-variables">Change of Variables</h4>
+
+<p>The transformation is a change of variables that causes some features of common BRDFs to lie along the new coordinates axes. Specifically, BRDF is parametrized in terms of the halfway vector (the vector halfway between the incoming and reflected rays) and a “difference” vector, which is just the incident ray in a frame of reference in which the halfway vector is at the north pole. That is, instead of representing the BRDF as \(f(\theta_i, \phi_i, \theta_r, \phi_r)\), we regard the BRDF as a function of the halfangle and difference angle: \(f(\theta_h, \phi_h, \theta_d, \phi_d)\), where</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\vec{n} &= \text{Surface normal,}\\
+\vec{t} &= \text{Surface tangent (i.e. orientation of an anisotropic surface),}\\
+\vec{b} &= \text{Surface binormal (i.e. }n \times t\text{),}\\
+\vec{\omega}_i &= sph(\theta_i, \phi_i), \text{where } \theta_i \text{ is measure relative to } \vec{n} \text{ and } \phi_i \text{ is relative to } \vec{t}\\
+\vec{\omega}_o &= sph(\theta_o, \phi_o)\\
+\vec{h} &= sph(\theta_h, \phi_h)\\
+	&= \frac{\vec{\omega}_i + \vec{\omega}_o}{\|\vec{\omega}_i + \vec{\omega}_o\|}\\
+\vec{d}&=sph(\theta_d, \phi_d)\\
+	&= rot_{\vec{b},-\theta_h}rot_{\vec{n},-\phi_h}\vec{\omega}_i
+\end{align*} %]]></script>
+
+<p>Note that \((\theta_h, \phi_h)\) are the sphercial coordinates of the halfway vector in the \(\vec{t}-\vec{n}-\vec{b}\) frame. The two rotations brings the halfangle \(\vec{h}\) to the north pole, and \(\theta_d, \phi_d\) are the spherical coordinates of the incident ray in this transformed frame.</p>
+
+<p><img src="/assets/img/pbv/brdf representation.png" alt="BRDF representation" /></p>
+
+<h4 id="properties-in-the-new-coordinates">Properties in the New Coordinates</h4>
+
+<ul>
+  <li>Isotropic BRDF is a constant function of \(\phi_h\), and independent of \(\phi_h\), which means that an isotropic BRDF will have basis function coefficients equal to zero for all basis functions that vary with \(\phi_h\).</li>
+  <li>The angles of incidence and reflection become much more symmetric. In particular, the condition of Helmholtz reciprocity becomes a simple symmetry under \(\phi_d \Rightarrow \phi_d + \pi\).</li>
+  <li>Ideal specular and near-ideal specular peaks are transformed by the change of variables to lie mostly along the \(\theta_h\) axis. An ideal specular peak is represented as a delta function of \(\theta_h\), and is completely independent of the other three variables. In general, any BRDF that depends only on \((\vec{n} \cdot \vec{h})\) is independent of three of the four variables in the transformed sapce.</li>
+  <li>Any analytic model that starts with an isotropic microfacet distribution and ignores masking, shadowing, and interreflectance will be a separable function of only \(\theta_h\) and \(\theta_d\) in the transformed coordinates.</li>
+  <li>Retroreflective peaks are transformed to be functions of only \(\theta_d\).</li>
+</ul>
+
+<h3 id="special-cases">Special Cases</h3>
+
+<h4 id="radiosity">Radiosity</h4>
+
+<p>If the radiance leaving a surface is independent of exit angle, there is no point describing it as a unit that explicitly depends on direction. The appropriate unit is <em>radiosity</em> (\(B(P)\)), defined as</p>
+
+<blockquote>
+  <p>the total power leaving a point on a surface per unit area on the surface</p>
+</blockquote>
+
+<p>To compute the radiosity of a surface point, we can sum the exit radiance over the whole hemisphere.</p>
+
+<script type="math/tex; mode=display">B(P) = \int_\Omega L(P, \theta, \phi) cos\theta d\omega</script>
+
+<h4 id="directional-hemisphere-reflectance">Directional Hemisphere Reflectance</h4>
+
+<p>The light leaving many surfaces is largely independent of the exit angle. A natural measure of a surface’s reflective properties is the <em>directional-hemispheric reflectance</em>, defined as</p>
+
+<blockquote>
+  <p>the fraction of the incident irradiance in a given direction that is reflected by the surface, whatever the direction of the reflection.</p>
+</blockquote>
+
+<p>The directional hemispheric reflectance is obtained by summing the radiance leaving the surface over all directions and dividing by the irradiance in the direction of illumination, thus it’s dimensionless, and ranges from 0 to 1.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\rho(\theta_i, \phi_i) &= \frac{\int_\Omega L_r(P, \theta_r, \phi_r)cos\theta_r d\omega_r}{L_i(P, \theta_i, \phi_i)cos\theta_i d\omega_i}\\
+&=\int_\Omega \{\frac{L_r(P, \theta_r, \phi_r)cos\theta_r}{L_i(P, \theta_i, \phi_i)cos\theta_i d\omega_i}\}d\omega_r\\
+&=\int_\Omega f(\theta_i, \phi_i, \theta_r, \phi_r)cos\theta_r d\omega_r
+\end{align} %]]></script>
+
+<h3 id="scene-radiance-equation-very-important">Scene Radiance Equation (very important)</h3>
+
+<p><img src="/assets/img/pbv/scene radiance equation.png" alt="scene radiance equation" /></p>
+
+<h2 id="reflection-model">Reflection Model</h2>
+
+<h3 id="diffuse-reflection-from-smooth-surfaces">Diffuse reflection from Smooth Surfaces</h3>
+
+<ul>
+  <li>Lambertian BRDF is a constant, independent of incoming or outgoing direction: \(f(\theta_i, \phi_i; \theta_r, \phi_r)=\frac{\rho_d}{\pi}\), where \(\rho_d\) is the diffuse albedo (a special case of directional hemispherical reflectance)</li>
+</ul>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\rho_d& =\int_\Omega f(\theta_i, \phi_i, \theta_r, \phi_r) cos\theta_r d\omega_r\\\\
+& =\int_\Omega f cos\theta_r d\omega_r\\\\
+& =f \int_0^{\pi/2}\int_0^{2\pi}cos\theta_r sin\theta_r d\theta_r d\phi_r\\\\
+& =\pi f
+\end{align} %]]></script>
+
+<ul>
+  <li>Surface Radiance: \(L=\frac{\rho_d}{\pi}Icos\theta_i=\frac{\rho_d}{\pi}I\vec{n} \cdot \vec{s}\), where \(I\) is source intensity.</li>
+</ul>
+
+<p><img src="/assets/img/pbv/lambert cosine law.png" alt="Lambert's Cosine Law" /></p>
+
+<p>Radiance decreases with increase in angle between surface normal and source direction. Thus the edge of a Lambertian object should be dark (\(\vec{n} \cdot \vec{s}=0\)).</p>
+
+<p><strong>Conflict</strong>: The moon appears diffuse, but the edges of the moon look bright when illuminated by earth’s radiance.</p>
+
+<p><strong>Fact</strong>: Surface roughness causes flat appearance, e.g. the full moon has a flat appearance. The roughness increase from left to right in the following image</p>
+
+<p><img src="/assets/img/pbv/roughness flatness.png" alt="Roughness, flatness" /></p>
+
+<p>Lambertian model is valid for only <strong>smooth matte</strong> surfaces, bad for <strong>rough matte</strong> surfaces (like the moon).</p>
+
+<h3 id="diffuse-reflection-from-rough-surfaces">Diffuse Reflection from Rough Surfaces</h3>
+
+<h4 id="oren-nayar-model">Oren-Nayar Model</h4>
+
+<p>[TBD]</p>
+
+<h3 id="specular-reflection-from-smooth-surfaces">Specular reflection from Smooth Surfaces</h3>
+
+<ul>
+  <li>Very smooth surface, all incident light is reflected in a SINGLE direction.</li>
+  <li>Mirror BRDF is a double-delta function: \(f(\theta_i, \phi_i; \theta_r, \phi_r)=\rho_s\delta(\theta_i-\theta_v)\delta(\phi_i+\pi-\phi_v)\), where \(\rho_s\) is the specular albedo.</li>
+  <li>Surface Radiance: \(L = I\rho_s\delta(\theta_i-\theta_v)\delta(\phi_i+\pi-\phi_v)\)</li>
+</ul>
+
+<h3 id="specular-reflections-from-rough-surfaces">Specular Reflections from Rough Surfaces</h3>
+
+<h4 id="specular-lobes-specularity">Specular lobes (specularity)</h4>
+
+<p>Radiation arriving in one direction leaves in a small lobe of directions around the specular direction, which results in a blurring effect. The most common model used to model the shape of the lobe is the <em>Phone model</em>.</p>
+
+<h4 id="phone-model">Phone Model</h4>
+
+<p>In this model, the radiance leaving a specular surface is proportional to \(cos^n(\sigma\theta)=cos^n(\theta_r-\theta_s)\), where \(\theta_r\) is the exit angle, and \(\theta_s\) is the specular direction and \(n\) is a parameter. large values of \(n\) lead to a narrow lobe and small, sharp specularities; small values lead to a broad lobe and large specularities with rather fuzzy boundaries.</p>
+
+<ul>
+  <li>Sort of works, easy to compute</li>
+  <li>Not physically based (no energy conservation and reciprocity)</li>
+  <li>Commonly used in CG</li>
+</ul>
+
+<h4 id="torrance-sparrow-model">Torrance-Sparrow Model</h4>
+
+<ul>
+  <li>Physically based model for surface reflection</li>
+  <li>Based on geometric optics</li>
+  <li>Explains off-specular lobe (wider highlights)</li>
+  <li>Works for only rough surfaces</li>
+</ul>
+
+<p>[TBD]</p>
+
+<h2 id="summary-of-surface-and-brdfs">Summary of Surface and BRDFs</h2>
+
+<p><img src="/assets/img/pbv/brdf summary 1.png" alt="surfaces and BRDFs" /></p>
+
+<p><img src="/assets/img/pbv/brdf summary 2.png" alt="surfaces and BRDFs" /></p>
+
+<h2 id="reference">Reference</h2>
+
+<p>[1] Rusinkiewicz. A New Change of Variables for Efficient BRDF Representation</p>
+
+<p>[2] Nayar, Ikeuchi, Kanade. Surface Reflection: Physical and Geometrical Perspectives</p>
+
+
+  </article>
+
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <footer>
+
+  <div class="wrapper">
+    &copy; Copyright 2017 Kai Wu.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
+
+    
+  </div>
+
+</footer>
+
+
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="http://localhost:4000/assets/js/common.js"></script>
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+<script src="http://localhost:4000/assets/js/katex.js"></script>
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.min.css">
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-XXXXXXXX-X', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+
+</html>

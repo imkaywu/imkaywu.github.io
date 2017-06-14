@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kai Wu | Matlab implementation of bilateral filter</title>
+  <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <link rel="shortcut icon" href="http://localhost:4000/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+  <link rel="stylesheet" href="http://localhost:4000">
+  <link rel="canonical" href="http://localhost:4000/blog/2017/bilateral-filter/">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    
+    <span class="site-title">
+        
+        <strong>Kai</strong> Wu
+    </span>
+    
+
+    <nav class="site-nav">
+
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="http://localhost:4000/">about</a>
+
+        <!-- Blog -->
+        <a class="page-link" href="http://localhost:4000/blog/">blog</a>
+
+        <!-- Pages -->
+        
+          
+        
+          
+        
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000/projects/">projects</a>
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000/publications/">publications</a>
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000/teaching/">teaching</a>
+          
+        
+          
+        
+          
+        
+
+        <!-- CV link -->
+        <!-- <a class="page-link" href="http://localhost:4000/assets/pdf/CV.pdf">vitae</a> -->
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Matlab implementation of bilateral filter</h1>
+    <p class="post-meta">June 11, 2017</p>
+  </header>
+
+  <article class="post-content">
+    <div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="c1">%</span>
+<span class="c1">% output = bilateralFilter( data, edge, ...</span>
+<span class="c1">%                          edgeMin, edgeMax, ...</span>
+<span class="c1">%                          sigmaSpatial, sigmaRange, ...</span>
+<span class="c1">%                          samplingSpatial, samplingRange )</span>
+<span class="c1">%</span>
+<span class="c1">% Bilateral and Cross-Bilateral Filter using the Bilateral Grid.</span>
+<span class="c1">%</span>
+<span class="c1">% Bilaterally filters the image 'data' using the edges in the image 'edge'.</span>
+<span class="c1">% If 'data' == 'edge', then it the standard bilateral filter.</span>
+<span class="c1">% Otherwise, it is the 'cross' or 'joint' bilateral filter.</span>
+<span class="c1">% For convenience, you can also pass in [] for 'edge' for the normal</span>
+<span class="c1">% bilateral filter.</span>
+<span class="c1">%</span>
+<span class="c1">% Note that for the cross bilateral filter, data does not need to be</span>
+<span class="c1">% defined everywhere.  Undefined values can be set to 'NaN'.  However, edge</span>
+<span class="c1">% *does* need to be defined everywhere.</span>
+<span class="c1">%</span>
+<span class="c1">% data and edge should be of the greyscale, double-precision floating point</span>
+<span class="c1">% matrices of the same size (i.e. they should be [ height x width ])</span>
+<span class="c1">%</span>
+<span class="c1">% data is the only required argument</span>
+<span class="c1">%</span>
+<span class="c1">% edgeMin and edgeMax specifies the min and max values of 'edge' (or 'data'</span>
+<span class="c1">% for the normal bilateral filter) and is useful when the input is in a</span>
+<span class="c1">% range that's not between 0 and 1.  For instance, if you are filtering the</span>
+<span class="c1">% L channel of an image that ranges between 0 and 100, set edgeMin to 0 and</span>
+<span class="c1">% edgeMax to 100.</span>
+<span class="c1">% </span>
+<span class="c1">% edgeMin defaults to min( edge( : ) ) and edgeMax defaults to max( edge( : ) ).</span>
+<span class="c1">% This is probably *not* what you want, since the input may not span the</span>
+<span class="c1">% entire range.</span>
+<span class="c1">%</span>
+<span class="c1">% sigmaSpatial and sigmaRange specifies the standard deviation of the space</span>
+<span class="c1">% and range gaussians, respectively.</span>
+<span class="c1">% sigmaSpatial defaults to min( width, height ) / 16</span>
+<span class="c1">% sigmaRange defaults to ( edgeMax - edgeMin ) / 10.</span>
+<span class="c1">%</span>
+<span class="c1">% samplingSpatial and samplingRange specifies the amount of downsampling</span>
+<span class="c1">% used for the approximation.  Higher values use less memory but are also</span>
+<span class="c1">% less accurate.  The default and recommended values are:</span>
+<span class="c1">% </span>
+<span class="c1">% samplingSpatial = sigmaSpatial</span>
+<span class="c1">% samplingRange = sigmaRange</span>
+<span class="c1">% </span>
+<span class="c1">%</span>
+
+<span class="c1">% Copyright (c) &lt;2007&gt; &lt;Jiawen Chen, Sylvain Paris, and Fredo Durand&gt;</span>
+<span class="c1">%</span>
+<span class="c1">% Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1">% of this software and associated documentation files (the "Software"), to deal</span>
+<span class="c1">% in the Software without restriction, including without limitation the rights</span>
+<span class="c1">% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1">% copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1">% furnished to do so, subject to the following conditions:</span>
+<span class="c1">% </span>
+<span class="c1">% The above copyright notice and this permission notice shall be included in</span>
+<span class="c1">% all copies or substantial portions of the Software.</span>
+<span class="c1">% </span>
+<span class="c1">% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1">% IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1">% FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1">% AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1">% LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1">% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1">% THE SOFTWARE.</span>
+<span class="c1">% </span>
+
+
+<span class="k">function</span> <span class="n">output</span> <span class="o">=</span> <span class="n">bilateralFilter</span><span class="p">(</span> <span class="n">data</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">edgeMin</span><span class="p">,</span> <span class="n">edgeMax</span><span class="p">,</span> <span class="n">sigmaSpatial</span><span class="p">,</span> <span class="n">sigmaRange</span><span class="p">,</span> <span class="n">samplingSpatial</span><span class="p">,</span> <span class="n">samplingRange</span> <span class="p">)</span>
+
+<span class="k">if</span><span class="p">(</span> <span class="nb">ndims</span><span class="p">(</span> <span class="n">data</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="p">),</span>
+    <span class="nb">error</span><span class="p">(</span> <span class="s1">'data must be a greyscale image with size [ height, width ]'</span> <span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span><span class="p">(</span> <span class="o">~</span><span class="nb">isa</span><span class="p">(</span> <span class="n">data</span><span class="p">,</span> <span class="s1">'double'</span> <span class="p">)</span> <span class="p">),</span>
+    <span class="nb">error</span><span class="p">(</span> <span class="s1">'data must be of class "double"'</span> <span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">exist</span><span class="p">(</span> <span class="s1">'edge'</span><span class="p">,</span> <span class="s1">'var'</span> <span class="p">),</span>
+    <span class="n">edge</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+<span class="k">elseif</span> <span class="nb">isempty</span><span class="p">(</span> <span class="n">edge</span> <span class="p">),</span>
+    <span class="n">edge</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span><span class="p">(</span> <span class="nb">ndims</span><span class="p">(</span> <span class="n">edge</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="p">),</span>
+    <span class="nb">error</span><span class="p">(</span> <span class="s1">'edge must be a greyscale image with size [ height, width ]'</span> <span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span><span class="p">(</span> <span class="o">~</span><span class="nb">isa</span><span class="p">(</span> <span class="n">edge</span><span class="p">,</span> <span class="s1">'double'</span> <span class="p">)</span> <span class="p">),</span>
+    <span class="nb">error</span><span class="p">(</span> <span class="s1">'edge must be of class "double"'</span> <span class="p">);</span>
+<span class="k">end</span>
+
+<span class="n">inputHeight</span> <span class="o">=</span> <span class="nb">size</span><span class="p">(</span> <span class="n">data</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+<span class="n">inputWidth</span> <span class="o">=</span> <span class="nb">size</span><span class="p">(</span> <span class="n">data</span><span class="p">,</span> <span class="mi">2</span> <span class="p">);</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">exist</span><span class="p">(</span> <span class="s1">'edgeMin'</span><span class="p">,</span> <span class="s1">'var'</span> <span class="p">),</span>
+    <span class="n">edgeMin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span> <span class="n">edge</span><span class="p">(</span> <span class="p">:</span> <span class="p">)</span> <span class="p">);</span>
+    <span class="c1">%warning( 'edgeMin not set!  Defaulting to: %f\n', edgeMin );</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">exist</span><span class="p">(</span> <span class="s1">'edgeMax'</span><span class="p">,</span> <span class="s1">'var'</span> <span class="p">),</span>
+    <span class="n">edgeMax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span> <span class="n">edge</span><span class="p">(</span> <span class="p">:</span> <span class="p">)</span> <span class="p">);</span>
+    <span class="c1">%warning( 'edgeMax not set!  Defaulting to: %f\n', edgeMax );</span>
+<span class="k">end</span>
+
+<span class="n">edgeDelta</span> <span class="o">=</span> <span class="n">edgeMax</span> <span class="o">-</span> <span class="n">edgeMin</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">exist</span><span class="p">(</span> <span class="s1">'sigmaSpatial'</span><span class="p">,</span> <span class="s1">'var'</span> <span class="p">),</span>
+    <span class="c1">%sigmaSpatial = min( inputWidth, inputHeight ) / 16;</span>
+    <span class="n">sigmaSpatial</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span> <span class="n">inputWidth</span><span class="p">,</span> <span class="n">inputHeight</span> <span class="p">)</span> <span class="p">/</span> <span class="mi">64</span><span class="p">;</span>
+    <span class="nb">fprintf</span><span class="p">(</span> <span class="s1">'Using default sigmaSpatial of: %f\n'</span><span class="p">,</span> <span class="n">sigmaSpatial</span> <span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">exist</span><span class="p">(</span> <span class="s1">'sigmaRange'</span><span class="p">,</span> <span class="s1">'var'</span> <span class="p">),</span>
+    <span class="c1">%sigmaRange = 0.1 * edgeDelta;</span>
+    <span class="n">sigmaRange</span> <span class="o">=</span> <span class="mf">0.025</span> <span class="o">*</span> <span class="n">edgeDelta</span><span class="p">;</span>
+    <span class="nb">fprintf</span><span class="p">(</span> <span class="s1">'Using default sigmaRange of: %f\n'</span><span class="p">,</span> <span class="n">sigmaRange</span> <span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">exist</span><span class="p">(</span> <span class="s1">'samplingSpatial'</span><span class="p">,</span> <span class="s1">'var'</span> <span class="p">),</span>
+    <span class="n">samplingSpatial</span> <span class="o">=</span> <span class="n">sigmaSpatial</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">exist</span><span class="p">(</span> <span class="s1">'samplingRange'</span><span class="p">,</span> <span class="s1">'var'</span> <span class="p">),</span>
+    <span class="n">samplingRange</span> <span class="o">=</span> <span class="n">sigmaRange</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="nb">size</span><span class="p">(</span> <span class="n">data</span> <span class="p">)</span> <span class="o">~=</span> <span class="nb">size</span><span class="p">(</span> <span class="n">edge</span> <span class="p">),</span>
+    <span class="nb">error</span><span class="p">(</span> <span class="s1">'data and edge must be of the same size'</span> <span class="p">);</span>
+<span class="k">end</span>
+
+<span class="c1">% parameters</span>
+<span class="n">derivedSigmaSpatial</span> <span class="o">=</span> <span class="n">sigmaSpatial</span> <span class="p">/</span> <span class="n">samplingSpatial</span><span class="p">;</span>
+<span class="n">derivedSigmaRange</span> <span class="o">=</span> <span class="n">sigmaRange</span> <span class="p">/</span> <span class="n">samplingRange</span><span class="p">;</span>
+
+<span class="n">paddingXY</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">derivedSigmaSpatial</span> <span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">paddingZ</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">derivedSigmaRange</span> <span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c1">% allocate 3D grid</span>
+<span class="n">downsampledWidth</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span> <span class="p">(</span> <span class="n">inputWidth</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">/</span> <span class="n">samplingSpatial</span> <span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">paddingXY</span><span class="p">;</span>
+<span class="n">downsampledHeight</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span> <span class="p">(</span> <span class="n">inputHeight</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">/</span> <span class="n">samplingSpatial</span> <span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">paddingXY</span><span class="p">;</span>
+<span class="n">downsampledDepth</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span> <span class="n">edgeDelta</span> <span class="p">/</span> <span class="n">samplingRange</span> <span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">paddingZ</span><span class="p">;</span>
+
+<span class="n">gridData</span> <span class="o">=</span> <span class="nb">zeros</span><span class="p">(</span> <span class="n">downsampledHeight</span><span class="p">,</span> <span class="n">downsampledWidth</span><span class="p">,</span> <span class="n">downsampledDepth</span> <span class="p">);</span>
+<span class="n">gridWeights</span> <span class="o">=</span> <span class="nb">zeros</span><span class="p">(</span> <span class="n">downsampledHeight</span><span class="p">,</span> <span class="n">downsampledWidth</span><span class="p">,</span> <span class="n">downsampledDepth</span> <span class="p">);</span>
+
+<span class="c1">% compute downsampled indices</span>
+<span class="p">[</span> <span class="n">jj</span><span class="p">,</span> <span class="n">ii</span> <span class="p">]</span> <span class="o">=</span> <span class="nb">meshgrid</span><span class="p">(</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">inputWidth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">inputHeight</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">);</span>
+
+<span class="c1">% ii =</span>
+<span class="c1">% 0 0 0 0 0</span>
+<span class="c1">% 1 1 1 1 1</span>
+<span class="c1">% 2 2 2 2 2</span>
+
+<span class="c1">% jj =</span>
+<span class="c1">% 0 1 2 3 4</span>
+<span class="c1">% 0 1 2 3 4</span>
+<span class="c1">% 0 1 2 3 4</span>
+
+<span class="c1">% so when iterating over ii( k ), jj( k )</span>
+<span class="c1">% get: ( 0, 0 ), ( 1, 0 ), ( 2, 0 ), ... (down columns first)</span>
+
+<span class="n">di</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span> <span class="n">ii</span> <span class="p">/</span> <span class="n">samplingSpatial</span> <span class="p">)</span> <span class="o">+</span> <span class="n">paddingXY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">dj</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span> <span class="n">jj</span> <span class="p">/</span> <span class="n">samplingSpatial</span> <span class="p">)</span> <span class="o">+</span> <span class="n">paddingXY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">dz</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span> <span class="p">(</span> <span class="n">edge</span> <span class="o">-</span> <span class="n">edgeMin</span> <span class="p">)</span> <span class="p">/</span> <span class="n">samplingRange</span> <span class="p">)</span> <span class="o">+</span> <span class="n">paddingZ</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c1">% perform scatter (there's probably a faster way than this)</span>
+<span class="c1">% normally would do downsampledWeights( di, dj, dk ) = 1, but we have to</span>
+<span class="c1">% perform a summation to do box downsampling</span>
+<span class="k">for</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">:</span> <span class="nb">numel</span><span class="p">(</span> <span class="n">dz</span> <span class="p">),</span>
+       
+    <span class="n">dataZ</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span> <span class="n">k</span> <span class="p">);</span> <span class="c1">% traverses the image column wise, same as di( k )</span>
+    <span class="k">if</span> <span class="o">~</span><span class="nb">isnan</span><span class="p">(</span> <span class="n">dataZ</span>  <span class="p">),</span>
+        
+        <span class="n">dik</span> <span class="o">=</span> <span class="n">di</span><span class="p">(</span> <span class="n">k</span> <span class="p">);</span>
+        <span class="n">djk</span> <span class="o">=</span> <span class="n">dj</span><span class="p">(</span> <span class="n">k</span> <span class="p">);</span>
+        <span class="n">dzk</span> <span class="o">=</span> <span class="n">dz</span><span class="p">(</span> <span class="n">k</span> <span class="p">);</span>
+
+        <span class="n">gridData</span><span class="p">(</span> <span class="n">dik</span><span class="p">,</span> <span class="n">djk</span><span class="p">,</span> <span class="n">dzk</span> <span class="p">)</span> <span class="o">=</span> <span class="n">gridData</span><span class="p">(</span> <span class="n">dik</span><span class="p">,</span> <span class="n">djk</span><span class="p">,</span> <span class="n">dzk</span> <span class="p">)</span> <span class="o">+</span> <span class="n">dataZ</span><span class="p">;</span>
+        <span class="n">gridWeights</span><span class="p">(</span> <span class="n">dik</span><span class="p">,</span> <span class="n">djk</span><span class="p">,</span> <span class="n">dzk</span> <span class="p">)</span> <span class="o">=</span> <span class="n">gridWeights</span><span class="p">(</span> <span class="n">dik</span><span class="p">,</span> <span class="n">djk</span><span class="p">,</span> <span class="n">dzk</span> <span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1">% make gaussian kernel</span>
+<span class="n">kernelWidth</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">derivedSigmaSpatial</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">kernelHeight</span> <span class="o">=</span> <span class="n">kernelWidth</span><span class="p">;</span>
+<span class="n">kernelDepth</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">derivedSigmaRange</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="n">halfKernelWidth</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span> <span class="n">kernelWidth</span> <span class="p">/</span> <span class="mi">2</span> <span class="p">);</span>
+<span class="n">halfKernelHeight</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span> <span class="n">kernelHeight</span> <span class="p">/</span> <span class="mi">2</span> <span class="p">);</span>
+<span class="n">halfKernelDepth</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span> <span class="n">kernelDepth</span> <span class="p">/</span> <span class="mi">2</span> <span class="p">);</span>
+
+<span class="p">[</span><span class="n">gridX</span><span class="p">,</span> <span class="n">gridY</span><span class="p">,</span> <span class="n">gridZ</span><span class="p">]</span> <span class="o">=</span> <span class="nb">meshgrid</span><span class="p">(</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">kernelWidth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">kernelHeight</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">kernelDepth</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">);</span>
+<span class="n">gridX</span> <span class="o">=</span> <span class="n">gridX</span> <span class="o">-</span> <span class="n">halfKernelWidth</span><span class="p">;</span>
+<span class="n">gridY</span> <span class="o">=</span> <span class="n">gridY</span> <span class="o">-</span> <span class="n">halfKernelHeight</span><span class="p">;</span>
+<span class="n">gridZ</span> <span class="o">=</span> <span class="n">gridZ</span> <span class="o">-</span> <span class="n">halfKernelDepth</span><span class="p">;</span>
+<span class="n">gridRSquared</span> <span class="o">=</span> <span class="p">(</span> <span class="n">gridX</span> <span class="o">.*</span> <span class="n">gridX</span> <span class="o">+</span> <span class="n">gridY</span> <span class="o">.*</span> <span class="n">gridY</span> <span class="p">)</span> <span class="p">/</span> <span class="p">(</span> <span class="n">derivedSigmaSpatial</span> <span class="o">*</span> <span class="n">derivedSigmaSpatial</span> <span class="p">)</span> <span class="o">+</span> <span class="p">(</span> <span class="n">gridZ</span> <span class="o">.*</span> <span class="n">gridZ</span> <span class="p">)</span> <span class="p">/</span> <span class="p">(</span> <span class="n">derivedSigmaRange</span> <span class="o">*</span> <span class="n">derivedSigmaRange</span> <span class="p">);</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="nb">exp</span><span class="p">(</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">gridRSquared</span> <span class="p">);</span>
+
+<span class="c1">% convolve</span>
+<span class="n">blurredGridData</span> <span class="o">=</span> <span class="nb">convn</span><span class="p">(</span> <span class="n">gridData</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="s1">'same'</span> <span class="p">);</span>
+<span class="n">blurredGridWeights</span> <span class="o">=</span> <span class="nb">convn</span><span class="p">(</span> <span class="n">gridWeights</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="s1">'same'</span> <span class="p">);</span>
+
+<span class="c1">% divide</span>
+<span class="n">blurredGridWeights</span><span class="p">(</span> <span class="n">blurredGridWeights</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="p">;</span> <span class="c1">% avoid divide by 0, won't read there anyway</span>
+<span class="n">normalizedBlurredGrid</span> <span class="o">=</span> <span class="n">blurredGridData</span> <span class="o">.</span><span class="p">/</span> <span class="n">blurredGridWeights</span><span class="p">;</span>
+<span class="n">normalizedBlurredGrid</span><span class="p">(</span> <span class="n">blurredGridWeights</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">% put 0s where it's undefined</span>
+
+<span class="c1">% for debugging</span>
+<span class="c1">% blurredGridWeights( blurredGridWeights &lt; -1 ) = 0; % put zeros back</span>
+
+<span class="c1">% upsample</span>
+<span class="p">[</span> <span class="n">jj</span><span class="p">,</span> <span class="n">ii</span> <span class="p">]</span> <span class="o">=</span> <span class="nb">meshgrid</span><span class="p">(</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">inputWidth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">inputHeight</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">);</span> <span class="c1">% meshgrid does x, then y, so output arguments need to be reversed</span>
+<span class="c1">% no rounding</span>
+<span class="n">di</span> <span class="o">=</span> <span class="p">(</span> <span class="n">ii</span> <span class="p">/</span> <span class="n">samplingSpatial</span> <span class="p">)</span> <span class="o">+</span> <span class="n">paddingXY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">dj</span> <span class="o">=</span> <span class="p">(</span> <span class="n">jj</span> <span class="p">/</span> <span class="n">samplingSpatial</span> <span class="p">)</span> <span class="o">+</span> <span class="n">paddingXY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">dz</span> <span class="o">=</span> <span class="p">(</span> <span class="n">edge</span> <span class="o">-</span> <span class="n">edgeMin</span> <span class="p">)</span> <span class="p">/</span> <span class="n">samplingRange</span> <span class="o">+</span> <span class="n">paddingZ</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c1">% interpn takes rows, then cols, etc</span>
+<span class="c1">% i.e. size(v,1), then size(v,2), ...</span>
+<span class="n">output</span> <span class="o">=</span> <span class="nb">interpn</span><span class="p">(</span> <span class="n">normalizedBlurredGrid</span><span class="p">,</span> <span class="n">di</span><span class="p">,</span> <span class="n">dj</span><span class="p">,</span> <span class="n">dz</span> <span class="p">);</span>
+</code></pre>
+</div>
+
+  </article>
+
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <footer>
+
+  <div class="wrapper">
+    &copy; Copyright 2017 Kai Wu.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
+
+    
+  </div>
+
+</footer>
+
+
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="http://localhost:4000/assets/js/common.js"></script>
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+<script src="http://localhost:4000/assets/js/katex.js"></script>
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.min.css">
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-XXXXXXXX-X', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+
+</html>
