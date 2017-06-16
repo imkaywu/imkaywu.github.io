@@ -6,6 +6,9 @@ categories:
 tags:
   - Computer Vision
 ---
+
+Bilateral filter
+
 ```matlab
 %
 % output = bilateralFilter( data, edge, ...

@@ -1,56 +1,81 @@
 ---
-layout: page
-title: Project 3
-description: a project that redirects to another website
-img:
-redirect: https://unsplash.com
+title: Backpacker Matcher
+description: Course project of EECE 418
+img: /assets/img/project/backpacker_matcher_th.jpg
 ---
 
-Every project has a beautiful feature shocase page. It's easy to include images, in a flexible 3-column grid format. Make your photos 1/3, 2/3, or full width.
+This is the course project of EECE 418, which is collaborated with Alex Aloysius, Roberto Antonioli, Rayaan Choudri, Joshua Gan, and Ellina Sergeyeva.
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
-
-    ---
-    layout: page
-    title: Project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
-
-
+## Low-fi prototype
 <div class="img_row">
-    <img class="col one" src="{{ site.baseurl }}/assets/img/1.jpg" alt="" title="example image"/>
-    <img class="col one" src="{{ site.baseurl }}/assets/img/2.jpg" alt="" title="example image"/>
-    <img class="col one" src="{{ site.baseurl }}/assets/img/3.jpg" alt="" title="example image"/>
-</div>
-<div class="col three caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img00.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img01.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img02.jpg" alt="" title="example image"/>
 </div>
 <div class="img_row">
-    <img class="col three" src="{{ site.baseurl }}/assets/img/5.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img03.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img04.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img05.jpg" alt="" title="example image"/>
 </div>
-<div class="col three caption">
-    This image can also have a caption. It's like magic.
-</div>
-
-You can also put regular text between your rows of images. Say you wanted to write a little bit about your project before you posted the rest of the images. You describe how you toiled, sweated, *bled* for your project, and then.... you reveal it's glory in the next row of images.
-
-
 <div class="img_row">
-    <img class="col two" src="{{ site.baseurl }}/assets/img/6.jpg" alt="" title="example image"/>
-    <img class="col one" src="{{ site.baseurl }}/assets/img/11.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img06.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img07.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img08.jpg" alt="" title="example image"/>
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img09.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img10.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img11.jpg" alt="" title="example image"/>
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img12.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/lo_fi/img13.jpg" alt="" title="example image"/>
 </div>
 <div class="col three caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
+    Low-fi prototype
 </div>
 
 
-<br/><br/><br/>
+## Me-fi prototype
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/eece418/me_fi/img00.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/me_fi/img01.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/me_fi/img02.jpg" alt="" title="example image"/>
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/eece418/me_fi/img03.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/me_fi/img04.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/me_fi/img05.jpg" alt="" title="example image"/>
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/eece418/me_fi/img06.jpg" alt="" title="example image"/>
+</div>
+<div class="col three caption">
+    Me-fi prototype
+</div>
+
+## Hi-fi prototype
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/eece418/hi_fi/img00.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/hi_fi/img01.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/hi_fi/img02.png" alt="" title="example image"/>
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/eece418/hi_fi/img03.png" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/hi_fi/img04.png" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/hi_fi/img05.png" alt="" title="example image"/>
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/eece418/hi_fi/img06.png" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/hi_fi/img07.png" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/project/eece418/hi_fi/img08.png" alt="" title="example image"/>
+</div>
 
 
-The code is simple. Just add a col class to your image, and another class specifying the width: one, two, or three columns wide. Here's the code for the last row of images above:
+## Video
 
-    <div class="img_row">
-      <img class="col two" src="/img/6.jpg"/>
-      <img class="col one" src="/img/11.jpg"/>
-    </div>
+<iframe width="700" height="500" src="https://www.youtube.com/embed/fqAmTgHentU" frameborder="0" allowfullscreen></iframe>
+
+## Slides
+
+<iframe src="https://docs.google.com/presentation/d/1Q_snYQ8Dg9bemIAqgktKFDvfjmSAq_gbjDyRL1w3LXA/embed?start=false&loop=false&delayms=3000" frameborder="0" width="700" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>

@@ -1,55 +1,71 @@
 ---
-layout: page
-title: Project 4
-description: another without an image
-img:
+title: Personalized video thumbnails
+description: Course project of CPSC 554M
+img: /assets/img/project/personalized_video_thumbnail_th.jpg
 ---
 
-Every project has a beautiful feature shocase page. It's easy to include images, in a flexible 3-column grid format. Make your photos 1/3, 2/3, or full width.
+This is the course project of CPSC 554M, which is done with the collaboration with Matthew Fong and Xueqin Zhang.
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
+## Goal
 
-    ---
-    layout: page
-    title: Project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
+As more and more videos are being consumed over the web, organizing and searching for videos becomes more difficult. Videos in at-a-glance search spaces are generally represented by a title, a description, and static thumbnail to show the contents of the video. In the particular case where a user is looking for a video they have seen before, this information may not be enough to trigger a user's memory of the video. We introduce two techniques to represent video in a personalized way that is unique to the user through the analysis of their viewing behaviour, as well as explicit bookmarking for representative thumbnail selection. We performed a formal evaluation on the techniques compared with the traditional YouTube style representation and found users were faster in selecting the video using our methods, and also preferred our method.
 
+### player
 
+The video playing/viewing interface
+
+### filmstrip
+
+A filmstrip consists one or several static/dynamic thumbnails, used to quickly skim through the whole video and jump to the segment of interest.
+
+### thumbnail
+
+A thumbnail is static or dynamic images extracted from videos to represent and summarize the videos.
+
+## Control group
 <div class="img_row">
-    <img class="col one" src="{{ site.baseurl }}/assets/img/1.jpg" alt="" title="example image"/>
-    <img class="col one" src="{{ site.baseurl }}/assets/img/2.jpg" alt="" title="example image"/>
-    <img class="col one" src="{{ site.baseurl }}/assets/img/3.jpg" alt="" title="example image"/>
+    <img class="col three" src="/assets/img/project/cpsc554m/youtube.jpg" alt="Youtube thumbnail interface" title="example image"/>
 </div>
-<div class="col three caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
+
+## Lo-fi prototype
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/cpsc554m/lo_fi/player1.jpg" alt="player 1" title="example image"/>
+    <img class="col one" src="/assets/img/project/cpsc554m/lo_fi/player2.jpg" alt="player 2" title="example image"/>
+    <img class="col one" src="/assets/img/project/cpsc554m/lo_fi/filmstrips.jpg" alt="filmstrip" title="example image"/>
 </div>
 <div class="img_row">
-    <img class="col three" src="{{ site.baseurl }}/assets/img/5.jpg" alt="" title="example image"/>
-</div>
-<div class="col three caption">
-    This image can also have a caption. It's like magic.
+    <img class="col one" src="/assets/img/project/cpsc554m/lo_fi/thumbnail1.jpg" alt="thumbnail 1" title="example image"/>
+    <img class="col one" src="/assets/img/project/cpsc554m/lo_fi/thumbnail2.jpg" alt="thumbnail 2" title="example image"/>
 </div>
 
-You can also put regular text between your rows of images. Say you wanted to write a little bit about your project before you posted the rest of the images. You describe how you toiled, sweated, *bled* for your project, and then.... you reveal it's glory in the next row of images.
-
-
+## Me-fi prototype
 <div class="img_row">
-    <img class="col two" src="{{ site.baseurl }}/assets/img/6.jpg" alt="" title="example image"/>
-    <img class="col one" src="{{ site.baseurl }}/assets/img/11.jpg" alt="" title="example image"/>
-</div>
-<div class="col three caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
+    <img class="col one" src="/assets/img/project/cpsc554m/me_fi/player_prototype.png" alt="player prototype" title="example image"/>
+    <img class="col one" src="/assets/img/project/cpsc554m/me_fi/medium-fi_prototype.png" alt="medium-fi prototype of player and filmstrip" title="example image"/>
+    <img class="col one" src="/assets/img/project/cpsc554m/lo_fi/filmstrips.jpg" alt="" title="example image"/>
 </div>
 
 
-<br/><br/><br/>
+## Hi-fi prototype
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/cpsc554m/hi_fi/player.jpg" alt="player prototype" title="example image"/>
+    <img class="col one" src="/assets/img/project/cpsc554m/hi_fi/mixed.jpg" alt="mixed thumbnail" title="example image"/>
+    <img class="col one" src="/assets/img/project/cpsc554m/hi_fi/automatic.jpg" alt="automatic thumbnail" title="example image"/>
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/cpsc554m/hi_fi/videoselection_mixed.jpg" alt="video selection interface" title="example image"/>
+</div>
 
 
-The code is simple. Just add a col class to your image, and another class specifying the width: one, two, or three columns wide. Here's the code for the last row of images above:
+## Video
 
-    <div class="img_row">
-      <img class="col two" src="/img/6.jpg"/>
-      <img class="col one" src="/img/11.jpg"/>
-    </div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AjiB076flu0" frameborder="0" allowfullscreen></iframe>
+
+## Final report
+
+<embed src="/assets/files/cpsc554m_personalized-video-thumbnails.pdf" width="700" height="500" type='application/pdf'>
+
+## Slides
+
+<iframe src="https://docs.google.com/presentation/d/1gf6stA4BZZLoyt0Nk6QpQSoB8qC6mup5HjFcGwzlTYk/embed?start=false&loop=false&delayms=3000" frameborder="0" width="700" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
