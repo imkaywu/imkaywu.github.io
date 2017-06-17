@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | Book list (Constantly updating)</title>
+  <title>Kai Wu | C++ implementation of a linear algebra</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="//imkaywu.github.io/assets/css/main.css">
   <link rel="stylesheet" href="//imkaywu.github.io">
-  <link rel="canonical" href="//imkaywu.github.io/blog/2016/book-list/">
+  <link rel="canonical" href="//imkaywu.github.io/blog/2017/numeric-cpp/">
 </head>
 
 
@@ -86,19 +86,28 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Book list (Constantly updating)</h1>
-    <p class="post-meta">May 8, 2016</p>
+    <h1 class="post-title">C++ implementation of a linear algebra</h1>
+    <p class="post-meta">June 11, 2017</p>
   </header>
 
   <article class="post-content">
-    <h2 id="computer-visiongraphics">Computer vision/graphics</h2>
+    <p>One of the most widely used matrix and linear algebra library is <a href="http://eigen.tuxfamily.org">Eigen</a>. This is a header only library, thus no compiling or installation needed. I decided to write a wrapper class based on this library, so here it is.</p>
 
-<ul>
-  <li><a href="">The Psychology of Vision - Horn</a></li>
-  <li><a href="http://people.csail.mit.edu/bkph/AIM/AITR-232-OPT.pdf">Shape from shading: a method for obtaining the shape of a smooth opaque object from one view</a></li>
-  <li><a href="http://www.goodreads.com/book/show/377257.Robot_Vision">Robot Vision - Horn</a></li>
-  <li><a href="">Vision - Marr</a></li>
-</ul>
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;Eigen/Core&gt;
+</span>
+<span class="k">namespace</span> <span class="n">open3DCV</span>
+<span class="p">{</span>
+	<span class="c1">/// 2d vector using int internal format
+</span>	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2i</span> <span class="n">Vec2i</span><span class="p">;</span>
+
+	<span class="c1">/// 2d vector using float internal format
+</span>	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2f</span> <span class="n">Vec2f</span><span class="p">;</span>
+
+	<span class="c1">/// 3d vector using double internal format
+</span>	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span> <span class="n">Vec3</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
   </article>
 

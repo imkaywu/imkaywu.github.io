@@ -7,7 +7,7 @@ tags:
 ---
 
 ## code highlighter
-change from `highlighter` to `rough`, add the following to `_config.yml`
+change from `highlighter` to `rouge`, add the following to `_config.yml`
 
 ```yml
 highlighter: rough
