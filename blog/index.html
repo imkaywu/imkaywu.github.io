@@ -16,21 +16,13 @@ layout: default
       <!-- <p>{{ post.description }}</p> -->
       <p>
       	{% if post.content contains '<!--more-->' %}
-		  {{ post.content | split:'<!--more-->' | first }}
-		{% else %}
-		  {{ post.excerpt }}
-		{% endif %}
+    		  {{ post.content | split:'<!--more-->' | first }}
+    		{% else %}
+    		  {{ post.excerpt }}
+    		{% endif %}
       </p>
     </li>
   {% endfor %}
 </ul>
 
 {% include pagination.html %}
-
-
-{% if post.content contains '<!--more-->' %}
-{{ post.content | split:'<!--more-->' | first }}
-{% else %}
-{{ post.excerpt }}
-{% endif %}
-<a href="{{ post.url }}">read more</a>

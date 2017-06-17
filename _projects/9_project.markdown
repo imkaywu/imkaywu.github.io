@@ -1,7 +1,7 @@
 ---
 title: Interactive-classroom System Based on Wi-Fi
 description: 
-img: /assets/img/project/example_ps_th.png
+img: /assets/img/project/example_ps_th.jpg
 ---
 
 This is my improved implementation of Example-based Photometric Stereo using coarse-to-fine normal sampling. The source code is available [here](https://github.com/imkaywu/Coarse2Fine-Example-based-Photometric-Stereo).
