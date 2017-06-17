@@ -1,5 +1,5 @@
 ---
-title: C++ implementation of a linear algebra 
+title: C++ implementation of a linear algebra class
 categories: 
   - Dev
 ---

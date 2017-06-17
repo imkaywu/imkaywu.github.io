@@ -32,7 +32,7 @@ blog_description: "A student pursuing computer vision who also likes music, movi
 
 # Pagination
 paginate: 10
-permalink: /blog/:year/:title/
+permalink: /blog/:year/:month/:title/
 paginate_path: /blog/page:num/
 timezone: Canada/Pacific # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
