@@ -2,7 +2,6 @@
 layout: page
 permalink: /links/
 title: "links"
-description: Useful Links
 ---
 
 ## Music

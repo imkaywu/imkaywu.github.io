@@ -2,7 +2,6 @@
 layout: page
 permalink: /code/
 title: code
-description: code
 ---
 
 ## Vision
@@ -12,10 +11,8 @@ description: code
 [stitching](https://github.com/imkaywu/Image-Stitching)
 
 ## Misc
-[IO](https://github.com/imkaywu/IO)\\
+[IO](https://github.com/imkaywu/IO)
 
 ## scripts
 [blender project](https://github.com/imkaywu/blender_scripts)\\
-[eval](https://github.com/imkaywu/run_eval)\\
-
-
+[eval](https://github.com/imkaywu/run_eval)
