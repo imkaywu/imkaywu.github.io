@@ -18,6 +18,9 @@ title: "links"
 ## Movies
 [Movie List]({{ site.url }}{{ site.baseurl }}/2016/05/10/favourite-movies)
 
+## Books
+[Book List]({{ site.url }}{{ site.baseurl }}/2017/06/18/book-list)
+
 ## Calendars
 [Computer Vision Conferences](http://conferences.visionbib.com/Iris-Conferences.html)\\
 [Computer Graphics Events](https://www.siggraph.org/calendar/table.html)
