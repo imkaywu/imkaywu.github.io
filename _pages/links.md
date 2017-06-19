@@ -5,10 +5,10 @@ title: "links"
 ---
 
 ## Music
-[周杰伦]({{ site.url }}{{ site.baseurl }}/2016/05/19/jay-chou-music)\\
+[周杰伦]({{ site.url }}{{ site.baseurl }}/blog/2016/05/jay-chou-music)\\
 [田馥甄]()\\
-[Coldplay]({{ site.url }}{{ site.baseurl }}/2016/04/29/coldplay-live)\\
-[Ed Sheeran]({{ site.url }}{{ site.baseurl }}/2016/04/26/ed-live)\\
+[Coldplay]({{ site.url }}{{ site.baseurl }}/blog/2016/04/coldplay-live)\\
+[Ed Sheeran]({{ site.url }}{{ site.baseurl }}/blog/2016/04/ed-live)\\
 [Maggie Rogers](https://soundcloud.com/maggierogers)\\
 [Justin guitar](http://www.justinguitar.com)\\
 [GoliathGuitar](http://www.goliathguitartutorials.com)\\
@@ -16,10 +16,10 @@ title: "links"
 [Openmic Vancouver](http://www.openmicvancouver.com)
 
 ## Movies
-[Movie List]({{ site.url }}{{ site.baseurl }}/2016/05/10/favourite-movies)
+[Movie List]({{ site.url }}{{ site.baseurl }}/blog/2016/05/favourite-movies)
 
 ## Books
-[Book List]({{ site.url }}{{ site.baseurl }}/2017/06/18/book-list)
+[Book List]({{ site.url }}{{ site.baseurl }}/blog/2017/06/book-list)
 
 ## Calendars
 [Computer Vision Conferences](http://conferences.visionbib.com/Iris-Conferences.html)\\
