@@ -2,7 +2,7 @@
 layout: about
 permalink: /
 title: <strong>Kai</strong> Wu
-description: <a href="https://hct.ece.ubc.ca">HTC</a>. <a href="https://www.ece.ubc.ca">ECE Department</a>. <a href="https://www.ubc.ca">University of British Columbia</a>.
+description: <a href="https://hct.ece.ubc.ca">HCT</a>. <a href="https://www.ece.ubc.ca">ECE Department</a>. <a href="https://www.ubc.ca">University of British Columbia</a>.
 
 profile:
   align: right

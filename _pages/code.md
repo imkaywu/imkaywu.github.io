@@ -5,7 +5,7 @@ title: code
 ---
 
 ## Vision
-[open3DCV](https://github.com/imkaywu/open3DCV)\\
+[open3DCV]({{ site.url }}{{ site.baseurl }}/blog/2017/05/3d-vision-lib/)\\
 [example-based photometric stereo (varied albedo)](https://github.com/imkaywu/Photometric-Stereo)\\
 [example-based photometric stereo (uniform albedo)](https://github.com/imkaywu/Example-based-PS)\\
 [stitching](https://github.com/imkaywu/Image-Stitching)
