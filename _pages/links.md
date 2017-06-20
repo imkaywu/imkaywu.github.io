@@ -25,42 +25,56 @@ title: "links"
 [Computer Vision Conferences](http://conferences.visionbib.com/Iris-Conferences.html)\\
 [Computer Graphics Events](https://www.siggraph.org/calendar/table.html)
 
-## Blog
+## Websites
 
+### Collection
 [The Computer Vision Homepage](http://www.cs.cmu.edu/~cil/vision.html)\\
-[USC Vision Bibliography](http://iris.usc.edu/Vision-Notes/bibliography/contents.html)
+[USC Vision Bibliography](http://iris.usc.edu/Vision-Notes/bibliography/contents.html)\\
+[Minimal Problems in Computer Vision](http://cmp.felk.cvut.cz/mini/)\\
+[Background Subtraction Website](https://sites.google.com/site/backgroundsubtraction/overview)\\
+[Theory of computation](https://rjlipton.wordpress.com)
+
+### Group
+[Princeton Vision & Robotics Toolkit (PVRT)](http://robots.princeton.edu/code.html)\\
+[CVLAB - EPFL](http://cvlab.epfl.ch/software)\\
+[AVG - Autonomous Vision Group](http://www.cvlibs.net/projects.php)\\
+[Computer Graphics and Geometry Lab](http://lgg.epfl.ch/code.php)\\
+[GCC](http://www.gcc.tu-darmstadt.de/home/proj/index.en.jsp)
 
 ### Academia
-
 [编码者言](http://yuyang0.github.io)\\
+[Sameer Agarwal](http://homes.cs.washington.edu/~sagarwal/)\\
 [Noam Chomsky](https://chomsky.info)\\
 [Shuoyang Ding](http://cs.jhu.edu/~sding/)\\
 [Matthew Fisher](https://graphics.stanford.edu/~mdfisher/index.html)\\
 [Sean Ryan Fanello](http://www.seanfanello.it)\\
+[Yasutaka Furukawa](http://www.cse.wustl.edu/~furukawa/)\\
 [Jun Gong](https://jungeorge.github.io)\\
 [Philip Guo](http://pgbovine.net/writings.htm)\\
 [Philipp Heise](http://www.philippheise.com)\\
 [Satoshi Ikehata](https://www.hal.t.u-tokyo.ac.jp/~ikehata/)\\
 [Andrej Karpathy's Blog](http://cs.stanford.edu/people/karpathy/)\\
 [Johnny Lee](http://johnnylee.net)\\
+[SATYA MALLICK - Learn OpenCV](http://www.learnopencv.com)\\
+[Wojciech Matusik](http://people.csail.mit.edu/wojciech/)\\
 [Free Mind](http://freemind.pluskid.org)\\
 [Matt Might](http://matt.might.net/articles/)\\
-[Wojciech Matusik](http://people.csail.mit.edu/wojciech/)\\
 [Matthias Nießner](http://www.graphics.stanford.edu/~niessner/)\\
+[Marc Pollefeys](https://www.inf.ethz.ch/personal/marc.pollefeys/)\\
 [Marco Tulio Ribeiro](http://homes.cs.washington.edu/~marcotcr/blog/)\\
+[Steve Seitz](http://homes.cs.washington.edu/~seitz/)\\
 [Chris Sweeney](http://homes.cs.washington.edu/~csweeney/)\\
 [Julian Straub](http://www.jstraub.de/blog/)\\
 [Tianwei Shen](https://home.cse.ust.hk/~tshenaa/#)\\
-[Tombone's Computer Vision Blog](http://www.computervisionblog.com)\\
 [Stackable](https://erget.wordpress.com)\\
 [engin tola](http://www.engintola.com/index.html)\\
+[Tombone's Computer Vision Blog](http://www.computervisionblog.com)\\
+[George Vogiatzis](http://george-vogiatzis.org)\\
 [Michael Wilber](http://mjwilber.org)\\
+[Ziv Yaniv - Absolute orientation, ICP](http://yanivresearch.info)\\
 [Xiong Ying](http://ying.xiongs.org/index.html)\\
 [Qianyi Zhou](http://qianyi.info)\\
-[Wang Zhe](http://wangzheallen.github.io)\\
-[Background Subtraction Website](https://sites.google.com/site/backgroundsubtraction/overview)\\
-[Learn OpenCV](http://www.learnopencv.com)\\
-[Theory of computation](https://rjlipton.wordpress.com)
+[Wang Zhe](http://wangzheallen.github.io)
 
 ### Non-academia
 [陈梓瀚(vczh)](http://www.cppblog.com/vczh)\\
@@ -69,7 +83,6 @@ title: "links"
 [酷壳](http://coolshell.cn)\\
 [Brandon Gregg](http://www.brendangregg.com)\\
 [BYVoid](https://www.byvoid.com/zhs/)\\
-[Cambridge in Colour](http://www.cambridgeincolour.com)
 [Clay Bavor](https://www.claybavor.com)\\
 [Lee Jacobson](http://www.theprojectspot.com/home)\\
 [Matrix67](http://www.matrix67.com)\\
@@ -93,9 +106,10 @@ title: "links"
 [Theia Vision Library - for SfM](http://www.theia-sfm.org/sfm.html#chapter-sfm)\\
 [COLMAP - SfM + MVS](https://colmap.github.io)\\
 [Multi-View Stereo Software](http://inria-mvs.gforge.inria.fr)\\
-[MATLAB and Octave Functions for Computer Vision and Image Processing](http://www.peterkovesi.com/matlabfns/)\\
+[Peter Kovesi's MATLAB and Octave Functions for Computer Vision and Image Processing](http://www.peterkovesi.com/matlabfns/)\\
 [VLFeat](http://www.vlfeat.org)\\
-[CVT Library: General purpose computer vision library written in C++](https://github.com/phheise/cvt)
+[CVT Library: General purpose computer vision library written in C++](https://github.com/phheise/cvt)\\
+[VGG Multiple View Geometry Library](http://www.robots.ox.ac.uk/~vgg/hzbook/code/)
 
 #### Reconstruction
 
@@ -185,11 +199,7 @@ title: "links"
 [CVonline](http://homepages.inf.ed.ac.uk/rbf/CVonline/)\\
 [RGB-D Object Dataset](http://rgbd-dataset.cs.washington.edu/index.html)
 
-## Algorithm
-[Algorithms from Princeton](http://algs4.cs.princeton.edu/home/)\\
-[Algorithms by Jeff Erickson](http://web.engr.illinois.edu/~jeffe/teaching/algorithms/)
-
-## Courses
+## Courses & Tutorial
 
 ### Computer Vision
 
@@ -209,11 +219,13 @@ title: "links"
 [CSC418/2504 Computer Graphics](http://www.dgp.toronto.edu/~egarfink/courses/CSC418/)\\
 [Learn Computer Graphics Programming from Scratch](http://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry)\\
 [Lode's Computer Graphics Tutorial (FT tutoril)](http://lodev.org/cgtutor/)\\
-[Learn Computer Graphics From Scratch!](https://www.scratchapixel.com/index.php?redirect)
+[Learn Computer Graphics From Scratch!](https://www.scratchapixel.com/index.php?redirect)\\
+[Interactive Computer Graphics: A Top-Down Approach with OpenGL](http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/)
 
 ### Computational Photography
 [Digital photography](https://sites.google.com/site/marclevoylectures/schedule/lecture1-21mar16)\\
-[Clarkvision Articles](http://www.clarkvision.com/articles/index.html)
+[Clarkvision Articles](http://www.clarkvision.com/articles/index.html)\\
+[Cambridge in Colour](http://www.cambridgeincolour.com)
 
 ### Machine Learning
 [Machine Learning Reading Group at UBC](http://www.cs.ubc.ca/labs/lci/mlrg/)\\
@@ -230,15 +242,17 @@ title: "links"
 [Mathematics for Computer Science](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/index.htm)\\
 [Paul's Online Math Notes](http://tutorial.math.lamar.edu)
 
-## CS
-[introduction to algorithm](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011)\\
+### Algorithm
+[Algorithms from Princeton](http://algs4.cs.princeton.edu/home/)\\
+[Algorithms by Jeff Erickson](http://web.engr.illinois.edu/~jeffe/teaching/algorithms/)\\
+[introduction to algorithm](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011)
+
+### CS-related
 data structure\\
 operating system\\
 compiler\\
 computer architecture\\
-[Learn Linux the Hard Way](https://archive.is/xDb8o)
-
-### Coding
+[Learn Linux the Hard Way](https://archive.is/xDb8o)\\
 [Practical Programming in C](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-087-practical-programming-in-c-january-iap-2010/)\\
 [Introduction to C Memory Management and C++ Object-Oriented Programming](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-088-introduction-to-c-memory-management-and-c-object-oriented-programming-january-iap-2010/index.htm#features)\\
 [Introduction to C++](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-096-introduction-to-c-january-iap-2011/)\\
@@ -246,37 +260,13 @@ computer architecture\\
 [Effective Programming in C and C++](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s096-effective-programming-in-c-and-c-january-iap-2014/)\\
 [C++ tutorial](http://www.cs.ubc.ca/~mike323/cs314.html)\\
 [Python tutor](http://pythontutor.com)\\
-[The Hitchhiker’s Guide to Python!](http://docs.python-guide.org/en/latest/)
+[The Hitchhiker’s Guide to Python!](http://docs.python-guide.org/en/latest/)\\
 [Software Carpentry](http://software-carpentry.org/lessons/)\\
+[Cracking the coding](http://www.hawstein.com/posts/ctci-solutions-contents.html)\\
+[Leetcode编程训练](http://coolshell.cn/articles/12052.html)\\
 [UDLS](http://www.cs.ubc.ca/~udls/)
 
-## Coding
-[Cracking the coding](http://www.hawstein.com/posts/ctci-solutions-contents.html)\\
-[Leetcode编程训练](http://coolshell.cn/articles/12052.html)
-
-## Researchers, Research Groups
-[Steve Seitz](http://homes.cs.washington.edu/~seitz/)\\
-[Sameer Agarwal](http://homes.cs.washington.edu/~sagarwal/)\\
-[Yasutaka Furukawa](http://www.cse.wustl.edu/~furukawa/)\\
-[Marc Pollefeys](https://www.inf.ethz.ch/personal/marc.pollefeys/)\\
-[Hongdong Li](http://users.cecs.anu.edu.au/~hongdong/)\\
-[George Vogiatzis](http://george-vogiatzis.org)\\
-[Ziv Yaniv - Absolute orientation, ICP](http://yanivresearch.info)\\
-[Princeton Vision & Robotics Toolkit (PVRT)](http://robots.princeton.edu/code.html)\\
-[CVLAB - EPFL](http://cvlab.epfl.ch/software)\\
-[AVG - Autonomous Vision Group](http://www.cvlibs.net/projects.php)\\
-[Computer Graphics and Geometry Lab](http://lgg.epfl.ch/code.php)\\
-[GCC](http://www.gcc.tu-darmstadt.de/home/proj/index.en.jsp)
-
-## Resources
-[Minimal Problems in Computer Vision](http://cmp.felk.cvut.cz/mini/)\\
-[CMake Doc](https://cmake.org/cmake/help/v2.8.9/cmake.html#opt:-Cinitial-cache)\\
-[Interactive Computer Graphics: A Top-Down Approach with OpenGL](http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/)\\
-[Computing Correspondences in Geometric Data Sets](http://resources.mpi-inf.mpg.de/deformableShapeMatching/EG2011_Tutorial/)\\
-[Xiaojun Chang's CV CODE](https://sites.google.com/site/uqchang/home/cv-code)\\
-[Dissecting the Camera Matrix](http://ksimek.github.io/archive.html)
-
-## Temp
+## TBR
 Photometric Stereo [1](http://pages.cs.wisc.edu/~csverma/CS766_09/Stereo/stereo.html), [2](http://pages.cs.wisc.edu/~jiaxu/projects/Stereo/)\\
 [CSE 455 Project 4: Photometric Stereo](http://courses.cs.washington.edu/courses/cse455/10wi/projects/project4/)\\
 [CSE 252A: Photometric stereo and Specularity Removal](http://cseweb.ucsd.edu/classes/fa09/cse252a/hw2/hw2.html)\\
@@ -290,10 +280,8 @@ ICP code [1](http://www.mathworks.com/matlabcentral/fileexchange/12627-iterative
 [Derivation of Point-to-Plane Minimization](https://www.cs.princeton.edu/~smr/papers/icpstability.pdf)\\
 [Joint Registration of Multiple Point Sets](https://team.inria.fr/perception/research/jrmpc/)\\
 [ICP Variants](http://resources.mpi-inf.mpg.de/deformableShapeMatching/EG2011_Tutorial/slides/2.1%20Rigid%20ICP.pdf)\\
-[An Invitation to 3-D Vision]()
-
-## To learn
-[Gaussian mixture model]\\
-[Oriented and 2D/3D Gaussian mixture model based point-set registration](http://www.bigr.nl/website/structure/main.php?page=software&subpage=softwareInfo&id=13)\\
-[Augmented Lagrangian method]\\
-[ADMM]
+[An Invitation to 3-D Vision]()\\
+[CMake Doc](https://cmake.org/cmake/help/v2.8.9/cmake.html#opt:-Cinitial-cache)\\
+[Computing Correspondences in Geometric Data Sets](http://resources.mpi-inf.mpg.de/deformableShapeMatching/EG2011_Tutorial/)\\
+[Xiaojun Chang's CV CODE](https://sites.google.com/site/uqchang/home/cv-code)\\
+[Dissecting the Camera Matrix](http://ksimek.github.io/archive.html)
