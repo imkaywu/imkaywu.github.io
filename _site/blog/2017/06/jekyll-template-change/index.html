@@ -13,7 +13,6 @@
   <link rel="shortcut icon" href="//imkaywu.github.io/assets/img/favicon.ico">
 
   <link rel="stylesheet" href="//imkaywu.github.io/assets/css/main.css">
-  <link rel="stylesheet" href="//imkaywu.github.io">
   <link rel="canonical" href="//imkaywu.github.io/blog/2017/06/jekyll-template-change/">
 </head>
 
@@ -92,9 +91,20 @@
 
   <article class="post-content">
     <h2 id="code-highlighter">code highlighter</h2>
-<p>change from <code class="highlighter-rouge">highlighter</code> to <code class="highlighter-rouge">rouge</code>, add the following to <code class="highlighter-rouge">_config.yml</code></p>
+<p>Switch from python-based highlighter <code class="highlighter-rouge">highlighter</code> to ruby-based highlighter <code class="highlighter-rouge">rouge</code>.</p>
 
-<div class="language-yml highlighter-rouge"><pre class="highlight"><code><span class="s">highlighter</span><span class="pi">:</span> <span class="s">rough</span>
+<h3 id="install-rouge">Install Rouge</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>gem install kramdown rouge
+</code></pre>
+</div>
+<p>Make sure that the version of <code class="highlighter-rouge">kramdown</code> is at least <strong>1.5.0</strong>.</p>
+
+<h3 id="use-rouge">Use Rouge</h3>
+<p>In the <code class="highlighter-rouge">_config.yml</code>, change from <code class="highlighter-rouge">highlighter: pygments</code> to <code class="highlighter-rouge">highlighter: rouge</code>,</p>
+
+<div class="language-yml highlighter-rouge"><pre class="highlight"><code><span class="s">markdown</span><span class="pi">:</span> <span class="s">kramdown</span>
+<span class="s">highlighter</span><span class="pi">:</span> <span class="s">rough</span>
 
 <span class="c1"># Markdown Processing</span>
 <span class="s">kramdown</span><span class="pi">:</span>
@@ -102,15 +112,32 @@
   <span class="s">syntax_highlighter</span><span class="pi">:</span> <span class="s">rouge</span>
 </code></pre>
 </div>
+<p>This tells Jekyll to use kramdown when parsing markdown files and to pass the two settings to kramdown whenever it’s running.</p>
+
+<h3 id="themes">Themes</h3>
+<p>Rouge is compatible with the Pygments syntax highlighter, which means that we can use <a href="http://richleland.github.io/pygments-css/">stylesheets created for Pygments</a>.</p>
+
+<p>My Jekyll website use the <code class="highlighter-rouge">_syntax_highlighting.scss</code> located in <code class="highlighter-rouge">_scss</code> for highlighting. This file contains the default style sheet for syntax highlighter. If you website don’t have this file, then find out which file is responsible for the syntax highlighting, <strong>or</strong> do the following.</p>
+
+<ol>
+  <li>Select a Pygments theme, for instance <code class="highlighter-rouge">monokai.css</code>;</li>
+  <li>Copy the css file of theme <code class="highlighter-rouge">monokai.css</code> to <code class="highlighter-rouge">blog_root_dir/[assets]/css/</code> directory;</li>
+  <li>Open <code class="highlighter-rouge">blog_root_dir/[assets]/css/main.css</code> and add the selected theme:
+    <div class="highlighter-rouge"><pre class="highlight"><code>@import url(monokai.css);
+</code></pre>
+    </div>
+    <p>One more step: all the Pygments themes use <code class="highlighter-rouge">.codehilite</code> as the default class. Thus we need to replace <code class="highlighter-rouge">.codehilite</code> with <code class="highlighter-rouge">.highlight</code> in the theme css file.</p>
+  </li>
+</ol>
 
 <h2 id="truncate-post">truncate post</h2>
 
 <p>See the <a href="http://briankhuu.com/blog/self/jekyll/2014/12/03/post-truncation-in-jekyll.html">original post</a>.</p>
 
 <div class="language-html highlighter-rouge"><pre class="highlight"><code>{% if post.content contains '<span class="c">&lt;!--more--&gt;</span>' %}
-{{ post.content | split:'<span class="c">&lt;!--more--&gt;</span>' | first }}
+  {{ post.content | split:'<span class="c">&lt;!--more--&gt;</span>' | first }}
 {% else %}
-{{ post.excerpt }}
+  {{ post.excerpt }}
 {% endif %}
 <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{ post.url }}"</span><span class="nt">&gt;</span>read more<span class="nt">&lt;/a&gt;</span>
 </code></pre>
