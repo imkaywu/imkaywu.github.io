@@ -44,6 +44,7 @@ title: "links"
 ### Academia
 [编码者言](http://yuyang0.github.io)\\
 [Sameer Agarwal](http://homes.cs.washington.edu/~sagarwal/)\\
+[Tianqi Chen](http://homes.cs.washington.edu/~tqchen/)\\
 [Noam Chomsky](https://chomsky.info)\\
 [Shuoyang Ding](http://cs.jhu.edu/~sding/)\\
 [Matthew Fisher](https://graphics.stanford.edu/~mdfisher/index.html)\\
@@ -64,15 +65,16 @@ title: "links"
 [Marco Tulio Ribeiro](http://homes.cs.washington.edu/~marcotcr/blog/)\\
 [Steve Seitz](http://homes.cs.washington.edu/~seitz/)\\
 [Chris Sweeney](http://homes.cs.washington.edu/~csweeney/)\\
-[Julian Straub](http://www.jstraub.de/blog/)\\
+[Julian Straub](http://people.csail.mit.edu/jstraub/)\\
 [Tianwei Shen](https://home.cse.ust.hk/~tshenaa/#)\\
 [Stackable](https://erget.wordpress.com)\\
 [engin tola](http://www.engintola.com/index.html)\\
 [Tombone's Computer Vision Blog](http://www.computervisionblog.com)\\
 [George Vogiatzis](http://george-vogiatzis.org)\\
 [Michael Wilber](http://mjwilber.org)\\
+[Junyuan Xie]()\\
 [Ziv Yaniv - Absolute orientation, ICP](http://yanivresearch.info)\\
-[Xiong Ying](http://ying.xiongs.org/index.html)\\
+[Xiong Ying - PSBox, DfGBox](http://ying.xiongs.org/index.html)\\
 [Qianyi Zhou](http://qianyi.info)\\
 [Wang Zhe](http://wangzheallen.github.io)
 

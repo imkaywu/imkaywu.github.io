@@ -1,5 +1,5 @@
 ---
-title: Changes to the al-filio theme
+title: Changes to the al-folio theme
 categories:
   - Dev
 tags:
