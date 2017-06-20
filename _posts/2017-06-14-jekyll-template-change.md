@@ -43,6 +43,8 @@ My Jekyll website use the `_syntax_highlighting.scss` located in `_scss` for hig
 ```
 One more step: all the Pygments themes use `.codehilite` as the default class. Thus we need to replace `.codehilite` with `.highlight` in the theme css file.
 
+---
+
 ## truncate post
 
 See the [original post](http://briankhuu.com/blog/self/jekyll/2014/12/03/post-truncation-in-jekyll.html).
@@ -54,6 +56,8 @@ See the [original post](http://briankhuu.com/blog/self/jekyll/2014/12/03/post-tr
   {{ post.excerpt }}
 {% endif %}
 <a href="{{ post.url }}">read more</a>{% endraw %}
+
+---
 
 ## `.sass-cache dir and .DS_Store
 Add a `.gitignore` file with the following entries
