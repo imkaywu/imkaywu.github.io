@@ -140,8 +140,19 @@
   {{ post.excerpt }}
 {% endif %}
 <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{ post.url }}"</span><span class="nt">&gt;</span>read more<span class="nt">&lt;/a&gt;</span>
+
+## `.sass-cache dir and .DS_Store
+Add a `.gitignore` file with the following entries
 </code></pre>
 </div>
+<p>.DS_Store
+.sass-cache/</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>If those have already been staged, then first execute these two commands
+</code></pre>
+</div>
+<p>git rm -r –cache .sass-cache/ # remove .sass-cache
+find . -name .DS_Store -print0 | xargs -0 git rm -f –ignore-unmatch # remove .DS_Store
+```</p>
 
   </article>
 

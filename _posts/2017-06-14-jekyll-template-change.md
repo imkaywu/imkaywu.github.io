@@ -54,4 +54,15 @@ See the [original post](http://briankhuu.com/blog/self/jekyll/2014/12/03/post-tr
   {{ post.excerpt }}
 {% endif %}
 <a href="{{ post.url }}">read more</a>{% endraw %}
+
+## `.sass-cache dir and .DS_Store
+Add a `.gitignore` file with the following entries
+```
+.DS_Store
+.sass-cache/
+```
+If those have already been staged, then first execute these two commands
+```
+git rm -r --cache .sass-cache/ # remove .sass-cache
+find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch # remove .DS_Store
 ```
