@@ -40,7 +40,8 @@ title: "links"
 [USC Vision Bibliography](http://iris.usc.edu/Vision-Notes/bibliography/contents.html)\\
 [Minimal Problems in Computer Vision](http://cmp.felk.cvut.cz/mini/)\\
 [Background Subtraction Website](https://sites.google.com/site/backgroundsubtraction/overview)\\
-[Theory of computation](https://rjlipton.wordpress.com)
+[Theory of computation](https://rjlipton.wordpress.com)\\
+[Open Source Photogrammetry](http://opensourcephotogrammetry.blogspot.ca)
 
 ### Group
 [Princeton Vision & Robotics Toolkit (PVRT)](http://robots.princeton.edu/code.html)\\
@@ -50,7 +51,6 @@ title: "links"
 [GCC](http://www.gcc.tu-darmstadt.de/home/proj/index.en.jsp)
 
 ### Academia
-[编码者言](http://yuyang0.github.io)\\
 [Sameer Agarwal](http://homes.cs.washington.edu/~sagarwal/)\\
 [Tianqi Chen](http://homes.cs.washington.edu/~tqchen/)\\
 [Noam Chomsky](https://chomsky.info)\\
@@ -60,7 +60,10 @@ title: "links"
 [Yasutaka Furukawa](http://www.cse.wustl.edu/~furukawa/)\\
 [Jun Gong](https://jungeorge.github.io)\\
 [Philip Guo](http://pgbovine.net/writings.htm)\\
+[Felix Heide](http://stanford.edu/~fheide/)\\
 [Philipp Heise](http://www.philippheise.com)\\
+[DANIEL HOMOLA](http://danielhomola.com)\\
+[Ivo Ihrke](http://manao.inria.fr/perso/~ihrke/wordpress/)\\
 [Satoshi Ikehata](https://www.hal.t.u-tokyo.ac.jp/~ikehata/)\\
 [Andrej Karpathy's Blog](http://cs.stanford.edu/people/karpathy/)\\
 [Johnny Lee](http://johnnylee.net)\\
@@ -87,6 +90,7 @@ title: "links"
 [Wang Zhe](http://wangzheallen.github.io)
 
 ### Non-academia
+[编码者言](http://yuyang0.github.io)\\
 [陈梓瀚(vczh)](http://www.cppblog.com/vczh)\\
 [当然我在扯淡](http://www.yinwang.org)\\
 [考据癖](http://localhost-8080.com)\\
@@ -99,10 +103,9 @@ title: "links"
 [Surely I Am Joking](https://yinwang0.wordpress.com)
 
 ### Misc
-[Open Source Photogrammetry](http://opensourcephotogrammetry.blogspot.ca)\\
 [Hacker News](https://news.ycombinator.com)\\
 [George R.R. Martin](http://www.georgerrmartin.com)\\
-[DANIEL HOMOLA](http://danielhomola.com)
+
 
 ---
 
