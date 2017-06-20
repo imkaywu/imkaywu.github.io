@@ -22,7 +22,7 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 ---
 
 ## Estimator
-[Essential and Fundamental Matrix]({{ site.url }}{{ site.baseurl }}/2017/06/essential/fundamental/matrix)\\
+[Essential and Fundamental Matrix]({{ site.url }}{{ site.baseurl }}/blog/2017/06/essential-fundamental-matrix/)\\
 [PnP]()
 
 ## Visualization
