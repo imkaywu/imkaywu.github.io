@@ -15,15 +15,23 @@ title: "links"
 [GuitarNick](http://www.guitarnick.com/easy-guitar-songs-for-absolute-beginners-tab.html)\\
 [Openmic Vancouver](http://www.openmicvancouver.com)
 
+---
+
 ## Movies
 [Movie List]({{ site.url }}{{ site.baseurl }}/blog/2016/05/favourite-movies)
+
+---
 
 ## Books
 [Book List]({{ site.url }}{{ site.baseurl }}/blog/2017/06/book-list)
 
+---
+
 ## Calendars
 [Computer Vision Conferences](http://conferences.visionbib.com/Iris-Conferences.html)\\
 [Computer Graphics Events](https://www.siggraph.org/calendar/table.html)
+
+---
 
 ## Websites
 
@@ -96,6 +104,7 @@ title: "links"
 [George R.R. Martin](http://www.georgerrmartin.com)\\
 [DANIEL HOMOLA](http://danielhomola.com)
 
+---
 
 ## Source Code
 
@@ -189,6 +198,8 @@ title: "links"
 [Armadillo - A C++ linear algebra library](http://arma.sourceforge.net/download.html)\\
 [WNLIB](http://www.willnaylor.com/wnlib.html)
 
+---
+
 ## Dataset
 [Middlebury CV](http://vision.middlebury.edu)\\
 [DTU Robot Image Data Sets](http://roboimagedata.compute.dtu.dk)\\
@@ -200,6 +211,8 @@ title: "links"
 [Multiview Photometric Stereo](http://www.jaesik.info/publications/multiviewps)\\
 [CVonline](http://homepages.inf.ed.ac.uk/rbf/CVonline/)\\
 [RGB-D Object Dataset](http://rgbd-dataset.cs.washington.edu/index.html)
+
+---
 
 ## Courses & Tutorial
 
@@ -267,6 +280,8 @@ computer architecture\\
 [Cracking the coding](http://www.hawstein.com/posts/ctci-solutions-contents.html)\\
 [Leetcode编程训练](http://coolshell.cn/articles/12052.html)\\
 [UDLS](http://www.cs.ubc.ca/~udls/)
+
+---
 
 ## TBR
 Photometric Stereo [1](http://pages.cs.wisc.edu/~csverma/CS766_09/Stereo/stereo.html), [2](http://pages.cs.wisc.edu/~jiaxu/projects/Stereo/)\\

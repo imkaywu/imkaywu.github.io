@@ -142,21 +142,22 @@
   {{ post.excerpt }}
 {% endif %}
 <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{ post.url }}"</span><span class="nt">&gt;</span>read more<span class="nt">&lt;/a&gt;</span>
-
----
-
-## `.sass-cache` dir and .DS_Store
-Add a `.gitignore` file with the following entries
 </code></pre>
 </div>
-<p>.DS_Store
-.sass-cache/</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>If those have already been staged, then first execute these two commands
+
+<hr />
+
+<h2 id="ds_store-and-sass-cache-dir">.DS_Store and .sass-cache dir</h2>
+<p>Add a <code class="highlighter-rouge">.gitignore</code> file with the following entries</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>.DS_Store
+.sass-cache/
 </code></pre>
 </div>
-<p>git rm -r –cache .sass-cache/ # remove .sass-cache
-find . -name .DS_Store -print0 | xargs -0 git rm -f –ignore-unmatch # remove .DS_Store
-```</p>
+<p>If those have already been staged, then first execute these two commands</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch # remove .DS_Store
+git rm -r --cache .sass-cache/ # remove .sass-cache
+</code></pre>
+</div>
 
   </article>
 
