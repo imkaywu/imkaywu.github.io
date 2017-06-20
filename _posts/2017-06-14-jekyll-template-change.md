@@ -59,7 +59,7 @@ See the [original post](http://briankhuu.com/blog/self/jekyll/2014/12/03/post-tr
 
 ---
 
-## `.sass-cache dir and .DS_Store
+## `.sass-cache` dir and .DS_Store
 Add a `.gitignore` file with the following entries
 ```
 .DS_Store
