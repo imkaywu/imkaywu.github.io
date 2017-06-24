@@ -94,6 +94,7 @@ title: "links"
 [陈梓瀚(vczh)](http://www.cppblog.com/vczh)\\
 [当然我在扯淡](http://www.yinwang.org)\\
 [考据癖](http://localhost-8080.com)\\
+[虎兔手记](http://notes.localhost-8080.com)\\
 [酷壳](http://coolshell.cn)\\
 [Brandon Gregg](http://www.brendangregg.com)\\
 [BYVoid](https://www.byvoid.com/zhs/)\\
@@ -104,8 +105,7 @@ title: "links"
 
 ### Misc
 [Hacker News](https://news.ycombinator.com)\\
-[George R.R. Martin](http://www.georgerrmartin.com)\\
-
+[George R.R. Martin](http://www.georgerrmartin.com)
 
 ---
 

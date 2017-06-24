@@ -21,9 +21,29 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 
 ---
 
+## Features
+[DoG]()\\
+[Harris]()\\
+[SIFT (wrapper)]()
+
+---
+
 ## Estimator
 [Essential and Fundamental Matrix]({{ site.url }}{{ site.baseurl }}/blog/2017/06/essential-fundamental-matrix/)\\
-[PnP]()
+[Perspective Three Point (P3P)]()\\
+[Five Point Relative Pose]()\\
+[Four Point Algorithm for Homography]()\\
+[Eight Point Algorithm for Fundamental Matrix]()\\
+[Perspective N-Point]()\\
+[Four Point Focal Length]()\\
+[Five Point Focal Length and Radial Distortion]()\\
+[Three Point Relative Pose with a Partially Known Rotation]()\\
+[Four Point Relative Pose with a Partially Known Rotation]()\\
+[Two Point Absolute Pose with a Partially Known Rotation]()\\
+[PnP]()\\
+[Source](http://www.theia-sfm.org/features.html)
+
+---
 
 ## Visualization
 [camera]({{ site.url }}{{ site.baseurl }}/blog/2017/05/draw-camera/)
