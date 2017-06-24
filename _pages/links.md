@@ -115,29 +115,30 @@ title: "links"
 
 #### Vision library
 
-[openMVG: open Multiple View Geometry](http://imagine.enpc.fr/~moulonp/openMVG/)\\
+[CVT Library: General purpose computer vision library written in C++](https://github.com/phheise/cvt)\\
 [MRPT](http://www.mrpt.org)\\
-[Theia Vision Library - for SfM](http://www.theia-sfm.org/sfm.html#chapter-sfm)\\
-[COLMAP - SfM + MVS](https://colmap.github.io)\\
-[Multi-View Stereo Software](http://inria-mvs.gforge.inria.fr)\\
 [Peter Kovesi's MATLAB and Octave Functions for Computer Vision and Image Processing](http://www.peterkovesi.com/matlabfns/)\\
 [VLFeat](http://www.vlfeat.org)\\
-[CVT Library: General purpose computer vision library written in C++](https://github.com/phheise/cvt)\\
-[VGG Multiple View Geometry Library](http://www.robots.ox.ac.uk/~vgg/hzbook/code/)
+[VXL](http://vxl.sourceforge.net)
 
 #### Reconstruction
 
 [Bundler: SfM system for unordered image collections, C/C++](http://www.cs.cornell.edu/%7Esnavely/bundler/)\\
+[Theia Vision Library - for SfM](http://www.theia-sfm.org/sfm.html#chapter-sfm)\\
 [VisualSFM: a GUI application for 3D reconstruction using SFM](http://ccwu.me/vsfm/)\\
+[COLMAP - SfM + MVS](https://colmap.github.io)\\
 [Dense Visual SLAM](http://vision.in.tum.de/data/software/dvo)\\
 [MVE: include incremental SfM, MVS, FSSR](http://www.gcc.tu-darmstadt.de/home/proj/mve/)\\
 [CMPMVS - Jancosek](http://ptak.felk.cvut.cz/sfmservice/websfm.pl?menu=cmpmvs)\\
 [PMVS2](http://www.di.ens.fr/pmvs/)\\
 [CMVS](http://www.di.ens.fr/cmvs/)\\
 [Libmv](https://github.com/ahojnnes/libmv)\\
+[openMVG: open Multiple View Geometry](http://imagine.enpc.fr/~moulonp/openMVG/)\\
+[VGG Multiple View Geometry Library](http://www.robots.ox.ac.uk/~vgg/hzbook/code/)
 [Toolbox Graph](http://www.mathworks.com/matlabcentral/fileexchange/5355-toolbox-graph)\\
 [Visual Hull from Uncalibrated Sanpshots](http://www.dip.ee.uct.ac.za/~kforbes/DoubleMirror/DoubleMirror.html)\\
-[Visual Hull](http://vision.gel.ulaval.ca/~visualhull/)
+[Visual Hull](http://vision.gel.ulaval.ca/~visualhull/)\\
+[QHull]()
 
 #### Appearance
 [Inverse Shade Trees](http://ist.cs.princeton.edu)
