@@ -21,7 +21,7 @@ I am a Master of Applied Science student at the ECE Department of University of 
 - 3D computer vision (check out [open3DCV]({{ site.url }}{{ site.baseurl }}/blog/2017/05/3d-vision-lib/))
 	- Multi-View Stereo
 	- Structure from Motion
-	-Photometric Stereo
+	- Photometric Stereo
 - Physics-based Vision
 - Digital Photography
 
