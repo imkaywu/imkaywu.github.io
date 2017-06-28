@@ -17,9 +17,11 @@ social: true
 
 I am a Master of Applied Science student at the ECE Department of University of British Columbia. I am with the [Human Communication Technologies Lab](http://hct.ece.ubc.ca) supervised by [Prof. Sidney Fels](http://hct.ece.ubc.ca/person/sid-fels/) and [Dr. Gregor Miller](http://www.ece.ubc.ca/~gregor/). Go to my [CV]({{ site.url }}/{{ site.baseurl }}/cv) for more detailed information.
 
-## Research Interest
-
-3D computer vision including but not limited to Multi-View Stereo, Structure from Motion, Photometric Stereo, Physics-based Vision.
+## Interests
+- 3D computer vision (check out [open3DCV]({{ site.url }}{{ site.baseurl }}/blog/2017/05/3d-vision-lib/))
+	- Multi-View Stereo, Structure from Motion, Photometric Stereo
+- Physics-based Vision
+- Digital Photography
 
 <!-- Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com){:target="\_blank"}. You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
 
