@@ -8,7 +8,6 @@ description: > # this means to ignore newlines until "url:"
 footer_text: >
   Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
-  Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
 
 url: "//imkaywu.github.io" # the base hostname & protocol for your site
 baseurl: # the subpath of your site, e.g. /blog/
@@ -18,8 +17,8 @@ last_updated: # leave blank if you don't want to display last updated
 # Social integration
 # -----------------------------------------------------------------------------
 github_username: imkaywu # put your github username
-twitter_username: _BlacKay_# put your twitter username
-linkedin_username: # put your linkedin username
+twitter_username: _BlacKay_ # put your twitter username
+linkedin_username: kai-wu-aa84a779/ # put your linkedin username
 scholar_authorid: # put your google scholar author id
 contact_note: >
   You can even add a little note about which of these is the best way to reach you.

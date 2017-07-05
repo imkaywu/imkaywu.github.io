@@ -73,6 +73,7 @@ title: "links"
 [Matt Might](http://matt.might.net/articles/)\\
 [Matthias Nießner](http://www.graphics.stanford.edu/~niessner/)\\
 [Marc Pollefeys](https://www.inf.ethz.ch/personal/marc.pollefeys/)\\
+[Mark Reid](http://mark.reid.name)\\
 [Marco Tulio Ribeiro](http://homes.cs.washington.edu/~marcotcr/blog/)\\
 [Steve Seitz](http://homes.cs.washington.edu/~seitz/)\\
 [Chris Sweeney](http://homes.cs.washington.edu/~csweeney/)\\
@@ -86,6 +87,7 @@ title: "links"
 [Junyuan Xie]()\\
 [Ziv Yaniv - Absolute orientation, ICP](http://yanivresearch.info)\\
 [Xiong Ying - PSBox, DfGBox](http://ying.xiongs.org/index.html)\\
+[Victor Zappi](http://toomuchidle.com/blog/)\\
 [Qianyi Zhou](http://qianyi.info)\\
 [Wang Zhe](http://wangzheallen.github.io)
 
@@ -128,6 +130,7 @@ title: "links"
 [VisualSFM: a GUI application for 3D reconstruction using SFM](http://ccwu.me/vsfm/)\\
 [COLMAP - SfM + MVS](https://colmap.github.io)\\
 [Dense Visual SLAM](http://vision.in.tum.de/data/software/dvo)\\
+[openMVS](http://cdcseacave.github.io/openMVS/)\\
 [MVE: include incremental SfM, MVS, FSSR](http://www.gcc.tu-darmstadt.de/home/proj/mve/)\\
 [CMPMVS - Jancosek](http://ptak.felk.cvut.cz/sfmservice/websfm.pl?menu=cmpmvs)\\
 [PMVS2](http://www.di.ens.fr/pmvs/)\\
@@ -200,7 +203,8 @@ title: "links"
 ### Misc
 [Eigen: C++ template library for linear algebra](http://eigen.tuxfamily.org/index.php?title=Main_Page)\\
 [Armadillo - A C++ linear algebra library](http://arma.sourceforge.net/download.html)\\
-[WNLIB](http://www.willnaylor.com/wnlib.html)
+[WNLIB](http://www.willnaylor.com/wnlib.html)\\
+[Microsoft opensource](http://research.microsoft.com/downloads/)
 
 ---
 
@@ -284,6 +288,12 @@ computer architecture\\
 [Cracking the coding](http://www.hawstein.com/posts/ctci-solutions-contents.html)\\
 [Leetcode编程训练](http://coolshell.cn/articles/12052.html)\\
 [UDLS](http://www.cs.ubc.ca/~udls/)
+
+---
+## Resources
+[Remington's PBR Shader](http://store.remingtongraphics.net/pbr-shader/)\\
+[Procedural 4 Texture](http://store.remingtongraphics.net/procedural/)\\
+[BLENDER DISNEY SURFACE UBER SHADER - ONELVXE](http://www.onelvxe.com/ubershaderbeta/)
 
 ---
 
