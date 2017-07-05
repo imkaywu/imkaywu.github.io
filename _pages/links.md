@@ -239,11 +239,13 @@ title: "links"
 
 ### Computer Graphics
 [Computer Graphics - Edx](https://www.edx.org/course/computer-graphics-uc-san-diegox-cse167x-1)\\
+Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~joy/ecs175/), [Videos](http://graphics.cs.ucdavis.edu/~joy/ecs175/))\\
 [CSC418/2504 Computer Graphics](http://www.dgp.toronto.edu/~egarfink/courses/CSC418/)\\
 [Learn Computer Graphics Programming from Scratch](http://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry)\\
 [Lode's Computer Graphics Tutorial (FT tutoril)](http://lodev.org/cgtutor/)\\
 [Learn Computer Graphics From Scratch!](https://www.scratchapixel.com/index.php?redirect)\\
-[Interactive Computer Graphics: A Top-Down Approach with OpenGL](http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/)
+[Interactive Computer Graphics: A Top-Down Approach with OpenGL](http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/)\\
+[ONLINE FREE TUTORIALS AND BOOKS](https://courses.edx.org/asset-v1:UCSDx+CSE167x+1T2017+type@asset+block/links.html)\\
 
 ### Computational Photography
 [Digital photography](https://sites.google.com/site/marclevoylectures/schedule/lecture1-21mar16)\\
