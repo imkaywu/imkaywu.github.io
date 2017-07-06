@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | code</title>
+  <title>Kai Wu | A skeleton code for data conversion for the mex file</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
   <link rel="shortcut icon" href="//imkaywu.github.io/assets/img/favicon.ico">
 
   <link rel="stylesheet" href="//imkaywu.github.io/assets/css/main.css">
-  <link rel="canonical" href="//imkaywu.github.io/code/">
+  <link rel="canonical" href="//imkaywu.github.io/blog/2017/07/matlab-mex/">
 </head>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
@@ -82,27 +82,14 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">code</h1>
-    <h5 class="post-description"></h5>
+    <h1 class="post-title">A skeleton code for data conversion for the mex file</h1>
+    <p class="post-meta">July 5, 2017</p>
   </header>
 
-  <article class="post-content code clearfix">
-    <h2 id="vision">Vision</h2>
-<p><a href="//imkaywu.github.io/blog/2017/05/3d-vision-lib/">open3DCV</a><br />
-<a href="https://github.com/imkaywu/Photometric-Stereo">example-based photometric stereo (varied albedo)</a><br />
-<a href="https://github.com/imkaywu/Example-based-PS">example-based photometric stereo (uniform albedo)</a><br />
-<a href="https://github.com/imkaywu/Image-Stitching">stitching</a></p>
-
-<h2 id="misc">Misc</h2>
-<p><a href="https://github.com/imkaywu/IO">IO</a></p>
-
-<h2 id="scripts">scripts</h2>
-<p><a href="https://github.com/imkaywu/blender_scripts">blender project</a><br />
-<a href="https://github.com/imkaywu/run_eval">eval</a></p>
+  <article class="post-content">
+    <p>I use mostly Matlab to test my algorithms, it easy to implement and fast enough for matrix computation. However, for some computationally heavy tasks, I would normally turn to C++ for its efficiency. Thus I need an additional <code class="highlighter-rouge">mex</code> file so that my Matlab code can use the C++ code. To do so, most of the job required is to convert matlab data into C++ data, and I create some methods just for this purpose so that I don’t need to do this all over again next time. So here it is.</p>
 
   </article>
-
-  
 
   
 

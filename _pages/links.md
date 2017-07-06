@@ -204,7 +204,8 @@ title: "links"
 [Eigen: C++ template library for linear algebra](http://eigen.tuxfamily.org/index.php?title=Main_Page)\\
 [Armadillo - A C++ linear algebra library](http://arma.sourceforge.net/download.html)\\
 [WNLIB](http://www.willnaylor.com/wnlib.html)\\
-[Microsoft opensource](http://research.microsoft.com/downloads/)
+[Microsoft opensource](http://research.microsoft.com/downloads/)\\
+[Professor X Toolkit](https://dl.dropboxusercontent.com/u/7775117/jianxiongxiao.com/code.html)
 
 ---
 

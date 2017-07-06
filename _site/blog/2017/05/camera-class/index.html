@@ -16,6 +16,7 @@
   <link rel="canonical" href="//imkaywu.github.io/blog/2017/05/camera-class/">
 </head>
 
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
 
   <body>
 
@@ -98,11 +99,58 @@
   </li>
   <li>set intrinsic and extrinsic parameters;</li>
   <li>camera coordinate system: camera center and axes;</li>
-  <li>set/get matrix <code class="highlighter-rouge">K</code>, <code class="highlighter-rouge">R</code>, <code class="highlighter-rouge">t</code>, <code class="highlighter-rouge">Rt</code>, and <code class="highlighter-rouge">P</code>;</li>
+  <li>set/get matrix <script type="math/tex">K</script>, <script type="math/tex">R</script>, <script type="math/tex">t</script>, <script type="math/tex">Rt</script>, and <script type="math/tex">P</script>;</li>
   <li>project/unproject;</li>
   <li>compute depth</li>
   <li>possiblly more</li>
 </ul>
+
+<h2 id="intrinsic-and-extrinsic-parameter">Intrinsic and extrinsic parameter</h2>
+<p>The camera matrix, or often named projection matrix is a <script type="math/tex">3\times 4</script> matrix. Sometimes a fourth row <script type="math/tex">[0, 0, 0, 1]</script> is added to make a <script type="math/tex">4\times 4</script> matrix. Let’s denote the camera matrix as <script type="math/tex">P</script>, and <script type="math/tex">P</script> is often decomposed into</p>
+
+<script type="math/tex; mode=display">P=\left[ M \vert -MC \right]</script>
+
+<p>where <script type="math/tex">M</script> is an invertible <script type="math/tex">3\times 3</script> matrix, and <script type="math/tex">C</script> is the camera center in the world coordinates. The camera matrix can be further decomposed into an intrinsic matrix <script type="math/tex">K</script>, and an extrinsic one, <script type="math/tex">\left[ R \vert - RC \right]</script>:</p>
+
+<script type="math/tex; mode=display">P = K\left[R | -RC\right]</script>
+
+<p>The properties of these matrices are:</p>
+<ul>
+  <li><script type="math/tex">K</script> is a upper-triangular matrix, which is usually represented as <script type="math/tex">% <![CDATA[
+\begin{bmatrix}
+  f_x & s & c_x \\
+  0 & f_y & c_y \\
+  0 & 0 & 1
+\end{bmatrix} %]]></script>, where <script type="math/tex">f_x</script>, and <script type="math/tex">f_y</script> are the focal length, and <script type="math/tex">c_x</script> and <script type="math/tex">c_y</script> are the center of the image plane, all in pixel;</li>
+  <li><script type="math/tex">R</script> is a orthonormal matrix, where each column is the axes of the world coordinates in the camera’s coordinate system. It’s apprent in the following example: <script type="math/tex">[r_1^\top \vert r_2^\top \vert r_3^\top]\begin{bmatrix}
+     1 \\
+     0 \\
+     0
+   \end{bmatrix} = r_1^\top</script>;</li>
+  <li><script type="math/tex">C</script> is the camera center in the world coordinate system, while <script type="math/tex">t=-RC</script> is the world origin in the camera coordinate system since <script type="math/tex">\left[ R\vert -RC \right]\begin{bmatrix}
+     0 \\
+     0 \\
+     0 \\
+     1
+   \end{bmatrix}=-RC</script>.</li>
+</ul>
+
+<h3 id="recovering-c">Recovering <script type="math/tex">C</script></h3>
+<p>Decompose <script type="math/tex">C</script> is the easiest, since <script type="math/tex">M</script> is invertible, and <script type="math/tex">-MC</script> is the fourth column of the camera matrix <script type="math/tex">P</script>, thus</p>
+
+<script type="math/tex; mode=display">C = -M^{-1}P(:, 4)</script>
+
+<h3 id="recovering-k-and-r">Recovering <script type="math/tex">K</script> and <script type="math/tex">R</script></h3>
+<p>We know that all full rank matrices can be decomposed into an upper-triangular matrix and an orthogonal matrix by using <a href="https://en.wikipedia.org/wiki/QR_decomposition">RQ-decomposition</a>, and this is exactly the case with <script type="math/tex">K</script> and <script type="math/tex">R</script>. RQ decomposition is normally unavailable in many numeric libraries. A nice <a href="http://www.janeriksolem.net/rq-factorization-of-camera-matrices.html">post</a> in <a href="http://www.janeriksolem.net/blog.html">Solem’s vision blog</a> gives an implementation of this decomposition.</p>
+
+<p>The problem is RQ-decomposition is not unique, since the sign of the diagonal elements can be flipped. Let’s first assume that the diagonal elements of <script type="math/tex">K</script> are positive, which is not necessarily true. Nonetheless, we can achieve a unique solution by enforcing non-negative diagonal elements. An elegant solution is</p>
+
+<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="c1">% non-negative diagonal elements</span>
+<span class="n">T</span> <span class="o">=</span> <span class="nb">sign</span><span class="p">(</span><span class="n">K</span><span class="p">);</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">K</span> <span class="o">*</span> <span class="n">T</span><span class="p">;</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">T</span> <span class="o">*</span> <span class="n">R</span> <span class="c1">% the inverse of T is itself</span>
+</code></pre>
+</div>
 
   </article>
 
@@ -131,11 +179,6 @@
 <!-- Load Common JS -->
 <script src="//imkaywu.github.io/assets/js/common.js"></script>
 
-
-<!-- Load KaTeX -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
-<script src="//imkaywu.github.io/assets/js/katex.js"></script>
 
 
 

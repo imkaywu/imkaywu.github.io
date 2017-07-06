@@ -16,6 +16,7 @@
   <link rel="canonical" href="//imkaywu.github.io/blog/">
 </head>
 
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
 
   <body>
 
@@ -85,6 +86,17 @@
 
 
 <ul class="post-list">
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2017/07/matlab-mex/">A skeleton code for data conversion for the mex file</a></h2>
+      <p class="post-meta">July 5, 2017</p>
+      <p>
+      	
+    		  <p>I use mostly Matlab to test my algorithms, it easy to implement and fast enough for matrix computation. However, for some computationally heavy tasks, I would normally turn to C++ for its efficiency. Thus I need an additional <code class="highlighter-rouge">mex</code> file so that my Matlab code can use the C++ code. To do so, most of the job required is to convert matlab data into C++ data, and I create some methods just for this purpose so that I don’t need to do this all over again next time. So here it is.</p>
+
+    		
+      </p>
+    </li>
   
     <li>
       <h2><a class="post-title" href="/blog/2017/06/book-list/">Book list</a></h2>
@@ -197,17 +209,6 @@
       </p>
     </li>
   
-    <li>
-      <h2><a class="post-title" href="/blog/2017/05/vimrc/">Vim configuration</a></h2>
-      <p class="post-meta">May 17, 2017</p>
-      <p>
-      	
-    		  
-
-    		
-      </p>
-    </li>
-  
 </ul>
 
 
@@ -247,11 +248,6 @@
 <!-- Load Common JS -->
 <script src="//imkaywu.github.io/assets/js/common.js"></script>
 
-
-<!-- Load KaTeX -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
-<script src="//imkaywu.github.io/assets/js/katex.js"></script>
 
 
 

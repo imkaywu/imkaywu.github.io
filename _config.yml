@@ -46,7 +46,7 @@ disqus_shortname: kaystechblog # put your disqus shortname
 # Optional features
 show_social_icons:  false
 enable_anchorjs:    false
-enable_katex:       true
+mathjax: true
 
 # -----------------------------------------------------------------------------
 # Collections
@@ -61,7 +61,7 @@ collections:
     output: true
     permalink: /projects/:path/
 
-news_limit: 5
+news_limit: 5 # ?
 
 # -----------------------------------------------------------------------------
 # Defaults
@@ -93,8 +93,39 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
 
-# Includes
-include: ['_pages']
+# Reading Files
+include:
+  - .htaccess
+  - _pages
+exclude:
+  - "*.sublime-project"
+  - "*.sublime-workspace"
+  - vendor
+  - .asset-cache
+  - .bundle
+  - .jekyll-assets-cache
+  - .sass-cache
+  - assets/js/plugins
+  - assets/js/_main.js
+  - assets/js/vendor
+  - Capfile
+  - CHANGELOG
+  - config
+  - Gemfile
+  - Gruntfile.js
+  - gulpfile.js
+  - LICENSE
+  - log
+  - node_modules
+  - package.json
+  - Rakefile
+  - README
+  - tmp
+keep_files:
+  - .git
+  - .svn
+encoding: "utf-8"
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 
 # Gems
 gems:
@@ -105,5 +136,5 @@ gems:
 # Other settings
 # -----------------------------------------------------------------------------
 jquery_version: "1.12.4"
-katex_version: "0.7.1"
+# katex_version: "0.7.1"
 anchorjs_version: "3.2.2"
