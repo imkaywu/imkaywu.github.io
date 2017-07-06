@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | Empirical comparison of Adaboost using three weak classifiers</title>
+  <title>Kai Wu | Git cheatsheet</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
   <link rel="shortcut icon" href="//imkaywu.github.io/assets/img/favicon.ico">
 
   <link rel="stylesheet" href="//imkaywu.github.io/assets/css/main.css">
-  <link rel="canonical" href="//imkaywu.github.io/projects/1_project/">
+  <link rel="canonical" href="//imkaywu.github.io/blog/2017/07/git-notes/">
 </head>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
@@ -84,21 +84,30 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Empirical comparison of Adaboost using three weak classifiers</h1>
-    <h5 class="post-description">Course Project for CPSC 540 Maching Learning</h5>
+    <h1 class="post-title">Git cheatsheet</h1>
+    <p class="post-meta">July 6, 2017</p>
   </header>
 
-  <article class="post-content Empirical comparison of Adaboost using three weak classifiers clearfix">
-    <p>This is the course project of the graduate Maching Learning course CPSC 540.</p>
+  <article class="post-content">
+    <h2 id="exclude-a-directory">Exclude a directory</h2>
+<p>Create a <code class="highlighter-rouge">.gitignore</code> file in root, and add the directory name in it</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>/dirName
+</code></pre>
+</div>
 
-<h2 id="report">Report</h2>
+<h2 id="remove-directory-from-git-and-local">Remove directory from git and local</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>git rm -r dirName
+git commit -m "Remove directory"
+git push origin [you-git-branch]
+</code></pre>
+</div>
 
-<embed src="/assets/files/cpsc540_An_Empirical_Comparison_of_Adaboost_Using_Three_Different_Weak_Learners.pdf" width="700" height="375" type="application/pdf" />
-
+<h2 id="remove-directory-from-git-but-not-local">Remove directory from git but NOT local</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>git rm -r --cached dirName
+</code></pre>
+</div>
 
   </article>
-
-  
 
   
 

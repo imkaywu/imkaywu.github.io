@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | A skeleton code for data conversion for the mex file</title>
+  <title>Kai Wu | An introduction to the `mex` file and useful implementations</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
@@ -64,6 +64,8 @@
         
           
         
+          
+        
 
         <!-- CV link -->
         <!-- <a class="page-link" href="//imkaywu.github.io/assets/pdf/CV.pdf">vitae</a> -->
@@ -82,12 +84,200 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">A skeleton code for data conversion for the mex file</h1>
+    <h1 class="post-title">An introduction to the `mex` file and useful implementations</h1>
     <p class="post-meta">July 5, 2017</p>
   </header>
 
   <article class="post-content">
     <p>I use mostly Matlab to test my algorithms, it easy to implement and fast enough for matrix computation. However, for some computationally heavy tasks, I would normally turn to C++ for its efficiency. Thus I need an additional <code class="highlighter-rouge">mex</code> file so that my Matlab code can use the C++ code. To do so, most of the job required is to convert matlab data into C++ data, and I create some methods just for this purpose so that I don’t need to do this all over again next time. So here it is.</p>
+
+<h2 id="basic-knowledge">Basic knowledge</h2>
+<p>Here are a list of stuffs to know about mex fils</p>
+<ul>
+  <li>gateway function: <code class="highlighter-rouge">mexfunction</code>;</li>
+  <li>data type: <code class="highlighter-rouge">mxArray</code>
+    <ul>
+      <li>scope</li>
+      <li>create and destroy</li>
+      <li>ordering</li>
+      <li>access the data</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="gateway-function">Gateway function</h3>
+<p>Just like every C/C++ program has a <code class="highlighter-rouge">main()</code> function, Matlab uses a gateway routine called <code class="highlighter-rouge">mexFunction</code>. Here is what it looks like</p>
+<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="n">void</span> <span class="n">mexFunction</span><span class="p">(</span><span class="n">int</span> <span class="n">nlhs</span><span class="p">,</span> <span class="n">mxArray</span> <span class="o">*</span><span class="n">plhs</span><span class="p">[],</span>
+		  <span class="n">int</span> <span class="n">nrhs</span><span class="p">,</span> <span class="n">mxArray</span> <span class="o">*</span><span class="n">prhs</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="p">//</span> <span class="n">your</span> <span class="n">code</span> <span class="n">here</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>nlhs</td>
+      <td>Number of output (left-side) arguments, or the size of the plhs array.</td>
+    </tr>
+    <tr>
+      <td>plhs</td>
+      <td>Array of output arguments.</td>
+    </tr>
+    <tr>
+      <td>nrhs</td>
+      <td>Number of input (right-side) arguments, or the size of the prhs array.</td>
+    </tr>
+    <tr>
+      <td>prhs</td>
+      <td>aArray of input arguments.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="all-about-mxarray">All about <code class="highlighter-rouge">mxArray</code></h3>
+<p>This section is an excerpt of the <a href="https://www.mathworks.com/help/matlab/matlab_external/matlab-data.html">MATLAB Data</a> from Mathworks.</p>
+
+<p>The Matlab works with one single object type: the Matlab array. All Matlab variables, including scalars, vectors, matrices, character arrays, cell arrays, structures, and objects, are stored in Matlab array. In C/C++, this Matlab array is declared to be of type <code class="highlighter-rouge">mxArray</code>. This <code class="highlighter-rouge">mxArray</code> structure contains the following information</p>
+<ul>
+  <li>Its type</li>
+  <li>Its dimension</li>
+  <li>The data associated with this array</li>
+  <li>If numeric, whether the variable is real or complex</li>
+  <li>If structure or object, the number of fileds and field names</li>
+  <li>If sparse, its indices and nonzero maximum elements</li>
+</ul>
+
+<h4 id="order-of-mxarray">order of <code class="highlighter-rouge">mxArray</code></h4>
+<p>The Matlab array follows the column-major order similar to Fortran while the C/C++ array follows row-major order.</p>
+
+<h4 id="create-and-destroy-of-mxarray">create and destroy of <code class="highlighter-rouge">mxArray</code></h4>
+<p>The <code class="highlighter-rouge">mexCreate*</code> function can create an <code class="highlighter-rouge">mxArray</code> while <code class="highlighter-rouge">mxCalloc</code> can allocate dynamic memory for array. Some useful ones are: <code class="highlighter-rouge">mxCreateDoubleMatrix</code>, <code class="highlighter-rouge">mxCreateNumericMatrix</code></p>
+
+<p>To deallocate memory, use either <code class="highlighter-rouge">mxDestroyArray</code> or <code class="highlighter-rouge">mxFree</code></p>
+
+<p>For more information, please go to <a href="https://www.mathworks.com/help/matlab/create-or-delete-array_btl2zvw-2.html">Create or Delete Array</a>.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// create mxArray
+</span><span class="kt">double</span> <span class="o">**</span> <span class="nf">createMatrix</span><span class="p">(</span><span class="n">IN</span> <span class="kt">int</span> <span class="n">rows</span><span class="p">,</span> 
+                       <span class="n">IN</span> <span class="kt">int</span> <span class="n">cols</span><span class="p">)</span> 
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="o">**</span><span class="n">matrix</span><span class="p">;</span>
+
+  <span class="k">if</span><span class="p">(((</span><span class="n">matrix</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span> <span class="o">**</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">)</span><span class="o">*</span><span class="n">rows</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">||</span>
+     <span class="p">((</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="o">*</span><span class="n">rows</span><span class="o">*</span><span class="n">cols</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+  
+  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">rows</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">cols</span><span class="p">;</span>
+
+  <span class="n">memset</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="o">*</span><span class="n">rows</span><span class="o">*</span><span class="n">cols</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">matrix</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="o">**</span> <span class="nf">createIntMatrix</span><span class="p">(</span><span class="n">IN</span> <span class="kt">int</span> <span class="n">rows</span><span class="p">,</span> 
+                       <span class="n">IN</span> <span class="kt">int</span> <span class="n">cols</span><span class="p">)</span> 
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="o">**</span><span class="n">matrix</span><span class="p">;</span>
+
+  <span class="k">if</span><span class="p">(((</span><span class="n">matrix</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">**</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="o">*</span><span class="n">rows</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">||</span>
+     <span class="p">((</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">*</span><span class="n">rows</span><span class="o">*</span><span class="n">cols</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+  
+  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">rows</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">cols</span><span class="p">;</span>
+
+  <span class="n">memset</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">*</span><span class="n">rows</span><span class="o">*</span><span class="n">cols</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">matrix</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// free mxArray
+</span><span class="kt">void</span> <span class="nf">freeMatrix</span><span class="p">(</span><span class="n">IN</span>  <span class="kt">double</span> <span class="o">**</span><span class="n">matrix</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">free</span><span class="p">(</span><span class="o">*</span><span class="n">matrix</span><span class="p">);</span>
+  <span class="n">free</span><span class="p">(</span><span class="n">matrix</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">freeIntMatrix</span><span class="p">(</span><span class="n">IN</span>  <span class="kt">int</span> <span class="o">**</span><span class="n">matrix</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">free</span><span class="p">(</span><span class="o">*</span><span class="n">matrix</span><span class="p">);</span>
+  <span class="n">free</span><span class="p">(</span><span class="n">matrix</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h4 id="scope-of-mxarray">scope of <code class="highlighter-rouge">mxArray</code></h4>
+<ul>
+  <li>The <code class="highlighter-rouge">mxArray</code> passed to a <code class="highlighter-rouge">mex</code> file through the <code class="highlighter-rouge">plhs</code> input parameter exists outside the scope of the <code class="highlighter-rouge">mex</code> file, so is the <code class="highlighter-rouge">mex</code> created for an output argument. Do not free memory of those variables.</li>
+  <li>The <code class="highlighter-rouge">mex</code> file should destroy temporary arrays and free dynamically allocated memory.</li>
+</ul>
+
+<h4 id="access-data-of-mxarray">access data of <code class="highlighter-rouge">mxArray</code></h4>
+<p>The <code class="highlighter-rouge">mxGet*</code> routines get references to the data in an <code class="highlighter-rouge">mxArray</code>. Each function provides access to specific information in the <code class="highlighter-rouge">mxArray</code>. Some useful functions are <code class="highlighter-rouge">mxGetPr</code> (for type <em>double</em>), <code class="highlighter-rouge">mxGetData</code> (for type other than <em>double</em>), <code class="highlighter-rouge">mxGetM</code>, <code class="highlighter-rouge">mxGetN</code>, and <code class="highlighter-rouge">mxGetString</code>. Many of these functions have the corresponding <code class="highlighter-rouge">mxSet*</code> routines that allows to modify values in the array.</p>
+
+<p>For more information, please go to <a href="https://www.mathworks.com/help/matlab/matlab_external/filling-an-mxarray.html">Fill mxArray</a>.</p>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#define IN
+#define OUT
+</span><span class="kt">double</span><span class="o">**</span> <span class="nf">getMxArray</span><span class="p">(</span><span class="n">IN</span> <span class="k">const</span> <span class="n">mxArray</span> <span class="o">*</span><span class="n">mxArr</span><span class="p">,</span>
+					<span class="n">OUT</span> <span class="kt">int</span> <span class="o">*</span><span class="n">rows</span><span class="p">,</span>
+					<span class="n">OUT</span> <span class="kt">int</span> <span class="o">*</span><span class="n">cols</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">mwSize</span> <span class="n">ndim</span><span class="p">;</span>
+	<span class="kt">double</span> <span class="o">*</span><span class="n">arrDataPr</span><span class="p">,</span> <span class="o">**</span><span class="n">matrix</span><span class="p">;</span>
+
+	<span class="k">if</span><span class="p">((</span><span class="n">ndim</span> <span class="o">=</span> <span class="n">mxGetNumberofDimensions</span><span class="p">(</span><span class="n">mxArr</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"input matrix has %d dimension, not 2</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ndim</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">rows</span> <span class="o">=</span> <span class="n">mxGetM</span><span class="p">(</span><span class="n">mxArr</span><span class="p">);</span>
+	<span class="o">*</span><span class="n">cols</span> <span class="o">=</span> <span class="n">mxGetN</span><span class="p">(</span><span class="n">mxArr</span><span class="p">);</span>
+
+	<span class="k">if</span><span class="p">(((</span><span class="n">matrix</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="o">**</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="o">*</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">rows</span><span class="p">)))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">||</span>
+	   <span class="p">((</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">rows</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">cols</span><span class="p">)))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">))</span>
+   	<span class="p">{</span>
+   		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+   	<span class="p">}</span>
+
+   	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="o">*</span><span class="n">rows</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+   	<span class="p">{</span>
+   		<span class="n">maxtrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">cols</span><span class="p">);</span>
+   	<span class="p">}</span>
+
+   	<span class="n">arrDataPr</span> <span class="o">=</span> <span class="n">mxGetPr</span><span class="p">(</span><span class="n">mxArr</span><span class="p">);</span>
+   	<span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="p">(</span><span class="o">*</span><span class="n">cols</span><span class="p">);</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+   		<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="o">*</span><span class="n">rows</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+   			<span class="n">maxtrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="n">arrDataPr</span><span class="o">++</span><span class="p">);</span>
+
+   	<span class="k">return</span> <span class="n">matrix</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">mxArray</span><span class="o">*</span> <span class="nf">putMxArray</span><span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="n">matrix</span><span class="p">,</span> <span class="kt">int</span> <span class="n">rows</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cols</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">mxArray</span> <span class="o">*</span><span class="n">mxArr</span><span class="p">;</span>
+	<span class="n">mxArr</span> <span class="o">=</span> <span class="n">mxCreateDoubleMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">mxREAL</span><span class="p">);</span>
+	<span class="kt">double</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+  	<span class="n">ptr</span> <span class="o">=</span> <span class="n">mxGetPr</span><span class="p">(</span><span class="n">mxArr</span><span class="p">);</span>
+
+	<span class="k">for</span><span class="p">(</span><span class="n">mwSize</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">cols</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">for</span><span class="p">(</span><span class="n">mwSize</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">rows</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+			<span class="o">*</span><span class="p">(</span><span class="n">ptr</span> <span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">cols</span> <span class="o">+</span> <span class="n">j</span><span class="p">];</span>
+
+	<span class="k">return</span> <span class="n">mxArr</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
   </article>
 
