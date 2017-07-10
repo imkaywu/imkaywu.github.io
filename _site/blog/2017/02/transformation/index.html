@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | Transformations</title>
+  <title>Kai Wu | Interpretation of transformations and the relation with the coordinate system</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
@@ -84,47 +84,74 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Transformations</h1>
+    <h1 class="post-title">Interpretation of transformations and the relation with the coordinate system</h1>
     <p class="post-meta">February 3, 2017</p>
   </header>
 
   <article class="post-content">
     <p>This is a post of useful notes and tricks on transformation for future reference.</p>
 
-<h3 id="composing-transformations">Composing Transformations</h3>
+<h2 id="compostion-of-transformations">Compostion of Transformations</h2>
 
-<p><img src="/assets/img/research/cv/examp_trans.png" alt="example of transformation" /></p>
+<p>Transformations can be thought of as a change of object or a change in coordinate system.</p>
 
-<p><strong>Which direction to read?</strong></p>
+<p><strong>Rule of thumb</strong>: The transformations necessary to convert a point from CS2 to CS1 are given by the transformations necessary to align the CS1 frame with the CS2 frame.</p>
+
+<!-- <div class="img_row">
+	<img class="col three" src="/assets/img/research/transform/examp_trans.png">
+</div>
+
+$$
+p''=T(2, 3, 0)R(z, -90)p
+$$ -->
+
+<h3 id="transform-the-coordinates">Transform the coordinates</h3>
+<div class="img_row">
+	<img class="col three" src="/assets/img/research/transform/transform.pdf" />
+</div>
 
 <ul>
-  <li>right to left
+  <li>right to left:
     <ul>
       <li>interpret operations w.r.t fixed global coordinates</li>
       <li>moving object
         <ul>
           <li>draw object</li>
           <li>rotate object by 45 degrees w.r.t. fixed global coordinates</li>
-          <li>translate it (2, 3) over w.r.t fixed global coordinates
-<img src="/assets/img/research/cv/right2left.png" alt="right to left" /></li>
+          <li>translate it (1, 1) over w.r.t fixed global coordinates</li>
         </ul>
       </li>
+      <li>Premultiplication effects a transformation in ‘world’ or ‘fixed’ coordinates</li>
     </ul>
   </li>
-  <li>left to right
+</ul>
+
+<h3 id="transform-the-coordinate-frame">Transform the coordinate frame</h3>
+<div class="img_row">
+	<img class="col three" src="/assets/img/research/transform/transform_1.pdf" />
+</div>
+
+<ul>
+  <li>left to right:
     <ul>
       <li>interprete operations w.r.t. local coordinates</li>
       <li>changing coordinate system
         <ul>
-          <li>translate coordinate system (2, 3) over</li>
+          <li>translate coordinate system (1, 1) over</li>
           <li>rotate coordinate system 45 degrees w.r.t. local origin</li>
-          <li>draw object in current coordinate system
-<img src="/assets/img/research/cv/left2right.png" alt="left to right" /></li>
+          <li>draw object in current coordinate system</li>
         </ul>
       </li>
+      <li>Postmultiplication effects a transformation in ‘local’ coodinates.</li>
+      <li>OpenGL postmultiplies transformation, i.e., applies them in ‘local’ coordinates.</li>
     </ul>
   </li>
 </ul>
+
+<h2 id="transformation-as-a-change-of-basis">Transformation as a change of basis</h2>
+<p>There is another way of viewing transformations which can let us construct transformations between two coordinate systems directly, without having to express the transformations in terms of one or more rotation and translation operations.</p>
+
+<p>Suppose we have two coordinate systems, <script type="math/tex">CS1</script> and <script type="math/tex">CS2</script>, having coincident origins, but having different orientations:</p>
 
   </article>
 

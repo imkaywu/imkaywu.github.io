@@ -28,6 +28,11 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 
 ---
 
+## Triangulation
+[Triangulation]({{ site.url }}{{ site.baseurl }}/blog/2017/07/triangulation/)
+
+---
+
 ## Estimator
 [Essential and Fundamental Matrix]({{ site.url }}{{ site.baseurl }}/blog/2017/06/essential-fundamental-matrix/)\\
 [Perspective Three Point (P3P)]()\\
