@@ -89,7 +89,79 @@
   </header>
 
   <article class="post-content">
+    <h2 id="fundamental-matrix">Fundamental matrix</h2>
+<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="k">function</span> <span class="p">[</span><span class="n">F</span><span class="p">,</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">]</span> <span class="o">=</span> <span class="n">fundmatrix</span><span class="p">(</span><span class="nb">varargin</span><span class="p">)</span>
     
+    <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">npts</span><span class="p">]</span> <span class="o">=</span> <span class="n">checkargs</span><span class="p">(</span><span class="nb">varargin</span><span class="p">(:));</span>
+    <span class="n">Octave</span> <span class="o">=</span> <span class="nb">exist</span><span class="p">(</span><span class="s1">'OCTAVE_VERSION'</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">% Are we running under Octave?    </span>
+    
+    <span class="c1">% Normalise each set of points so that the origin </span>
+    <span class="c1">% is at centroid and mean distance from origin is sqrt(2). </span>
+    <span class="c1">% normalise2dpts also ensures the scale parameter is 1.</span>
+    <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">T1</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalise2dpts</span><span class="p">(</span><span class="n">x1</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">x2</span><span class="p">,</span> <span class="n">T2</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalise2dpts</span><span class="p">(</span><span class="n">x2</span><span class="p">);</span>
+    
+    <span class="c1">% Build the constraint matrix</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="n">x2</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="s1">'.*x1(1,:)'</span>   <span class="n">x2</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="s1">'.*x1(2,:)'</span>  <span class="n">x2</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">'</span> <span class="k">...</span>
+         <span class="n">x2</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="s1">'.*x1(1,:)'</span>   <span class="n">x2</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="s1">'.*x1(2,:)'</span>  <span class="n">x2</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="o">'</span> <span class="k">...</span>
+         <span class="n">x1</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="s1">'             x1(2,:)'</span>            <span class="nb">ones</span><span class="p">(</span><span class="n">npts</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">];</span>       
+
+    <span class="k">if</span> <span class="n">Octave</span>
+	<span class="p">[</span><span class="n">U</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">V</span><span class="p">]</span> <span class="o">=</span> <span class="nb">svd</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>   <span class="c1">% Don't seem to be able to use the economy</span>
+                            <span class="c1">% decomposition under Octave here</span>
+    <span class="k">else</span>
+	<span class="p">[</span><span class="n">U</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">V</span><span class="p">]</span> <span class="o">=</span> <span class="nb">svd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span> <span class="c1">% Under MATLAB use the economy decomposition</span>
+    <span class="k">end</span>
+
+    <span class="c1">% Extract fundamental matrix from the column of V corresponding to</span>
+    <span class="c1">% smallest singular value.</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">V</span><span class="p">(:,</span><span class="mi">9</span><span class="p">),</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">'</span><span class="p">;</span>
+    
+    <span class="c1">% Enforce constraint that fundamental matrix has rank 2 by performing</span>
+    <span class="c1">% a svd and then reconstructing with the two largest singular values.</span>
+    <span class="p">[</span><span class="n">U</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">V</span><span class="p">]</span> <span class="o">=</span> <span class="nb">svd</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">U</span><span class="o">*</span><span class="nb">diag</span><span class="p">([</span><span class="n">D</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="n">D</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">V</span><span class="o">'</span><span class="p">;</span>
+    
+    <span class="c1">% Denormalise</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">T2</span><span class="o">'*</span><span class="n">F</span><span class="o">*</span><span class="n">T1</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="nb">nargout</span> <span class="o">==</span> <span class="mi">3</span>  	<span class="c1">% Solve for epipoles</span>
+	<span class="p">[</span><span class="n">U</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">V</span><span class="p">]</span> <span class="o">=</span> <span class="nb">svd</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+	<span class="n">e1</span> <span class="o">=</span> <span class="n">hnormalise</span><span class="p">(</span><span class="n">V</span><span class="p">(:,</span><span class="mi">3</span><span class="p">));</span>
+	<span class="n">e2</span> <span class="o">=</span> <span class="n">hnormalise</span><span class="p">(</span><span class="n">U</span><span class="p">(:,</span><span class="mi">3</span><span class="p">));</span>
+    <span class="k">end</span>
+    
+<span class="c1">%--------------------------------------------------------------------------</span>
+<span class="c1">% Function to check argument values and set defaults</span>
+
+<span class="k">function</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">npts</span><span class="p">]</span> <span class="o">=</span> <span class="n">checkargs</span><span class="p">(</span><span class="n">arg</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="nb">length</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">arg</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">arg</span><span class="p">{</span><span class="mi">2</span><span class="p">};</span>
+        <span class="k">if</span> <span class="o">~</span><span class="nb">all</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span><span class="o">==</span><span class="nb">size</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span>
+            <span class="nb">error</span><span class="p">(</span><span class="s1">'x1 and x2 must have the same size'</span><span class="p">);</span>
+        <span class="k">elseif</span> <span class="nb">size</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">3</span>
+            <span class="nb">error</span><span class="p">(</span><span class="s1">'x1 and x2 must be 3xN'</span><span class="p">);</span>
+        <span class="k">end</span>
+        
+    <span class="k">elseif</span> <span class="nb">length</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">arg</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="mi">1</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">6</span>
+            <span class="nb">error</span><span class="p">(</span><span class="s1">'Single argument x must be 6xN'</span><span class="p">);</span>
+        <span class="k">else</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="n">arg</span><span class="p">{</span><span class="mi">1</span><span class="p">}(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,:);</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="n">arg</span><span class="p">{</span><span class="mi">1</span><span class="p">}(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">,:);</span>
+        <span class="k">end</span>
+    <span class="k">else</span>
+        <span class="nb">error</span><span class="p">(</span><span class="s1">'Wrong number of arguments supplied'</span><span class="p">);</span>
+    <span class="k">end</span>
+      
+    <span class="n">npts</span> <span class="o">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+    <span class="k">if</span> <span class="n">npts</span> <span class="o">&lt;</span> <span class="mi">8</span>
+        <span class="nb">error</span><span class="p">(</span><span class="s1">'At least 8 points are needed to compute the fundamental matrix'</span><span class="p">);</span>
+    <span class="k">end</span>
+</code></pre>
+</div>
 
   </article>
 

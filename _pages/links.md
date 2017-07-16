@@ -219,7 +219,8 @@ title: "links"
 [‘DiLiGenT’ Photometric Stereo Dataset](https://sites.google.com/site/photometricstereodata/)\\
 [Multiview Photometric Stereo](http://www.jaesik.info/publications/multiviewps)\\
 [CVonline](http://homepages.inf.ed.ac.uk/rbf/CVonline/)\\
-[RGB-D Object Dataset](http://rgbd-dataset.cs.washington.edu/index.html)
+[RGB-D Object Dataset](http://rgbd-dataset.cs.washington.edu/index.html)\\
+[List of RGBD datasets](http://www0.cs.ucl.ac.uk/staff/M.Firman/RGBDdatasets/)
 
 ---
 
@@ -274,6 +275,7 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [introduction to algorithm](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011)
 
 ### CS-related
+Scientific Programming in [Matlab](http://ucl-cs-grad.github.io/matlabgrad/index.html) and [Python](http://ucl-cs-grad.github.io/scipython/)\\
 data structure\\
 operating system\\
 compiler\\

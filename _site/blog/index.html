@@ -188,7 +188,26 @@
       <p class="post-meta">June 11, 2017</p>
       <p>
       	
-    		  
+    		  <h2 id="fundamental-matrix">Fundamental matrix</h2>
+<p>```matlab
+function [F,e1,e2] = fundmatrix(varargin)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[x1, x2, npts] = checkargs(varargin(:));
+Octave = exist('OCTAVE_VERSION') ~= 0;  % Are we running under Octave?    
+
+% Normalise each set of points so that the origin 
+% is at centroid and mean distance from origin is sqrt(2). 
+% normalise2dpts also ensures the scale parameter is 1.
+[x1, T1] = normalise2dpts(x1);
+[x2, T2] = normalise2dpts(x2);
+
+% Build the constraint matrix
+A = [x2(1,:)'.*x1(1,:)'   x2(1,:)'.*x1(2,:)'  x2(1,:)' ...
+     x2(2,:)'.*x1(1,:)'   x2(2,:)'.*x1(2,:)'  x2(2,:)' ...
+     x1(1,:)'             x1(2,:)'            ones(npts,1) ];       
+</code></pre>
+</div>
+
 
     		
       </p>
