@@ -101,6 +101,7 @@ title: "links"
 [Brandon Gregg](http://www.brendangregg.com)\\
 [BYVoid](https://www.byvoid.com/zhs/)\\
 [Clay Bavor](https://www.claybavor.com)\\
+[Debarghya Das](http://debarghyadas.com)\\
 [Lee Jacobson](http://www.theprojectspot.com/home)\\
 [Matrix67](http://www.matrix67.com)\\
 [Surely I Am Joking](https://yinwang0.wordpress.com)
