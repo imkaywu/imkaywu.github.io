@@ -151,6 +151,7 @@ title: "links"
 [Multi-Camera Self-Calibration](http://cmp.felk.cvut.cz/~svoboda/SelfCal/index.html)\\
 [Automatic camera pose estimation from dot pattern - Carlos Hernandez](http://george-vogiatzis.org/calib/)\\
 [Multiple Camera Calibration Toolbox](https://sites.google.com/site/prclibo/toolbox)\\
+[Projector-Camera Calibration](http://mesh.brown.edu/calibration/)\\
 [EPnP: Efficient Perspective-n-Point Camera Pose Estimation](http://cvlab.epfl.ch/EPnP/index.php)
 
 #### Registration
