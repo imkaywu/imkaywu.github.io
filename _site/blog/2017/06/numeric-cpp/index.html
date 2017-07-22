@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | C++ implementation of a linear algebra class</title>
+  <title>Kai Wu | C++ implementation of a numeric class</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
@@ -84,14 +84,126 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">C++ implementation of a linear algebra class</h1>
+    <h1 class="post-title">C++ implementation of a numeric class</h1>
     <p class="post-meta">June 11, 2017</p>
   </header>
 
   <article class="post-content">
     <p>One of the most widely used matrix and linear algebra library is <a href="http://eigen.tuxfamily.org">Eigen</a>. This is a header only library, thus no compiling or installation needed. I decided to write a wrapper class based on this library, so here it is.</p>
 
-<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;Eigen/Core&gt;
+<h2 id="overview">Overview</h2>
+
+<h3 id="data-types">Data Types</h3>
+<ul>
+  <li>Vector:
+    <ul>
+      <li>type: int, float, double;</li>
+      <li>dimension: <script type="math/tex">2\times 1</script>, <script type="math/tex">3\times 1</script>, <script type="math/tex">4\times 1</script>, <script type="math/tex">6\times 1</script>, <script type="math/tex">1\times 2</script>, <script type="math/tex">1\times 3</script>, <script type="math/tex">1\times 4</script>, <script type="math/tex">1\times 6</script></li>
+    </ul>
+  </li>
+  <li>Matrix:
+    <ul>
+      <li>type: int, float, double</li>
+      <li>dimension: <script type="math/tex">2\times 2</script>, <script type="math/tex">3\times 3</script>, <script type="math/tex">3\times 4</script>, <script type="math/tex">4\times 4</script></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="fixed-size-vectorizable">Fixed-size vectorizable</h4>
+<p>An Eigen object is called “fixed-size vectorizable” if it has fixed size and that size is a multiple of 16 bytes. Eigen will then request 16-byte alignment for these objects, and henceforth rely on these objects being aligned so no runtime check for alignment is performed. For more info, please go to <a href="https://eigen.tuxfamily.org/dox/group__TopicFixedSizeVectorizable.html">here</a>.</p>
+
+<h3 id="operations">Operations</h3>
+<ul>
+  <li>addition, minus, matrix multiplication, element-wise multiplication</li>
+</ul>
+
+<h2 id="implemetation">Implemetation</h2>
+
+<h3 id="headers">Headers</h3>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;Eigen/Core&gt;
+</span></code></pre>
+</div>
+
+<h3 id="data-types-1">Data Types</h3>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// Check MSVC
+</span><span class="cp">#if _WIN32 || _WIN64
+</span>  <span class="cp">#if _WIN64
+</span>    <span class="cp">#define ENV64BIT
+</span>  <span class="cp">#else
+</span>    <span class="cp">#define ENV32BIT
+</span>  <span class="cp">#endif
+#endif
+</span>
+<span class="c1">// Check GCC
+</span><span class="cp">#if __GNUC__
+</span>  <span class="cp">#if __x86_64__ || __ppc64__ || _LP64
+</span>    <span class="cp">#define ENV64BIT
+</span>  <span class="cp">#else
+</span>    <span class="cp">#define ENV32BIT
+</span>  <span class="cp">#endif
+#endif
+</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2i</span> <span class="n">Vec2i</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2f</span> <span class="n">Vec2f</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3i</span> <span class="n">Vec3i</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3f</span> <span class="n">Vec3f</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span> <span class="n">Vec3</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector4i</span> <span class="n">Vec4i</span><span class="p">;</span>
+
+<span class="cp">#if defined(ENV32BIT)
+</span>	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Vec2</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Vec4f</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Vec4</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Vec6</span><span class="p">;</span>
+
+<span class="cp">#else
+</span>	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2d</span> <span class="n">Vec2</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector4f</span> <span class="n">Vec4f</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector4d</span> <span class="n">Vec4</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector6d</span> <span class="n">Vec6</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix2i</span> <span class="n">Mat2i</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix3i</span> <span class="n">Mat3i</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix3f</span> <span class="n">Mat3f</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix3d</span> <span class="n">Mat3</span><span class="p">;</span>
+
+<span class="cp">#if defined(ENV32BIT)
+</span>	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Mat2f</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Mat2</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Mat4i</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Mat4f</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Mat4</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Mat34f</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">DontAlign</span><span class="o">&gt;</span> <span class="n">Mat34</span><span class="p">;</span>
+<span class="cp">#else
+</span>	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix2f</span> <span class="n">Mat2f</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix2d</span> <span class="n">Mat2</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix4i</span> <span class="n">Mat4i</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix4f</span> <span class="n">Mat4f</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix4d</span> <span class="n">Mat4</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span> <span class="n">Mat34f</span><span class="p">;</span>
+	<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span> <span class="n">Mat34</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+<span class="c1">//-- General purpose Matrix and Vector
+</span><span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="p">,</span> <span class="mi">1</span><span class="o">&gt;</span> <span class="n">Vecu</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">VectorXf</span> <span class="n">Vecf</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">VectorXd</span> <span class="n">Vec</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="o">&gt;</span> <span class="n">Matu</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">MatrixXf</span> <span class="n">Matf</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">MatrixXd</span> <span class="n">Mat</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="o">&gt;</span> <span class="n">Mat2X</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="o">&gt;</span> <span class="n">Mat3X</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="o">&gt;</span> <span class="n">Mat4X</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="o">&gt;</span> <span class="n">Mat9X</span><span class="p">;</span>
+
+<span class="c1">/// Quaternion type
+</span><span class="k">typedef</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Quaternion</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">Quaternion</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;Eigen/Core&gt;
 </span>
 <span class="k">namespace</span> <span class="n">open3DCV</span>
 <span class="p">{</span>
