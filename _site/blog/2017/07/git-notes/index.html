@@ -106,6 +106,16 @@ git push origin [you-git-branch]
 <div class="highlighter-rouge"><pre class="highlight"><code>git rm -r --cached dirName
 </code></pre>
 </div>
+<h2 id="remove-ds_store">Remove <code class="highlighter-rouge">.DS_Store</code></h2>
+<div class="highlighter-rouge"><pre class="highlight"><code># Remove existing files from the repository
+find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
+# Add the line to `.gitignore`
+.DS_Store
+# git commands
+git add .gitignore
+git commit -m ".DS_Store removed"
+</code></pre>
+</div>
 
   </article>
 
