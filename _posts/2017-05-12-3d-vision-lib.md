@@ -1,5 +1,5 @@
 ---
-title: 3D vision library
+title: open3DCV - A 3D Computer Vision Library
 categories: 
   - Research
   - Dev
