@@ -1,7 +1,7 @@
 ---
 title: Personalized video thumbnails
 description: Course project of CPSC 554M
-img: /assets/img/project/personalized_video_thumbnail_th.jpg
+img: /assets/img/project/thumbnail/personalized_video_thumbnail.jpg
 ---
 
 This is the course project of CPSC 554M, which is done with the collaboration with Matthew Fong and Xueqin Zhang.

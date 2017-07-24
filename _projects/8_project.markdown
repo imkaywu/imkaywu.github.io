@@ -1,7 +1,7 @@
 ---
 title: Hand Gesture Recognition
 description: Research project done in Tsinghua University
-img: /assets/img/project/hand_gesture_recognition_th.png
+img: /assets/img/project/thumbnail/hand_gesture_recognition.png
 ---
 
 This is the research project I did in Tsinghua University during my senior year at college.

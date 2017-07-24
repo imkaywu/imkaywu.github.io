@@ -1,7 +1,7 @@
 ---
 title: Empirical comparison of Adaboost using three weak classifiers
 description: Course Project for CPSC 540 Maching Learning
-img: /assets/img/project/boosting_diff_classifiersth.jpg
+img: /assets/img/project/thumbnail/boosting_diff_classifiers.jpg
 ---
 
 This is the course project of the graduate Maching Learning course CPSC 540.

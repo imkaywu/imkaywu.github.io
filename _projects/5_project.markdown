@@ -1,7 +1,7 @@
 ---
 title: Cylindrical image stitching
 description: Implementation of cylindrical image stitching
-img: /assets/img/project/image_stitching_th.jpg
+img: /assets/img/project/thumbnail/image_stitching.jpg
 ---
 
 This is a side project I did during my second term.

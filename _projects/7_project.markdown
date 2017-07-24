@@ -1,7 +1,7 @@
 ---
 title: Interactive-classroom System Based on Wi-Fi
 description: 
-img: /assets/img/project/clicker_th.png
+img: /assets/img/project/thumbnail/clicker.png
 ---
 
 ## Goal

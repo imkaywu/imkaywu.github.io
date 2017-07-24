@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | Interactive-classroom System Based on Wi-Fi</title>
+  <title>Kai Wu | Coarse-to-fine Example-based Photometric Stereo</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
@@ -84,11 +84,11 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Interactive-classroom System Based on Wi-Fi</h1>
+    <h1 class="post-title">Coarse-to-fine Example-based Photometric Stereo</h1>
     <h5 class="post-description"></h5>
   </header>
 
-  <article class="post-content Interactive-classroom System Based on Wi-Fi clearfix">
+  <article class="post-content Coarse-to-fine Example-based Photometric Stereo clearfix">
     <p>This is my improved implementation of Example-based Photometric Stereo using coarse-to-fine normal sampling. The source code is available <a href="https://github.com/imkaywu/Coarse2Fine-Example-based-Photometric-Stereo">here</a>.</p>
 
 <h2 id="input-data-and-results">Input data and Results</h2>
@@ -105,7 +105,7 @@
     <img class="col one" src="/assets/img/project/example_ps/bottle_contour.jpg" alt="" title="example image" />
 </div>
 
-<h3 id="bottle-1">bottle</h3>
+<h3 id="cup">cup</h3>
 <div class="img_row">
     <img class="col one" src="/assets/img/project/example_ps/cup0.jpg" alt="" title="example image" />
     <img class="col one" src="/assets/img/project/example_ps/cup1.png" alt="" title="example image" />
@@ -138,13 +138,13 @@
 
 <p>Specifically, let \(N_\theta\) be the set of equi-angular sampling on the unit-sphere where the angular spacing is \(θ\) degrees. Given a candidate normal \(n\) , we define</p>
 
-<p>\[C_\theta(\hat{n}) = { n \mid \langle n, \tilde{n} \rangle \geq \cos\theta, |n|_2 = 1 } \]</p>
+<p>\[C_\theta(\hat{n}) = \{ n \mid \langle n, \tilde{n} \rangle \geq \cos\theta, \|n\|_2 = 1 \} \]</p>
 
 <p>as the set of unit-norm vector within \(\theta-\)degree from \(\tilde{n}\).</p>
 
-<p>In the first iteration, we initialize the candidate normal set \(\mathcal{N}^{(1)} = \mathcal{N}_theta_1\). Now, in the \(j\)th iteration, we solve over a candidate set \(\mathcal{N}^(j)\). Suppose that \(\hat{n}^{(j)}\) is the candidate normal where minimum occurs at the \(j-\)th iteration. The candidate set for the \((j + 1)-\)th iteration is constructed as</p>
+<p>In the first iteration, we initialize the candidate normal set \(\mathcal{N}^{(1)} = \mathcal{N}_{\theta_1}\). Now, in the \(j\)th iteration, we solve over a candidate set \(\mathcal{N}^{(j)}\). Suppose that \(\hat{n}^{(j)}\) is the candidate normal where minimum occurs at the \(j-\)th iteration. The candidate set for the \((j + 1)-\)th iteration is constructed as</p>
 
-<p>\[j \geq, \mathcal{N}^{(j+1)}=C_{\theta_j}(\hat{n}^{(j)}) \cap \mathcal{N}<em>{\theta</em>{j+1}} \]</p>
+<script type="math/tex; mode=display">j \geq, \mathcal{N}^{(j+1)}=C_{\theta_j}(\hat{n}^{(j)}) \cap \mathcal{N}_{\theta_{j+1}}</script>
 
 <p>with \(\theta_{j+1} \lt \theta_j\). That is, the candidate set is simply the set of all candidates at a finer angular sampling that are no greater than the current angular sampling from the current estimate. This is repeated till we reach the finest resolu- tion at which we have candidate normals. For the results in this paper, we use the following values: \(\theta_1=10^\circ, \theta_2=5^\circ, \theta_3=3^\circ, \theta_4=1^\circ, \theta_5=0.5^\circ\).</p>
 

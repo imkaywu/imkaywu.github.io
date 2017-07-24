@@ -1,7 +1,7 @@
 ---
 title: Shot Boundary Detection
 description: Course project of EECE 570
-img: /assets/img/project/shot_boundary_detection_th.png
+img: /assets/img/project/thumbnail/shot_boundary_detection.png
 ---
 
 This is the course project of EECE 570.

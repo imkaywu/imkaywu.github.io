@@ -1,7 +1,7 @@
 ---
 title: Backpacker Matcher
 description: Course project of EECE 418
-img: /assets/img/project/backpacker_matcher_th.jpg
+img: /assets/img/project/thumbnail/backpacker_matcher.jpg
 ---
 
 This is the course project of EECE 418, which is collaborated with Alex Aloysius, Roberto Antonioli, Rayaan Choudri, Joshua Gan, and Ellina Sergeyeva.
