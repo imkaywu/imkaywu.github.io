@@ -16,6 +16,9 @@ The internal data structure used to store image is a vector of `unsigned char`. 
     * color image to grey-scale image: rgb2grey
     * more to come
 * access to intensity/color of a pixel
+* plot and drawing
+    * draw line
+    * draw dot (denoted by `+`, or `x`)
 
 I use the [CImg](http://cimg.eu) library for read/write `ppm`, and `jpeg` images. The additional support of `jpeg` depends on the [libjpeg](http://www.ijg.org) library. Support of `png` and `tiff` is possible, but relies on external libraries. The source code can be found in the `src/image` directory of [open3DCV]({{ site.url }}{{ site.baseurl }}/blog/2017/05/3d-vision-lib/). Below are the implementation
 
@@ -63,6 +66,10 @@ public:
     int width() const;
     int height() const;
     int channel() const;
+
+    void draw_line(Vec2i r_p1, Vec2i r_p2);
+    void draw_plus(const Vec2i r_p, const int scale = 3);
+    void draw_cross(const Vec2i r_p, const int scale = 3);
     
     Vector3f color(const float fx, const float fy) const;
     Vector3f color(const int ix, const int iy) const;
