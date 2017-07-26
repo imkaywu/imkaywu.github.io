@@ -153,6 +153,82 @@ $$ -->
 
 <p>Suppose we have two coordinate systems, <script type="math/tex">CS1</script> and <script type="math/tex">CS2</script>, having coincident origins, but having different orientations:</p>
 
+<h2 id="interpretation-of-3d-rotation-matrix">Interpretation of 3D rotation matrix</h2>
+
+<h3 id="geometric-interpretation">Geometric interpretation</h3>
+<ul>
+  <li>Rows of matrix are 3 unit vector of the new coordinate frame (?);</li>
+  <li>Can construct rotation matrix from 3 orthonormal vectors;</li>
+  <li>3D rotation can be interpretated projections of point into new coordinate frame;</li>
+  <li>New coordinate frame <script type="math/tex">uvw</script> taken to cartesian components <script type="math/tex">xyz</script> (Let <script type="math/tex">\vec{p}</script> be <script type="math/tex">\vec{u}</script>, then <script type="math/tex">Rp=\vec{x}=\begin{bmatrix} 1\\ 0\\ 0\\ \end{bmatrix}</script>);</li>
+  <li>Inverse or transpose takes <script type="math/tex">xyz</script> cartesian to <script type="math/tex">uvw</script>.</li>
+</ul>
+
+<script type="math/tex; mode=display">% <![CDATA[
+Rp = 
+\begin{bmatrix}
+x_u & y_u & z_u\\
+x_v & y_v & z_v\\
+x_w & y_w & z_w\\
+\end{bmatrix} 
+\begin{bmatrix}
+x_p\\
+y_p\\
+z_p\\
+\end{bmatrix} =
+\begin{bmatrix}
+\vec{u} \cdot \vec{p}\\
+\vec{v} \cdot \vec{p}\\
+\vec{w} \cdot \vec{p}\\
+\end{bmatrix} %]]></script>
+
+<h2 id="derivation-of-axis-angle-formula">Derivation of Axis-Angle formula</h2>
+<p>Rotate vector <script type="math/tex">\vec{b}</script> <script type="math/tex">\theta</script> about vector <script type="math/tex">\vec{a}</script>, both <script type="math/tex">\vec{a}</script> and <script type="math/tex">\vec{b}</script> are unit vectors.</p>
+
+<ul>
+  <li>Step 1: <script type="math/tex">\vec{b}</script> has component paralle to <script type="math/tex">\vec{a}</script>, which is unchanged, and component perpendicular to <script type="math/tex">\vec{a}</script>.</li>
+</ul>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\vec{b_\parallel} &= (\vec{a}\cdot\vec{b})\vec{a}\\
+\vec{b_\perp} &= \vec{b}-\vec{b_\parallel}
+\end{align*} %]]></script>
+
+<ul>
+  <li>Step 2: Define <script type="math/tex">\vec{c}</script> orthogonal to both <script type="math/tex">\vec{a}</script> and <script type="math/tex">\vec{b}</script>:</li>
+</ul>
+
+<script type="math/tex; mode=display">\vec{c}=\vec{a}\times\vec{b}</script>
+
+<ul>
+  <li>Step 3: the perpendicular component is decomposed into two parts after rotating <script type="math/tex">\theta</script></li>
+</ul>
+
+<script type="math/tex; mode=display">\vec{c}\sin\theta\\
+\vec{b_\perp}\cos\theta</script>
+
+<p>Therefore, the final rotated vector are:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\text{parallel component: } & (\vec{a}\cdot\vec{b})\vec{a} \\ 
+							=& (\vec{a}^\top\vec{b})\vec{a}\\
+							=& (\vec{a}\vec{a}^\top)\vec{b} \quad (\vec{a}^\top\vec{b} \text{ is a scalar})\\
+\text{perpendicular component 1: } & \vec{c}\sin\theta\\
+								   =&\vec{a}\times\vec{b}\\
+								   =&([\vec{a}]_\times\sin\theta)\vec{b}\\
+\text{perpendicular component 2: } & \vec{b_\perp}\cos\theta\\
+								   =&(\vec{b}-\vec{b_\parallel})\cos\theta\\
+								   =&(\vec{b}-(\vec{a}\vec{a}^\top)\vec{b})\cos\theta\\
+								   =&(I_{3\times 3}\cos\theta-\vec{a}\vec{a}^\top\cos\theta)\vec{b}
+\end{align*} %]]></script>
+
+<p>Putting all these together, the rotation matrix can be written as</p>
+
+<p><script type="math/tex">R(\vec{a}, \theta)=I_{3\times 3}\cos\theta+\vec{a}\vec{a}^\top(1-\cos\theta)+[\vec{a}]_\times\sin\theta</script>
+This is generally refered to as the <code class="highlighter-rouge">Rodrigues formular</code>.</p>
+
   </article>
 
   
