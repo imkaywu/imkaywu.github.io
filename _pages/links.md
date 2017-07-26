@@ -266,6 +266,7 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [Calculus Part 2]()\\
 [multi-variate calculus]()\\
 [Introduction to Linear Algebra](http://math.mit.edu/~gs/linearalgebra/)\\
+[The Matrix in Computer Science](https://cs.brown.edu/video/channels/coding-matrix-fall-2014/)\\
 [Introduction to Probability and Statistics]()\\
 [Learn Differential Equations](http://www.mathworks.com/academia/courseware/learn-differential-equations.html)\\
 [Mathematics for Computer Science](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/index.htm)\\
