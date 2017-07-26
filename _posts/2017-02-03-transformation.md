@@ -130,4 +130,5 @@ Putting all these together, the rotation matrix can be written as
 $$
 R(\vec{a}, \theta)=I_{3\times 3}\cos\theta+\vec{a}\vec{a}^\top(1-\cos\theta)+[\vec{a}]_\times\sin\theta
 $$
+
 This is generally refered to as the `Rodrigues formular`.
