@@ -56,4 +56,5 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 ---
 
 ## Visualization
-[camera]({{ site.url }}{{ site.baseurl }}/blog/2017/05/draw-camera/)
+[Camera]({{ site.url }}{{ site.baseurl }}/blog/2017/05/draw-camera/)\\
+[Multi-view Intersect]({{ site.url }}{{ site.baseurl }}/blog/2017/07/multiview-intersect/)
