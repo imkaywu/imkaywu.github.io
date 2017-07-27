@@ -91,6 +91,96 @@
   <article class="post-content">
     <p>This is a post of useful notes and tricks on transformation for future reference.</p>
 
+<h2 id="geometric-interpretation-of-3d-rotation-matrix">Geometric Interpretation of 3D rotation matrix</h2>
+<ul>
+  <li>Rows(<del>Column</del>) of matrix are 3 unit vector of the new coordinate frame (?);</li>
+  <li>Can construct rotation matrix from 3 orthonormal vectors;</li>
+  <li>3D rotation can be interpretated projections of point into new coordinate frame;</li>
+  <li>New coordinate frame <script type="math/tex">uvw</script> taken to cartesian components <script type="math/tex">xyz</script> (Let <script type="math/tex">\vec{p}</script> be <script type="math/tex">\vec{u}</script>, then <script type="math/tex">Rp=\vec{x}=\begin{bmatrix} 1\\ 0\\ 0\\ \end{bmatrix}</script>);</li>
+  <li>Inverse or transpose takes <script type="math/tex">xyz</script> cartesian to <script type="math/tex">uvw</script>.</li>
+</ul>
+
+<h3 id="proof-of-the-first-point">Proof of the first point:</h3>
+<div class="img_row">
+    <img class="col three" src="/assets/img/open3DCV/rot_interp.pdf" alt="rotation interpretation" title="Rotation Interpretation" />
+</div>
+
+<p>The axes of the new coordinate system are
+<script type="math/tex">u = \begin{bmatrix}
+\cos\theta \\ -\sin\theta
+\end{bmatrix}\\
+v = \begin{bmatrix}
+\sin\theta \\ \cos\theta
+\end{bmatrix}\\</script></p>
+
+<p>thus we have</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix}
+u \\ v
+\end{bmatrix}=
+\begin{bmatrix}
+\cos\theta & -\sin\theta\\
+\sin\theta & \cos\theta
+\end{bmatrix}
+\begin{bmatrix}
+x \\ y
+\end{bmatrix} %]]></script>
+
+<p>Another proof is: suppose we have two coordinate systems, <script type="math/tex">CS_1</script> and <script type="math/tex">CS_2</script>, having coincident origins (?), but having different orientations. Let <script type="math/tex">\vec{i}, \vec{j}, \vec{k}</script> be the basis vectors, or axes of <script type="math/tex">CS_1</script>, and <script type="math/tex">\vec{m}, \vec{n}, \vec{o}</script> be the basis vectors of <script type="math/tex">SC_2</script>. The coordinates of <script type="math/tex">P</script> in <script type="math/tex">SC_1</script> is <script type="math/tex">(x, y, z)</script>, and the coordinates in <script type="math/tex">SC_2</script> is <script type="math/tex">(a, b, c)</script>.</p>
+
+<div class="img_row">
+    <img class="col one" src="/assets/img/open3DCV/tbasis.gif" alt="rotation interpretation" title="Rotation Interpretation" />
+</div>
+
+<p>The transformation between the two coordinate systems can be obtain as follows</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+P&=a\vec{m}+b\vec{n}+c\vec{o}\\
+ &=a\begin{bmatrix} 1\\0\\0 \end{bmatrix} +
+   b\begin{bmatrix} 0\\1\\0 \end{bmatrix} +
+   c\begin{bmatrix} 0\\0\\1 \end{bmatrix} \quad (\text{in } CS_2)\\
+ &=a\begin{bmatrix} m_x\\m_y\\m_z \end{bmatrix} +
+   b\begin{bmatrix} n_x\\n_y\\n_z \end{bmatrix} +
+   c\begin{bmatrix} o_x\\o_y\\o_z \end{bmatrix} \quad (\text{in } CS_1)\\
+   \begin{bmatrix}
+ 	x \\ y \\ z \\ 1
+   \end{bmatrix}
+ &=\begin{bmatrix}
+ 	m_x & n_x & o_x & 0\\
+ 	m_y & n_y & o_y & 0\\
+ 	m_z & n_z & o_z & 0\\
+ 	0 & 0 & 0 & 1
+   \end{bmatrix}
+ 	\begin{bmatrix}
+ 	a\\b\\c\\1
+ 	\end{bmatrix}
+\end{align*} %]]></script>
+
+<p>Thus the elements of the top-left 3x3 portion of any geometric transformation are really the basis vectors of the local coordinate system (<script type="math/tex">SC_2</script>?) expressed in the coordinates of the new coordinate system (<script type="math/tex">SC_1</script>?). This interpretation views transformation as a change of basis, which let us construct transformations between two coordinate systems directly, without having to express the transformations in terms of one or more rotation and translation operations.</p>
+
+<h3 id="proof-of-the-third-point">Proof of the third point:</h3>
+<p><script type="math/tex">% <![CDATA[
+Rp = 
+\begin{bmatrix}
+x_u & y_u & z_u\\
+x_v & y_v & z_v\\
+x_w & y_w & z_w\\
+\end{bmatrix} 
+\begin{bmatrix}
+x_p\\
+y_p\\
+z_p\\
+\end{bmatrix} =
+\begin{bmatrix}
+\vec{u} \cdot \vec{p}\\
+\vec{v} \cdot \vec{p}\\
+\vec{w} \cdot \vec{p}\\
+\end{bmatrix} %]]></script></p>
+
+<hr />
+
 <h2 id="compostion-of-transformations">Compostion of Transformations</h2>
 
 <p>Transformations can be thought of as a change of object or a change in coordinate system.</p>
@@ -148,39 +238,16 @@ $$ -->
   </li>
 </ul>
 
-<h2 id="transformation-as-a-change-of-basis">Transformation as a change of basis</h2>
-<p>There is another way of viewing transformations which can let us construct transformations between two coordinate systems directly, without having to express the transformations in terms of one or more rotation and translation operations.</p>
+<hr />
 
-<p>Suppose we have two coordinate systems, <script type="math/tex">CS1</script> and <script type="math/tex">CS2</script>, having coincident origins, but having different orientations:</p>
+<h2 id="transformation-of-normals">Transformation of normals</h2>
+<p><script type="math/tex">\begin{align*}
+\vec{n}^\top \vec{p} = \vec{n}^\top M^{-1}M\vec{p}=(M^{-\top}\vec{n})^\top \vec{p'}
+\end{align*}</script></p>
 
-<h2 id="interpretation-of-3d-rotation-matrix">Interpretation of 3D rotation matrix</h2>
+<p>Thus the transformation matrix of a normal is <script type="math/tex">M^{-\top}</script>. This inverse transposition is applied to the upper <script type="math/tex">3\times 3</script> only, thus <script type="math/tex">M</script> is the upper <script type="math/tex">3\times 3</script> matrix.</p>
 
-<h3 id="geometric-interpretation">Geometric interpretation</h3>
-<ul>
-  <li>Rows of matrix are 3 unit vector of the new coordinate frame (?);</li>
-  <li>Can construct rotation matrix from 3 orthonormal vectors;</li>
-  <li>3D rotation can be interpretated projections of point into new coordinate frame;</li>
-  <li>New coordinate frame <script type="math/tex">uvw</script> taken to cartesian components <script type="math/tex">xyz</script> (Let <script type="math/tex">\vec{p}</script> be <script type="math/tex">\vec{u}</script>, then <script type="math/tex">Rp=\vec{x}=\begin{bmatrix} 1\\ 0\\ 0\\ \end{bmatrix}</script>);</li>
-  <li>Inverse or transpose takes <script type="math/tex">xyz</script> cartesian to <script type="math/tex">uvw</script>.</li>
-</ul>
-
-<script type="math/tex; mode=display">% <![CDATA[
-Rp = 
-\begin{bmatrix}
-x_u & y_u & z_u\\
-x_v & y_v & z_v\\
-x_w & y_w & z_w\\
-\end{bmatrix} 
-\begin{bmatrix}
-x_p\\
-y_p\\
-z_p\\
-\end{bmatrix} =
-\begin{bmatrix}
-\vec{u} \cdot \vec{p}\\
-\vec{v} \cdot \vec{p}\\
-\vec{w} \cdot \vec{p}\\
-\end{bmatrix} %]]></script>
+<hr />
 
 <h2 id="derivation-of-axis-angle-formula">Derivation of Axis-Angle formula</h2>
 <p>Rotate vector <script type="math/tex">\vec{b}</script> <script type="math/tex">\theta</script> about vector <script type="math/tex">\vec{a}</script>, both <script type="math/tex">\vec{a}</script> and <script type="math/tex">\vec{b}</script> are unit vectors.</p>
