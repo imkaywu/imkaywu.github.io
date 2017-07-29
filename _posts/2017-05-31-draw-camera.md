@@ -10,7 +10,7 @@ tags:
 I read somewhere that to be more efficient in a long run when it comes to implementing a library, the first thing you should implement is the code that does visualization. To 3D computer vision, the single most important or common place component is probably the camera. This is what we are going to do here.
 
 ### First implementation
-The first implementation comes from the SFMedu2 by Dr. Jianxiong Xiao, let's assume that we're in the camera coordinate system, and the focal length is $f$, then the coordinate of the center of projection and the four corners of the images plane is: $$(0, 0, 0)$$, $$(-\frac{w}{2}, -\frac{h}{2}, f)$$, $$(\frac{w}{2}, -\frac{h}{2}, f)$$, $$(\frac{w}{2}, \frac{h}{2}, f)$$, $$(-\frac{w}{2}, \frac{h}{2}, f)$$. Special points on the axes of the camera coordinate system are: $$(f, 0, 0)$$, $$(0, f, 0)$$, $$(0, 0, f)$$.
+The first implementation comes from the SFMedu2 by Dr. Jianxiong Xiao, let's assume that we're in the camera coordinate system, and the focal length is $$f$$, then the coordinate of the center of projection and the four corners of the images plane is: $$(0, 0, 0)$$, $$(-\frac{w}{2}, -\frac{h}{2}, f)$$, $$(\frac{w}{2}, -\frac{h}{2}, f)$$, $$(\frac{w}{2}, \frac{h}{2}, f)$$, $$(-\frac{w}{2}, \frac{h}{2}, f)$$. Special points on the axes of the camera coordinate system are: $$(f, 0, 0)$$, $$(0, f, 0)$$, $$(0, 0, f)$$.
 
 To get the coordinates of all these points that are in the camera coordinate system to that in the world coordinate system, we need to
 
@@ -98,8 +98,8 @@ function drawCamera(K, R, t)
   BASE = 5*dX*([0 1 0 0 0 0;0 0 0 1 0 0;0 0 0 0 0 1]);
   IP = reshape([IP;BASE(:,1)*ones(1,5);IP],3,15);
 
-  IP = R' * (IP - t * ones(1, 5));
-  BASE = R' * (IP - t * ones(1, 15));
+  BASE = R' * (BASE - t * ones(1, 6));
+  IP = R' * (IP - t * ones(1, 15));
 
   plot3(BASE(1,:),BASE(3,:),-BASE(2,:),'b-','linewidth',2');
   hold on;

@@ -89,8 +89,192 @@
   </header>
 
   <article class="post-content">
-    <p>Since there are a very good open sources software for feature detection and description, for instance, 
-vlfeat, I simply created a wrapper class for easy access of these functionalities instead of implementing from scratch. However, I do intend to implement simple version of those feature detection techniques just for practice purposes, and that’s for another day.</p>
+    <p>The keypoint detector and descriptor classes implemented are a wrapper of the amazing <a href="http://www.vlfeat.org">vlfeat</a> functionalities. There are three separated classes, they are:</p>
+
+<ul>
+  <li>Keypoint
+    <ul>
+      <li>member variables: coords_, scale_, orientation_, index_, color_, keypoint_type_</li>
+      <li>member methods: setters/getters</li>
+    </ul>
+  </li>
+  <li>Detector
+    <ul>
+      <li>detect_keypoints</li>
+    </ul>
+  </li>
+  <li>Descriptor
+    <ul>
+      <li>extract_descriptor;</li>
+    </ul>
+  </li>
+</ul>
+
+<p>The specific keypoint class is the subclass of both <code class="highlighter-rouge">Detector</code> and <code class="highlighter-rouge">Descriptor</code>.</p>
+
+<h3 id="use-case">Use case</h3>
+
+<h3 id="implementation-of-keypoint">Implementation of <code class="highlighter-rouge">Keypoint</code></h3>
+<p>The header file of the <code class="highlighter-rouge">Keypoint</code> class</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#ifndef keypoint_h
+#define keypoint_h
+
+#include "numeric.h"
+
+namespace open3DCV {
+    //! Keypoint class
+    /*!
+     * This class encapsulates the data associated with a 2D image keypoint.
+     * This class stores the x and y coordinates of the image location, along
+     * with the index (i) of the image (camera) it is found, and color value
+     * (stored in a 0-255 format).
+     */
+    enum KeypointType
+    {
+        INVALID = -1,
+        DOG = 0,
+        HARRIS = 1,
+        SIFT = 2,
+        SURF = 3,
+    };
+    
+    class Keypoint {
+    public:
+        Keypoint(const Vec2 &amp;r_x, KeypointType &amp;r_t);
+        Keypoint(const Vec2 &amp;r_x, KeypointType &amp;r_t, unsigned int r_i);
+        Keypoint(const Vec2 &amp;r_x, KeypointType &amp;r_t, unsigned int r_i, const Vec3i &amp;r_c);
+        virtual ~Keypoint() { };
+        
+        const Vec2 &amp;coords() const;
+        void coords(const Vec2 r_coords);
+        const unsigned int index() const;
+        void index(const unsigned int r_i);
+        const Vec3i &amp;color() const;
+        void color(const Vec3i r_c);
+        const double scale() const;
+        void scale(const double r_s);
+        const double orientation() const;
+        void orientation(const double r_o);
+
+    private:
+        Vec2 coords_;                   // coordinates
+        unsigned int index_;                // Image index
+        Vec3i color_;                       // color
+        KeypointType keypoint_type_;
+        double scale_;
+        double orientation_;
+        
+    };
+
+    inline const Vec2&amp; Keypoint::coords() const {
+        return coords_;
+    }
+    
+    inline void Keypoint::coords(const Vec2 r_coords) {
+        coords_ = r_coords;
+    }
+
+    inline const unsigned int Keypoint::index() const {
+        return index_;
+    }
+    
+    inline void Keypoint::index(const unsigned int r_i) {
+        index_ = r_i;
+    }
+
+    inline const Vec3i&amp; Keypoint::color() const {
+        return color_;
+    }
+    
+    inline void Keypoint::color(const Vec3i r_c) {
+        color_ = r_c;
+    }
+    
+    inline const double Keypoint::scale() const {
+        return scale_;
+    }
+    
+    inline void Keypoint::scale(const double r_s) {
+        scale_ = r_s;
+    }
+    
+    inline const double Keypoint::orientation() const {
+        return orientation_;
+    }
+    
+    inline void Keypoint::orientation(const double r_o) {
+        orientation_ = r_o;
+    }
+}
+#endif // keypoint_h
+
+</code></pre>
+</div>
+
+<h3 id="implementation-of-detector">Implementation of <code class="highlighter-rouge">Detector</code></h3>
+<p>The header file of the <code class="highlighter-rouge">Detector</code></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#ifndef detector_h_
+#define detector_h_
+
+#include "image/image.h"
+#include "keypoint/keypoint.h"
+
+namespace open3DCV {
+    class Detector {
+    public:
+        Detector();
+        virtual ~Detector();
+        
+        virtual int detect_keypoints(const Image&amp; image, vector&lt;Keypoint&gt;&amp; keypoints);
+    };
+} // namespace open3DCV
+
+#endif
+</code></pre>
+</div>
+
+<h3 id="implementation-of-sift">Implementation of <code class="highlighter-rouge">Sift</code></h3>
+<p>The header file</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#ifndef sift_h_
+#define sift_h_
+
+#include "vl/sift.h"
+#include "keypoint/keypoint.h"
+#include "keypoint/detector.h"
+#include "keypoint/descriptor.h"
+
+namespace open3DCV {
+
+class Sift_Params {
+    
+};
+
+class Sift : public Detector, public Descriptor {
+    
+public:
+    
+    Sift();
+    ~Sift();
+    
+    int convert(Image &amp;img);
+    int detect_keypoints(const Image &amp;image, vector&lt;Keypoint&gt; &amp;keypoints, int verbose);
+    int extract_descript();
+    void transpose_descriptor (vl_sift_pix* dst, vl_sift_pix* src);
+    static bool ksort(const Keypoint &amp;a, const Keypoint &amp;b);
+    vl_bool check_sorted(const vector&lt;Keypoint&gt; &amp;keys, vl_size nkeys);
+    
+private:
+    vl_sift_pix* data_;
+    int width_, height_, channel_;
+    
+}; // end of class Sift
+
+} // end of namespace open3DCV
+
+#endif // sift_h
+
+</code></pre>
+</div>
 
 
   </article>
