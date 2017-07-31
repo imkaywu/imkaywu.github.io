@@ -89,7 +89,77 @@
   </header>
 
   <article class="post-content 3D Reconstruction Toolbox clearfix">
-    <p>The is the toolbox I developed for my Master’s thesis to run various 3D reconstruction algorithms and evaluate their performance under varied material and geometric conditions. The <a href="https://github.com/imkaywu/3DRecon_Algo_Eval">source code</a> is publicly available.</p>
+    <h2 id="introduction">Introduction</h2>
+<p>The is the toolbox I developed for my Master’s thesis to run various 3D reconstruction algorithms and evaluate their performance under varied material and geometric conditions. The <a href="https://github.com/imkaywu/3DRecon_Algo_Eval">source code</a> is publicly available.</p>
+
+<h2 id="algorithms">Algorithms</h2>
+<ul>
+  <li>PMVS: patch-based Multi-view Stereo</li>
+  <li>EPS: example-based Photometric Stereo</li>
+  <li>GSL: gray-encoded Structured Light</li>
+  <li>VH: volumetric based Visual Hull</li>
+  <li>SC: space carving</li>
+</ul>
+
+<h2 id="evaluation">Evaluation</h2>
+
+<p>There are three separate directories: <code class="highlighter-rouge">pairwise</code>, <code class="highlighter-rouge">train</code>, and <code class="highlighter-rouge">test</code>. Each directory, there are two files:</p>
+<ul>
+  <li><code class="highlighter-rouge">run</code> (<code class="highlighter-rouge">train</code>, <code class="highlighter-rouge">test</code>); run the algorithms to compute the accuracy and completeness</li>
+  <li><code class="highlighter-rouge">analysis</code>: plot the graphs</li>
+  <li><code class="highlighter-rouge">eval_acc_cmplt</code>: evaluate the accuracy and completeness of MVS, SL and VH</li>
+  <li><code class="highlighter-rouge">eval_angle</code>: evaluate the angle difference of PS</li>
+</ul>
+
+<h2 id="results">Results</h2>
+
+<h3 id="dependency-checking">Dependency checking</h3>
+
+<h4 id="mvs">MVS</h4>
+
+<!-- ![mvs dependency checking](/assets/img/project/3drecon_toolkit/mvs_depend_check.png) -->
+<div class="img_row">
+    <img class="col three" src="/assets/img/project/3drecon_toolkit/mvs_depend_check.png" alt="" title="example image" />
+</div>
+
+<h4 id="ps">PS</h4>
+<!-- ![ps dependency checking](/assets/img/project/3drecon_toolkit/ps_depend_check.png) -->
+<div class="img_row">
+    <img class="col three" src="/assets/img/project/3drecon_toolkit/ps_depend_check.png" alt="" title="example image" />
+</div>
+
+<h4 id="sl">SL</h4>
+<!-- ![sl dependency checking](/assets/img/project/3drecon_toolkit/sl_depend_check.png) -->
+<div class="img_row">
+    <img class="col three" src="/assets/img/project/3drecon_toolkit/sl_depend_check.png" alt="" title="example image" />
+</div>
+
+<h3 id="training">Training</h3>
+
+<h4 id="mvs-1">MVS</h4>
+<!-- ![mvs training](/assets/img/project/3drecon_toolkit/mvs_train.png) -->
+<div class="img_row">
+    <img class="col three" src="/assets/img/project/3drecon_toolkit/mvs_train.png" alt="" title="example image" />
+</div>
+
+<h4 id="ps-1">PS</h4>
+<!-- ![ps training](/assets/img/project/3drecon_toolkit/ps_train.png) -->
+<div class="img_row">
+    <img class="col three" src="/assets/img/project/3drecon_toolkit/ps_train.png" alt="" title="example image" />
+</div>
+
+<h4 id="sl-1">SL</h4>
+<!-- ![sl training](/assets/img/project/3drecon_toolkit/sl_train.png) -->
+<div class="img_row">
+    <img class="col three" src="/assets/img/project/3drecon_toolkit/sl_train.png" alt="" title="example image" />
+</div>
+
+<h2 id="files-that-not-used">files that not used</h2>
+<p><code class="highlighter-rouge">evaluate.mat</code>: compute the accuracy and completeness of the reconstruction</p>
+
+<p><code class="highlighter-rouge">evaluate_mvs.mat</code> and <code class="highlighter-rouge">evaluate_sl.mat</code> are currently not used</p>
+
+<p><code class="highlighter-rouge">eval_ps.mat</code>: evaluate the PS as a height map</p>
 
   </article>
 

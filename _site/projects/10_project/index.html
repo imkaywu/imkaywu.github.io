@@ -89,7 +89,115 @@
   </header>
 
   <article class="post-content 3D Reconstruction Real-world Dataset clearfix">
-    <p><img src="/assets/img/project/real_world_dataset/real_world_dataset.png" alt="real world dataset" /></p>
+    <h2 id="introduction">Introduction</h2>
+<p>This dataset is created for my Master’s research on development and evaluation of algorithm-free framework for 3D reconstruction, which is part of the OpenVL project. The goal is to find a set of descriptions and a mapping from a well-defined problem domain to a well reconstructed object model. Each object is captured using three different setups</p>
+
+<ul>
+  <li>Multi-View Stereo setup: cameras are distributed over 3 rings, with a between angle of <script type="math/tex">30^\circ</script></li>
+  <li>Phototmetric Stereo setup: fixed camera, and hand-held light source (lamp), a diffuse and a specular reference object</li>
+  <li>Structured Light setup: fixed camera and projector pair, with between angle of around <script type="math/tex">10^\circ</script>.</li>
+</ul>
+
+<h2 id="overview-of-objects">Overview of Objects</h2>
+<!-- ![real world dataset](/assets/img/project/real_world_dataset/real_world_dataset.png) -->
+<div class="img_row">
+    <img class="col three" src="/assets/img/project/real_world_dataset/real_world_dataset.png" alt="" title="example image" />
+</div>
+
+<h2 id="sample-code">Sample code</h2>
+<p>The code to run and evaluation the algorithms are <a href="https://github.com/imkaywu/3DRecon_Algo_Eval">here</a>. The algorithms are in the directory <code class="highlighter-rouge">algo/</code>, and the code to run and evaluate the algorthms is in the directory <code class="highlighter-rouge">eval/real_world/</code>.</p>
+
+<h3 id="algorithms">Algorithms</h3>
+<ul>
+  <li>PMVS: patch-based Multi-view Stereo</li>
+  <li>EPS: example-based Photometric Stereo</li>
+  <li>GSL: gray-encoded Structured Light</li>
+  <li>VH: volumetric based Visual Hull</li>
+  <li>SC: space carving</li>
+</ul>
+
+<h2 id="reconstruction-results">Reconstruction Results</h2>
+
+<h3 id="patch-based-mvs">Patch-based MVS</h3>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/box/box_mvs.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/cat0/cat0_mvs.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/cat1/cat1_mvs.png" alt="" title="example image" />
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/cup/cup_mvs.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/dino/dino_mvs.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/house/house_mvs.png" alt="" title="example image" />
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/pot/pot_mvs.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/statue/statue_mvs.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/vase/vase_mvs.png" alt="" title="example image" />
+</div>
+<div class="col three caption">
+    Results of Patch-based Multi-View Stereo
+</div>
+
+<h3 id="example-based-ps">Example-based PS</h3>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/box/box_ps.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/cat0/cat0_ps.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/cat1/cat1_ps.png" alt="" title="example image" />
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/cup/cup_ps.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/dino/dino_ps.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/house/house_ps.png" alt="" title="example image" />
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/pot/pot_ps.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/statue/statue_ps.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/vase/vase_ps.png" alt="" title="example image" />
+</div>
+<div class="col three caption">
+    Results of Example-based Photometric Stereo
+</div>
+
+<h3 id="gray-code-sl">Gray code SL</h3>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/box/box_sl.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/cat0/cat0_sl.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/cat1/cat1_sl.png" alt="" title="example image" />
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/cup/cup_sl.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/dino/dino_sl.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/house/house_sl.png" alt="" title="example image" />
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/pot/pot_sl.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/statue/statue_sl.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/vase/vase_sl.png" alt="" title="example image" />
+</div>
+<div class="col three caption">
+    Results of Gray code Structured Light
+</div>
+
+<h3 id="visual-hull">Visual Hull</h3>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/box/box_sc.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/cat0/cat0_sc.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/cat1/cat1_sc.png" alt="" title="example image" />
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/cup/cup_sc.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/dino/dino_sc.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/house/house_sc.png" alt="" title="example image" />
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/project/real_world_dataset/pot/pot_sc.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/statue/statue_sc.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/project/real_world_dataset/vase/vase_sc.png" alt="" title="example image" />
+</div>
+<div class="col three caption">
+    Results of Visual Hull
+</div>
+
 
   </article>
 
