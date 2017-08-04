@@ -281,7 +281,8 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 Scientific Programming in [Matlab](http://ucl-cs-grad.github.io/matlabgrad/index.html) and [Python](http://ucl-cs-grad.github.io/scipython/)\\
 data structure\\
 operating system\\
-compiler\\
+[compiler-stanford]()\\
+[compiler-mli](http://bcmi.sjtu.edu.cn/~mli/tiger/index.html)
 computer architecture\\
 [Learn Linux the Hard Way](https://archive.is/xDb8o)\\
 [Practical Programming in C](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-087-practical-programming-in-c-january-iap-2010/)\\
