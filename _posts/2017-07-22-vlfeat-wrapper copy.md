@@ -1,5 +1,5 @@
 ---
-title: vlfeat wrapper
+title: VLFeat wrapper
 categories: 
   - Research
   - Dev
@@ -19,10 +19,24 @@ The keypoint detector and descriptor classes implemented are a wrapper of the am
 
 The specific keypoint class is the subclass of both `Detector` and `Descriptor`.
 
-### Use case
+### Results
+<div class="img_row">
+    <img class="col one" src="/assets/img/open3DCV/sift_pgm.pgm" alt="sift detector" title="sift detector"/>
+    <img class="col two" src="/assets/img/open3DCV/sift_jpg.jpg" alt="sift detector" title="sift detector"/>
+</div>
+<div class="col three caption">
+    Detection results returned by the implemented C++ wrapper
+</div>
 
+<div class="img_row">
+    <img class="col one" src="/assets/img/open3DCV/sift_pgm_mat.pgm" alt="sift detector" title="sift detector"/>
+    <img class="col two" src="/assets/img/open3DCV/sift_jpg_mat.jpg" alt="sift detector" title="sift detector"/>
+</div>
+<div class="col three caption">
+    Detection results returned by the SIFT Mex file
+</div>
 
-### Implementation of `Keypoint`
+### `Keypoint` class: header file
 The header file of the `Keypoint` class
 ```
 #ifndef keypoint_h
@@ -67,59 +81,20 @@ namespace open3DCV {
 
     private:
         Vec2 coords_;                   // coordinates
-        unsigned int index_;                // Image index
-        Vec3i color_;                       // color
+        unsigned int index_;            // Image index
+        Vec3i color_;                   // color
         KeypointType keypoint_type_;
         double scale_;
         double orientation_;
         
     };
-
-    inline const Vec2& Keypoint::coords() const {
-        return coords_;
-    }
-    
-    inline void Keypoint::coords(const Vec2 r_coords) {
-        coords_ = r_coords;
-    }
-
-    inline const unsigned int Keypoint::index() const {
-        return index_;
-    }
-    
-    inline void Keypoint::index(const unsigned int r_i) {
-        index_ = r_i;
-    }
-
-    inline const Vec3i& Keypoint::color() const {
-        return color_;
-    }
-    
-    inline void Keypoint::color(const Vec3i r_c) {
-        color_ = r_c;
-    }
-    
-    inline const double Keypoint::scale() const {
-        return scale_;
-    }
-    
-    inline void Keypoint::scale(const double r_s) {
-        scale_ = r_s;
-    }
-    
-    inline const double Keypoint::orientation() const {
-        return orientation_;
-    }
-    
-    inline void Keypoint::orientation(const double r_o) {
-        orientation_ = r_o;
-    }
+    // inline code
 }
 #endif // keypoint_h
 
 ```
 
-### Implementation of `Detector`
+### `Detector` class: header file
 The header file of the `Detector`
 ```
 #ifndef detector_h_
@@ -141,7 +116,12 @@ namespace open3DCV {
 #endif
 ```
 
-### Implementation of `Sift`
+### `Descriptor` class: header file
+```
+
+```
+
+### `Sift` detector class: header file
 The header file
 ```
 #ifndef sift_h_
@@ -162,8 +142,8 @@ class Sift : public Detector, public Descriptor {
     
 public:
     
-    Sift();
-    ~Sift();
+    Sift() { type_ = SIFT };
+    ~Sift() { delete data_; };
     
     int convert(Image &img);
     int detect_keypoints(const Image &image, vector<Keypoint> &keypoints, int verbose);
@@ -175,6 +155,7 @@ public:
 private:
     vl_sift_pix* data_;
     int width_, height_, channel_;
+    KeypointType type_;
     
 }; // end of class Sift
 
@@ -184,3 +165,62 @@ private:
 
 ```
 
+### `Sift` detector class: implementation file
+```
+int Sift::detect_keypoints_simp(Image &image, vector<Keypoint> &keypoints, int verbose)
+{
+    // convert image
+    convert(image);
+    
+    // sift setting
+    int O = 3;
+    int S = 3;
+    int o_min = 0;
+    double edge_thresh = 10;
+    double peak_thresh = 0;
+    double norm_thresh = -INFINITY;
+    double magnif = 3;
+    double window_size = 2;
+    
+    VlSiftFilt* filt = 0;
+    
+    if (filt == nullptr || (filt->width != image.width() ||
+                            filt->height != image.height()))
+    {
+        vl_sift_delete(filt);
+        filt = vl_sift_new(image.width(), image.height(),
+                           O, S, o_min);
+        vl_sift_set_edge_thresh(filt, edge_thresh);
+        vl_sift_set_peak_thresh(filt, peak_thresh);
+    }
+    
+    int vl_status = vl_sift_process_first_octave(filt, data_);
+    
+    keypoints.reserve(2000);
+    
+    while (vl_status != VL_ERR_EOF)
+    {
+        vl_sift_detect(filt);
+        
+        const VlSiftKeypoint* vl_keypoints = vl_sift_get_keypoints(filt);
+        int nkeys = vl_sift_get_nkeypoints(filt);
+        
+        for (int i = 0; i < nkeys; ++i)
+        {
+            double angles[4];
+            int nangles = vl_sift_calc_keypoint_orientations(filt, angles, &vl_keypoints[i]);
+            
+            for (int j = 0; j < nangles; ++j)
+            {
+                Keypoint keypoint(Vec2(vl_keypoints[i].x + 1, vl_keypoints[i].y + 1), type_);
+                keypoint.scale(vl_keypoints[i].sigma);
+                keypoint.orientation(angles[j]);
+                keypoints.push_back(keypoint);
+            }
+        }
+        vl_status = vl_sift_process_next_octave(filt);
+    }
+    
+    return 0;
+}
+```

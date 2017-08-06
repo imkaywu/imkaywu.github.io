@@ -252,7 +252,7 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [ONLINE FREE TUTORIALS AND BOOKS](https://courses.edx.org/asset-v1:UCSDx+CSE167x+1T2017+type@asset+block/links.html)\\
 
 ### Computational Photography
-[Digital photography](https://sites.google.com/site/marclevoylectures/schedule/lecture1-21mar16)\\
+[Digital photography](https://sites.google.com/site/marclevoylectures/schedule)\\
 [Clarkvision Articles](http://www.clarkvision.com/articles/index.html)\\
 [Cambridge in Colour](http://www.cambridgeincolour.com)
 
