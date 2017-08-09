@@ -177,7 +177,8 @@ title: "links"
 [FASTANN](http://www.robots.ox.ac.uk/~vgg/software/fastanncluster/)\\
 [libkdtree++](http://libkdtree.alioth.debian.org)
 
-#### Mesh Processing/Reconstruction
+#### 3D Geometry
+[geom3d](https://www.mathworks.com/matlabcentral/fileexchange/24484-geom3d?focused=7621188)\\
 [Mesh Processing Library - Hoppe](https://rawgit.com/Microsoft/Mesh-processing-library/master/README.html)\\
 [libigl](https://github.com/libigl/libigl/issues/158)\\
 [FSSR](http://www.gcc.tu-darmstadt.de/home/proj/fssr/index.en.jsp)\\
@@ -286,11 +287,12 @@ operating system\\
 computer architecture\\
 [Learn Linux the Hard Way](https://archive.is/xDb8o)\\
 [Practical Programming in C](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-087-practical-programming-in-c-january-iap-2010/)\\
-[Introduction to C Memory Management and C++ Object-Oriented Programming](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-088-introduction-to-c-memory-management-and-c-object-oriented-programming-january-iap-2010/index.htm#features)\\
+[(Done)Introduction to C Memory Management and C++ Object-Oriented Programming](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-088-introduction-to-c-memory-management-and-c-object-oriented-programming-january-iap-2010/index.htm#features)\\
 [Introduction to C++](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-096-introduction-to-c-january-iap-2011/)\\
 [Introduction to C and C++](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s096-introduction-to-c-and-c-january-iap-2013/index.htm)\\
 [Effective Programming in C and C++](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s096-effective-programming-in-c-and-c-january-iap-2014/)\\
 [C++ tutorial](http://www.cs.ubc.ca/~mike323/cs314.html)\\
+[Thinking in C++ 2nd Edition by Bruce Eckel](Thinking in C++ 2nd Edition by Bruce Eckel)\\
 [Python tutor](http://pythontutor.com)\\
 [The Hitchhiker’s Guide to Python!](http://docs.python-guide.org/en/latest/)\\
 [Software Carpentry](http://software-carpentry.org/lessons/)\\
