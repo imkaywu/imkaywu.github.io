@@ -19,21 +19,35 @@ The keypoint detector and descriptor classes implemented are a wrapper of the am
 
 The specific keypoint class is the subclass of both `Detector` and `Descriptor`.
 
-### Results
+### Results of Detector
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/sift_pgm.pgm" alt="sift detector" title="sift detector"/>
-    <img class="col two" src="/assets/img/open3DCV/sift_jpg.jpg" alt="sift detector" title="sift detector"/>
+    <img class="col one" src="/assets/img/open3DCV/keypoint/sift_pgm.pgm" alt="sift detector" title="sift detector"/>
+    <img class="col two" src="/assets/img/open3DCV/keypoint/sift_jpg.jpg" alt="sift detector" title="sift detector"/>
 </div>
 <div class="col three caption">
     Detection results returned by the implemented C++ wrapper
 </div>
 
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/sift_pgm_mat.pgm" alt="sift detector" title="sift detector"/>
-    <img class="col two" src="/assets/img/open3DCV/sift_jpg_mat.jpg" alt="sift detector" title="sift detector"/>
+    <img class="col one" src="/assets/img/open3DCV/keypoint/sift_pgm_mat.jpg" alt="sift detector" title="sift detector"/>
+    <img class="col two" src="/assets/img/open3DCV/keypoint/sift_jpg_mat.jpg" alt="sift detector" title="sift detector"/>
 </div>
 <div class="col three caption">
     Detection results returned by the SIFT Mex file
+</div>
+
+### Results of Matching
+<div class="img_row">
+    <img class="col three" src="/assets/img/open3DCV/keypoint/matching_0.pgm" alt="sift detector" title="sift detector"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/open3DCV/keypoint/matching_1.pgm" alt="sift detector" title="sift detector"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/open3DCV/keypoint/matching_2.pgm" alt="sift detector" title="sift detector"/>
+</div>
+<div class="col three caption">
+    SIFT feature matching results returned by the implemented C++ wrapper
 </div>
 
 ### `Keypoint` class: header file
@@ -118,6 +132,44 @@ namespace open3DCV {
 
 ### `Descriptor` class: header file
 ```
+#ifndef descriptor_h_
+#define descriptor_h_
+
+#include "math/numeric.h"
+#include "image/image.h"
+#include "keypoint/keypoint.h"
+
+namespace open3DCV {
+    class Descriptor {
+    public:
+        Descriptor() { };
+        virtual ~Descriptor() { };
+        
+        virtual int extract_descriptor(const Image& image, const Keypoint& keypoint, Vecf& descriptor) = 0;
+        virtual int extract_descriptors(const Image& image, vector<Keypoint>& keypoints, vector<Vecf>& descriptors);
+    };
+    
+    // If any descriptors could not be extracted at a given keypoint, that keypoint would be removed from the container
+    inline int Descriptor::extract_descriptors(const Image& image, vector<Keypoint>& keypoints, vector<Vecf>& descriptors)
+    {
+        descriptors.reserve(keypoints.size());
+        
+        auto keypoint_it = keypoints.begin();
+        while (keypoint_it != keypoints.end())
+        {
+            Vecf descriptor;
+            if (!extract_descriptor(image, *keypoint_it, descriptor))
+            {
+                keypoint_it = keypoints.erase(keypoint_it);
+                continue;
+            }
+            descriptors.push_back(descriptor);
+        }
+        return 0;
+    }
+} // namespace open3DCV
+
+#endif
 
 ```
 

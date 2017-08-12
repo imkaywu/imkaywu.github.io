@@ -90,48 +90,6 @@
 <ul class="post-list">
   
     <li>
-      <h2><a class="post-title" href="/blog/2017/06/numeric-cpp/">C++ implementation of a numeric class</a></h2>
-      <p class="post-meta">June 11, 2017</p>
-      <p>
-      	
-    		  <p>One of the most widely used matrix and linear algebra library is <a href="http://eigen.tuxfamily.org">Eigen</a>. This is a header only library, thus no compiling or installation needed. I decided to write a wrapper class based on this library, so here it is.</p>
-
-
-    		
-      </p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/06/essential-fundamental-matrix/">Estimation of essential and fundamental matrix</a></h2>
-      <p class="post-meta">June 11, 2017</p>
-      <p>
-      	
-    		  <h2 id="fundamental-matrix">Fundamental matrix</h2>
-<p>```matlab
-function [F,e1,e2] = fundmatrix(varargin)</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[x1, x2, npts] = checkargs(varargin(:));
-Octave = exist('OCTAVE_VERSION') ~= 0;  % Are we running under Octave?    
-
-% Normalise each set of points so that the origin 
-% is at centroid and mean distance from origin is sqrt(2). 
-% normalise2dpts also ensures the scale parameter is 1.
-[x1, T1] = normalise2dpts(x1);
-[x2, T2] = normalise2dpts(x2);
-
-% Build the constraint matrix
-A = [x2(1,:)'.*x1(1,:)'   x2(1,:)'.*x1(2,:)'  x2(1,:)' ...
-     x2(2,:)'.*x1(1,:)'   x2(2,:)'.*x1(2,:)'  x2(2,:)' ...
-     x1(1,:)'             x1(2,:)'            ones(npts,1) ];       
-</code></pre>
-</div>
-
-
-    		
-      </p>
-    </li>
-  
-    <li>
       <h2><a class="post-title" href="/blog/2017/06/dense_matching/">Dense matching - seed points propagation</a></h2>
       <p class="post-meta">June 11, 2017</p>
       <p>
@@ -219,6 +177,30 @@ A = [x2(1,:)'.*x1(1,:)'   x2(1,:)'.*x1(2,:)'  x2(1,:)' ...
       <p>
       	
     		  <p>This post give an introduction to various camera models, and specifically focuses on the pinhole camera model.</p>
+
+
+    		
+      </p>
+    </li>
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2016/06/code-build/">Source code build in Mac</a></h2>
+      <p class="post-meta">June 15, 2016</p>
+      <p>
+      	
+    		  <h3 id="build-flann">Build flann</h3>
+
+
+    		
+      </p>
+    </li>
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2016/05/depthmap-estimation/">Depth map estimation using multi-view stereo</a></h2>
+      <p class="post-meta">May 24, 2016</p>
+      <p>
+      	
+    		  <p>This post talks about the algorithmic details and implementation of depth map estimation using multi-view stereo technique. The method is proposed in Secion 5, 6 of the paper Multi-View Stereo for Community Photo Collections (<a href="http://grail.cs.washington.edu/projects/mvscpc/download/Goesele-2007-MVS.pdf">pdf</a>). The MVE has a C++ implementation of the algorithms (<a href="https://github.com/simonfuhrmann/mve/tree/master/libs/dmrecon">source code</a>).</p>
 
 
     		

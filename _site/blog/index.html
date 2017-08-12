@@ -90,29 +90,6 @@
 <ul class="post-list">
   
     <li>
-      <h2><a class="post-title" href="/blog/2017/08/pnp/">Estimation of camera pose</a></h2>
-      <p class="post-meta">August 6, 2017</p>
-      <p>
-      	
-    		  
-
-    		
-      </p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/08/geometric-space/">Euclidean, affine, and projective space</a></h2>
-      <p class="post-meta">August 6, 2017</p>
-      <p>
-      	
-    		  <h2 id="euclidean-space">Euclidean space</h2>
-
-
-    		
-      </p>
-    </li>
-  
-    <li>
       <h2><a class="post-title" href="/blog/2017/07/multiview-intersect/">Multi-view Intersect</a></h2>
       <p class="post-meta">July 26, 2017</p>
       <p>
@@ -208,6 +185,48 @@
       	
     		  <h2 id="code-highlighter">code highlighter</h2>
 <p>Switch from python-based highlighter <code class="highlighter-rouge">highlighter</code> to ruby-based highlighter <code class="highlighter-rouge">rouge</code>.</p>
+
+
+    		
+      </p>
+    </li>
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2017/06/numeric-cpp/">C++ implementation of a numeric class</a></h2>
+      <p class="post-meta">June 11, 2017</p>
+      <p>
+      	
+    		  <p>One of the most widely used matrix and linear algebra library is <a href="http://eigen.tuxfamily.org">Eigen</a>. This is a header only library, thus no compiling or installation needed. I decided to write a wrapper class based on this library, so here it is.</p>
+
+
+    		
+      </p>
+    </li>
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2017/06/essential-fundamental-matrix/">Estimation of essential and fundamental matrix</a></h2>
+      <p class="post-meta">June 11, 2017</p>
+      <p>
+      	
+    		  <h2 id="fundamental-matrix">Fundamental matrix</h2>
+<p>```matlab
+function [F,e1,e2] = fundmatrix(varargin)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[x1, x2, npts] = checkargs(varargin(:));
+Octave = exist('OCTAVE_VERSION') ~= 0;  % Are we running under Octave?    
+
+% Normalise each set of points so that the origin 
+% is at centroid and mean distance from origin is sqrt(2). 
+% normalise2dpts also ensures the scale parameter is 1.
+[x1, T1] = normalise2dpts(x1);
+[x2, T2] = normalise2dpts(x2);
+
+% Build the constraint matrix
+A = [x2(1,:)'.*x1(1,:)'   x2(1,:)'.*x1(2,:)'  x2(1,:)' ...
+     x2(2,:)'.*x1(1,:)'   x2(2,:)'.*x1(2,:)'  x2(2,:)' ...
+     x1(1,:)'             x1(2,:)'            ones(npts,1) ];       
+</code></pre>
+</div>
 
 
     		
