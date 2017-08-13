@@ -142,7 +142,8 @@ title: "links"
 [Toolbox Graph](http://www.mathworks.com/matlabcentral/fileexchange/5355-toolbox-graph)\\
 [Visual Hull from Uncalibrated Sanpshots](http://www.dip.ee.uct.ac.za/~kforbes/DoubleMirror/DoubleMirror.html)\\
 [Visual Hull](http://vision.gel.ulaval.ca/~visualhull/)\\
-[QHull]()
+[QHull]()\\
+[Manolis Lourakis](http://users.ics.forth.gr/~lourakis/)
 
 #### Appearance
 [Inverse Shade Trees](http://ist.cs.princeton.edu)
@@ -240,7 +241,8 @@ title: "links"
 [Open Source Structure-from-Motion](http://www.kitware.com/cvpr2015-tutorial.html)\\
 [3d Shape Reconstruction from Photographs: a Multi-View Stereo Approach](http://carlos-hernandez.org/cvpr2010/)\\
 [Build Your Own 3D Scanner: Optical Triangulation for Beginners](http://mesh.brown.edu/byo3d/index.html)\\
-[Numerical Tours](http://www.numerical-tours.com)
+[Numerical Tours](http://www.numerical-tours.com)\\
+[Visual 3D Modeling from Images](http://www.cs.unc.edu/~marc/tutorial/tutorial02.html)
 
 ### Computer Graphics
 [Computer Graphics - Edx](https://www.edx.org/course/computer-graphics-uc-san-diegox-cse167x-1)\\

@@ -89,79 +89,132 @@
   </header>
 
   <article class="post-content">
-    <h2 id="fundamental-matrix">Fundamental matrix</h2>
-<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="k">function</span> <span class="p">[</span><span class="n">F</span><span class="p">,</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">]</span> <span class="o">=</span> <span class="n">fundmatrix</span><span class="p">(</span><span class="nb">varargin</span><span class="p">)</span>
-    
-    <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">npts</span><span class="p">]</span> <span class="o">=</span> <span class="n">checkargs</span><span class="p">(</span><span class="nb">varargin</span><span class="p">(:));</span>
-    <span class="n">Octave</span> <span class="o">=</span> <span class="nb">exist</span><span class="p">(</span><span class="s1">'OCTAVE_VERSION'</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">% Are we running under Octave?    </span>
-    
-    <span class="c1">% Normalise each set of points so that the origin </span>
-    <span class="c1">% is at centroid and mean distance from origin is sqrt(2). </span>
-    <span class="c1">% normalise2dpts also ensures the scale parameter is 1.</span>
-    <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">T1</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalise2dpts</span><span class="p">(</span><span class="n">x1</span><span class="p">);</span>
-    <span class="p">[</span><span class="n">x2</span><span class="p">,</span> <span class="n">T2</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalise2dpts</span><span class="p">(</span><span class="n">x2</span><span class="p">);</span>
-    
-    <span class="c1">% Build the constraint matrix</span>
-    <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="n">x2</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="s1">'.*x1(1,:)'</span>   <span class="n">x2</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="s1">'.*x1(2,:)'</span>  <span class="n">x2</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">'</span> <span class="k">...</span>
-         <span class="n">x2</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="s1">'.*x1(1,:)'</span>   <span class="n">x2</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="s1">'.*x1(2,:)'</span>  <span class="n">x2</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="o">'</span> <span class="k">...</span>
-         <span class="n">x1</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="s1">'             x1(2,:)'</span>            <span class="nb">ones</span><span class="p">(</span><span class="n">npts</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">];</span>       
+    <h2 id="fundamental-matrix-from-point-correspondences">Fundamental matrix from point correspondences</h2>
+<p>The epipolar geometry is the intrinsic projective geometry between two views, which is independent of scene structure, and only depends on the camera’s internal parameters and relative pose.</p>
 
-    <span class="k">if</span> <span class="n">Octave</span>
-	<span class="p">[</span><span class="n">U</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">V</span><span class="p">]</span> <span class="o">=</span> <span class="nb">svd</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>   <span class="c1">% Don't seem to be able to use the economy</span>
-                            <span class="c1">% decomposition under Octave here</span>
+<p>The fundamental matrix <script type="math/tex">F</script> encapsulates this intrinsic geometry, which is a <script type="math/tex">3\times 3</script> matrix of rank 2. If a 3D point <script type="math/tex">X</script> is projected as <script type="math/tex">\mathbf{x}</script> in the first view, and <script type="math/tex">\mathbf{x'}</script> in the second, then we have the following relation</p>
+
+<script type="math/tex; mode=display">x'Fx = 0</script>
+
+<p>Each point correspondence gives rise to one linear equation. Specifically, writing <script type="math/tex">\mathbf{x}=(x, y, 1)</script>, and <script type="math/tex">\mathbf{x'}=(x', y', 1)</script>, this equation can be written in terms of the known coordinates <script type="math/tex">x</script> and <script type="math/tex">x'</script>.</p>
+
+<script type="math/tex; mode=display">x'xf_{11}+x'yf_{12}+x'f_{13}+y'xf_{21}+y'yf_{22}+y'f_{23}+xf_{31}+yf_{32}+f_{33}=0</script>
+
+<p>where <script type="math/tex">f_{ij}</script> is the component of <script type="math/tex">F</script> in <script type="math/tex">(i,j)</script> position. Organize all <script type="math/tex">f_{ij}</script> into the vector <script type="math/tex">\mathbf{f}</script>, we have</p>
+
+<script type="math/tex; mode=display">\left[x'x, x'y, x', y'x, y'y, y', x, y, 1\right]\mathbf{f}=0</script>
+
+<p>From a set of <script type="math/tex">n</script> point correspondences, we obtain a set of linear equations of the form</p>
+
+<script type="math/tex; mode=display">Af = \begin{bmatrix}
+x_1'x_1, x'_1y_1, x_1', y_1'x_1, y_1'y_1, y_1', x_1, y_1, 1\\
+\vdots\\
+x_n'x_n, x_n'y_n, x_n', y_n'x_n, y_n'y_n, y_n', x_n, y_n, 1\\
+\end{bmatrix} \mathbf{f} = \mathbf{0}.</script>
+
+<p>The least squares solution for <script type="math/tex">\mathbf{f}</script> is the singular vector corresponding to the smallest singular value of <script type="math/tex">A</script>, that is, the last column of <script type="math/tex">V</script> in the SVD <script type="math/tex">A=UDV^\top</script>. The solution minimizes the algebraic error <script type="math/tex">\|A\mathbf{f}\|</script> subject to <script type="math/tex">\|\mathbf{f}\|=1</script>. This algorithm is call “8-point” algorithm.</p>
+
+<p>To make algorithm perform better, we typically need to do a normalization step: the center of the points are moved to the origin, and the RMS distance of the points to the origin is <script type="math/tex">\sqrt{2}</script>.</p>
+
+<p>Peter Kovesi implemented an amazing <a href="http://www.peterkovesi.com/matlabfns/#projective">projective geometry</a> library in Matlab, including estimation of the fundamental matrix.</p>
+
+<h3 id="8-point-algorithm-c-version">8-point algorithm: C++ version</h3>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">fund_eight_pts</span> <span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">x1</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">x2</span><span class="p">,</span> <span class="n">Mat3f</span><span class="o">&amp;</span> <span class="n">F</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;</span> <span class="n">nx1</span><span class="p">,</span> <span class="n">nx2</span><span class="p">;</span>
+    <span class="n">Mat3f</span> <span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">;</span>
+    <span class="n">T1</span> <span class="o">=</span> <span class="n">normalize_pts</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">nx1</span><span class="p">);</span>
+    <span class="n">T2</span> <span class="o">=</span> <span class="n">normalize_pts</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">nx2</span><span class="p">);</span>
+    
+    <span class="n">Matf</span> <span class="n">matx1</span><span class="p">,</span> <span class="n">matx2</span><span class="p">;</span>
+    <span class="n">vector2mat</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">nx1</span><span class="p">,</span> <span class="n">matx1</span><span class="p">);</span>
+    <span class="n">vector2mat</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">nx2</span><span class="p">,</span> <span class="n">matx2</span><span class="p">);</span>
+    
+    <span class="n">Matf</span> <span class="n">A</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">x1</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">A</span> <span class="o">&lt;&lt;</span> <span class="n">matx2</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">array</span><span class="p">()</span> <span class="o">*</span> <span class="n">matx1</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">array</span><span class="p">(),</span>
+         <span class="n">matx2</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">array</span><span class="p">()</span> <span class="o">*</span> <span class="n">matx1</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">array</span><span class="p">(),</span>
+         <span class="n">matx2</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">array</span><span class="p">(),</span>
+         <span class="n">matx2</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">array</span><span class="p">()</span> <span class="o">*</span> <span class="n">matx1</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">array</span><span class="p">(),</span>
+         <span class="n">matx2</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">array</span><span class="p">()</span> <span class="o">*</span> <span class="n">matx1</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">array</span><span class="p">(),</span>
+         <span class="n">matx2</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">array</span><span class="p">(),</span>
+         <span class="n">matx1</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+         <span class="n">matx1</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+         <span class="n">Matf</span><span class="o">::</span><span class="n">Ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x1</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">transpose</span><span class="p">().</span><span class="n">eval</span><span class="p">();</span>
+    
+    <span class="c1">// Solve the constraint equation for F from nullspace extraction.
+</span>    <span class="c1">// An LU decomposition is efficient for the minimally constrained case.
+</span>    <span class="c1">// Otherwise, use an SVD.
+</span>    <span class="n">Vec9f</span> <span class="n">fvector</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// x1.size() == 8
+</span>    <span class="p">{</span>
+        <span class="k">const</span> <span class="k">auto</span> <span class="n">lu_decomp</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">fullPivLu</span><span class="p">();</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">lu_decomp</span><span class="p">.</span><span class="n">dimensionOfKernel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">fvector</span> <span class="o">=</span> <span class="n">lu_decomp</span><span class="p">.</span><span class="n">kernel</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
     <span class="k">else</span>
-	<span class="p">[</span><span class="n">U</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">V</span><span class="p">]</span> <span class="o">=</span> <span class="nb">svd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span> <span class="c1">% Under MATLAB use the economy decomposition</span>
-    <span class="k">end</span>
+    <span class="p">{</span>
+        <span class="n">JacobiSVD</span><span class="o">&lt;</span><span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="p">,</span> <span class="mi">9</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">amatrix_svd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">ComputeFullV</span><span class="p">);</span>
+        <span class="n">fvector</span> <span class="o">=</span> <span class="n">amatrix_svd</span><span class="p">.</span><span class="n">matrixV</span><span class="p">().</span><span class="n">col</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="n">F</span> <span class="o">&lt;&lt;</span> <span class="n">fvector</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">fvector</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">fvector</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+         <span class="n">fvector</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">fvector</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">fvector</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+         <span class="n">fvector</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">fvector</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="n">fvector</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span>
+    
+    <span class="c1">// enforce the constraint that F is of rank 2
+</span>    <span class="c1">// Find the closest singular matrix to F under frobenius norm.
+</span>    <span class="c1">// We can compute this matrix with SVD.
+</span>    <span class="n">JacobiSVD</span><span class="o">&lt;</span><span class="n">Mat3f</span><span class="o">&gt;</span> <span class="n">fmatrix_svd</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">ComputeFullU</span> <span class="o">|</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">ComputeFullV</span><span class="p">);</span>
+    <span class="n">Vec3f</span> <span class="n">singular_values</span> <span class="o">=</span> <span class="n">fmatrix_svd</span><span class="p">.</span><span class="n">singularValues</span><span class="p">();</span>
+    <span class="n">singular_values</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0</span><span class="n">f</span><span class="p">;</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">fmatrix_svd</span><span class="p">.</span><span class="n">matrixU</span><span class="p">()</span> <span class="o">*</span> <span class="n">singular_values</span><span class="p">.</span><span class="n">asDiagonal</span><span class="p">()</span> <span class="o">*</span> <span class="n">fmatrix_svd</span><span class="p">.</span><span class="n">matrixV</span><span class="p">().</span><span class="n">transpose</span><span class="p">();</span>
 
-    <span class="c1">% Extract fundamental matrix from the column of V corresponding to</span>
-    <span class="c1">% smallest singular value.</span>
-    <span class="n">F</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">V</span><span class="p">(:,</span><span class="mi">9</span><span class="p">),</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">'</span><span class="p">;</span>
-    
-    <span class="c1">% Enforce constraint that fundamental matrix has rank 2 by performing</span>
-    <span class="c1">% a svd and then reconstructing with the two largest singular values.</span>
-    <span class="p">[</span><span class="n">U</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">V</span><span class="p">]</span> <span class="o">=</span> <span class="nb">svd</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="n">F</span> <span class="o">=</span> <span class="n">U</span><span class="o">*</span><span class="nb">diag</span><span class="p">([</span><span class="n">D</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="n">D</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">V</span><span class="o">'</span><span class="p">;</span>
-    
-    <span class="c1">% Denormalise</span>
-    <span class="n">F</span> <span class="o">=</span> <span class="n">T2</span><span class="o">'*</span><span class="n">F</span><span class="o">*</span><span class="n">T1</span><span class="p">;</span>
-    
-    <span class="k">if</span> <span class="nb">nargout</span> <span class="o">==</span> <span class="mi">3</span>  	<span class="c1">% Solve for epipoles</span>
-	<span class="p">[</span><span class="n">U</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">V</span><span class="p">]</span> <span class="o">=</span> <span class="nb">svd</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-	<span class="n">e1</span> <span class="o">=</span> <span class="n">hnormalise</span><span class="p">(</span><span class="n">V</span><span class="p">(:,</span><span class="mi">3</span><span class="p">));</span>
-	<span class="n">e2</span> <span class="o">=</span> <span class="n">hnormalise</span><span class="p">(</span><span class="n">U</span><span class="p">(:,</span><span class="mi">3</span><span class="p">));</span>
-    <span class="k">end</span>
-    
-<span class="c1">%--------------------------------------------------------------------------</span>
-<span class="c1">% Function to check argument values and set defaults</span>
-
-<span class="k">function</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">npts</span><span class="p">]</span> <span class="o">=</span> <span class="n">checkargs</span><span class="p">(</span><span class="n">arg</span><span class="p">);</span>
-    
-    <span class="k">if</span> <span class="nb">length</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="n">arg</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="n">arg</span><span class="p">{</span><span class="mi">2</span><span class="p">};</span>
-        <span class="k">if</span> <span class="o">~</span><span class="nb">all</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span><span class="o">==</span><span class="nb">size</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span>
-            <span class="nb">error</span><span class="p">(</span><span class="s1">'x1 and x2 must have the same size'</span><span class="p">);</span>
-        <span class="k">elseif</span> <span class="nb">size</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">3</span>
-            <span class="nb">error</span><span class="p">(</span><span class="s1">'x1 and x2 must be 3xN'</span><span class="p">);</span>
-        <span class="k">end</span>
-        
-    <span class="k">elseif</span> <span class="nb">length</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">arg</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="mi">1</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">6</span>
-            <span class="nb">error</span><span class="p">(</span><span class="s1">'Single argument x must be 6xN'</span><span class="p">);</span>
-        <span class="k">else</span>
-            <span class="n">x1</span> <span class="o">=</span> <span class="n">arg</span><span class="p">{</span><span class="mi">1</span><span class="p">}(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,:);</span>
-            <span class="n">x2</span> <span class="o">=</span> <span class="n">arg</span><span class="p">{</span><span class="mi">1</span><span class="p">}(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">,:);</span>
-        <span class="k">end</span>
-    <span class="k">else</span>
-        <span class="nb">error</span><span class="p">(</span><span class="s1">'Wrong number of arguments supplied'</span><span class="p">);</span>
-    <span class="k">end</span>
-      
-    <span class="n">npts</span> <span class="o">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="k">if</span> <span class="n">npts</span> <span class="o">&lt;</span> <span class="mi">8</span>
-        <span class="nb">error</span><span class="p">(</span><span class="s1">'At least 8 points are needed to compute the fundamental matrix'</span><span class="p">);</span>
-    <span class="k">end</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">T2</span><span class="p">.</span><span class="n">transpose</span><span class="p">()</span> <span class="o">*</span> <span class="n">F</span> <span class="o">*</span> <span class="n">T1</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre>
 </div>
+
+<h3 id="normalization-c-version">normalization: C++ version</h3>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kr">inline</span> <span class="n">Mat3f</span> <span class="nf">normalize_pts</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">pts</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">newpts</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">newpts</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">pts</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">Vec2f</span> <span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pts</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">c</span> <span class="o">+=</span> <span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">c</span> <span class="o">/=</span> <span class="n">pts</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    
+    <span class="kt">float</span> <span class="n">dist</span> <span class="o">=</span> <span class="mf">0.0</span><span class="n">f</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pts</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">newpts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">;</span>
+        <span class="n">dist</span> <span class="o">+=</span> <span class="n">newpts</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">norm</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">dist</span> <span class="o">/=</span> <span class="n">pts</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    
+    <span class="kt">float</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">dist</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pts</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">newpts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">scale</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">Mat3f</span> <span class="n">T</span><span class="p">;</span>
+    <span class="n">T</span> <span class="o">&lt;&lt;</span> <span class="n">scale</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>     <span class="o">-</span><span class="n">scale</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+         <span class="mi">0</span><span class="p">,</span>     <span class="n">scale</span><span class="p">,</span> <span class="o">-</span><span class="n">scale</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+         <span class="mi">0</span><span class="p">,</span>     <span class="mi">0</span><span class="p">,</span>      <span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">return</span> <span class="n">T</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="fundamental-matrix-from-projection-matrices">Fundamental matrix from projection matrices</h2>
+
+<h2 id="essential-matrix">Essential Matrix</h2>
 
   </article>
 

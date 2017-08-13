@@ -24,7 +24,7 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 ## Features
 [DoG]()\\
 [Harris]()\\
-[SIFT (wrapper)]()
+[SIFT (wrapper)]({{ site.url }}{{ site.baseurl }}/blog/2017/05/3d-vision-lib/)
 
 ---
 
@@ -39,7 +39,7 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 ---
 
 ## Estimator
-[Essential and Fundamental Matrix]({{ site.url }}{{ site.baseurl }}/blog/2017/06/essential-fundamental-matrix/)\\
+[Fundamental and Essential Matrix]({{ site.url }}{{ site.baseurl }}/blog/2017/06/essential-fundamental-matrix/)\\
 [Perspective Three Point (P3P)]()\\
 [Five Point Relative Pose]()\\
 [Four Point Algorithm for Homography]()\\
