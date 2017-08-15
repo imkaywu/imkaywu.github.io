@@ -39,19 +39,18 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 ---
 
 ## Estimator
-[Fundamental and Essential Matrix]({{ site.url }}{{ site.baseurl }}/blog/2017/06/essential-fundamental-matrix/)\\
-[Perspective Three Point (P3P)]()\\
+[Perspective N-Point (PnP)]({{ site.url }}{{ site.baseurl }}/blog/2017/08/pnp/)\\
+[Perspective Three Point (PnP)]()\\
 [Five Point Relative Pose]()\\
 [Four Point Algorithm for Homography]()\\
-[Eight Point Algorithm for Fundamental Matrix]()\\
-[Perspective N-Point]()\\
+[Eight Point Algorithm for Fundamental Matrix]({{ site.url }}{{ site.baseurl }}/blog/2017/06/essential-fundamental-matrix/)\\
+<!-- 
 [Four Point Focal Length]()\\
 [Five Point Focal Length and Radial Distortion]()\\
 [Three Point Relative Pose with a Partially Known Rotation]()\\
 [Four Point Relative Pose with a Partially Known Rotation]()\\
 [Two Point Absolute Pose with a Partially Known Rotation]()\\
-[PnP]()\\
-[Source](http://www.theia-sfm.org/features.html)
+[Source](http://www.theia-sfm.org/features.html) -->
 
 ---
 
