@@ -57,3 +57,6 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 ## Visualization
 [Camera]({{ site.url }}{{ site.baseurl }}/blog/2017/05/draw-camera/)\\
 [Multi-view Intersect]({{ site.url }}{{ site.baseurl }}/blog/2017/07/multiview-intersect/)
+
+## Application
+[SfM]({{ site.url }}{{ site.baseurl }}/blog/2017/08/sfm-from-scratch/)
