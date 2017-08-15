@@ -41,9 +41,10 @@ public:
     
     virtual void ls_estimate(vector<T>& data, vector<S>& params) = 0;
     
-    virtual int agree(vector<S>& params, T& data) = 0;
+    virtual int check_inliers(vector<S>& params, T& data) = 0;
     
-    unsigned int num_data() const { return min_num_data_; }  
+    unsigned int num_data() const { return min_num_data_; }
+    
 private:
     
     unsigned int min_num_data_;
@@ -76,12 +77,15 @@ public:
     // - data:              the input from which the parameters will be estimated
     // - prob_wo_outlieres: the probability that at least one of the selected subsets doens't contain an outlier,
     //                      must be in (0, 1).
-    static float estimate(std::vector<S>& params,
-                         Param_Estimator<T, S>& param_estimator,
+    static float estimate(Param_Estimator<T, S>* param_estimator,
                           std::vector<T>& data,
-                         const float prob_wo_outliers);
+                          std::vector<S>& params,
+                          float prob_wo_outliers);
     
 private:
+    
+    // has to be static
+    static unsigned int choose(unsigned int n, unsigned int m);
     
     class Subset_Ind_Cmp
     {
@@ -101,7 +105,7 @@ private:
             return false;
         }
     };
-    
+
 };
 }
 #endif
@@ -109,3 +113,47 @@ private:
 
 ## Example
 We use the estimation of fundamental matrix as an example to demonstrate the use of the framework.
+
+In this specific example, type `T` is `std::pair<Vec2f, Vec2f>`, `S` is `float`.
+
+### Header file
+```cpp
+#ifndef fundamental_h_
+#define fundamental_h_
+
+#include "math/numeric.h"
+#include "estimator/preprocess.h"
+#include "estimator/param_estimator.h"
+
+using Eigen::JacobiSVD;
+
+namespace open3DCV
+{
+
+class Fundamental_Estimator : public Param_Estimator<std::pair<Vec2f, Vec2f>, float>
+{
+public:
+    
+    Fundamental_Estimator(const float thresh);
+    
+    void estimate(std::vector<std::pair<Vec2f, Vec2f> >& data, std::vector<float>& params);
+    
+    void ls_estimate(std::vector<std::pair<Vec2f, Vec2f> >& data, std::vector<float>& params);
+    
+    int check_inliers(std::vector<float>& params, std::pair<Vec2f, Vec2f>& data);
+
+    
+private:
+    
+    void fund_seven_pts (const std::vector<Vec2f>& x1, const std::vector<Vec2f>& x2, Mat3f& F);
+    
+    void fund_eight_pts(const std::vector<Vec2f>& x1, const std::vector<Vec2f>& x2, Mat3f& F);
+    
+    float error_thresh_;
+
+};
+    
+}
+
+#endif
+```
