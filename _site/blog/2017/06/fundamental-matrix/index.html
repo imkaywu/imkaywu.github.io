@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | Estimation of essential and fundamental matrix</title>
+  <title>Kai Wu | Estimation of fundamental matrix</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
   <link rel="shortcut icon" href="//imkaywu.github.io/assets/img/favicon.ico">
 
   <link rel="stylesheet" href="//imkaywu.github.io/assets/css/main.css">
-  <link rel="canonical" href="//imkaywu.github.io/blog/2017/06/essential-fundamental-matrix/">
+  <link rel="canonical" href="//imkaywu.github.io/blog/2017/06/fundamental-matrix/">
 </head>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
@@ -84,7 +84,7 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Estimation of essential and fundamental matrix</h1>
+    <h1 class="post-title">Estimation of fundamental matrix</h1>
     <p class="post-meta">June 11, 2017</p>
   </header>
 
@@ -236,7 +236,7 @@ l'&=e'\times x'\\
 
 <p>where <script type="math/tex">P</script> is the projection matrix of the first view. Two special points on this ray is the camera center <script type="math/tex">C</script> and <script type="math/tex">P^{+}x</script>. These two points are imaged by the second camera <script type="math/tex">P'</script> at <script type="math/tex">P'C</script> and <script type="math/tex">P'P^{+}x</script>. The epipolar line is the line joining these two projected points, namely <script type="math/tex">l'=P'C \times P'P^{+}x</script>. Since the projection of the first camera center onto the second view is the epipole, the line is also <script type="math/tex">l'=e'\times P'P^{+}x</script>, and <script type="math/tex">F</script> can be defined as</p>
 
-<script type="math/tex; mode=display">F=e'\times P'P^{+}</script>
+<script type="math/tex; mode=display">F=P'P^{+}</script>
 
 <p>We can further claim that the transfer matrix <script type="math/tex">H_\pi = e'\times P'P^{+}</script>.</p>
 

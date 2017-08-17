@@ -1,5 +1,5 @@
 ---
-title: Estimation of essential and fundamental matrix
+title: Estimation of fundamental matrix
 categories: 
   - Research
   - Dev
@@ -168,7 +168,7 @@ $$
 where $$P$$ is the projection matrix of the first view. Two special points on this ray is the camera center $$C$$ and $$P^{+}x$$. These two points are imaged by the second camera $$P'$$ at $$P'C$$ and $$P'P^{+}x$$. The epipolar line is the line joining these two projected points, namely $$l'=P'C \times P'P^{+}x$$. Since the projection of the first camera center onto the second view is the epipole, the line is also $$l'=e'\times P'P^{+}x$$, and $$F$$ can be defined as
 
 $$
-F=e'\times P'P^{+}
+F=P'P^{+}
 $$
 
 We can further claim that the transfer matrix $$H_\pi = e'\times P'P^{+}$$.

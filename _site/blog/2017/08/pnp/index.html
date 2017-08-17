@@ -132,6 +132,54 @@ w_i\mathbf{X}_i^\top & \mathbf{0}^\top & -x_i\mathbf{X}_i^\top\\
 <p>The projection matrix <script type="math/tex">P</script> is computed by solving <script type="math/tex">A\mathbf{p}=0</script>, where <script type="math/tex">\mathbf{p}</script> contains the entries of <script type="math/tex">P</script>.</p>
 
 <h2 id="camera-pose-from-fundamental-matrix">camera pose from Fundamental matrix</h2>
+<p>We start by giving the conclusion:</p>
+
+<p><strong>Result 1.</strong> <em>The general formula for a pair of canonic camera matrices corresponding to a fundamental matrix <script type="math/tex">F</script> is given by</em></p>
+
+<script type="math/tex; mode=display">P=\left[\mathbf{I} | \mathbf{0}\right] \quad P'=\left[\left[\mathbf{e}'\right]_\times F + \mathbf{e}'\mathbf{v}^\top | \lambda \mathbf{e}' \right]</script>
+
+<p>where <script type="math/tex">\mathbf{v}</script> is any 3-vector, and <script type="math/tex">\lambda</script> a non-zero scalar.</p>
+
+<p>The proof proceeds as follows:</p>
+
+<h3 id="1-canonical-formular">1. Canonical formular</h3>
+<p><strong>Result 2.</strong> <em>Let <script type="math/tex">F</script> be a fundamental matrix and <script type="math/tex">S</script> any skew-symmetric matrix. Define the pair of camera matrics</em></p>
+
+<script type="math/tex; mode=display">P=\left[\mathbf{I} | \mathbf{0}\right] \quad P'=\left[SF|\mathbf{e}'\right]</script>
+
+<p>where <script type="math/tex">\mathbf{e}'</script> is the epipole. To prove <strong>Result 2</strong>, we first need the following result:</p>
+
+<p><strong>Result 3.</strong> <em>A non-zero matrix <script type="math/tex">F</script> is the fundamental matrix corresponding to a pair of camera matrix <script type="math/tex">P</script> and <script type="math/tex">P'</script> if and only if <script type="math/tex">P'^\top FP</script> is skew-symmetric.</em></p>
+
+<p><strong>Proof.</strong> The condition that <script type="math/tex">P'^\top FP</script> is skew-symmetric is equivalent to <script type="math/tex">X^\top P'^\top FPX=0</script>, which is equivalent to <script type="math/tex">x^\top F x=0</script> if <script type="math/tex">x=PX</script> and <script type="math/tex">x'=P'X</script>.</p>
+
+<p>We can then prove <strong>Result 2</strong> by showing that</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\left[SF|\mathbf{e}'\right]^\top F \left[\mathbf{I} | \mathbf{0}\right] =
+\begin{bmatrix}
+F^\top S^\top F & \mathbf{0}\\
+\mathbf{0}^\top & 0
+\end{bmatrix} %]]></script>
+
+<p>which is skew symmetric.</p>
+
+<p>The skew symmetric matrix <script type="math/tex">S</script> may be written in terms of its null vector as <script type="math/tex">S=\left[s\right]_\times</script>. Then <script type="math/tex">P'</script> can be re-written as</p>
+
+<script type="math/tex; mode=display">P'=\left[\left[s\right]_xF\mid \mathbf{e}'\right]</script>
+
+<p>The projection matrix <script type="math/tex">P'</script> has rank 3 provided <script type="math/tex">\mathbf{s}^\top \mathbf{e}'\not = 0</script>. A good choice of <script type="math/tex">S</script> is <script type="math/tex">S=\left[\mathbf{e}'\right]_\times</script>, for in this case <script type="math/tex">e'^\top e'\not = 0</script>.</p>
+
+<h3 id="2-camera-not-at-infinity">2. Camera not at infinity</h3>
+<p>However, the camera center obtained above is at infinity. To see this, we just need to prove that the left <script type="math/tex">3\times 3</script> matrix of <script type="math/tex">P'</script> is singular, i.e., <script type="math/tex">\left[s\right]_xF</script> has rank 2. (TBD).</p>
+
+<p>The following result can help us get to our goal:</p>
+
+<p><strong>Result 4.</strong> <em>Camera pairs in canonical form <script type="math/tex">P=\left[\mathbf{I}\mid\mathbf{0}\right], P'=\left[A\mid\mathbf{a}\right]</script> have the same fundamental matrix as the canonical pair <script type="math/tex">P=\left[\mathbf{I}\mid\mathbf{0}\right], P'=\left[A + \mathbf{a}\mathbf{v}^\top\mid k\mathbf{a}\right]</script>.</em></p>
+
+<p>where <script type="math/tex">\mathbf{v}</script> is any 3-vector, and <script type="math/tex">k</script> a non-zero scalar.</p>
+
+<p><strong>Result 1</strong> follows from <strong>Result 4</strong>.</p>
 
   </article>
 
