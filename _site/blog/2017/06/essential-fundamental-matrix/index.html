@@ -212,7 +212,33 @@ x_n'x_n, x_n'y_n, x_n', y_n'x_n, y_n'y_n, y_n', x_n, y_n, 1\\
 </code></pre>
 </div>
 
+<h2 id="fundamental-matrix-from-transfer-matrix">Fundamental matrix from transfer matrix</h2>
+<div class="img_row">
+    <img class="col three" src="/assets/img/open3DCV/fundamental/epipolar_geometry.png" alt="" title="epipolar geometry" />
+</div>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+l'&=e'\times x'\\
+&=e'\times H_\pi x\\
+&=Fx
+\end{align} %]]></script>
+
+<p>Therefore, the fundamental matrix can be defined as</p>
+
+<script type="math/tex; mode=display">F = e'\times H_\pi</script>
+
 <h2 id="fundamental-matrix-from-projection-matrices">Fundamental matrix from projection matrices</h2>
+
+<p>The epipolar line in the second view of an image point <script type="math/tex">x</script> is the projection of the ray passing through camera center of the first view and <script type="math/tex">x</script>. The ray can be parameterized as</p>
+
+<script type="math/tex; mode=display">\mathbf{X}(\lambda)=P^{+}\mathbf{x}+\lambda \mathbf{C}</script>
+
+<p>where <script type="math/tex">P</script> is the projection matrix of the first view. Two special points on this ray is the camera center <script type="math/tex">C</script> and <script type="math/tex">P^{+}x</script>. These two points are imaged by the second camera <script type="math/tex">P'</script> at <script type="math/tex">P'C</script> and <script type="math/tex">P'P^{+}x</script>. The epipolar line is the line joining these two projected points, namely <script type="math/tex">l'=P'C \times P'P^{+}x</script>. Since the projection of the first camera center onto the second view is the epipole, the line is also <script type="math/tex">l'=e'\times P'P^{+}x</script>, and <script type="math/tex">F</script> can be defined as</p>
+
+<script type="math/tex; mode=display">F=e'\times P'P^{+}</script>
+
+<p>We can further claim that the transfer matrix <script type="math/tex">H_\pi = e'\times P'P^{+}</script>.</p>
 
 <h2 id="essential-matrix">Essential Matrix</h2>
 

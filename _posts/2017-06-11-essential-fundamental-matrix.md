@@ -138,7 +138,39 @@ inline Mat3f normalize_pts(const vector<Vec2f>& pts, vector<Vec2f>& newpts)
 }
 ```
 
+## Fundamental matrix from transfer matrix
+<div class="img_row">
+    <img class="col three" src="/assets/img/open3DCV/fundamental/epipolar_geometry.png" alt="" title="epipolar geometry"/>
+</div>
+
+$$
+\begin{align}
+l'&=e'\times x'\\
+&=e'\times H_\pi x\\
+&=Fx
+\end{align}
+$$
+
+Therefore, the fundamental matrix can be defined as
+
+$$
+F = e'\times H_\pi
+$$
+
 ## Fundamental matrix from projection matrices
 
+The epipolar line in the second view of an image point $$x$$ is the projection of the ray passing through camera center of the first view and $$x$$. The ray can be parameterized as
+
+$$
+\mathbf{X}(\lambda)=P^{+}\mathbf{x}+\lambda \mathbf{C}
+$$
+
+where $$P$$ is the projection matrix of the first view. Two special points on this ray is the camera center $$C$$ and $$P^{+}x$$. These two points are imaged by the second camera $$P'$$ at $$P'C$$ and $$P'P^{+}x$$. The epipolar line is the line joining these two projected points, namely $$l'=P'C \times P'P^{+}x$$. Since the projection of the first camera center onto the second view is the epipole, the line is also $$l'=e'\times P'P^{+}x$$, and $$F$$ can be defined as
+
+$$
+F=e'\times P'P^{+}
+$$
+
+We can further claim that the transfer matrix $$H_\pi = e'\times P'P^{+}$$.
 
 ## Essential Matrix
