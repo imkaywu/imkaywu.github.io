@@ -300,6 +300,7 @@ computer architecture\\
 [Software Carpentry](http://software-carpentry.org/lessons/)\\
 [Cracking the coding](http://www.hawstein.com/posts/ctci-solutions-contents.html)\\
 [Leetcode编程训练](http://coolshell.cn/articles/12052.html)\\
+[算法珠玑](https://www.gitbook.com/book/soulmachine/algorithm-essentials/details)
 [UDLS](http://www.cs.ubc.ca/~udls/)
 
 ---

@@ -89,8 +89,57 @@
   </header>
 
   <article class="post-content">
-    <h2 id="linear-triangulation">Linear triangulation</h2>
-<p>Compute the 3D scene structure using linear triangulation.</p>
+    <h2 id="problem-definition">Problem definition</h2>
+<p>Given camera matrices (<script type="math/tex">P, P'</script>), or fundamental matrix <script type="math/tex">F</script>, and <em>measured</em> image points <script type="math/tex">x</script> and <script type="math/tex">x'</script>, estimate the 3D point <script type="math/tex">X</script> that minimizes some cost function.</p>
+
+<p>Since the rays back-projected from the points are skew. There will not be a point <script type="math/tex">X</script> that satisfies <script type="math/tex">x=PX, x'=P'X</script>, the the image points do not satisfy the epipolar constraint <script type="math/tex">x'^\top F x= 0</script>.</p>
+
+<p>Since from a fundamental matrix and a set of corresponding points, the scene can only be reconstructed up to a projective transformation. Thus, it is crucial to have a triangulation method that is invariant to projective transformation.</p>
+
+<p>Denote <script type="math/tex">\tau</script> as the triangulation method used to compute a 3D point <script type="math/tex">X</script> from a point correspondence <script type="math/tex">x\leftrightarrow x'</script> and a pair of camera matrices <script type="math/tex">P, P'</script>. We have</p>
+
+<script type="math/tex; mode=display">X = \tau(x, x', P, P')</script>
+
+<p>The invariance to projective transformation <script type="math/tex">H</script> is expressed as</p>
+
+<script type="math/tex; mode=display">\tau(x, x', P, P') = H^{-1}\tau(x, x', PH^{-1}, P'H^{-1})</script>
+
+<h2 id="linear-triangulation">Linear triangulation</h2>
+<p>We first discuss a simple linear triangulation method, which is similar to the DLT method for homography estimation.</p>
+
+<p>By definition, we have <script type="math/tex">x = PX, x'=P'X</script>. We can get rid of the homogeneous scale factory by a cross product. Therefore, <script type="math/tex">x\times PX=0</script>. This can be rewritten as</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+x(\mathbf{p^{3\top}}\mathbf{X})-(\mathbf{p^{1\top}}\mathbf{X}) &=0\\
+y(\mathbf{p^{3\top}}\mathbf{X})-(\mathbf{p^{2\top}}\mathbf{X}) &=0\\
+x(\mathbf{p^{2\top}}\mathbf{X})-y(\mathbf{p^{1\top}}\mathbf{X}) &=0\\
+\end{align} %]]></script>
+
+<p>where <script type="math/tex">\mathbf{p^{i\top}}</script> is the <script type="math/tex">i</script>th row of <script type="math/tex">P</script>. Only two of these equations are linear independent.</p>
+
+<p>An equation of the form <script type="math/tex">A\mathbf{X} = 0</script> can be formed from the image points, with</p>
+
+<script type="math/tex; mode=display">A=
+\begin{bmatrix}
+x(\mathbf{p^{3\top}})-(\mathbf{p^{1\top}})\\
+y(\mathbf{p^{3\top}})-(\mathbf{p^{2\top}})\\
+x'(\mathbf{p^{3\top}})-(\mathbf{p^{1\top}})\\
+y'(\mathbf{p^{3\top}})-(\mathbf{p^{2\top}})\\
+\end{bmatrix}</script>
+
+<p>There are typically two ways of solving this problem:</p>
+
+<h3 id="homogeneous-method-dlt">Homogeneous method (DLT)</h3>
+<p>The solution is the unit singular vector corresponding to the smallest singular value of <script type="math/tex">A</script>.</p>
+
+<h3 id="inhomogeneous-method">Inhomogeneous method</h3>
+<p>Set <script type="math/tex">\mathbf{X} = [X, Y, Z, 1]</script>, <script type="math/tex">A\mathbf{X}=0</script> can be converted to a set of four inhomogeneous equations with three unknowns. This technique fails to work when the last coordinate of <script type="math/tex">\mathbf{X}</script> is close to 0.</p>
+
+<h3 id="not-projective-invariant">NOT projective invariant</h3>
+<p>Unfortunately, this linear method is NOT projective invariant. Let’s consider another camera matrix pair: <script type="math/tex">PH^{-1}, P'H^{-1}</script>. The matrix A, in this case, becomes <script type="math/tex">AH^{-1}</script>. It’s easy to verify that the 3D point <script type="math/tex">X</script> that satisfies <script type="math/tex">A\mathbf{X}=\epsilon</script> also satisfies the new linear system <script type="math/tex">(AH^{-1})(H\mathbf{X})=\epsilon</script>. Thus, there is a one-to-one correspondence between point <script type="math/tex">X</script> and <script type="math/tex">HX</script> that gives the same error. However, the constraints for both the homogeneous method (<script type="math/tex">\|X\|=1</script>) and inhomogeneous method (<script type="math/tex">\mathbf{X}=[X,Y,Z,1]^\top</script>) are not invariant under projective transformation. Thus, in general the point <script type="math/tex">\mathbf{X}</script> solving the original problem will not correspond to a solution <script type="math/tex">H\mathbf{X}</script> for the transformed problem. However, there is a special case: for affine reconstruction, the inhomogeneous method is affine transformation invariant. Please refer to the MVG book by Hartley and Zisserman for details.</p>
+
+<p>Here is a the C++ implementation of the linear triangulation solved by the homogeneous method.</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">StructurePoint</span> <span class="n">Triangulation</span><span class="o">::</span><span class="n">linear</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Camera</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">cameras</span><span class="p">,</span>
       <span class="k">const</span> <span class="n">FeatureTrack</span> <span class="o">&amp;</span><span class="n">track</span><span class="p">)</span> <span class="k">const</span>
@@ -123,8 +172,78 @@
 </div>
 
 <h2 id="midpoint-triangulation">Midpoint triangulation</h2>
-<p>Compute the 3D scene structure using midpoint triangulation.</p>
+<p>This method computes the 3D scene structure using midpoint triangulation. Richard I. Hartley and Peter Sturm mentioned in their paper “Triangulation” that this method is neither affine nor projective invariant, since concepts such as perpendicular or mid-point are not affine concepts. It is seen to behave very poorly indeed under projective and affine transformation, and is by far the worst of the methods considered here in this regard. We include this for the sake of completeness.</p>
 
+<div class="img_row">
+    <img class="col three" src="/assets/img/open3DCV/triangulation/triangulation_midpoint.png" alt="midpoint triangulation" title="midpoint triangulation" />
+</div>
+<div class="col three caption">
+    Midpoint triangulation
+</div>
+
+<p>Here we consider the case of two arbitrary lines <script type="math/tex">L_1</script> and <script type="math/tex">L_2</script>
+\[L_1=\{p=q_1+\lambda_1v_1|\lambda_1\in\mathbb{R}\}\]
+\[L_2=\{p=q_2+\lambda_2v_2|\lambda_2\in\mathbb{R}\}\]</p>
+
+<p>If vectors <script type="math/tex">v_1</script> and <script type="math/tex">v_2</script> are linearly dependent, i.e., one is the scalar multiple of the other. In addition, suppose <script type="math/tex">q_2 - q_1</script> is also the multiple of <script type="math/tex">v_1</script> or <script type="math/tex">v_2</script>, then these two lines are essentially a single line. Otherwise, these two lines are parallel and do not intersect.</p>
+
+<p>If vector <script type="math/tex">v_1</script> and <script type="math/tex">v_2</script> are linearly independent, these two lines may or may not intersect. the sufficient and necessary condition for two lines to intersect is that scalar values <script type="math/tex">\lambda_1</script> and <script type="math/tex">\lambda_2</script> exist so that</p>
+
+<p>\[q_1 + \lambda_1v_1=q_2+\lambda_2v_2\]</p>
+
+<p>If two lines do not intersect, we find the <em>approximate intersection</em> as the point that is <em>closest</em> to the two lines. More specifically, we define the approximate intersection as the point <script type="math/tex">p</script> which minimizes the sum of the square distances to both lines</p>
+
+<p>\[\phi(p, \lambda_1, \lambda_2)=\|q_1+\lambda_1 v_1-p\|^2 + \|q_2+\lambda_2 v_2-p\|^2\]</p>
+
+<p>The function <script type="math/tex">\phi(p, \lambda_1, \lambda_2)</script> is a quadratic non-negative definite function of five variables, the three coordinates of the point <script type="math/tex">p</script> and the two scalars <script type="math/tex">\lambda_1</script> and <script type="math/tex">\lambda_2</script>. Let <script type="math/tex">p_1 = q_1 + \lambda_1 v_1</script> be a point on the line <script type="math/tex">L_1</script>, and <script type="math/tex">p_2 = q_2 + \lambda_2 v_2</script> be a point on the line <script type="math/tex">L_2</script>. A necessary condition for the minimizer <script type="math/tex">(p, \lambda_1, \lambda2)</script> is that the partial derivative of <script type="math/tex">\phi</script>, with respect to the five variables, all vanish at the minimizer. In particular, the derivatives w.r.t. the three coordinates of the point <script type="math/tex">p</script> must vanish</p>
+
+<p>\[\frac{\partial \phi}{\partial p} = (p-p_1)+(p-p_2)=0\]</p>
+
+<p>or equivalently, it is necessary for the minimizer point <script type="math/tex">p</script> to be the midpoint of the line segment joining <script type="math/tex">p_1</script> and <script type="math/tex">p_2</script>.</p>
+
+<p>As a result, the problem reduces to the minimization of the squared distance from a point <script type="math/tex">p_1</script> on line <script type="math/tex">L_1</script> to a point <script type="math/tex">p_2</script> on line <script type="math/tex">L_2</script>. The original cost function becomes a quadratic non-negative definite function of two variables</p>
+
+<p>\[\psi(\lambda_1, \lambda_2)= 2\phi(p, \lambda_1, \lambda_2) = \|(q_2+\lambda_2 v_2) - (q_1 + \lambda_1 v_1)\|^2\]</p>
+
+<p>It is necessary for the partial derivatives of <script type="math/tex">\psi</script>, w.r.t. <script type="math/tex">\lambda_1</script> and <script type="math/tex">\lambda_2</script> to be equal to zeros at the minimum, as follows</p>
+
+<p>\[\frac{\partial \psi}{\partial \lambda_1} = v_1^\top (\lambda_1v_1-\lambda_2v_2+q_1-q_2) = \lambda_1\|v_1\|^2 - \lambda_2v_1^\top v_2+v_1^\top (q_1-q_2) = 0\]
+\[\frac{\partial \psi}{\partial \lambda_2} = v_2^\top (\lambda_2v_2-\lambda_1v_1+q_2-q_1) = \lambda_2\|v_2\|^2 - \lambda_2v_2^\top v_1+v_2^\top (q_2-q_1) = 0\]</p>
+
+<p>These provide two linear equations in <script type="math/tex">\lambda_1</script> and <script type="math/tex">\lambda_2</script>, which can be expressed in the matrix form as</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix} 
+  \|v_1\|^2 & -v_1^\top v_2\\
+  -v_2^\top v_1 & \|v_2\|^2\\
+\end{bmatrix}
+\begin{bmatrix}
+  \lambda_1 \\
+  \lambda_2 \\
+\end{bmatrix}= 
+\begin{bmatrix}
+  v_1^\top (q_2-q_1)\\
+  v_2^\top (q_1-q_2)
+\end{bmatrix} %]]></script>
+
+<p>Or equivalently</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix}
+  \lambda_1 \\
+  \lambda_2 \\
+\end{bmatrix}= 
+\frac{1}{\|v_1\|^2\|v_2\|^2-(v_1^\top v_2)^2}
+\begin{bmatrix} 
+  \|v_1\|^2 & v_1^\top v_2\\
+  v_2^\top v_1 & \|v_2\|^2\\
+\end{bmatrix}
+\begin{bmatrix}
+  v_1^\top (q_2-q_1)\\
+  v_2^\top (q_1-q_2)
+\end{bmatrix} %]]></script>
+
+<p>Here is the C++ implementation of the midpoint triangulation</p>
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">StructurePoint</span> <span class="n">Triangulation</span><span class="o">::</span><span class="n">midpoint</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Camera</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">cameras</span><span class="p">,</span>
      <span class="k">const</span> <span class="n">FeatureTrack</span> <span class="o">&amp;</span><span class="n">track</span><span class="p">)</span> <span class="k">const</span>
 <span class="p">{</span>
@@ -164,6 +283,12 @@
 <span class="p">}</span>
 </code></pre>
 </div>
+<h2 id="geometric-error-triangulation">Geometric error triangulation</h2>
+<p>Let <script type="math/tex">x\leftrightarrow x'</script> be the measured point correspondence, and <script type="math/tex">\hat{x}\leftrightarrow \hat{x'}</script> be the estimated point correspondence that satisfy the epipolar constraint, <em>i.e.</em>, <script type="math/tex">\hat{x'}^\top F \hat{x}=0</script>. This method minimizes the geometric distance between the measured and estimated points</p>
+
+<script type="math/tex; mode=display">C(x, x')=d(x, \hat{x}) + d(x', \hat{x'})</script>
+
+<h2 id="mle-triangulation-non-iterative">MLE triangulation (non-iterative)</h2>
 
 <h2 id="angular-triangulation">Angular triangulation</h2>
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">StructurePoint</span> <span class="n">Triangulation</span><span class="o">::</span><span class="n">angular</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Camera</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">cameras</span><span class="p">,</span>

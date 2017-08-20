@@ -50,7 +50,7 @@ Here we consider the case of two arbitrary lines $$L_1$$ and $$L_2$$
 
 If vectors $$v_1$$ and $$v_2$$ are linearly dependent, i.e., one is the scalar multiple of the other. In addition, suppose $$q_2 - q_1$$ is also the multiple of $$v_1$$ or $$v_2$$, then these two lines are essentially a single line. Otherwise, these two lines are parallel and do not intersect.
 
-If vector $$v_1$$ and $$v_2$$ are linearly independent, these two lines may or may not intersect. the sufficient and necessary condition for two lines to intersect is that scalar values $$\lambda_1$$ and $$lambda_2$$ exist so that
+If vector $$v_1$$ and $$v_2$$ are linearly independent, these two lines may or may not intersect. the sufficient and necessary condition for two lines to intersect is that scalar values $$\lambda_1$$ and $$\lambda_2$$ exist so that
 
 \\[q_1 + \lambda_1v_1=q_2+\lambda_2v_2\\]
 
