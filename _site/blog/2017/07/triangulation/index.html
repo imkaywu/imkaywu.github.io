@@ -139,7 +139,57 @@ y'(\mathbf{p^{3\top}})-(\mathbf{p^{2\top}})\\
 <h3 id="not-projective-invariant">NOT projective invariant</h3>
 <p>Unfortunately, this linear method is NOT projective invariant. Let’s consider another camera matrix pair: <script type="math/tex">PH^{-1}, P'H^{-1}</script>. The matrix A, in this case, becomes <script type="math/tex">AH^{-1}</script>. It’s easy to verify that the 3D point <script type="math/tex">X</script> that satisfies <script type="math/tex">A\mathbf{X}=\epsilon</script> also satisfies the new linear system <script type="math/tex">(AH^{-1})(H\mathbf{X})=\epsilon</script>. Thus, there is a one-to-one correspondence between point <script type="math/tex">X</script> and <script type="math/tex">HX</script> that gives the same error. However, the constraints for both the homogeneous method (<script type="math/tex">\|X\|=1</script>) and inhomogeneous method (<script type="math/tex">\mathbf{X}=[X,Y,Z,1]^\top</script>) are not invariant under projective transformation. Thus, in general the point <script type="math/tex">\mathbf{X}</script> solving the original problem will not correspond to a solution <script type="math/tex">H\mathbf{X}</script> for the transformed problem. However, there is a special case: for affine reconstruction, the inhomogeneous method is affine transformation invariant. Please refer to the MVG book by Hartley and Zisserman for details.</p>
 
-<p>Here is a the C++ implementation of the linear triangulation solved by the homogeneous method.</p>
+<p>Here is a the Matlab version of the linear triangulation solved by the homogeneous method.</p>
+
+<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="c1">%vgg_X_from_xP_lin  Estimation of 3D point from image matches and camera matrices, linear.</span>
+<span class="c1">%   X = vgg_X_from_xP_lin(x,P,imsize) computes projective 3D point X (column 4-vector)</span>
+<span class="c1">%   from its projections in K images x (2-by-K matrix) and camera matrices P (K-cell</span>
+<span class="c1">%   of 3-by-4 matrices). Image sizes imsize (2-by-K matrix) are needed for preconditioning.</span>
+<span class="c1">%   By minimizing algebraic distance.</span>
+<span class="c1">%</span>
+<span class="c1">%   See also vgg_X_from_xP_nonlin.</span>
+
+<span class="c1">% werner@robots.ox.ac.uk, 2003</span>
+
+<span class="k">function</span> <span class="n">X</span> <span class="o">=</span> <span class="n">vgg_X_from_xP_lin</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">imsize</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">iscell</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+  <span class="n">P</span> <span class="o">=</span> <span class="nb">cat</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">P</span><span class="p">{:});</span>
+<span class="k">end</span>
+<span class="n">K</span> <span class="o">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="nb">nargin</span><span class="o">&gt;</span><span class="mi">2</span>
+  <span class="k">for</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">K</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">/</span><span class="n">imsize</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>
+         <span class="mi">0</span> <span class="mi">2</span><span class="p">/</span><span class="n">imsize</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span>
+         <span class="mi">0</span> <span class="mi">0</span>              <span class="mi">1</span><span class="p">];</span>
+    <span class="n">P</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span><span class="n">P</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">);</span>
+    <span class="n">u</span><span class="p">(:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">u</span><span class="p">(:,</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="k">for</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">K</span>
+  <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="n">A</span><span class="p">;</span> <span class="n">vgg_contreps</span><span class="p">([</span><span class="n">u</span><span class="p">(:,</span><span class="n">k</span><span class="p">);</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">P</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)];</span>
+<span class="k">end</span>
+<span class="c1">% A = normx(A')';</span>
+<span class="p">[</span><span class="n">dummy</span><span class="p">,</span><span class="n">dummy</span><span class="p">,</span><span class="n">X</span><span class="p">]</span> <span class="o">=</span> <span class="nb">svd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">(:,</span><span class="k">end</span><span class="p">);</span>
+
+<span class="c1">% Get orientation right</span>
+<span class="n">s</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">P</span><span class="p">(</span><span class="mi">3</span><span class="p">,:,:),[</span><span class="mi">4</span> <span class="n">K</span><span class="p">])</span><span class="o">'*</span><span class="n">X</span><span class="p">;</span>
+<span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">s</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">X</span> <span class="o">=</span> <span class="o">-</span><span class="n">X</span><span class="p">;</span>
+  <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">s</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1">%    warning('Inconsistent orientation of point match');</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">return</span>
+</code></pre>
+</div>
+
+<p>Here is a the C++ version of the linear triangulation solved by the homogeneous method.</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">StructurePoint</span> <span class="n">Triangulation</span><span class="o">::</span><span class="n">linear</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Camera</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">cameras</span><span class="p">,</span>
       <span class="k">const</span> <span class="n">FeatureTrack</span> <span class="o">&amp;</span><span class="n">track</span><span class="p">)</span> <span class="k">const</span>
@@ -244,6 +294,7 @@ y'(\mathbf{p^{3\top}})-(\mathbf{p^{2\top}})\\
 \end{bmatrix} %]]></script>
 
 <p>Here is the C++ implementation of the midpoint triangulation</p>
+
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">StructurePoint</span> <span class="n">Triangulation</span><span class="o">::</span><span class="n">midpoint</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Camera</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">cameras</span><span class="p">,</span>
      <span class="k">const</span> <span class="n">FeatureTrack</span> <span class="o">&amp;</span><span class="n">track</span><span class="p">)</span> <span class="k">const</span>
 <span class="p">{</span>
@@ -283,12 +334,103 @@ y'(\mathbf{p^{3\top}})-(\mathbf{p^{2\top}})\\
 <span class="p">}</span>
 </code></pre>
 </div>
-<h2 id="geometric-error-triangulation">Geometric error triangulation</h2>
+<h2 id="geometric-triangulation">Geometric triangulation</h2>
 <p>Let <script type="math/tex">x\leftrightarrow x'</script> be the measured point correspondence, and <script type="math/tex">\hat{x}\leftrightarrow \hat{x'}</script> be the estimated point correspondence that satisfy the epipolar constraint, <em>i.e.</em>, <script type="math/tex">\hat{x'}^\top F \hat{x}=0</script>. This method minimizes the geometric distance between the measured and estimated points</p>
 
 <script type="math/tex; mode=display">C(x, x')=d(x, \hat{x}) + d(x', \hat{x'})</script>
 
-<h2 id="mle-triangulation-non-iterative">MLE triangulation (non-iterative)</h2>
+<h2 id="geometric-triangulation-sampson-approximation">Geometric triangulation (Sampson approximation)</h2>
+<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="c1">%vgg_X_from_xP_nonlin  Estimation of 3D point from image matches and camera matrices, nonlinear.</span>
+<span class="c1">%   X = vgg_X_from_xP_lin(x,P,imsize) computes max. likelihood estimate of projective</span>
+<span class="c1">%   3D point X (column 4-vector) from its projections in K images x (2-by-K matrix)</span>
+<span class="c1">%   and camera matrices P (K-cell of 3-by-4 matrices). Image sizes imsize (2-by-K matrix)</span>
+<span class="c1">%   are needed for preconditioning.</span>
+<span class="c1">%   By minimizing reprojection error, Newton iterations.</span>
+<span class="c1">%</span>
+<span class="c1">%   X = vgg_X_from_xP_lin(x,P,imsize,X0) takes initial estimate of X. If X0 is omitted,</span>
+<span class="c1">%   it is computed by linear algorithm.</span>
+<span class="c1">%</span>
+<span class="c1">%   See also vgg_X_from_xP_lin.</span>
+
+<span class="c1">% werner@robots.ox.ac.uk, 2003</span>
+<span class="k">function</span> <span class="n">X</span> <span class="o">=</span> <span class="n">vgg_X_from_xP_nonlin</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">imsize</span><span class="p">,</span><span class="n">X</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">iscell</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+  <span class="n">P</span> <span class="o">=</span> <span class="nb">cat</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">P</span><span class="p">{:});</span>
+<span class="k">end</span>
+<span class="n">K</span> <span class="o">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="k">if</span> <span class="n">K</span> <span class="o">&lt;</span> <span class="mi">2</span>
+  <span class="nb">error</span><span class="p">(</span><span class="s1">'Cannot reconstruct 3D from 1 image'</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="nb">nargin</span><span class="o">==</span><span class="mi">3</span>
+  <span class="n">X</span> <span class="o">=</span> <span class="n">vgg_X_from_xP_lin</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">imsize</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="nb">nargin</span><span class="o">==</span><span class="mi">2</span>
+  <span class="n">X</span> <span class="o">=</span> <span class="n">vgg_X_from_xP_lin</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">P</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="c1">% precondition</span>
+<span class="k">if</span> <span class="nb">nargin</span><span class="o">&gt;</span><span class="mi">2</span>
+  <span class="k">for</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">K</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">/</span><span class="n">imsize</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>
+         <span class="mi">0</span> <span class="mi">2</span><span class="p">/</span><span class="n">imsize</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span>
+         <span class="mi">0</span> <span class="mi">0</span>              <span class="mi">1</span><span class="p">];</span>
+    <span class="n">P</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span><span class="n">P</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">);</span>
+    <span class="n">u</span><span class="p">(:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">u</span><span class="p">(:,</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1">% Parametrize X such that X = T*[Y;1]; thus x = P*T*[Y;1] = Q*[Y;1]</span>
+<span class="p">[</span><span class="n">dummy</span><span class="p">,</span><span class="n">dummy</span><span class="p">,</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="nb">svd</span><span class="p">(</span><span class="n">X</span><span class="o">'</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">T</span><span class="p">(:,[</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span> <span class="mi">1</span><span class="p">]);</span>
+<span class="k">for</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">K</span>
+  <span class="n">Q</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">P</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="c1">% Newton</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">];</span>
+<span class="n">eprev</span> <span class="o">=</span> <span class="nb">inf</span><span class="p">;</span>
+<span class="k">for</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="mi">10</span>
+  <span class="p">[</span><span class="n">e</span><span class="p">,</span><span class="n">J</span><span class="p">]</span> <span class="o">=</span> <span class="n">resid</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">Q</span><span class="p">);</span>
+  <span class="k">if</span> <span class="mi">1</span><span class="o">-</span><span class="nb">norm</span><span class="p">(</span><span class="n">e</span><span class="p">)/</span><span class="nb">norm</span><span class="p">(</span><span class="n">eprev</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="o">*</span><span class="nb">eps</span>
+    <span class="k">break</span>
+  <span class="k">end</span>
+  <span class="n">eprev</span> <span class="o">=</span> <span class="n">e</span><span class="p">;</span>  
+  <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">-</span> <span class="p">(</span><span class="n">J</span><span class="s1">'*J)\(J'</span><span class="o">*</span><span class="n">e</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">T</span><span class="o">*</span><span class="p">[</span><span class="n">Y</span><span class="p">;</span><span class="mi">1</span><span class="p">];</span>
+
+<span class="k">return</span>
+
+<span class="c1">%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+<span class="k">function</span> <span class="p">[</span><span class="n">e</span><span class="p">,</span><span class="n">J</span><span class="p">]</span> <span class="o">=</span> <span class="n">resid</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">Q</span><span class="p">)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">e</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="n">J</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="k">for</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">K</span>
+  <span class="n">q</span> <span class="o">=</span> <span class="n">Q</span><span class="p">(:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+  <span class="n">x0</span> <span class="o">=</span> <span class="n">Q</span><span class="p">(:,</span><span class="mi">4</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">q</span><span class="o">*</span><span class="n">Y</span> <span class="o">+</span> <span class="n">x0</span><span class="p">;</span>
+  <span class="n">e</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="p">;</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">)/</span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">-</span><span class="n">u</span><span class="p">(:,</span><span class="n">k</span><span class="p">)];</span>
+  <span class="n">J</span> <span class="o">=</span> <span class="p">[</span><span class="n">J</span><span class="p">;</span> <span class="p">[</span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">q</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">-</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">q</span><span class="p">(</span><span class="mi">3</span><span class="p">,:)</span>
+           <span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">q</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="o">-</span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">q</span><span class="p">(</span><span class="mi">3</span><span class="p">,:)]/</span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">];</span>
+<span class="k">end</span>
+<span class="k">return</span>
+</code></pre>
+</div>
+
+<h2 id="optimal-triangulation-non-iterative">Optimal triangulation (non-iterative)</h2>
+<p>Let <script type="math/tex">x\leftrightarrow x'</script> be the measured point correspondence, and the goal of geometric error proposed above is to find a pair of estimated points <script type="math/tex">\hat{x}\leftrightarrow \hat{x'}</script> that minimize the SSD subject to the epipolar constraint <script type="math/tex">\hat{x'}^\top F \hat{x}=0</script>. However, this formulation requires iterative techniques to solve the problem. This cost function can be reformulated so that a non-iterative algorithm can be used.</p>
+
+<p>Since the estimated points lie on the epipolar lines, more specifically, <script type="math/tex">\hat{x}</script> lies on line <script type="math/tex">l</script> while <script type="math/tex">\hat{\mathbf{x'}}</script> lies on line <script type="math/tex">\mathbf{l'}</script>. Minimize the distance <script type="math/tex">d(x, \hat{x})</script>, where <script type="math/tex">\hat{x}\in l</script> is the same as minimizing the distance from the point <script type="math/tex">x</script> to the line <script type="math/tex">l</script>, therefore, the cost function can be rewritten as</p>
+
+<script type="math/tex; mode=display">d(\mathbf{x}, \mathbf{l})+d(\mathbf{x'}, \mathbf{l'})</script>
+
+<p>[TBD]</p>
 
 <h2 id="angular-triangulation">Angular triangulation</h2>
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">StructurePoint</span> <span class="n">Triangulation</span><span class="o">::</span><span class="n">angular</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Camera</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">cameras</span><span class="p">,</span>

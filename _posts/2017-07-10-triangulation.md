@@ -65,7 +65,57 @@ Set $$\mathbf{X} = [X, Y, Z, 1]$$, $$A\mathbf{X}=0$$ can be converted to a set o
 ### NOT projective invariant
 Unfortunately, this linear method is NOT projective invariant. Let's consider another camera matrix pair: $$PH^{-1}, P'H^{-1}$$. The matrix A, in this case, becomes $$AH^{-1}$$. It's easy to verify that the 3D point $$X$$ that satisfies $$A\mathbf{X}=\epsilon$$ also satisfies the new linear system $$(AH^{-1})(H\mathbf{X})=\epsilon$$. Thus, there is a one-to-one correspondence between point $$X$$ and $$HX$$ that gives the same error. However, the constraints for both the homogeneous method ($$\|X\|=1$$) and inhomogeneous method ($$\mathbf{X}=[X,Y,Z,1]^\top$$) are not invariant under projective transformation. Thus, in general the point $$\mathbf{X}$$ solving the original problem will not correspond to a solution $$H\mathbf{X}$$ for the transformed problem. However, there is a special case: for affine reconstruction, the inhomogeneous method is affine transformation invariant. Please refer to the MVG book by Hartley and Zisserman for details.
 
-Here is a the C++ implementation of the linear triangulation solved by the homogeneous method.
+Here is a the Matlab version of the linear triangulation solved by the homogeneous method.
+
+```matlab
+%vgg_X_from_xP_lin  Estimation of 3D point from image matches and camera matrices, linear.
+%   X = vgg_X_from_xP_lin(x,P,imsize) computes projective 3D point X (column 4-vector)
+%   from its projections in K images x (2-by-K matrix) and camera matrices P (K-cell
+%   of 3-by-4 matrices). Image sizes imsize (2-by-K matrix) are needed for preconditioning.
+%   By minimizing algebraic distance.
+%
+%   See also vgg_X_from_xP_nonlin.
+
+% werner@robots.ox.ac.uk, 2003
+
+function X = vgg_X_from_xP_lin(u,P,imsize)
+
+if iscell(P)
+  P = cat(3,P{:});
+end
+K = size(P,3);
+
+if nargin>2
+  for k = 1:K
+    H = [2/imsize(1,k) 0 -1
+         0 2/imsize(2,k) -1
+         0 0              1];
+    P(:,:,k) = H*P(:,:,k);
+    u(:,k) = H(1:2,1:2)*u(:,k) + H(1:2,3);
+  end
+end
+
+A = [];
+for k = 1:K
+  A = [A; vgg_contreps([u(:,k);1])*P(:,:,k)];
+end
+% A = normx(A')';
+[dummy,dummy,X] = svd(A,0);
+X = X(:,end);
+
+% Get orientation right
+s = reshape(P(3,:,:),[4 K])'*X;
+if any(s<0)
+  X = -X;
+  if any(s>0)
+%    warning('Inconsistent orientation of point match');
+  end
+end
+
+return
+```
+
+Here is a the C++ version of the linear triangulation solved by the homogeneous method.
 
 ```cpp
 StructurePoint Triangulation::linear(const vector<Camera> &cameras,
@@ -172,6 +222,7 @@ $$
 $$
 
 Here is the C++ implementation of the midpoint triangulation
+
 ```cpp
 StructurePoint Triangulation::midpoint(const vector<Camera> &cameras,
      const FeatureTrack &track) const
@@ -211,15 +262,107 @@ StructurePoint Triangulation::midpoint(const vector<Camera> &cameras,
   return StructurePoint(min_mp, track[0].color());
 }
 ```
-## Geometric error triangulation
+## Geometric triangulation
 Let $$x\leftrightarrow x'$$ be the measured point correspondence, and $$\hat{x}\leftrightarrow \hat{x'}$$ be the estimated point correspondence that satisfy the epipolar constraint, *i.e.*, $$\hat{x'}^\top F \hat{x}=0$$. This method minimizes the geometric distance between the measured and estimated points
 
 $$
 C(x, x')=d(x, \hat{x}) + d(x', \hat{x'})
 $$
 
-## MLE triangulation (non-iterative)
+## Geometric triangulation (Sampson approximation)
+```matlab
+%vgg_X_from_xP_nonlin  Estimation of 3D point from image matches and camera matrices, nonlinear.
+%   X = vgg_X_from_xP_lin(x,P,imsize) computes max. likelihood estimate of projective
+%   3D point X (column 4-vector) from its projections in K images x (2-by-K matrix)
+%   and camera matrices P (K-cell of 3-by-4 matrices). Image sizes imsize (2-by-K matrix)
+%   are needed for preconditioning.
+%   By minimizing reprojection error, Newton iterations.
+%
+%   X = vgg_X_from_xP_lin(x,P,imsize,X0) takes initial estimate of X. If X0 is omitted,
+%   it is computed by linear algorithm.
+%
+%   See also vgg_X_from_xP_lin.
 
+% werner@robots.ox.ac.uk, 2003
+function X = vgg_X_from_xP_nonlin(u,P,imsize,X)
+
+if iscell(P)
+  P = cat(3,P{:});
+end
+K = size(P,3);
+if K < 2
+  error('Cannot reconstruct 3D from 1 image');
+end
+
+if nargin==3
+  X = vgg_X_from_xP_lin(u,P,imsize);
+end
+
+if nargin==2
+  X = vgg_X_from_xP_lin(u,P);
+end
+
+% precondition
+if nargin>2
+  for k = 1:K
+    H = [2/imsize(1,k) 0 -1
+         0 2/imsize(2,k) -1
+         0 0              1];
+    P(:,:,k) = H*P(:,:,k);
+    u(:,k) = H(1:2,1:2)*u(:,k) + H(1:2,3);
+  end
+end
+
+% Parametrize X such that X = T*[Y;1]; thus x = P*T*[Y;1] = Q*[Y;1]
+[dummy,dummy,T] = svd(X',0);
+T = T(:,[2:end 1]);
+for k = 1:K
+  Q(:,:,k) = P(:,:,k)*T;
+end
+
+% Newton
+Y = [0;0;0];
+eprev = inf;
+for n = 1:10
+  [e,J] = resid(Y,u,Q);
+  if 1-norm(e)/norm(eprev) < 1000*eps
+    break
+  end
+  eprev = e;  
+  Y = Y - (J'*J)\(J'*e);
+end
+
+X = T*[Y;1];
+
+return
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [e,J] = resid(Y,u,Q)
+K = size(Q,3);
+e = [];
+J = [];
+for k = 1:K
+  q = Q(:,1:3,k);
+  x0 = Q(:,4,k);
+  x = q*Y + x0;
+  e = [e; x(1:2)/x(3)-u(:,k)];
+  J = [J; [x(3)*q(1,:)-x(1)*q(3,:)
+           x(3)*q(2,:)-x(2)*q(3,:)]/x(3)^2];
+end
+return
+```
+
+## Optimal triangulation (non-iterative)
+Let $$x\leftrightarrow x'$$ be the measured point correspondence, and the goal of geometric error proposed above is to find a pair of estimated points $$\hat{x}\leftrightarrow \hat{x'}$$ that minimize the SSD subject to the epipolar constraint $$\hat{x'}^\top F \hat{x}=0$$. However, this formulation requires iterative techniques to solve the problem. This cost function can be reformulated so that a non-iterative algorithm can be used.
+
+Since the estimated points lie on the epipolar lines, more specifically, $$\hat{x}$$ lies on line $$l$$ while $$\hat{\mathbf{x'}}$$ lies on line $$\mathbf{l'}$$. Minimize the distance $$d(x, \hat{x})$$, where $$\hat{x}\in l$$ is the same as minimizing the distance from the point $$x$$ to the line $$l$$, therefore, the cost function can be rewritten as
+
+$$
+d(\mathbf{x}, \mathbf{l})+d(\mathbf{x'}, \mathbf{l'})
+$$
+
+[TBD]
 
 ## Angular triangulation
 ```cpp
