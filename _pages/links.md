@@ -288,6 +288,7 @@ operating system\\
 [compiler-mli](http://bcmi.sjtu.edu.cn/~mli/tiger/index.html)
 computer architecture\\
 [Learn Linux the Hard Way](https://archive.is/xDb8o)\\
+[Tutorial on C and C++ Programming](http://www.cprogramming.com)\\
 [Practical Programming in C](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-087-practical-programming-in-c-january-iap-2010/)\\
 [(Done)Introduction to C Memory Management and C++ Object-Oriented Programming](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-088-introduction-to-c-memory-management-and-c-object-oriented-programming-january-iap-2010/index.htm#features)\\
 [Introduction to C++](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-096-introduction-to-c-january-iap-2011/)\\
