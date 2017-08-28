@@ -99,7 +99,7 @@
 
 <ol>
   <li><strong>Estimate surface normals</strong>: if the point cloud doesn’t have surface orientation, we need to first compute surface normals from neighbouring vertices: <code class="highlighter-rouge">Filters</code>&gt;<code class="highlighter-rouge">Point Set</code>&gt;<code class="highlighter-rouge">Compute normals for point sets</code>&gt;<code class="highlighter-rouge">Neighbour num: 16</code>;</li>
-  <li><strong>Downsample point cloud</strong> (if necessary): <code class="highlighter-rouge">Filters</code>&gt;<code class="highlighter-rouge">Poisson-disk Sampling</code>&gt;<code class="highlighter-rouge">Number of samples: [nsamps]</code> + <code class="highlighter-rouge">Base Mesh Subsampling: tick</code>;</li>
+  <li><strong>Downsample point cloud</strong> (if necessary): <code class="highlighter-rouge">Filters</code>&gt;<code class="highlighter-rouge">Poisson-disk Sampling</code>&gt;<code class="highlighter-rouge">Number of samples: [nsamps]</code> + <code class="highlighter-rouge">Base Mesh Subsampling: check</code>;</li>
   <li><strong>Meshing</strong>: <code class="highlighter-rouge">Filters</code>&gt;<code class="highlighter-rouge">Remeshing, Simplification and Reconstruction</code>&gt;<code class="highlighter-rouge">Screened Poisson Surface Reconstruction</code>&gt;<code class="highlighter-rouge">Reconstruction Depth: 12</code>.</li>
 </ol>
 
@@ -158,7 +158,7 @@
 </ul>
 
 <h2 id="lighting-optional">Lighting (Optional)</h2>
-<p>Here is a simple way to add a world lighting: <code class="highlighter-rouge">World</code>&gt;<code class="highlighter-rouge">World</code>&gt;<code class="highlighter-rouge">Real Sky: tick</code>&gt;<code class="highlighter-rouge">Environment Lighting: tick</code>&gt;<code class="highlighter-rouge">White</code> or <code class="highlighter-rouge">Sky Texture</code>.</p>
+<p>Here is a simple way to add a world lighting: <code class="highlighter-rouge">World</code>&gt;<code class="highlighter-rouge">World</code>&gt;<code class="highlighter-rouge">Real Sky: check</code>&gt;<code class="highlighter-rouge">Environment Lighting: check</code>&gt;<code class="highlighter-rouge">White</code> or <code class="highlighter-rouge">Sky Texture</code>.</p>
 
   </article>
 

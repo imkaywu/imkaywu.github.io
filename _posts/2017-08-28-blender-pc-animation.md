@@ -15,7 +15,7 @@ The problem of rendering a point cloud in Blender is that Blender is built to wo
 ### Convert to surface mesh in MeshLab
 
 1. **Estimate surface normals**: if the point cloud doesn't have surface orientation, we need to first compute surface normals from neighbouring vertices: `Filters`>`Point Set`>`Compute normals for point sets`>`Neighbour num: 16`;
-2. **Downsample point cloud** (if necessary): `Filters`>`Poisson-disk Sampling`>`Number of samples: [nsamps]` + `Base Mesh Subsampling: tick`;
+2. **Downsample point cloud** (if necessary): `Filters`>`Poisson-disk Sampling`>`Number of samples: [nsamps]` + `Base Mesh Subsampling: check`;
 3. **Meshing**: `Filters`>`Remeshing, Simplification and Reconstruction`>`Screened Poisson Surface Reconstruction`>`Reconstruction Depth: 12`.
 
 
@@ -73,4 +73,4 @@ The difference is that it's possible to stop the rendering process for the secon
 
 
 ## Lighting (Optional)
-Here is a simple way to add a world lighting: `World`>`World`>`Real Sky: tick`>`Environment Lighting: tick`>`White` or `Sky Texture`.
+Here is a simple way to add a world lighting: `World`>`World`>`Real Sky: check`>`Environment Lighting: check`>`White` or `Sky Texture`.
