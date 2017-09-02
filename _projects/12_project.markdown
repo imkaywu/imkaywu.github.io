@@ -4,8 +4,11 @@ description:
 img: /assets/img/project/thumbnail/ps_train.png
 ---
 
+## News
+The new project page can be found [here]({{site.url}}/{{site.baseurl}}/3drecon_dataset).
+
 ## Introduction
-The is the toolbox I developed for my Master's thesis to run various 3D reconstruction algorithms and evaluate their performance under varied material and geometric conditions. The [source code](https://github.com/imkaywu/3DRecon_Algo_Eval) is publicly available. The new project page can be found [here]({{site.url}}/{{site.baseurl}}/3drecon_dataset).
+The is the toolbox I developed for my Master's thesis to run various 3D reconstruction algorithms and evaluate their performance under varied material and geometric conditions. The [source code](https://github.com/imkaywu/3DRecon_Algo_Eval) is publicly available.
 
 ## Algorithms
 * PMVS: patch-based Multi-view Stereo

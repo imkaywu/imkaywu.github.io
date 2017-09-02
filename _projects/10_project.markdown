@@ -4,6 +4,9 @@ description:
 img: /assets/img/project/thumbnail/real_world_dataset.png
 ---
 
+## News
+The new project page can be found [here]({{site.url}}/{{site.baseurl}}/3drecon_dataset).
+
 ## Introduction
 This dataset is created for my Master's research on development and evaluation of algorithm-free framework for 3D reconstruction, which is part of the OpenVL project. The goal is to find a set of descriptions and a mapping from a well-defined problem domain to a well reconstructed object model. Each object is captured using three different setups
 
