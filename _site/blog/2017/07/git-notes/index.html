@@ -117,6 +117,44 @@ git commit -m ".DS_Store removed"
 </code></pre>
 </div>
 
+<h2 id="delete-master-branch">Delete master branch</h2>
+<p>First delete <code class="highlighter-rouge">master</code> in the local repo. To do this we first make a new branch call <code class="highlighter-rouge">placeholder</code>, and delete <code class="highlighter-rouge">master</code> from there:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git branch placeholder
+git checkout placeholder
+git branch -D master
+</code></pre>
+</div>
+
+<p>We next want to delete the branch on github. However, if we do this the naive way:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>git push origin :master
+</code></pre>
+</div>
+
+<p>we will get error like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>remote: error: refusing to delete the current branch: refs/heads/master
+To git@github.com:matthew-brett/datarray.git
+! [remote rejected] master (deletion of the current branch prohibited)
+error: failed to push some refs to 'git@github.com:matthew-brett/datarray.git'
+</code></pre>
+</div>
+
+<p>This is because github is looking at the <code class="highlighter-rouge">master</code> branch to provide the web content when you browse the remote repo. So we first have to make github look at our <code class="highlighter-rouge">placeholder</code> branch instead, then delete <code class="highlighter-rouge">master</code>.</p>
+
+<p>First push up the <code class="highlighter-rouge">placeholder</code> branch</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git checkout placeholder
+git push origin placeholder
+</code></pre>
+</div>
+
+<p>Then set <code class="highlighter-rouge">placeholder</code> to be the github default branch. Go to the page of remote repo, then select <code class="highlighter-rouge">Settings</code>&gt;<code class="highlighter-rouge">Branches</code>. Under <code class="highlighter-rouge">Default branch</code>, switch the default branch from <code class="highlighter-rouge">master</code> to <code class="highlighter-rouge">placeholder</code>. Now you can delete the <code class="highlighter-rouge">master</code> branch</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git push origin :master
+</code></pre>
+</div>
+
   </article>
 
   
