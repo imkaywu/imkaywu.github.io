@@ -258,7 +258,8 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 ### Computational Photography
 [Digital photography](https://sites.google.com/site/marclevoylectures/schedule)\\
 [Clarkvision Articles](http://www.clarkvision.com/articles/index.html)\\
-[Cambridge in Colour](http://www.cambridgeincolour.com)
+[Cambridge in Colour](http://www.cambridgeincolour.com)\\
+[iPhone photography school](https://iphonephotographyschool.com)
 
 ### Machine Learning
 [Machine Learning Reading Group at UBC](http://www.cs.ubc.ca/labs/lci/mlrg/)\\
