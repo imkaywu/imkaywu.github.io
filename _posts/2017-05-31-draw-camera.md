@@ -11,9 +11,9 @@ I read somewhere that to be more efficient in a long run when it comes to implem
 
 ### Visualization
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_1.png" alt="" title="example image"/>
-    <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_2.png" alt="" title="example image"/>
-    <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_3.png" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/open3DCV/viz/viz_cam_1.png" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/open3DCV/viz/viz_cam_2.png" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/open3DCV/viz/viz_cam_3.png" alt="" title="example image"/>
 </div>
 
 ```matlab
@@ -42,7 +42,7 @@ for i = 1 : N
     % implementation 2
 %     K = [f 0 w/2; 0 f h/2; 0 0 1];
 %     t = -R*c;
-%     drawCamera1(K, R, t);
+%     draw_camera(K, R, t);
     
     % implementation 3
 %     K = [f 0 w/2; 0 f h/2; 0 0 1];
@@ -150,7 +150,7 @@ $$
 The second step is the same as the one implemented above, transform points from the camera coordinate system to world coordinate system.
 
 ```matlab
-function drawCamera1(K, R, t)
+function draw_camera(K, R, t)
   alpha_c = K(1, 2);
   fc(1) = K(1, 1);
   fc(2) = K(2, 2);
