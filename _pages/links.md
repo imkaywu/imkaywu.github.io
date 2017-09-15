@@ -126,11 +126,6 @@ title: "links"
 [VXL](http://vxl.sourceforge.net)
 
 #### Reconstruction
-
-[Bundler: SfM system for unordered image collections, C/C++](http://www.cs.cornell.edu/%7Esnavely/bundler/)\\
-[Theia Vision Library - for SfM](http://www.theia-sfm.org/sfm.html#chapter-sfm)\\
-[VisualSFM: a GUI application for 3D reconstruction using SFM](http://ccwu.me/vsfm/)\\
-[COLMAP - SfM + MVS](https://colmap.github.io)\\
 [Dense Visual SLAM](http://vision.in.tum.de/data/software/dvo)\\
 [openMVS](http://cdcseacave.github.io/openMVS/)\\
 [MVE: include incremental SfM, MVS, FSSR](http://www.gcc.tu-darmstadt.de/home/proj/mve/)\\
@@ -145,6 +140,13 @@ title: "links"
 [Visual Hull](http://vision.gel.ulaval.ca/~visualhull/)\\
 [QHull]()\\
 [Manolis Lourakis](http://users.ics.forth.gr/~lourakis/)
+
+#### SfM
+[Bundler: SfM system for unordered image collections, C/C++](http://www.cs.cornell.edu/%7Esnavely/bundler/)\\
+[Theia Vision Library - for SfM](http://www.theia-sfm.org/sfm.html#chapter-sfm)\\
+[VisualSFM: a GUI application for 3D reconstruction using SFM](http://ccwu.me/vsfm/)\\
+[COLMAP - SfM + MVS](https://colmap.github.io)\\
+[Structure and Motion Toolkit in MATLAB - Torr](https://www.mathworks.com/matlabcentral/fileexchange/4576-structure-and-motion-toolkit-in-matlab)
 
 #### Appearance
 [Inverse Shade Trees](http://ist.cs.princeton.edu)
@@ -255,11 +257,12 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [Interactive Computer Graphics: A Top-Down Approach with OpenGL](http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/)\\
 [ONLINE FREE TUTORIALS AND BOOKS](https://courses.edx.org/asset-v1:UCSDx+CSE167x+1T2017+type@asset+block/links.html)\\
 
-### Computational Photography
+### Photography
 [Digital photography](https://sites.google.com/site/marclevoylectures/schedule)\\
 [Clarkvision Articles](http://www.clarkvision.com/articles/index.html)\\
 [Cambridge in Colour](http://www.cambridgeincolour.com)\\
-[iPhone photography school](https://iphonephotographyschool.com)
+[iPhone photography school](https://iphonephotographyschool.com)\\
+[Ken Rockwell](http://www.kenrockwell.com/index.htm)
 
 ### Machine Learning
 [Machine Learning Reading Group at UBC](http://www.cs.ubc.ca/labs/lci/mlrg/)\\

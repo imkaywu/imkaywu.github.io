@@ -69,30 +69,32 @@ $$
 \begin{align}
 \mathbf{X}_w &= \vec{e}+X_c \vec{u} + Y_c \vec{v} + Z_c \vec{w}\\
 &= [\vec{u} | \vec{v} | \vec{w}]\mathbf{X}_c + \vec{e}\\
-&= P_{cw}X_c + \vec{e}
+&= R_{cw}X_c + \vec{e}
 \end{align}
 $$
 
-We also need to find the inverse transformation, i.e., from world to camera coordinates. We note that that matrix $$P_{cw}$$ is orthonomal. Because $$\vec{u}, \vec{v}, \vec{w}$$ are unit vector that are perpendicular to one another. Therefore, $$P_{cw}^T P_{cw}=P_{cw}P_{cw}^T=I$$. The inverse matrix $$P_{wc}$$ is
+We also need to find the inverse transformation, i.e., from world to camera coordinates. We note that that matrix $$R_{cw}$$ is orthonomal. Because $$\vec{u}, \vec{v}, \vec{w}$$ are unit vector that are perpendicular to one another. Therefore, $$R_{cw}^T R_{cw}=R_{cw}R_{cw}^T=I$$. The inverse matrix $$R_{wc}$$ is
 
 $$
 \begin{align}
-\mathbf{X}_c = P_{cw}^T(\mathbf{X}_w - \vec{e})
+\mathbf{X}_c = R_{cw}^T(\mathbf{X}_w - \vec{e})
 \end{align}
 $$
 
 In inhomogeneous coordinates, we have
 $$
-P_{cw}=[\vec{u} | \vec{v} | \vec{w}]
+R_{cw}=[\vec{u} | \vec{v} | \vec{w}]
 $$
+, and 
 $$
-P_{wc}=\left[\begin{matrix} \vec{u}^T \\ \vec{v}^T \\ \vec{w}^T \end{matrix}\right]
+R_{wc}=\left[\begin{matrix} \vec{u}^T \\ \vec{v}^T \\ \vec{w}^T \end{matrix}\right]
 $$
 
 In homogeneous coordinates, we have
 $$
-P_{cw}=\left[\begin{matrix} P_{cw} & \vec{e} \\ \vec{0}^T & 1 \end{matrix}\right]
+\hat{R}_{cw}=\left[\begin{matrix} R_{cw} & \vec{e} \\ \vec{0}^T & 1 \end{matrix}\right]
 $$
+, and 
 $$
-P_{wc}=\left[\begin{matrix} P_{wc} & -P_{wc}\vec{e} \\ \vec{0}^T & 1 \end{matrix}\right]
+\hat{R}_{wc}=\left[\begin{matrix} R_{wc} & -R_{wc}\vec{e} \\ \vec{0}^T & 1 \end{matrix}\right]
 $$

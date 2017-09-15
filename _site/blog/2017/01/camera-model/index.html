@@ -153,24 +153,26 @@
 \begin{align}
 \mathbf{X}_w &= \vec{e}+X_c \vec{u} + Y_c \vec{v} + Z_c \vec{w}\\
 &= [\vec{u} | \vec{v} | \vec{w}]\mathbf{X}_c + \vec{e}\\
-&= P_{cw}X_c + \vec{e}
+&= R_{cw}X_c + \vec{e}
 \end{align} %]]></script>
 
-<p>We also need to find the inverse transformation, i.e., from world to camera coordinates. We note that that matrix <script type="math/tex">P_{cw}</script> is orthonomal. Because <script type="math/tex">\vec{u}, \vec{v}, \vec{w}</script> are unit vector that are perpendicular to one another. Therefore, <script type="math/tex">P_{cw}^T P_{cw}=P_{cw}P_{cw}^T=I</script>. The inverse matrix <script type="math/tex">P_{wc}</script> is</p>
+<p>We also need to find the inverse transformation, i.e., from world to camera coordinates. We note that that matrix <script type="math/tex">R_{cw}</script> is orthonomal. Because <script type="math/tex">\vec{u}, \vec{v}, \vec{w}</script> are unit vector that are perpendicular to one another. Therefore, <script type="math/tex">R_{cw}^T R_{cw}=R_{cw}R_{cw}^T=I</script>. The inverse matrix <script type="math/tex">R_{wc}</script> is</p>
 
 <script type="math/tex; mode=display">\begin{align}
-\mathbf{X}_c = P_{cw}^T(\mathbf{X}_w - \vec{e})
+\mathbf{X}_c = R_{cw}^T(\mathbf{X}_w - \vec{e})
 \end{align}</script>
 
 <p>In inhomogeneous coordinates, we have
-<script type="math/tex">P_{cw}=[\vec{u} | \vec{v} | \vec{w}]</script>
-<script type="math/tex">P_{wc}=\left[\begin{matrix} \vec{u}^T \\ \vec{v}^T \\ \vec{w}^T \end{matrix}\right]</script></p>
+<script type="math/tex">R_{cw}=[\vec{u} | \vec{v} | \vec{w}]</script>
+, and 
+<script type="math/tex">R_{wc}=\left[\begin{matrix} \vec{u}^T \\ \vec{v}^T \\ \vec{w}^T \end{matrix}\right]</script></p>
 
 <p>In homogeneous coordinates, we have
 <script type="math/tex">% <![CDATA[
-P_{cw}=\left[\begin{matrix} P_{cw} & \vec{e} \\ \vec{0}^T & 1 \end{matrix}\right] %]]></script>
+\hat{R}_{cw}=\left[\begin{matrix} R_{cw} & \vec{e} \\ \vec{0}^T & 1 \end{matrix}\right] %]]></script>
+, and 
 <script type="math/tex">% <![CDATA[
-P_{wc}=\left[\begin{matrix} P_{wc} & -P_{wc}\vec{e} \\ \vec{0}^T & 1 \end{matrix}\right] %]]></script></p>
+\hat{R}_{wc}=\left[\begin{matrix} R_{wc} & -R_{wc}\vec{e} \\ \vec{0}^T & 1 \end{matrix}\right] %]]></script></p>
 
   </article>
 

@@ -91,107 +91,262 @@
   <article class="post-content">
     <p>I read somewhere that to be more efficient in a long run when it comes to implementing a library, the first thing you should implement is the code that does visualization. To 3D computer vision, the single most important or common place component is probably the camera. This is what we are going to do here.</p>
 
-<h3 id="first-implementation">First implementation</h3>
-<p>The first implementation comes from the SFMedu2 by Dr. Jianxiong Xiao, let’s assume that we’re in the camera coordinate system, and the focal length is <script type="math/tex">f</script>, then the coordinate of the center of projection and the four corners of the images plane is: <script type="math/tex">(0, 0, 0)</script>, <script type="math/tex">(-\frac{w}{2}, -\frac{h}{2}, f)</script>, <script type="math/tex">(\frac{w}{2}, -\frac{h}{2}, f)</script>, <script type="math/tex">(\frac{w}{2}, \frac{h}{2}, f)</script>, <script type="math/tex">(-\frac{w}{2}, \frac{h}{2}, f)</script>. Special points on the axes of the camera coordinate system are: <script type="math/tex">(f, 0, 0)</script>, <script type="math/tex">(0, f, 0)</script>, <script type="math/tex">(0, 0, f)</script>.</p>
+<h3 id="visualization">Visualization</h3>
+<div class="img_row">
+    <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_1.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_2.png" alt="" title="example image" />
+</div>
 
-<p>To get the coordinates of all these points that are in the camera coordinate system to that in the world coordinate system, we need to</p>
+<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="c1">% example code to visualize N synthetic cameras</span>
+<span class="nb">close</span> <span class="nb">all</span><span class="p">;</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+<span class="n">ang</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">pi</span> <span class="p">/</span> <span class="n">N</span><span class="p">;</span>
+<span class="n">radius</span> <span class="o">=</span> <span class="mi">300</span><span class="p">;</span>
+<span class="n">f</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">;</span>
+<span class="n">w</span> <span class="o">=</span> <span class="mi">640</span><span class="p">;</span>
+<span class="n">h</span> <span class="o">=</span> <span class="mi">480</span><span class="p">;</span>
+
+<span class="k">for</span> <span class="nb">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">N</span>
+    <span class="n">cos_ang</span> <span class="o">=</span> <span class="nb">cos</span><span class="p">(</span><span class="nb">i</span> <span class="o">*</span> <span class="n">ang</span><span class="p">);</span>
+    <span class="n">sin_ang</span> <span class="o">=</span> <span class="nb">sin</span><span class="p">(</span><span class="nb">i</span> <span class="o">*</span> <span class="n">ang</span><span class="p">);</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">sin_ang</span><span class="p">,</span>  <span class="n">cos_ang</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
+          <span class="mi">0</span><span class="p">,</span>        <span class="mi">0</span><span class="p">,</span>      <span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="k">...</span><span class="c"> </span>
+         <span class="o">-</span><span class="n">cos_ang</span><span class="p">,</span> <span class="o">-</span><span class="n">sin_ang</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="p">[</span><span class="n">cos_ang</span><span class="p">,</span> <span class="n">sin_ang</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">'</span><span class="p">;</span>
+    
+    <span class="c1">% implementation 1</span>
+    <span class="n">Rt</span> <span class="o">=</span> <span class="p">[</span><span class="n">R</span><span class="p">,</span> <span class="o">-</span><span class="n">R</span><span class="o">*</span><span class="n">c</span><span class="p">];</span>
+    <span class="n">drawCamera</span><span class="p">(</span><span class="n">Rt</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+
+    <span class="c1">% implementation 2</span>
+<span class="c1">%     K = [f 0 w/2; 0 f h/2; 0 0 1];</span>
+<span class="c1">%     t = -R*c;</span>
+<span class="c1">%     drawCamera1(K, R, t);</span>
+    
+    <span class="c1">% implementation 3</span>
+<span class="c1">%     K = [f 0 w/2; 0 f h/2; 0 0 1];</span>
+<span class="c1">%     camera(i).w = w;</span>
+<span class="c1">%     camera(i).h = h;</span>
+<span class="c1">%     camera(i).K = K;</span>
+<span class="c1">%     camera(i).R = R;</span>
+<span class="c1">%     camera(i).T = -R*c;</span>
+<span class="k">end</span>
+
+<span class="nb">xlabel</span><span class="p">(</span><span class="s1">'x'</span><span class="p">);</span> <span class="nb">ylabel</span><span class="p">(</span><span class="s1">'y'</span><span class="p">);</span> <span class="nb">zlabel</span><span class="p">(</span><span class="s1">'z'</span><span class="p">);</span>
+<span class="nb">axis</span> <span class="n">equal</span><span class="p">;</span>
+<span class="nb">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
+<span class="nb">title</span><span class="p">(</span><span class="s1">'implementation 2'</span><span class="p">);</span>
+
+<span class="c1">% showcamera(camera);</span>
+</code></pre>
+</div>
+
+<h3 id="first-implementation">First implementation</h3>
+<p>The first implementation comes from the SFMedu2 by Dr. Jianxiong Xiao. Assume that the focal length is <script type="math/tex">f</script>, the coordinates of the center of projection and the four corners of the images plane in the camera coordinate system is: <script type="math/tex">(0, 0, 0)</script>, <script type="math/tex">(-\frac{w}{2}, -\frac{h}{2}, f)</script>, <script type="math/tex">(\frac{w}{2}, -\frac{h}{2}, f)</script>, <script type="math/tex">(\frac{w}{2}, \frac{h}{2}, f)</script>, <script type="math/tex">(-\frac{w}{2}, \frac{h}{2}, f)</script>. Points on the axes of the camera coordinate system are: <script type="math/tex">(f, 0, 0)</script>, <script type="math/tex">(0, f, 0)</script>, <script type="math/tex">(0, 0, f)</script>.</p>
+
+<p>The next step is to transform these point from camera coordinate system to world coordinate system</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align}
+\begin{bmatrix} X_c \\1 \end{bmatrix} &= \begin{bmatrix} R_{wc} & T_{wc} \\ \vec{0}^T & 1 \end{bmatrix} \begin{bmatrix} X_w \\1 \end{bmatrix}\\
 \left[\begin{matrix} X_w \\1 \end{matrix}\right] &= \left[\begin{matrix} R_{wc} & T_{wc} \\ \vec{0}^T & 1 \end{matrix}\right]' * \left[\begin{matrix} X_c \\1 \end{matrix}\right]\\
 &= \left[\begin{matrix} R_{wc}' & -R_{wc}'T_{wc} \\ \vec{0}^T & 1 \end{matrix}\right] * \left[\begin{matrix} X_c \\1 \end{matrix}\right]\\
 \leftrightarrow X_w &= R_{wc}'*(X_c-T_{wc})
 \end{align} %]]></script>
 
-<!-- The inverse transform of vector is different from that of point:
+<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="k">function</span> <span class="n">drawCamera</span><span class="p">(</span><span class="n">Rt</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">lineWidth</span><span class="p">)</span>
+<span class="c1">% SFMedu: Structrue From Motion for Education Purpose</span>
+<span class="c1">% Written by Jianxiong Xiao (MIT License)</span>
 
-$$
-l^T x = l^T P^{-1} P x = (P^{-T} l)^T \cdot (P x)
-$$ -->
+<span class="c1">% Xcamera = Rt * Xworld</span>
+  <span class="n">V</span><span class="o">=</span><span class="p">[</span><span class="k">...</span>
+  <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="n">f</span> <span class="o">-</span><span class="n">w</span><span class="p">/</span><span class="mi">2</span>  <span class="n">w</span><span class="p">/</span><span class="mi">2</span> <span class="n">w</span><span class="p">/</span><span class="mi">2</span> <span class="o">-</span><span class="n">w</span><span class="p">/</span><span class="mi">2</span>
+  <span class="mi">0</span> <span class="mi">0</span> <span class="n">f</span> <span class="mi">0</span> <span class="o">-</span><span class="n">h</span><span class="p">/</span><span class="mi">2</span> <span class="o">-</span><span class="n">h</span><span class="p">/</span><span class="mi">2</span> <span class="n">h</span><span class="p">/</span><span class="mi">2</span>  <span class="n">h</span><span class="p">/</span><span class="mi">2</span>
+  <span class="mi">0</span> <span class="n">f</span> <span class="mi">0</span> <span class="mi">0</span>  <span class="n">f</span>    <span class="n">f</span>    <span class="n">f</span>   <span class="n">f</span><span class="p">];</span>
 
-<p>To get the coordinates of the axes in the world coordinate system, we need to</p>
+  <span class="n">V</span> <span class="o">=</span> <span class="n">V</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="n">R</span><span class="o">'*</span><span class="p">(</span><span class="n">V</span><span class="o">-</span><span class="nb">repmat</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">size</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="mi">2</span><span class="p">)));</span>
 
-<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="n">V</span><span class="o">=</span><span class="p">[</span><span class="k">...</span>
-<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="n">f</span> <span class="o">-</span><span class="n">w</span><span class="p">/</span><span class="mi">2</span>  <span class="n">w</span><span class="p">/</span><span class="mi">2</span> <span class="n">w</span><span class="p">/</span><span class="mi">2</span> <span class="o">-</span><span class="n">w</span><span class="p">/</span><span class="mi">2</span>
-<span class="mi">0</span> <span class="mi">0</span> <span class="n">f</span> <span class="mi">0</span> <span class="o">-</span><span class="n">h</span><span class="p">/</span><span class="mi">2</span> <span class="o">-</span><span class="n">h</span><span class="p">/</span><span class="mi">2</span> <span class="n">h</span><span class="p">/</span><span class="mi">2</span>  <span class="n">h</span><span class="p">/</span><span class="mi">2</span>
-<span class="mi">0</span> <span class="n">f</span> <span class="mi">0</span> <span class="mi">0</span>  <span class="n">f</span>    <span class="n">f</span>    <span class="n">f</span>   <span class="n">f</span><span class="p">];</span>
+  <span class="nb">hold</span> <span class="n">on</span><span class="p">;</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">4</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">4</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">4</span><span class="p">]),</span><span class="s1">'-r'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% plot x-axis</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">3</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">3</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">3</span><span class="p">]),</span><span class="s1">'-g'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% plot y-axis</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]),</span><span class="s1">'-b'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% plot z-axis</span>
 
-<span class="n">V</span> <span class="o">=</span> <span class="n">R</span><span class="o">'*</span><span class="p">(</span><span class="n">V</span><span class="o">-</span><span class="nb">repmat</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">size</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="mi">2</span><span class="p">)));</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">5</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">5</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">5</span><span class="p">]),</span><span class="s1">'-k'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% center to up-left corner</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">6</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">6</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">6</span><span class="p">]),</span><span class="s1">'-k'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% center to up-right corner</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">7</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">7</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">7</span><span class="p">]),</span><span class="s1">'-k'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% center to lower-right corner</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">8</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">8</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">8</span><span class="p">]),</span><span class="s1">'-k'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% center to lower-left corner</span>
 
-<span class="nb">hold</span> <span class="n">on</span><span class="p">;</span>
-<span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">4</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">4</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">4</span><span class="p">]),</span><span class="s1">'-r'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% plot x-axis</span>
-<span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">3</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">3</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">3</span><span class="p">]),</span><span class="s1">'-g'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% plot y-axis</span>
-<span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]),</span><span class="s1">'-b'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% plot z-axis</span>
-
-<span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">5</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">5</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">5</span><span class="p">]),</span><span class="s1">'-k'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% center to up-left corner</span>
-<span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">6</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">6</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">6</span><span class="p">]),</span><span class="s1">'-k'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% center to up-right corner</span>
-<span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">7</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">7</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">7</span><span class="p">]),</span><span class="s1">'-k'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% center to lower-right corner</span>
-<span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">8</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">8</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">8</span><span class="p">]),</span><span class="s1">'-k'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% center to lower-left corner</span>
-
-<span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">5</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">5</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">5</span><span class="p">]),</span><span class="s1">'-k'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% image plane</span>
-<span class="nb">hold</span> <span class="n">off</span><span class="p">;</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">5</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">5</span><span class="p">]),</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">5</span><span class="p">]),</span><span class="s1">'-k'</span><span class="p">,</span><span class="s1">'LineWidth'</span><span class="p">,</span><span class="n">lineWidth</span><span class="p">);</span> <span class="c1">% image plane</span>
+  <span class="nb">hold</span> <span class="n">off</span><span class="p">;</span>
+<span class="k">end</span>
 
 </code></pre>
 </div>
 
 <h3 id="second-implementation">Second implementation</h3>
-<p>This implementation comes from the camera calibration toolbox implemented by Dr. Jean-Yves Bouguet. The key idea is the same, it’s just the representation of the points is a bit different.</p>
+<p>This implementation comes from the camera calibration toolbox implemented by Dr. Jean-Yves Bouguet. The key idea is the same, but instead of representing corners of image plane in the camera coordinate system, the corners are in the image plane, where the origin is at the up-left corner.</p>
 
-<p>For example, the pixel coordinates are defined such that <script type="math/tex">[0;0]</script> is the center of the upper left pixel of the image. As a result, <script type="math/tex">[nx-1;0]</script> is center of the upper right corner pixel, <script type="math/tex">[0;ny-1]</script> is the center of the lower left corner pixel and <script type="math/tex">[nx-1;ny-1]</script> is the center of the lower right corner pixel where nx and ny are the width and height of the image (for the images of the first example, <script type="math/tex">nx=640</script> and <script type="math/tex">ny=480</script>). This is in the image plane based coordinate system, so the first step is to transformed back to the camera coordinate system by</p>
+<p>The image corners are defined in the image plane coordinate system, thus the center of the upper left corner pixel is <script type="math/tex">[0;0]</script>, the center of the upper right corner pixel is <script type="math/tex">[nx-1;0]</script>, the center of the lower left corner pixel is <script type="math/tex">[0;ny-1]</script>, and the center of the lower right corner pixel is <script type="math/tex">[nx-1;ny-1]</script>. <script type="math/tex">nx</script> and <script type="math/tex">ny</script> are the width and height of the image in pixel.</p>
 
-<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="n">IP</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">dX</span><span class="o">*</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span><span class="n">alpha_c</span> <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
-           <span class="mi">0</span> <span class="mi">1</span>        <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
-           <span class="mi">0</span> <span class="mi">0</span>        <span class="mi">1</span><span class="p">]</span><span class="k">...</span>
-         <span class="o">*</span><span class="p">[</span><span class="mi">1</span><span class="p">/</span><span class="n">fc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="mi">0</span>       <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
-           <span class="mi">0</span>       <span class="mi">1</span><span class="p">/</span><span class="n">fc</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
-           <span class="mi">0</span>       <span class="mi">0</span>       <span class="mi">1</span><span class="p">]</span><span class="k">...</span>
-         <span class="o">*</span><span class="p">[</span><span class="mi">1</span> <span class="mi">0</span> <span class="o">-</span><span class="n">cc</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="k">...</span>
-           <span class="mi">0</span> <span class="mi">1</span> <span class="o">-</span><span class="n">cc</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="k">...</span>
-           <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">]</span><span class="k">...</span>
-         <span class="o">*</span><span class="p">[</span><span class="mi">0</span> <span class="n">nx</span><span class="o">-</span><span class="mi">1</span> <span class="n">nx</span><span class="o">-</span><span class="mi">1</span> <span class="mi">0</span>    <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
-           <span class="mi">0</span> <span class="mi">0</span>    <span class="n">ny</span><span class="o">-</span><span class="mi">1</span> <span class="n">ny</span><span class="o">-</span><span class="mi">1</span> <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
-           <span class="mi">1</span> <span class="mi">1</span>    <span class="mi">1</span>    <span class="mi">1</span>    <span class="mi">1</span><span class="p">];</span>
-</code></pre>
-</div>
+<p>The first step is to transform these point from image plane coordinate system back to the camera coordinate system by left multiplying <script type="math/tex">K'</script>.</p>
 
-<p>Notice that <script type="math/tex">% <![CDATA[
-\left[\begin{matrix} 1 & -\alpha_c & 0;\\
-                                   0 & 1         & 0;\\
-                                   0 & 0         & 1\end{matrix}\right] %]]></script> 
-is the inverse of <script type="math/tex">% <![CDATA[
-\left[\begin{matrix}1 & \alpha_c & 0;\\
-                                         0 & 1        & 0;\\
-                                         0 & 0        & 1\end{matrix}\right] %]]></script>.
-Thus the purpose of this step is to convert from image plane coordinate system to camera coordinate system. Once this is done, the rest is the same.</p>
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+K &= \begin{bmatrix} 
+      1 & 0 & cc(1)\\
+      0 & 1 & cc(2)\\
+      0 & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix} 
+      fc(1) & 0 & 0\\
+      0 & fc(2) & 0\\
+      0 & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix} 
+      1 & alpha_c & 0\\
+      0 & 1 & 0\\
+      0 & 0 & 1
+    \end{bmatrix}\\
+K' &= \begin{bmatrix} 
+        1 & -alpha_c & 0\\
+        0 & 1 & 0\\
+        0 & 0 & 1
+      \end{bmatrix}
+      \begin{bmatrix} 
+        1/fc(1) & 0 & 0\\
+        0 & 1/fc(2) & 0\\
+        0 & 0 & 1
+      \end{bmatrix}
+      \begin{bmatrix} 
+        1 & 0 & -cc(1)\\
+        0 & 1 & -cc(2)\\
+        0 & 0 & 1
+      \end{bmatrix}
+\end{align} %]]></script>
 
-<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="k">function</span> <span class="n">drawCamera</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<p>The second step is the same as the one implemented above, transform points from the camera coordinate system to world coordinate system.</p>
+
+<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="k">function</span> <span class="n">drawCamera1</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
   <span class="n">alpha_c</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
   <span class="n">fc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
   <span class="n">fc</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
   <span class="n">cc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
   <span class="n">cc</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+  
   <span class="c1">% for test purpose</span>
-  <span class="n">nx</span> <span class="o">=</span> <span class="mi">640</span><span class="p">;</span>
-  <span class="n">ny</span> <span class="o">=</span> <span class="mi">480</span><span class="p">;</span>
-  <span class="n">dX</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
-  <span class="n">dY</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
+  <span class="n">nx</span> <span class="o">=</span> <span class="mi">640</span><span class="p">;</span> <span class="n">ny</span> <span class="o">=</span> <span class="mi">480</span><span class="p">;</span> <span class="n">dX</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span> <span class="n">dY</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
 
-  <span class="n">IP</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">dX</span><span class="o">*</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span><span class="n">alpha_c</span> <span class="mi">0</span><span class="p">;</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">;</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">[</span><span class="mi">1</span><span class="p">/</span><span class="n">fc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span><span class="mi">0</span> <span class="mi">1</span><span class="p">/</span><span class="n">fc</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">;</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">[</span><span class="mi">1</span> <span class="mi">0</span> <span class="o">-</span><span class="n">cc</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="mi">0</span> <span class="mi">1</span> <span class="o">-</span><span class="n">cc</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">[</span><span class="mi">0</span> <span class="n">nx</span><span class="o">-</span><span class="mi">1</span> <span class="n">nx</span><span class="o">-</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span> <span class="n">ny</span><span class="o">-</span><span class="mi">1</span> <span class="n">ny</span><span class="o">-</span><span class="mi">1</span> <span class="mi">0</span><span class="p">;</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">];</span>
-  <span class="n">BASE</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">dX</span><span class="o">*</span><span class="p">([</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">]);</span>
+  <span class="c1">% step 1: image plane to camera coordinate system</span>
+  <span class="n">IP</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">dX</span><span class="o">*</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span><span class="n">alpha_c</span> <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
+             <span class="mi">0</span>  <span class="mi">1</span>       <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
+             <span class="mi">0</span>  <span class="mi">0</span>       <span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="k">...</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">/</span><span class="n">fc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="mi">0</span>       <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
+             <span class="mi">0</span>       <span class="mi">1</span><span class="p">/</span><span class="n">fc</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
+             <span class="mi">0</span>       <span class="mi">0</span>       <span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="k">...</span>
+            <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span> <span class="o">-</span><span class="n">cc</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="k">...</span>
+             <span class="mi">0</span> <span class="mi">1</span> <span class="o">-</span><span class="n">cc</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="k">...</span>
+             <span class="mi">0</span> <span class="mi">0</span>  <span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="k">...</span>
+            <span class="p">[</span><span class="mi">0</span> <span class="n">nx</span><span class="o">-</span><span class="mi">1</span> <span class="n">nx</span><span class="o">-</span><span class="mi">1</span> <span class="mi">0</span>    <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
+             <span class="mi">0</span> <span class="mi">0</span>    <span class="n">ny</span><span class="o">-</span><span class="mi">1</span> <span class="n">ny</span><span class="o">-</span><span class="mi">1</span> <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
+             <span class="mi">1</span> <span class="mi">1</span>    <span class="mi">1</span>    <span class="mi">1</span>    <span class="mi">1</span><span class="p">];</span>
+  <span class="n">BASE</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">dX</span><span class="o">*</span><span class="p">([</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
+                <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span><span class="k">...</span>
+                <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">]);</span>
+
   <span class="n">IP</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">([</span><span class="n">IP</span><span class="p">;</span><span class="n">BASE</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span><span class="n">IP</span><span class="p">],</span><span class="mi">3</span><span class="p">,</span><span class="mi">15</span><span class="p">);</span>
 
+  <span class="c1">% step 2: camera coordinate system to world coordinate system</span>
   <span class="n">BASE</span> <span class="o">=</span> <span class="n">R</span><span class="o">'</span> <span class="o">*</span> <span class="p">(</span><span class="n">BASE</span> <span class="o">-</span> <span class="n">t</span> <span class="o">*</span> <span class="nb">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
   <span class="n">IP</span> <span class="o">=</span> <span class="n">R</span><span class="o">'</span> <span class="o">*</span> <span class="p">(</span><span class="n">IP</span> <span class="o">-</span> <span class="n">t</span> <span class="o">*</span> <span class="nb">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">));</span>
 
-  <span class="nb">plot3</span><span class="p">(</span><span class="n">BASE</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="n">BASE</span><span class="p">(</span><span class="mi">3</span><span class="p">,:),</span><span class="o">-</span><span class="n">BASE</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span><span class="s1">'b-'</span><span class="p">,</span><span class="s1">'linewidth'</span><span class="p">,</span><span class="mi">2</span><span class="o">'</span><span class="p">);</span>
   <span class="nb">hold</span> <span class="n">on</span><span class="p">;</span>
-  <span class="nb">plot3</span><span class="p">(</span><span class="n">IP</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="n">IP</span><span class="p">(</span><span class="mi">3</span><span class="p">,:),</span><span class="o">-</span><span class="n">IP</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span><span class="s1">'r-'</span><span class="p">,</span><span class="s1">'linewidth'</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-  <span class="nb">text</span><span class="p">(</span><span class="n">BASE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">BASE</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="o">-</span><span class="n">BASE</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="s1">'X'</span><span class="p">,</span><span class="s1">'HorizontalAlignment'</span><span class="p">,</span><span class="s1">'center'</span><span class="p">,</span><span class="s1">'FontWeight'</span><span class="p">,</span><span class="s1">'bold'</span><span class="p">);</span>
-  <span class="nb">text</span><span class="p">(</span><span class="n">BASE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span><span class="n">BASE</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span><span class="o">-</span><span class="n">BASE</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span><span class="s1">'Z'</span><span class="p">,</span><span class="s1">'HorizontalAlignment'</span><span class="p">,</span><span class="s1">'center'</span><span class="p">,</span><span class="s1">'FontWeight'</span><span class="p">,</span><span class="s1">'bold'</span><span class="p">);</span>
-  <span class="nb">text</span><span class="p">(</span><span class="n">BASE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">BASE</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="o">-</span><span class="n">BASE</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="s1">'Y'</span><span class="p">,</span><span class="s1">'HorizontalAlignment'</span><span class="p">,</span><span class="s1">'center'</span><span class="p">,</span><span class="s1">'FontWeight'</span><span class="p">,</span><span class="s1">'bold'</span><span class="p">);</span>
-  <span class="nb">text</span><span class="p">(</span><span class="n">BASE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">BASE</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="o">-</span><span class="n">BASE</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="s1">'Left Camera'</span><span class="p">,</span><span class="s1">'HorizontalAlignment'</span><span class="p">,</span><span class="s1">'center'</span><span class="p">,</span><span class="s1">'FontWeight'</span><span class="p">,</span><span class="s1">'bold'</span><span class="p">);</span>
-  <span class="nb">hold</span> <span class="n">off</span><span class="p">;</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">BASE</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]),</span><span class="n">BASE</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]),</span> <span class="n">BASE</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]),</span><span class="s1">'r-'</span><span class="p">,</span><span class="s1">'linewidth'</span><span class="p">,</span><span class="mi">2</span><span class="o">'</span><span class="p">);</span> <span class="c1">% x-axis</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">BASE</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">3</span> <span class="mi">4</span><span class="p">]),</span><span class="n">BASE</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">3</span> <span class="mi">4</span><span class="p">]),</span> <span class="n">BASE</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">3</span> <span class="mi">4</span><span class="p">]),</span><span class="s1">'g-'</span><span class="p">,</span><span class="s1">'linewidth'</span><span class="p">,</span><span class="mi">2</span><span class="o">'</span><span class="p">);</span> <span class="c1">% y-axis</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">BASE</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">5</span> <span class="mi">6</span><span class="p">]),</span><span class="n">BASE</span><span class="p">(</span><span class="mi">2</span><span class="p">,[</span><span class="mi">5</span> <span class="mi">6</span><span class="p">]),</span> <span class="n">BASE</span><span class="p">(</span><span class="mi">3</span><span class="p">,[</span><span class="mi">5</span> <span class="mi">6</span><span class="p">]),</span><span class="s1">'b-'</span><span class="p">,</span><span class="s1">'linewidth'</span><span class="p">,</span><span class="mi">2</span><span class="o">'</span><span class="p">);</span> <span class="c1">% z-axis</span>
+  <span class="nb">plot3</span><span class="p">(</span><span class="n">IP</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="n">IP</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span> <span class="n">IP</span><span class="p">(</span><span class="mi">3</span><span class="p">,:),</span> <span class="s1">'k-'</span><span class="p">,</span><span class="s1">'linewidth'</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
 <span class="k">end</span>
+</code></pre>
+</div>
+
+<h3 id="third-implementation">Third implementation</h3>
+<p>The third implementation comes from the <a href="https://blogs.mathworks.com/loren/2009/12/16/carving-a-dinosaur/">Carving a Dinosaur</a>. The biggest difference is that this implementation draws the corresponding image on the image plane.</p>
+<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="k">function</span> <span class="n">showcamera</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">camera</span><span class="p">)</span>
+<span class="c1">%SHOWCAMERA: draw a schematic of a camera</span>
+<span class="c1">%</span>
+<span class="c1">%   SHOWCAMERA(CAMERA) draws a camera on the current axes</span>
+<span class="c1">%</span>
+<span class="c1">%   SHOWCAMERA(AXES,CAMERA) draws a camera on the specified axes</span>
+<span class="c1">%</span>
+<span class="c1">%   Example:</span>
+<span class="c1">%   &gt;&gt; cameras = loadcameradata(1:3);</span>
+<span class="c1">%   &gt;&gt; showcamera(cameras)</span>
+<span class="c1">%</span>
+<span class="c1">%   See also: LOADCAMERADATA</span>
+
+<span class="c1">%   Copyright 2005-2009 The MathWorks, Inc.</span>
+<span class="c1">%   $Revision: 1.0 $    $Date: 2006/06/30 00:00:00 $</span>
+
+<span class="k">if</span> <span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">2</span>
+    <span class="n">camera</span> <span class="o">=</span> <span class="n">ax</span><span class="p">;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="nb">gca</span><span class="p">();</span>
+<span class="k">end</span>
+
+<span class="n">scale</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span>
+<span class="n">subsample</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
+
+<span class="k">for</span> <span class="n">c</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span>
+    <span class="n">cam_t</span> <span class="o">=</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">;</span>
+    
+    <span class="c1">% Draw the camera centre</span>
+    <span class="nb">plot3</span><span class="p">(</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="s1">'b.'</span><span class="p">,</span><span class="s1">'markersize'</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+    
+    <span class="c1">% Now work out where the image corners are</span>
+    <span class="p">[</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">colordepth</span><span class="p">]</span> <span class="o">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">Image</span><span class="p">);</span> <span class="c1">%#ok&lt;NASGU&gt;</span>
+    <span class="n">imcorners</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="n">w</span> <span class="mi">0</span> <span class="n">w</span>
+        <span class="mi">0</span> <span class="mi">0</span> <span class="n">h</span> <span class="n">h</span>
+        <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="n">worldcorners</span> <span class="o">=</span> <span class="n">iBackProject</span><span class="p">(</span> <span class="n">imcorners</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">);</span>
+    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_t</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
+    <span class="nb">hold</span> <span class="n">on</span>
+    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_t</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">2</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
+    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_t</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">3</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
+    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_t</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">4</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
+    
+    
+    
+    <span class="c1">% Now draw the image plane. We will need the coords of every pixel in order</span>
+    <span class="c1">% to do the texturemap</span>
+    <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="nb">meshgrid</span><span class="p">(</span> <span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="n">w</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="n">h</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="n">pix</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">(:),</span><span class="n">y</span><span class="p">(:),</span><span class="n">z</span><span class="p">(:)]</span><span class="o">'</span><span class="p">;</span>
+    <span class="n">worldpix</span> <span class="o">=</span> <span class="n">iBackProject</span><span class="p">(</span> <span class="n">pix</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">);</span>
+    <span class="n">smallim</span> <span class="o">=</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="k">end</span><span class="p">,:);</span>
+    <span class="nb">surface</span><span class="p">(</span><span class="s1">'XData'</span><span class="p">,</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">worldpix</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="n">h</span><span class="p">/</span><span class="n">subsample</span><span class="p">,</span><span class="n">w</span><span class="p">/</span><span class="n">subsample</span><span class="p">),</span> <span class="k">...</span>
+        <span class="s1">'YData'</span><span class="p">,</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">worldpix</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span><span class="n">h</span><span class="p">/</span><span class="n">subsample</span><span class="p">,</span><span class="n">w</span><span class="p">/</span><span class="n">subsample</span><span class="p">),</span> <span class="k">...</span>
+        <span class="s1">'ZData'</span><span class="p">,</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">worldpix</span><span class="p">(</span><span class="mi">3</span><span class="p">,:),</span><span class="n">h</span><span class="p">/</span><span class="n">subsample</span><span class="p">,</span><span class="n">w</span><span class="p">/</span><span class="n">subsample</span><span class="p">),</span> <span class="k">...</span>
+        <span class="s1">'FaceColor'</span><span class="p">,</span><span class="s1">'texturemap'</span><span class="p">,</span> <span class="k">...</span>
+        <span class="s1">'EdgeColor'</span><span class="p">,</span><span class="s1">'none'</span><span class="p">,</span><span class="k">...</span>
+        <span class="s1">'CData'</span><span class="p">,</span> <span class="n">smallim</span> <span class="p">);</span>
+<span class="k">end</span>
+<span class="nb">set</span><span class="p">(</span> <span class="n">ax</span><span class="p">,</span><span class="s1">'DataAspectRatio'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
+
+<span class="c1">%-------------------------------------------------------------------------%</span>
+<span class="k">function</span> <span class="n">X</span> <span class="o">=</span> <span class="n">iBackProject</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">camera</span> <span class="p">)</span>
+<span class="c1">%IBACKPROJECT - backproject an image location a distance DIST and return</span>
+<span class="c1">%   the equivalent world location.</span>
+<span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">;</span><span class="nb">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">))];</span>
+<span class="k">end</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">camera</span><span class="o">.</span><span class="n">K</span> <span class="p">\</span> <span class="n">x</span><span class="p">;</span>
+<span class="n">normX</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">X</span><span class="o">.*</span><span class="n">X</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span> <span class="o">.</span><span class="p">/</span> <span class="nb">repmat</span><span class="p">(</span><span class="n">normX</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">X</span> <span class="o">=</span> <span class="nb">repmat</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="n">dist</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">R</span><span class="o">'*</span><span class="n">X</span><span class="p">;</span>
+
+<span class="c1">%-------------------------------------------------------------------------%</span>
+<span class="k">function</span> <span class="n">iPlotLine</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+<span class="nb">plot3</span><span class="p">([</span><span class="n">x0</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">x1</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[</span><span class="n">x0</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">x1</span><span class="p">(</span><span class="mi">2</span><span class="p">)],</span> <span class="p">[</span><span class="n">x0</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">x1</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span> <span class="n">style</span><span class="p">);</span>
 </code></pre>
 </div>
 

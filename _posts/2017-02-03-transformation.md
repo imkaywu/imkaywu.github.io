@@ -46,7 +46,7 @@ x \\ y
 \end{bmatrix}
 $$
 
-Another proof is: suppose we have two coordinate systems, $$CS_1$$ and $$CS_2$$, having coincident origins (?), but having different orientations. Let $$\vec{i}, \vec{j}, \vec{k}$$ be the basis vectors, or axes of $$CS_1$$, and $$\vec{m}, \vec{n}, \vec{o}$$ be the basis vectors of $$SC_2$$. The coordinates of $$P$$ in $$SC_1$$ is $$(x, y, z)$$, and the coordinates in $$SC_2$$ is $$(a, b, c)$$.
+**Another proof is**: suppose we have two coordinate systems, $$CS_1$$ and $$CS_2$$, having coincident origins (?), but having different orientations. Let $$\vec{i}, \vec{j}, \vec{k}$$ be the basis vectors, or axes of $$CS_1$$, and $$\vec{m}, \vec{n}, \vec{o}$$ be the basis vectors of $$SC_2$$. The coordinates of $$P$$ in $$SC_1$$ is $$(x, y, z)$$, and the coordinates in $$SC_2$$ is $$(a, b, c)$$.
 
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/tbasis.gif" alt="rotation interpretation" title="Rotation Interpretation"/>
@@ -79,6 +79,16 @@ P&=a\vec{m}+b\vec{n}+c\vec{o}\\
 $$
 
 Thus the elements of the top-left 3x3 portion of any geometric transformation are really the basis vectors of the local coordinate system ($$SC_2$$?) expressed in the coordinates of the new coordinate system ($$SC_1$$?). This interpretation views transformation as a change of basis, which let us construct transformations between two coordinate systems directly, without having to express the transformations in terms of one or more rotation and translation operations.
+
+**Yet another explanaition**: $$\vec{u}$$ is the $$x-$$axis of the camera frame in the world coordinate system, $$\begin{bmatrix} 1\\0\\0 \end{bmatrix}$$ is the $$x-$$axis of camera frame in the camera coordinate system, $$\begin{bmatrix} \vec{u}^\top \\ \vec{v}^\top \\ \vec{w}^\top \end{bmatrix}$$ is the rotation matrix from world coordinate system to camera coordinate system.
+
+$$
+\begin{align*}
+\begin{bmatrix} 1\\0\\0 \end{bmatrix} = 
+\begin{bmatrix} \vec{u}^\top \\ \vec{v}^\top \\ \vec{w}^\top \end{bmatrix}
+\vec{u}
+\end{align*} 
+$$
 
 ### Proof of the third point:
 $$

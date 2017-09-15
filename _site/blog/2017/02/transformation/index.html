@@ -127,7 +127,7 @@ u \\ v
 x \\ y
 \end{bmatrix} %]]></script>
 
-<p>Another proof is: suppose we have two coordinate systems, <script type="math/tex">CS_1</script> and <script type="math/tex">CS_2</script>, having coincident origins (?), but having different orientations. Let <script type="math/tex">\vec{i}, \vec{j}, \vec{k}</script> be the basis vectors, or axes of <script type="math/tex">CS_1</script>, and <script type="math/tex">\vec{m}, \vec{n}, \vec{o}</script> be the basis vectors of <script type="math/tex">SC_2</script>. The coordinates of <script type="math/tex">P</script> in <script type="math/tex">SC_1</script> is <script type="math/tex">(x, y, z)</script>, and the coordinates in <script type="math/tex">SC_2</script> is <script type="math/tex">(a, b, c)</script>.</p>
+<p><strong>Another proof is</strong>: suppose we have two coordinate systems, <script type="math/tex">CS_1</script> and <script type="math/tex">CS_2</script>, having coincident origins (?), but having different orientations. Let <script type="math/tex">\vec{i}, \vec{j}, \vec{k}</script> be the basis vectors, or axes of <script type="math/tex">CS_1</script>, and <script type="math/tex">\vec{m}, \vec{n}, \vec{o}</script> be the basis vectors of <script type="math/tex">SC_2</script>. The coordinates of <script type="math/tex">P</script> in <script type="math/tex">SC_1</script> is <script type="math/tex">(x, y, z)</script>, and the coordinates in <script type="math/tex">SC_2</script> is <script type="math/tex">(a, b, c)</script>.</p>
 
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/tbasis.gif" alt="rotation interpretation" title="Rotation Interpretation" />
@@ -159,6 +159,14 @@ P&=a\vec{m}+b\vec{n}+c\vec{o}\\
 \end{align*} %]]></script>
 
 <p>Thus the elements of the top-left 3x3 portion of any geometric transformation are really the basis vectors of the local coordinate system (<script type="math/tex">SC_2</script>?) expressed in the coordinates of the new coordinate system (<script type="math/tex">SC_1</script>?). This interpretation views transformation as a change of basis, which let us construct transformations between two coordinate systems directly, without having to express the transformations in terms of one or more rotation and translation operations.</p>
+
+<p><strong>Yet another explanaition</strong>: <script type="math/tex">\vec{u}</script> is the <script type="math/tex">x-</script>axis of the camera frame in the world coordinate system, <script type="math/tex">\begin{bmatrix} 1\\0\\0 \end{bmatrix}</script> is the <script type="math/tex">x-</script>axis of camera frame in the camera coordinate system, <script type="math/tex">\begin{bmatrix} \vec{u}^\top \\ \vec{v}^\top \\ \vec{w}^\top \end{bmatrix}</script> is the rotation matrix from world coordinate system to camera coordinate system.</p>
+
+<script type="math/tex; mode=display">\begin{align*}
+\begin{bmatrix} 1\\0\\0 \end{bmatrix} = 
+\begin{bmatrix} \vec{u}^\top \\ \vec{v}^\top \\ \vec{w}^\top \end{bmatrix}
+\vec{u}
+\end{align*}</script>
 
 <h3 id="proof-of-the-third-point">Proof of the third point:</h3>
 <p><script type="math/tex">% <![CDATA[
