@@ -70,6 +70,7 @@ title: "links"
 [Johnny Lee](http://johnnylee.net)\\
 [SATYA MALLICK - Learn OpenCV](http://www.learnopencv.com)\\
 [Wojciech Matusik](http://people.csail.mit.edu/wojciech/)\\
+[Gregor Miller](http://www.ece.ubc.ca/~gregor/)\\
 [Free Mind](http://freemind.pluskid.org)\\
 [Matt Might](http://matt.might.net/articles/)\\
 [Matthias Nießner](http://www.graphics.stanford.edu/~niessner/)\\
