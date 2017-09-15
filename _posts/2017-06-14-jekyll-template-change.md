@@ -6,6 +6,8 @@ tags:
   - Jekyll
 ---
 
+This [Jekyll theme](https://github.com/alshedivat/al-folio) is developed by [Maruan Al-Shedivat](https://www.cs.cmu.edu/~mshediva/), which is modified from the original template [-folio](https://github.com/bogoli/-folio) developed by [Lia Bogoev](http://www.liabogoev.com). Thanks to those two for this clean, and simplistic design.
+
 ## code highlighter
 Switch from python-based highlighter `highlighter` to ruby-based highlighter `rouge`.
 
