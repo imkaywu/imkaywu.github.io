@@ -13,6 +13,7 @@ I read somewhere that to be more efficient in a long run when it comes to implem
 <div class="img_row">
     <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_1.png" alt="" title="example image"/>
     <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_2.png" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_3.png" alt="" title="example image"/>
 </div>
 
 ```matlab
@@ -49,15 +50,15 @@ for i = 1 : N
 %     camera(i).h = h;
 %     camera(i).K = K;
 %     camera(i).R = R;
-%     camera(i).T = -R*c;
+%     camera(i).c = c; % camera center in world coordinate system
 end
+
+% showcamera(camera);
 
 xlabel('x'); ylabel('y'); zlabel('z');
 axis equal;
 view(0, 30);
 title('implementation 2');
-
-% showcamera(camera);
 ```
 
 ### First implementation
@@ -214,41 +215,49 @@ if nargin<2
     ax = gca();
 end
 
-scale = 0.2;
+scale = 1;
 subsample = 16;
 
 for c=1:numel(camera)
-    cam_t = camera(c).T;
+    cam_c = camera(c).c;
     
+    hold on;
     % Draw the camera centre
-    plot3(camera(c).T(1),camera(c).T(2),camera(c).T(3),'b.','markersize',5);
+    plot3(camera(c).c(1),camera(c).c(2),camera(c).c(3),'b.','markersize',5);
     
     % Now work out where the image corners are
-    [h,w,colordepth] = size(camera(c).Image); %#ok<NASGU>
+%     [h,w,colordepth] = size(camera(c).Image); %#ok<NASGU>
+    w = camera(c).w; h = camera(c).h; % for test
+    
     imcorners = [0 w 0 w
         0 0 h h
         1 1 1 1];
     worldcorners = iBackProject( imcorners, scale, camera(c) );
-    iPlotLine(cam_t, worldcorners(:,1), 'b-')
-    hold on
-    iPlotLine(cam_t, worldcorners(:,2), 'b-')
-    iPlotLine(cam_t, worldcorners(:,3), 'b-')
-    iPlotLine(cam_t, worldcorners(:,4), 'b-')
     
-    
+    iPlotLine(cam_c, worldcorners(:,1), 'b-')
+    iPlotLine(cam_c, worldcorners(:,2), 'b-')
+    iPlotLine(cam_c, worldcorners(:,3), 'b-')
+    iPlotLine(cam_c, worldcorners(:,4), 'b-')
     
     % Now draw the image plane. We will need the coords of every pixel in order
     % to do the texturemap
-    [x,y,z] = meshgrid( 1:subsample:w, 1:subsample:h, 1 );
-    pix = [x(:),y(:),z(:)]';
-    worldpix = iBackProject( pix, scale, camera(c) );
-    smallim = camera(c).Image(1:subsample:end,1:subsample:end,:);
-    surface('XData', reshape(worldpix(1,:),h/subsample,w/subsample), ...
-        'YData', reshape(worldpix(2,:),h/subsample,w/subsample), ...
-        'ZData', reshape(worldpix(3,:),h/subsample,w/subsample), ...
-        'FaceColor','texturemap', ...
-        'EdgeColor','none',...
-        'CData', smallim );
+    draw_texture = 0;
+    if ~draw_texture
+        iPlotLine(worldcorners(:, 1), worldcorners(:, 2), 'k-');
+        iPlotLine(worldcorners(:, 1), worldcorners(:, 3), 'k-');
+        iPlotLine(worldcorners(:, 4), worldcorners(:, 2), 'k-');
+        iPlotLine(worldcorners(:, 4), worldcorners(:, 3), 'k-');
+    else
+        [x,y,z] = meshgrid( 1:subsample:w, 1:subsample:h, 1 );
+        pix = [x(:),y(:),z(:)]';
+        worldpix = iBackProject( pix, scale, camera(c) );
+        smallim = camera(c).Image(1:subsample:end,1:subsample:end,:);
+        surface('XData', reshape(worldpix(1,:),h/subsample,w/subsample), ...
+            'YData', reshape(worldpix(2,:),h/subsample,w/subsample), ...
+            'ZData', reshape(worldpix(3,:),h/subsample,w/subsample), ...
+            'FaceColor','texturemap', ...
+            'EdgeColor','none'); % 'CData', smallim 
+    end
 end
 set( ax,'DataAspectRatio', [1 1 1] )
 
@@ -263,7 +272,7 @@ end
 X = camera.K \ x;
 normX = sqrt(sum(X.*X,1));
 X = X ./ repmat(normX,size(X,1),1);
-X = repmat(camera.T,1,size(x,2)) - dist * camera.R'*X;
+X = repmat(camera.c,1,size(x,2)) + dist * camera.R'*X;
 
 %-------------------------------------------------------------------------%
 function iPlotLine(x0, x1, style)

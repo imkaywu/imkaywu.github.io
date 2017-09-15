@@ -95,6 +95,7 @@
 <div class="img_row">
     <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_1.png" alt="" title="example image" />
     <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_2.png" alt="" title="example image" />
+    <img class="col one" src="/assets/img/open3dcv/viz/viz_cam_3.png" alt="" title="example image" />
 </div>
 
 <div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="c1">% example code to visualize N synthetic cameras</span>
@@ -130,15 +131,15 @@
 <span class="c1">%     camera(i).h = h;</span>
 <span class="c1">%     camera(i).K = K;</span>
 <span class="c1">%     camera(i).R = R;</span>
-<span class="c1">%     camera(i).T = -R*c;</span>
+<span class="c1">%     camera(i).c = c; % camera center in world coordinate system</span>
 <span class="k">end</span>
+
+<span class="c1">% showcamera(camera);</span>
 
 <span class="nb">xlabel</span><span class="p">(</span><span class="s1">'x'</span><span class="p">);</span> <span class="nb">ylabel</span><span class="p">(</span><span class="s1">'y'</span><span class="p">);</span> <span class="nb">zlabel</span><span class="p">(</span><span class="s1">'z'</span><span class="p">);</span>
 <span class="nb">axis</span> <span class="n">equal</span><span class="p">;</span>
 <span class="nb">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
 <span class="nb">title</span><span class="p">(</span><span class="s1">'implementation 2'</span><span class="p">);</span>
-
-<span class="c1">% showcamera(camera);</span>
 </code></pre>
 </div>
 
@@ -293,41 +294,49 @@ K' &= \begin{bmatrix}
     <span class="n">ax</span> <span class="o">=</span> <span class="nb">gca</span><span class="p">();</span>
 <span class="k">end</span>
 
-<span class="n">scale</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="n">subsample</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
 
 <span class="k">for</span> <span class="n">c</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span>
-    <span class="n">cam_t</span> <span class="o">=</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">;</span>
+    <span class="n">cam_c</span> <span class="o">=</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">c</span><span class="p">;</span>
     
+    <span class="nb">hold</span> <span class="n">on</span><span class="p">;</span>
     <span class="c1">% Draw the camera centre</span>
-    <span class="nb">plot3</span><span class="p">(</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="s1">'b.'</span><span class="p">,</span><span class="s1">'markersize'</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+    <span class="nb">plot3</span><span class="p">(</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">c</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">c</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="s1">'b.'</span><span class="p">,</span><span class="s1">'markersize'</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
     
     <span class="c1">% Now work out where the image corners are</span>
-    <span class="p">[</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">colordepth</span><span class="p">]</span> <span class="o">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">Image</span><span class="p">);</span> <span class="c1">%#ok&lt;NASGU&gt;</span>
+<span class="c1">%     [h,w,colordepth] = size(camera(c).Image); %#ok&lt;NASGU&gt;</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">w</span><span class="p">;</span> <span class="n">h</span> <span class="o">=</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">;</span> <span class="c1">% for test</span>
+    
     <span class="n">imcorners</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="n">w</span> <span class="mi">0</span> <span class="n">w</span>
         <span class="mi">0</span> <span class="mi">0</span> <span class="n">h</span> <span class="n">h</span>
         <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">];</span>
     <span class="n">worldcorners</span> <span class="o">=</span> <span class="n">iBackProject</span><span class="p">(</span> <span class="n">imcorners</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">);</span>
-    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_t</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
-    <span class="nb">hold</span> <span class="n">on</span>
-    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_t</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">2</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
-    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_t</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">3</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
-    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_t</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">4</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
     
-    
+    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_c</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
+    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_c</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">2</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
+    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_c</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">3</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
+    <span class="n">iPlotLine</span><span class="p">(</span><span class="n">cam_c</span><span class="p">,</span> <span class="n">worldcorners</span><span class="p">(:,</span><span class="mi">4</span><span class="p">),</span> <span class="s1">'b-'</span><span class="p">)</span>
     
     <span class="c1">% Now draw the image plane. We will need the coords of every pixel in order</span>
     <span class="c1">% to do the texturemap</span>
-    <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="nb">meshgrid</span><span class="p">(</span> <span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="n">w</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="n">h</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
-    <span class="n">pix</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">(:),</span><span class="n">y</span><span class="p">(:),</span><span class="n">z</span><span class="p">(:)]</span><span class="o">'</span><span class="p">;</span>
-    <span class="n">worldpix</span> <span class="o">=</span> <span class="n">iBackProject</span><span class="p">(</span> <span class="n">pix</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">);</span>
-    <span class="n">smallim</span> <span class="o">=</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="k">end</span><span class="p">,:);</span>
-    <span class="nb">surface</span><span class="p">(</span><span class="s1">'XData'</span><span class="p">,</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">worldpix</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="n">h</span><span class="p">/</span><span class="n">subsample</span><span class="p">,</span><span class="n">w</span><span class="p">/</span><span class="n">subsample</span><span class="p">),</span> <span class="k">...</span>
-        <span class="s1">'YData'</span><span class="p">,</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">worldpix</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span><span class="n">h</span><span class="p">/</span><span class="n">subsample</span><span class="p">,</span><span class="n">w</span><span class="p">/</span><span class="n">subsample</span><span class="p">),</span> <span class="k">...</span>
-        <span class="s1">'ZData'</span><span class="p">,</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">worldpix</span><span class="p">(</span><span class="mi">3</span><span class="p">,:),</span><span class="n">h</span><span class="p">/</span><span class="n">subsample</span><span class="p">,</span><span class="n">w</span><span class="p">/</span><span class="n">subsample</span><span class="p">),</span> <span class="k">...</span>
-        <span class="s1">'FaceColor'</span><span class="p">,</span><span class="s1">'texturemap'</span><span class="p">,</span> <span class="k">...</span>
-        <span class="s1">'EdgeColor'</span><span class="p">,</span><span class="s1">'none'</span><span class="p">,</span><span class="k">...</span>
-        <span class="s1">'CData'</span><span class="p">,</span> <span class="n">smallim</span> <span class="p">);</span>
+    <span class="n">draw_texture</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">draw_texture</span>
+        <span class="n">iPlotLine</span><span class="p">(</span><span class="n">worldcorners</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">worldcorners</span><span class="p">(:,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'k-'</span><span class="p">);</span>
+        <span class="n">iPlotLine</span><span class="p">(</span><span class="n">worldcorners</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">worldcorners</span><span class="p">(:,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">'k-'</span><span class="p">);</span>
+        <span class="n">iPlotLine</span><span class="p">(</span><span class="n">worldcorners</span><span class="p">(:,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">worldcorners</span><span class="p">(:,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'k-'</span><span class="p">);</span>
+        <span class="n">iPlotLine</span><span class="p">(</span><span class="n">worldcorners</span><span class="p">(:,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">worldcorners</span><span class="p">(:,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">'k-'</span><span class="p">);</span>
+    <span class="k">else</span>
+        <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="nb">meshgrid</span><span class="p">(</span> <span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="n">w</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="n">h</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+        <span class="n">pix</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">(:),</span><span class="n">y</span><span class="p">(:),</span><span class="n">z</span><span class="p">(:)]</span><span class="o">'</span><span class="p">;</span>
+        <span class="n">worldpix</span> <span class="o">=</span> <span class="n">iBackProject</span><span class="p">(</span> <span class="n">pix</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">);</span>
+        <span class="n">smallim</span> <span class="o">=</span> <span class="n">camera</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">subsample</span><span class="p">:</span><span class="k">end</span><span class="p">,:);</span>
+        <span class="nb">surface</span><span class="p">(</span><span class="s1">'XData'</span><span class="p">,</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">worldpix</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="n">h</span><span class="p">/</span><span class="n">subsample</span><span class="p">,</span><span class="n">w</span><span class="p">/</span><span class="n">subsample</span><span class="p">),</span> <span class="k">...</span>
+            <span class="s1">'YData'</span><span class="p">,</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">worldpix</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span><span class="n">h</span><span class="p">/</span><span class="n">subsample</span><span class="p">,</span><span class="n">w</span><span class="p">/</span><span class="n">subsample</span><span class="p">),</span> <span class="k">...</span>
+            <span class="s1">'ZData'</span><span class="p">,</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">worldpix</span><span class="p">(</span><span class="mi">3</span><span class="p">,:),</span><span class="n">h</span><span class="p">/</span><span class="n">subsample</span><span class="p">,</span><span class="n">w</span><span class="p">/</span><span class="n">subsample</span><span class="p">),</span> <span class="k">...</span>
+            <span class="s1">'FaceColor'</span><span class="p">,</span><span class="s1">'texturemap'</span><span class="p">,</span> <span class="k">...</span>
+            <span class="s1">'EdgeColor'</span><span class="p">,</span><span class="s1">'none'</span><span class="p">);</span> <span class="c1">% 'CData', smallim </span>
+    <span class="k">end</span>
 <span class="k">end</span>
 <span class="nb">set</span><span class="p">(</span> <span class="n">ax</span><span class="p">,</span><span class="s1">'DataAspectRatio'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
 
@@ -342,7 +351,7 @@ K' &= \begin{bmatrix}
 <span class="n">X</span> <span class="o">=</span> <span class="n">camera</span><span class="o">.</span><span class="n">K</span> <span class="p">\</span> <span class="n">x</span><span class="p">;</span>
 <span class="n">normX</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">X</span><span class="o">.*</span><span class="n">X</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">X</span> <span class="o">.</span><span class="p">/</span> <span class="nb">repmat</span><span class="p">(</span><span class="n">normX</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">X</span> <span class="o">=</span> <span class="nb">repmat</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="n">dist</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">R</span><span class="o">'*</span><span class="n">X</span><span class="p">;</span>
+<span class="n">X</span> <span class="o">=</span> <span class="nb">repmat</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="n">dist</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">R</span><span class="o">'*</span><span class="n">X</span><span class="p">;</span>
 
 <span class="c1">%-------------------------------------------------------------------------%</span>
 <span class="k">function</span> <span class="n">iPlotLine</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
