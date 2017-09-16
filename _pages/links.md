@@ -252,6 +252,7 @@ title: "links"
 [Computer Graphics - Edx](https://www.edx.org/course/computer-graphics-uc-san-diegox-cse167x-1)\\
 Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~joy/ecs175/), [Videos](http://graphics.cs.ucdavis.edu/~joy/ecs175/))\\
 [CSC418/2504 Computer Graphics](http://www.dgp.toronto.edu/~egarfink/courses/CSC418/)\\
+[Learn OpenGL](https://learnopengl.com)\\
 [Learn Computer Graphics Programming from Scratch](http://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry)\\
 [Lode's Computer Graphics Tutorial (FT tutoril)](http://lodev.org/cgtutor/)\\
 [Learn Computer Graphics From Scratch!](https://www.scratchapixel.com/index.php?redirect)\\

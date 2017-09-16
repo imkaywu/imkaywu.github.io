@@ -18,7 +18,7 @@ last_updated: # leave blank if you don't want to display last updated
 # -----------------------------------------------------------------------------
 github_username: imkaywu # put your github username
 twitter_username: _BlacKay_ # put your twitter username
-linkedin_username: kai-wu-aa84a779/ # put your linkedin username
+linkedin_username: kai-wu-/ # put your linkedin username
 scholar_authorid: # put your google scholar author id
 contact_note: >
   You can even add a little note about which of these is the best way to reach you.
@@ -60,6 +60,9 @@ collections:
   projects:
     output: true
     permalink: /projects/:path/
+  tutorials:
+    output: true
+    permalink: /tutorials/:path/
 
 news_limit: 5 # ?
 
@@ -77,6 +80,12 @@ defaults:
   - scope:
       path: ""
       type: projects
+    values:
+      layout: "page"
+  # _tutorials
+  - scope:
+      path: ""
+      type: tutorials
     values:
       layout: "page"
 

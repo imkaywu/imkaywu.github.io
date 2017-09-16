@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Structure from Motion: A Tutorial
+title: Structure from Motion Tutorial
 categories: 
   - Research
   - Dev
