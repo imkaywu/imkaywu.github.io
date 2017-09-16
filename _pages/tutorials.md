@@ -5,5 +5,9 @@ title: collections
 ---
 
 ## Vision
-<!-- [SfM: a tutorial]({{ site.url }}{{ site.baseurl }}/tutorials/sfm) -->
+
+[Basic Vision Modules]({{site.url}}{{site.baseurl}}/tutorials/vision)
+
 [Multiple View Geometry: a tutorial]({{site.url}}{{site.baseurl}}/tutorials/mvg)
+
+[SfM: a tutorial]({{ site.url }}{{ site.baseurl }}/tutorials/sfm)

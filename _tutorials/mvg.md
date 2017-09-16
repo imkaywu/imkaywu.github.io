@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Multiple View Geometry Tutorial
+title: Multiple View Geometry - a tutorial
 categories: 
   - Research
 tags:
