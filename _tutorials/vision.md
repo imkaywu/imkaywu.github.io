@@ -17,4 +17,4 @@ tags:
 [SIFT]({{site.url}}{{site.baseurl}}/blog/2017/07/vlfeat-wrapper/)
 
 ## Matching
-[FLANN]({{site.url}}{{site.baseurl}}/blog/2017/09/flann-matching/)
+[FLANN]({{site.url}}{{site.baseurl}}/blog/2017/09/feature-matching/)

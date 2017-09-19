@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kai Wu | Feature matching</title>
+  <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <link rel="shortcut icon" href="//imkaywu.github.io/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="//imkaywu.github.io/assets/css/main.css">
+  <link rel="canonical" href="//imkaywu.github.io/blog/2017/09/feature-matching/">
+</head>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    
+    <span class="site-title">
+        
+        <strong>Kai</strong> Wu
+    </span>
+    
+
+    <nav class="site-nav">
+
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="//imkaywu.github.io/">about</a>
+
+        <!-- Blog -->
+        <a class="page-link" href="//imkaywu.github.io/blog/">blog</a>
+
+        <!-- Pages -->
+        
+          
+        
+          
+            <a class="page-link" href="//imkaywu.github.io/code/">code</a>
+          
+        
+          
+        
+          
+            <a class="page-link" href="//imkaywu.github.io/links/">links</a>
+          
+        
+          
+        
+          
+            <a class="page-link" href="//imkaywu.github.io/projects/">projects</a>
+          
+        
+          
+            <a class="page-link" href="//imkaywu.github.io/tutorials/">collections</a>
+          
+        
+          
+        
+          
+        
+          
+        
+
+        <!-- CV link -->
+        <!-- <a class="page-link" href="//imkaywu.github.io/assets/pdf/CV.pdf">vitae</a> -->
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Feature matching</h1>
+    <p class="post-meta">September 16, 2017</p>
+  </header>
+
+  <article class="post-content">
+    <p>Feature matching is a critical part in many vision problems, such as estimation of various matrices (projection, homography, essential, fundamental, relative post, etc), tracking, SfM and SLAM, just to name a few. I will discuss here in this post implementation of the feature matching algorithms implemented in <a href="//imkaywu.github.io/blog/2017/05/3d-vision-lib/">open3DCV</a>.</p>
+
+<h3 id="result">Result</h3>
+<div class="img_row">
+    <img class="col three" src="/assets/img/open3DCV/feature_matching/fm_bust.jpg" alt="feature matching" title="feature matching" />
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/open3DCV/feature_matching/fm_building.jpg" alt="feature matching" title="feature matching" />
+</div>
+<div class="col three caption">
+    Demonstrative result of feature matching.
+</div>
+
+<h3 id="base-class-matcher">Base class: <code class="highlighter-rouge">matcher</code></h3>
+<p>There is a base class <code class="highlighter-rouge">matcher</code> that all actual matching algorithms need to extend. The <code class="highlighter-rouge">match</code> method takes two vectors of descriptors and returns the indexes of the matching pair. Note that there are two declarations of <code class="highlighter-rouge">match</code> method, the second provides an additional parameter - a function pointer, that allows to use the user-defined distance function.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>class Matcher
+{
+public:
+    Matcher() { };
+    Matcher(Matcher_Param r_matcher_param);
+    virtual ~Matcher() { };
+    
+    virtual void init_param(Matcher_Param r_matcher_param) = 0;
+    virtual int match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches) = 0;
+    virtual int match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches, float (*dist_metric)(const Vecf&amp; desc1, const Vecf&amp; desc2)) = 0;
+    
+protected:
+    Matcher_Param matcher_param_;
+};
+</code></pre>
+</div>
+
+<h3 id="parameter-matcher_param">Parameter: <code class="highlighter-rouge">Matcher_Param</code></h3>
+<p>We need a structure type to pass the parameters to the specific <code class="highlighter-rouge">matcher</code> class, which is defined as follows</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>struct Matcher_Param
+{
+    // all matchers
+    float ratio = 0.8;
+    
+    // Flann matcher
+    int ndims = 128;
+    int leaf_max_size = 10;
+    int nresults = 3;
+    
+    Matcher_Param() { };
+    Matcher_Param(const float r_ratio) : ratio(r_ratio) { };
+    Matcher_Param(const float r_ratio, const int r_ndims, const int r_leaf_max_size, const int r_nresults) :
+                  ratio(r_ratio), ndims(r_ndims), leaf_max_size(r_leaf_max_size), nresults(r_nresults) { };    
+};
+</code></pre>
+</div>
+
+<h3 id="data-structure-match">Data structure: <code class="highlighter-rouge">Match</code></h3>
+<p>This is the class to store the matching feature points, I should probably rename it to <code class="highlighter-rouge">DMatch</code> to avoid confusion.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>class Match
+{
+public:
+    Match () { };
+    Match (int r_ikey1, int r_ikey2, float dist) :
+        ikey1_(r_ikey1), ikey2_(r_ikey2), dist_(dist) { };
+    
+    int ikey1_;
+    int ikey2_;
+    float dist_;
+};
+</code></pre>
+</div>
+
+<h3 id="distance-metrics">Distance metrics</h3>
+<p>I implemented two of the most used distance metrics for now, sum of squared distance (SSD) and sum of absolute difference (SAD). The can be passed onto the function pointer when call the <code class="highlighter-rouge">matcher</code> method.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>inline float l2_dist(const Vecf&amp; desc1, const Vecf&amp; desc2)
+{
+//    return (desc1 - desc2).squaredNorm();
+    return (desc1 - desc2).norm();
+};
+    
+inline float l1_dist(const Vecf&amp; desc1, const Vecf&amp; desc2)
+{
+    return (desc1 - desc2).lpNorm&lt;1&gt;();
+}
+</code></pre>
+</div>
+
+<h3 id="brute-force-method">Brute-force method</h3>
+<p>This is the simplest, yet most computationally expensive method. It iterates all possible point pairs and see if the cost function is below a user-specified threshold.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>inline int Matcher_Brute_Force::match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches)
+{
+    return match(desc1, desc2, matches, l2_dist);
+}
+
+inline int Matcher_Brute_Force::match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches, float (*dist_metric)(const Vecf&amp; desc1, const Vecf&amp; desc2))
+{
+    float dist = 0, min_dist = 1e8, sec_min_dist = 1e8, ratio = matcher_param_.ratio;
+    int ind_min_key = 0;
+    
+    for (int i = 0; i &lt; desc1.size(); ++i)
+    {
+        min_dist = sec_min_dist = 1e8;
+        for (int j = 0; j &lt; desc2.size(); ++j)
+        {
+            dist = dist_metric(desc1[i], desc2[j]);
+            if (dist &lt; min_dist)
+            {
+                sec_min_dist = min_dist;
+                min_dist = dist;
+                ind_min_key = j;
+            }
+            else if (dist &lt; sec_min_dist)
+            {
+                sec_min_dist = dist;
+            }
+        }
+        if (min_dist &lt; ratio * sec_min_dist)
+        {
+            Match m(i, ind_min_key, min_dist);
+            matches.push_back(m);
+        }
+    }
+    
+    return 0;
+}
+</code></pre>
+</div>
+
+<h3 id="ann-method">ANN method</h3>
+<p><a href="http://www.cs.ubc.ca/research/flann/">FLANN</a> is short for Fast Library for Approximate Nearest Neighbors, which is proposed by Marius Muja and David Lowe. There are some similar libraries, such as <a href="https://www.cs.umd.edu/~mount/ANN/">ANN</a>, <a href="https://github.com/spotify/annoy">ANNOY</a>. Here is a <a href="https://github.com/erikbern/ann-benchmarks">benchmark</a> for comparing the performance of approximate nearest neighbors algorithms. I used a simplified version of FLANN called <a href="https://github.com/jlblancoc/nanoflann">nanoflann</a> since I want the dependencies of open3DCV as simple as possible.</p>
+
+<p>My implementation is adapted from the example code <code class="highlighter-rouge">vector_of_vectors_example.cpp</code>. There is one place that needs a heads-up, this function call of <code class="highlighter-rouge">init(IndexType* indices_, DistanceType* dist_)</code> has to be invoked everytime you do a search of nearest neighbor. The reason is best explained using the source code, see below</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// implementation from nanoflann.h
+inline void init(IndexType* indices_, DistanceType* dists_)
+{
+    indices = indices_;
+    dists = dists_;
+    count = 0;
+    if (capacity)
+        dists[capacity-1] = (std::numeric_limits&lt;DistanceType&gt;::max)();
+}
+</code></pre>
+</div>
+
+<p>As we can see that <code class="highlighter-rouge">init</code> need to re-initialize <code class="highlighter-rouge">dist[]</code> to max values. Otherwise, the distances from the previous search is still stored in <code class="highlighter-rouge">dist[]</code>. The full implementation is as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>inline int Matcher_Flann::match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches)
+{
+    return match(desc1, desc2, matches, l2_dist);
+}
+
+inline int Matcher_Flann::match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches, float (*dist_metric)(const Vecf&amp; desc1, const Vecf&amp; desc2))
+{
+    // use the one with larger keypoints to construct kd-tree
+    size_t nkeys1 = desc1.size(), nkeys2 = desc2.size();
+    const vector&lt;Vecf&gt;&amp; desc_source = nkeys1 &lt; nkeys2 ? desc1 : desc2;
+    const vector&lt;Vecf&gt;&amp; desc_target = nkeys1 &lt; nkeys2 ? desc2 : desc1;
+    Matching_Dirc matching_dirc = nkeys1 &lt; nkeys2 ? FORWARD : BACKWARD;
+    
+    // construct a kd-tree index
+    typedef KDTreeVectorOfVectorsAdaptor&lt;vector&lt;Vecf&gt;, float&gt;  kd_tree_t;
+    
+    int leaf_max_size = matcher_param_.leaf_max_size;
+    kd_tree_t desc_index(matcher_param_.ndims, desc_target, leaf_max_size /* max leaf */);
+    desc_index.index-&gt;buildIndex();
+    
+    // do knn searches
+    int nresults = matcher_param_.nresults;
+    vector&lt;size_t&gt; ret_indexes(nresults);
+    vector&lt;float&gt; dists(nresults);
+    
+    nanoflann::KNNResultSet&lt;float&gt; result_set(nresults);
+    
+    for (int i = 0; i &lt; desc_source.size(); ++i)
+    {
+        result_set.init(&amp;ret_indexes[0], &amp;dists[0]); // has to be inside loop, there is a 'dist' variable that needs to be set as MAX
+        desc_index.index-&gt;findNeighbors(result_set, desc_source[i].data(), nanoflann::SearchParams(10));
+        if (dists[0] &lt; matcher_param_.ratio * dists[1])
+        {
+            if (matching_dirc == FORWARD)
+            {
+                Match match(i, static_cast&lt;int&gt;(ret_indexes[0]), dists[0]);
+                matches.push_back(match);
+            }
+            else
+            {
+                Match match(static_cast&lt;int&gt;(ret_indexes[0]), i, dists[0]);
+                matches.push_back(match);
+            }
+        }
+    }
+    
+    return 0;
+}
+</code></pre>
+</div>
+
+  </article>
+
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <footer>
+
+  <div class="wrapper">
+    &copy; Copyright 2017 Kai Wu.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+
+    
+  </div>
+
+</footer>
+
+
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="//imkaywu.github.io/assets/js/common.js"></script>
+
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="//imkaywu.github.io/assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="//imkaywu.github.io/assets/css/academicons.min.css">
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-XXXXXXXX-X', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+
+</html>
