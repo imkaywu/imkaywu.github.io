@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | Robust Fundamental Matrix</title>
+  <title>Kai Wu | Robust Estimation of Fundamental Matrix</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
@@ -88,16 +88,27 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Robust Fundamental Matrix</h1>
+    <h1 class="post-title">Robust Estimation of Fundamental Matrix</h1>
     <p class="post-meta">September 15, 2017</p>
   </header>
 
   <article class="post-content">
-    <h3 id="results">Results</h3>
+    <p>This post is the results of two previous post: <a href="//imkaywu.github.io//blog/2017/06/fundamental-matrix/">Estimation of fundamental matrix</a> and <a href="//imkaywu.github.io//blog/2017/08/ransac-framework/">A framework for RANSAC</a>.</p>
+
+<h3 id="results">Results</h3>
+<div class="img_row">
+    <img class="col one" src="/assets/img/open3DCV/fundamental/bust_left.jpg" alt="epipolar lines" title="epipolar lines" />
+    <img class="col one" src="/assets/img/open3DCV/fundamental/bust_right.jpg" alt="epipolar lines" title="epipolar lines" />
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/open3DCV/fundamental/building_left.jpg" alt="epipolar lines" title="epipolar lines" />
+    <img class="col one" src="/assets/img/open3DCV/fundamental/building_right.jpg" alt="epipolar lines" title="epipolar lines" />
+</div>
+<div class="col three caption">
+    Demonstrative result of estimation of fundamental matrix.
+</div>
 
 <h3 id="implementation">Implementation</h3>
-<p>This post is the results of two previous post: <a href="//imkaywu.github.io//blog/2017/06/fundamental-matrix/">Estimation of fundamental matrix</a> and <a href="//imkaywu.github.io//blog/2017/08/ransac-framework/">A framework for RANSAC</a>.</p>
-
 <p>In this specific example, type <code class="highlighter-rouge">T</code> is <code class="highlighter-rouge">std::pair&lt;Vec2f, Vec2f&gt;</code>, <code class="highlighter-rouge">S</code> is <code class="highlighter-rouge">float</code>.</p>
 
 <h3 id="header-file">Header file</h3>

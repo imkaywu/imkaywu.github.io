@@ -1,5 +1,5 @@
 ---
-title: Robust Fundamental Matrix
+title: Robust Estimation of Fundamental Matrix
 categories: 
   - Research
   - Dev
@@ -7,12 +7,22 @@ tags:
   - Computer Vision
 ---
 
-### Results
-
-
-### Implementation
 This post is the results of two previous post: [Estimation of fundamental matrix]({{site.url}}/{{site.baseurl}}/blog/2017/06/fundamental-matrix/) and [A framework for RANSAC]({{site.url}}/{{site.baseurl}}/blog/2017/08/ransac-framework/).
 
+### Results
+<div class="img_row">
+    <img class="col one" src="/assets/img/open3DCV/fundamental/bust_left.jpg" alt="epipolar lines" title="epipolar lines"/>
+    <img class="col one" src="/assets/img/open3DCV/fundamental/bust_right.jpg" alt="epipolar lines" title="epipolar lines"/>
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/open3DCV/fundamental/building_left.jpg" alt="epipolar lines" title="epipolar lines"/>
+    <img class="col one" src="/assets/img/open3DCV/fundamental/building_right.jpg" alt="epipolar lines" title="epipolar lines"/>
+</div>
+<div class="col three caption">
+    Demonstrative result of estimation of fundamental matrix.
+</div>
+
+### Implementation
 In this specific example, type `T` is `std::pair<Vec2f, Vec2f>`, `S` is `float`.
 
 ### Header file
