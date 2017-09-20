@@ -21,7 +21,7 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 
 ---
 
-## Features
+## Feature detector and descriptor
 [DoG]()\\
 [Harris]()\\
 [SIFT (wrapper)]({{ site.url }}{{ site.baseurl }}/blog/2017/07/vlfeat-wrapper/)
@@ -29,8 +29,8 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 ---
 
 ## Matching
-[Brute Force Matching]()\\
-[Flann Matching]()
+[Brute Force Matching]({{ site.url }}{{ site.baseurl }}/blog/2017/09/feature-matching/)\\
+[Flann Matching]({{ site.url }}{{ site.baseurl }}/blog/2017/09/feature-matching/)
 
 ---
 
@@ -46,11 +46,14 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 
 ## Estimator
 [Perspective N-Point (PnP)]({{ site.url }}{{ site.baseurl }}/blog/2017/08/pnp/)\\
+[Fundamental Matrix: Seven Point Algorithm]({{ site.url }}{{ site.baseurl }}/blog/2017/06/fundamental-matrix/)\\
+[Fundamental Matrix: Eight Point Algorithm]({{ site.url }}{{ site.baseurl }}/blog/2017/06/fundamental-matrix/)\\
+[Robust Fundamental Matrix]({{ site.url }}{{ site.baseurl }}/blog/2017/09/robust-fundamental-matrix/)\\
+[Essential Matrix]({{ site.url }}{{ site.baseurl }}/blog/2017/08/essential-matrix/)\\
+[Relative Pose from Essential Matrix]({{ site.url }}{{ site.baseurl }})\\
 [Perspective Three Point (PnP)]()\\
 [Five Point Relative Pose]()\\
-[Four Point Algorithm for Homography]()\\
-[Fundamental Matrix: Eight Point Algorithm]({{ site.url }}{{ site.baseurl }}/blog/2017/06/fundamental-matrix/)\\
-[Fundamental Matrix: Seven Point Algorithm]({{ site.url }}{{ site.baseurl }}/blog/2017/06/fundamental-matrix/)\\
+[Four Point Algorithm for Homography]()
 <!-- 
 [Four Point Focal Length]()\\
 [Five Point Focal Length and Radial Distortion]()\\
@@ -73,4 +76,4 @@ As I'm approaching to the end of my Master, I'll organize all the codes that I'v
 ---
 
 ## Application
-[SfM]({{ site.url }}{{ site.baseurl }}/blog/2017/08/sfm-from-scratch/)
+[SfM]({{ site.url }}{{ site.baseurl }}/tutorials/sfm/)
