@@ -8,7 +8,7 @@ tag:
   - Computer Graphics
 ---
 
-## Problem definition
+### Problem definition
 Given camera matrices ($$P, P'$$), or fundamental matrix $$F$$, and *measured* image points $$x$$ and $$x'$$, estimate the 3D point $$X$$ that minimizes some cost function.
 
 Since the rays back-projected from the points are skew. There will not be a point $$X$$ that satisfies $$x=PX, x'=P'X$$, the the image points do not satisfy the epipolar constraint $$x'^\top F x= 0$$.
@@ -27,7 +27,95 @@ $$
 \tau(x, x', P, P') = H^{-1}\tau(x, x', PH^{-1}, P'H^{-1})
 $$
 
-## Linear triangulation
+### Results
+I implemented three different triangulation method, a linear, a midpoint, and a nonlinear triangulation. The test code and results are as follows
+
+```cpp
+int main(const int argc, const char** argv)
+{
+    int npts = 2;
+    vector<Mat34f> poses(npts);
+    Mat3f K, R;
+    Vec3f t;
+    K << 1520.400000, 0.000000, 302.320000,
+         0.000000, 1525.900000, 246.870000,
+         0.000000, 0.000000, 1.000000;
+    R << 0.02187598221295043000, 0.98329680886213122000, -0.18068986436368856000,
+         0.99856708067455469000, -0.01266114646423925600, 0.05199500709979997700,
+         0.04883878372068499500, -0.18156839221560722000, -0.98216479887691122000;
+    t << -0.0726637729648, 0.0223360353405, 0.614604845959;
+    poses[0].block<3, 3>(0, 0) = K * R;
+    poses[0].block<3, 1>(0, 3) = K * t;
+    
+    K << 1520.400000, 0.000000, 302.320000,
+         0.000000, 1525.900000, 246.870000,
+         0.000000, 0.000000, 1.000000;
+    R << -0.03472199972816788400, 0.98429285136236500000, -0.17309524976677537000,
+         0.93942192751145170000, -0.02695166652093134900, -0.34170169707277304000,
+         -0.34099974317519038000, -0.17447403941185566000, -0.92373047190496216000;
+    t << -0.0746307029819, 0.0338148092011, 0.600850565131;
+    poses[1].block<3, 3>(0, 0) = K * R;
+    poses[1].block<3, 1>(0, 3) = K * t;
+    
+    Vec2f xrange(-0.073568, 0.028855), yrange(0.021728, 0.181892), zrange(-0.012445, 0.062736);
+    srand (time(NULL));
+    
+    vector<float> err(3);
+    err[0] = err[1] = err[2] = 0.0f;
+    for (int i = 0; i < 100; ++i)
+    {
+        float a = float(rand()) / RAND_MAX;
+        Vec3f X;
+        X << a * (xrange(1) - xrange(0)) + xrange(0),
+        a * (yrange(1) - yrange(0)) + yrange(0),
+        a * (zrange(1) - zrange(0)) + zrange(0);
+        
+        vector<Vec3f> centers(npts);
+        vector<Vec3f> directs(npts);
+        vector<Vec2f> pts(npts);
+        for (int i = 0; i < npts; ++i)
+        {
+            Vec3f x = poses[i] * X.homogeneous();
+            pts[i] = x.block<2, 1>(0, 0) / x(2);
+            Mat4f M;
+            M.block<3, 4>(0, 0) = poses[i];
+            M.block<1, 4>(3, 0).setZero();
+            Vec4f c;
+            nullspace<Mat4f, Vec4f>(&M, &c);
+            centers[i] = c.block<3, 1>(0, 0) / c(3);
+            directs[i] = poses[i].block<1, 3>(2, 0);
+            directs[i] /= directs[i].norm();
+        }
+        
+        Vec3f X_est;
+        // linear triangulation
+        triangulate_linear(poses, pts, X_est);
+        err[0] += (X - X_est).dot(X - X_est);
+        
+        // midpoint triangulation
+        triangulate_midpoint(centers, directs, pts, X_est);
+        err[1] += (X - X_est).dot(X - X_est);
+        
+        // nonlinear triangulation
+        triangulate_nonlinear(poses, pts, X_est);
+        err[2] += (X - X_est).dot(X - X_est);
+        
+    }
+    cout << "linear triangulation: " << err[0] / 100 << endl;
+    cout << "midpoint triangulation: " << err[1] / 100 << endl;
+    cout << "nonlinear triangulation: " << err[2] / 100 << endl;
+}
+```
+
+Here is a typical result of one execution. We can see the nonlinear triangulation gives the best, whereas the midpoint triangulation gives the worst result.
+
+```
+linear triangulation: 2.95963e-15
+midpoint triangulation: 0.00366608
+nonlinear triangulation: 9.65e-16
+```
+
+### Linear triangulation
 We first discuss a simple linear triangulation method, which is similar to the DLT method for homography estimation.
 
 By definition, we have $$x = PX, x'=P'X$$. We can get rid of the homogeneous scale factory by a cross product. Therefore, $$x\times PX=0$$. This can be rewritten as
@@ -56,98 +144,43 @@ $$
 
 There are typically two ways of solving this problem:
 
-### Homogeneous method (DLT)
+#### Homogeneous method (DLT)
 The solution is the unit singular vector corresponding to the smallest singular value of $$A$$.
 
-### Inhomogeneous method
+#### Inhomogeneous method
 Set $$\mathbf{X} = [X, Y, Z, 1]$$, $$A\mathbf{X}=0$$ can be converted to a set of four inhomogeneous equations with three unknowns. This technique fails to work when the last coordinate of $$\mathbf{X}$$ is close to 0.
 
-### NOT projective invariant
+#### NOT projective invariant
 Unfortunately, this linear method is NOT projective invariant. Let's consider another camera matrix pair: $$PH^{-1}, P'H^{-1}$$. The matrix A, in this case, becomes $$AH^{-1}$$. It's easy to verify that the 3D point $$X$$ that satisfies $$A\mathbf{X}=\epsilon$$ also satisfies the new linear system $$(AH^{-1})(H\mathbf{X})=\epsilon$$. Thus, there is a one-to-one correspondence between point $$X$$ and $$HX$$ that gives the same error. However, the constraints for both the homogeneous method ($$\|X\|=1$$) and inhomogeneous method ($$\mathbf{X}=[X,Y,Z,1]^\top$$) are not invariant under projective transformation. Thus, in general the point $$\mathbf{X}$$ solving the original problem will not correspond to a solution $$H\mathbf{X}$$ for the transformed problem. However, there is a special case: for affine reconstruction, the inhomogeneous method is affine transformation invariant. Please refer to the MVG book by Hartley and Zisserman for details.
 
-Here is a the Matlab version of the linear triangulation solved by the homogeneous method.
-
-```matlab
-%vgg_X_from_xP_lin  Estimation of 3D point from image matches and camera matrices, linear.
-%   X = vgg_X_from_xP_lin(x,P,imsize) computes projective 3D point X (column 4-vector)
-%   from its projections in K images x (2-by-K matrix) and camera matrices P (K-cell
-%   of 3-by-4 matrices). Image sizes imsize (2-by-K matrix) are needed for preconditioning.
-%   By minimizing algebraic distance.
-%
-%   See also vgg_X_from_xP_nonlin.
-
-% werner@robots.ox.ac.uk, 2003
-
-function X = vgg_X_from_xP_lin(u,P,imsize)
-
-if iscell(P)
-  P = cat(3,P{:});
-end
-K = size(P,3);
-
-if nargin>2
-  for k = 1:K
-    H = [2/imsize(1,k) 0 -1
-         0 2/imsize(2,k) -1
-         0 0              1];
-    P(:,:,k) = H*P(:,:,k);
-    u(:,k) = H(1:2,1:2)*u(:,k) + H(1:2,3);
-  end
-end
-
-A = [];
-for k = 1:K
-  A = [A; vgg_contreps([u(:,k);1])*P(:,:,k)];
-end
-% A = normx(A')';
-[dummy,dummy,X] = svd(A,0);
-X = X(:,end);
-
-% Get orientation right
-s = reshape(P(3,:,:),[4 K])'*X;
-if any(s<0)
-  X = -X;
-  if any(s>0)
-%    warning('Inconsistent orientation of point match');
-  end
-end
-
-return
-```
-
-Here is a the C++ version of the linear triangulation solved by the homogeneous method.
+Here is a the C++ version of the linear triangulation solved by the homogeneous method. The Matlab version is in the [VGG toolbox](http://www.robots.ox.ac.uk/~vgg/hzbook/code/), which is named `vgg_X_from_xP_lin`.
 
 ```cpp
-StructurePoint Triangulation::linear(const vector<Camera> &cameras,
-      const FeatureTrack &track) const
+void triangulate_linear(const vector<Mat34f>& poses, const vector<Vec2f>& pts, Vec3f& pt_triangulated)
 {
-  MatrixXd A(2*track.size(), 4);
-  Vector3i color(0,0,0);
-  for(unsigned int k = 0; k < track.size(); ++k) {
-    double x = track[k].coords().x();
-    double y = track[k].coords().y();
-    color += track[k].color();
-    unsigned int index = track[k].index();
-    const MatrixXd &Pi = cameras[index].projection();
-    Vector4d pi1t(Pi(0,0),Pi(0,1),Pi(0,2),Pi(0,3));
-    Vector4d pi2t(Pi(1,0),Pi(1,1),Pi(1,2),Pi(1,3));
-    Vector4d pi3t(Pi(2,0),Pi(2,1),Pi(2,2),Pi(2,3));
-    Vector4d a = x*pi3t - pi1t;
-    a.normalize();
-    Vector4d b = y*pi3t - pi2t;
-    b.normalize();
-    A(2*k,0) = a.x();A(2*k,1) = a(1);A(2*k,2) = a(2);A(2*k,3) = a(3);
-    A(2*k+1,0) = b(0);A(2*k+1,1) = b(1);A(2*k+1,2) = b(2);A(2*k+1,3) = b(3);
+  Matf A(2 * pts.size(), 4);
+  for (int i = 0; i < pts.size(); ++i)
+  {
+      float x = pts[i](0);
+      float y = pts[i](1);
+      const Mat34f pose = poses[i];
+      Vec4f p1t = pose.row(0);
+      Vec4f p2t = pose.row(1);
+      Vec4f p3t = pose.row(2);
+      Vec4f a = x * p3t - p1t;
+      Vec4f b = y * p3t - p2t;
+      a.normalize();
+      b.normalize();
+      A.block<1, 4>(2 * i, 0) = a.transpose();
+      A.block<1, 4>(2 * i + 1, 0) = b.transpose();
   }
-  SelfAdjointEigenSolver<MatrixXd> eigensolver(A.transpose()*A);
-  MatrixXd evectors = eigensolver.eigenvectors();
-  double denom = 1.0/evectors(3,0);
-  Vector3d p(evectors(0,0)*denom, evectors(1,0)*denom, evectors(2,0)*denom);
-  return StructurePoint(p, color);
+  Vec4f X;
+  nullspace<Matf, Vec4f>(&A, &X);
+  pt_triangulated = X.block<3, 1>(0, 0).array() / X(3);
 }
 ```
 
-## Midpoint triangulation
+### Midpoint triangulation
 This method computes the 3D scene structure using midpoint triangulation. Richard I. Hartley and Peter Sturm mentioned in their paper "Triangulation" that this method is neither affine nor projective invariant, since concepts such as perpendicular or mid-point are not affine concepts. It is seen to behave very poorly indeed under projective and affine transformation, and is by far the worst of the methods considered here in this regard. We include this for the sake of completeness.
 
 <div class="img_row">
@@ -224,136 +257,114 @@ $$
 Here is the C++ implementation of the midpoint triangulation
 
 ```cpp
-StructurePoint Triangulation::midpoint(const vector<Camera> &cameras,
-     const FeatureTrack &track) const
+void triangulate_midpoint(const vector<Vec3f>& centers, const vector<Vec3f>& directions, const vector<Vec2f>& pts, Vec3f& pt_triangulated)
 {
-  double min_dist = numeric_limits<double>::max();
-  Vector3d min_mp;
-  unsigned int size = track.size();
-  Vector3i color(0,0,0);
-  for(unsigned int i = 0; i < size; ++i) {
-    unsigned int i1 = track[i].index();
-    Vector3d pos1 = cameras[i1].position();
-    Vector3d dir1 = cameras[i1].direction(track[i].coords());
-    for(unsigned int j = i+1; j < size; ++j) {
-      unsigned int i2 = track[j].index();
-      Vector3d pos2 = cameras[i2].position();
-      Vector3d dir2 = cameras[i2].direction(track[j].coords());
-      Vector3d c = dir1.cross(dir2);
-      double x = c.x(), y = c.y(), z = c.z();
-      double denom = 1.0/(x*x + y*y + z*z);
-      double a1 = ((pos2-pos1).cross(dir2)).dot(c)*denom;
-      double a2 = ((pos2-pos1).cross(dir1)).dot(c)*denom;
-      Vector3d p1 = pos1 + a1 * dir1;
-      Vector3d p2 = pos2 + a2 * dir2;
-      Vector3d d = p1-p2;
-      double dist = sqrt(d.dot(d));
-      Vector3d cd = pos1-pos2;
-      double cdist = 1/sqrt(cd.dot(cd));
-      Vector3d mp = (p1+p2)*0.5;
-      min_mp = dist*cdist < min_dist ? (min_dist = dist*cdist), mp : min_mp;
-      if(dist*cdist < .1) {
-        color = track[i].color() + track[j].color();
-        color /= 2;
-        return StructurePoint(min_mp, color);
+  double min_dist = numeric_limits<float>::max();
+  Vec3f min_midpoint(0, 0, 0);
+  int size_pts = static_cast<int>(pts.size());
+  
+  for (int i = 0; i < size_pts; ++i)
+  {
+    Vec3f center1 = centers[i];
+    Vec3f direct1 = directions[i];
+    for (int j = i + 1; j < size_pts; ++j)
+    {
+      Vec3f center2 = centers[j];
+      Vec3f direct2 = directions[j];
+      
+      Vec3f direct_cross = direct1.cross(direct2);
+      float denom = 1.0f / direct_cross.dot(direct_cross);
+      float a1 = ((center2 - center1).cross(direct2)).dot(direct_cross) * denom;
+      float a2 = ((center2 - center1).cross(direct1)).dot(direct_cross) * denom;
+      Vec3f p1 = center1 + a1 * direct1;
+      Vec3f p2 = center2 + a2 * direct2;
+      
+      Vec3f d = p1 - p2;
+      float dist = sqrt(d.dot(d));
+      Vec3f cd = center1 - center2;
+      float cdist = sqrt(cd.dot(cd));
+      Vec3f midpoint = (p1 + p2) * 0.5;
+      min_midpoint = dist * cdist < min_dist ? (min_dist = dist * cdist), midpoint : min_midpoint;
+      if (dist * cdist < 0.1f)
+      {
+          pt_triangulated = min_midpoint;
       }
     }
   }
-  return StructurePoint(min_mp, track[0].color());
+  pt_triangulated = min_midpoint;
 }
 ```
-## Geometric triangulation
+### Geometric triangulation
 Let $$x\leftrightarrow x'$$ be the measured point correspondence, and $$\hat{x}\leftrightarrow \hat{x'}$$ be the estimated point correspondence that satisfy the epipolar constraint, *i.e.*, $$\hat{x'}^\top F \hat{x}=0$$. This method minimizes the geometric distance between the measured and estimated points
 
 $$
 C(x, x')=d(x, \hat{x}) + d(x', \hat{x'})
 $$
 
-## Geometric triangulation (Sampson approximation)
-```matlab
-%vgg_X_from_xP_nonlin  Estimation of 3D point from image matches and camera matrices, nonlinear.
-%   X = vgg_X_from_xP_lin(x,P,imsize) computes max. likelihood estimate of projective
-%   3D point X (column 4-vector) from its projections in K images x (2-by-K matrix)
-%   and camera matrices P (K-cell of 3-by-4 matrices). Image sizes imsize (2-by-K matrix)
-%   are needed for preconditioning.
-%   By minimizing reprojection error, Newton iterations.
-%
-%   X = vgg_X_from_xP_lin(x,P,imsize,X0) takes initial estimate of X. If X0 is omitted,
-%   it is computed by linear algorithm.
-%
-%   See also vgg_X_from_xP_lin.
+#### Sampson approximation
+Here is a the C++ version of the nonlinear triangulation. The Matlab version is in the [VGG toolbox](http://www.robots.ox.ac.uk/~vgg/hzbook/code/), which is named `vgg_X_from_xP_nonlin`.
+```cpp
+void triangulate_nonlinear(const vector<Mat34f>& poses, const vector<Vec2f>& pts, Vec3f& pt_triangulated)
+{
+  int sz = static_cast<int>(pts.size());
+  triangulate_linear(poses, pts, pt_triangulated);
+  
+  Mat4f T, Ttmp;
+  Eigen::Matrix<float, 1, 4> pt_triangulated_homo = pt_triangulated.transpose().homogeneous();
+  Mat4f A;
+  A.setZero();
+  A.block<1, 4>(0, 0) = pt_triangulated_homo;
+  Eigen::JacobiSVD<Mat4f> asvd(A, Eigen::ComputeFullV);
+  T = asvd.matrixV();
+//        svd<Eigen::Matrix<float, 1, 4>, Mat4f, Mat4f>(&pt_triangulated_homo, nullptr, nullptr, &T);
+  Ttmp.block<4, 3>(0, 0) = T.block<4, 3>(0, 1);
+  Ttmp.block<4, 1>(0, 3) = T.block<4, 1>(0, 0);
+  T = Ttmp;
 
-% werner@robots.ox.ac.uk, 2003
-function X = vgg_X_from_xP_nonlin(u,P,imsize,X)
+  vector<Mat34f> Q(sz);
+  for (int i = 0; i < sz; ++i)
+  {
+      Q[i] = poses[i] * T;
+  }
+  
+  // Newton
+  Vec3f Y(0, 0, 0);
+  Vecf err_prev(2 * sz), err(2 * sz);
+  Matf J(2 * sz, 3);
+  err_prev.setOnes();
+  err_prev *= numeric_limits<float>::max();
+  const int niters = 10;
+  for (int i = 0; i < niters; ++i)
+  {
+    residule(Y, pts, Q, err, J);
+    if (1 - err.norm() / err_prev.norm() < 10e-8)
+        break;
+    
+    err_prev = err;
+    Y = Y - (J.transpose() * J).inverse() * (J.transpose() * err);
+  }
+  
+  Vec4f X = T * Y.homogeneous();
+  pt_triangulated = X.block<3, 1>(0, 0).array() / X(3);
+}
 
-if iscell(P)
-  P = cat(3,P{:});
-end
-K = size(P,3);
-if K < 2
-  error('Cannot reconstruct 3D from 1 image');
-end
-
-if nargin==3
-  X = vgg_X_from_xP_lin(u,P,imsize);
-end
-
-if nargin==2
-  X = vgg_X_from_xP_lin(u,P);
-end
-
-% precondition
-if nargin>2
-  for k = 1:K
-    H = [2/imsize(1,k) 0 -1
-         0 2/imsize(2,k) -1
-         0 0              1];
-    P(:,:,k) = H*P(:,:,k);
-    u(:,k) = H(1:2,1:2)*u(:,k) + H(1:2,3);
-  end
-end
-
-% Parametrize X such that X = T*[Y;1]; thus x = P*T*[Y;1] = Q*[Y;1]
-[dummy,dummy,T] = svd(X',0);
-T = T(:,[2:end 1]);
-for k = 1:K
-  Q(:,:,k) = P(:,:,k)*T;
-end
-
-% Newton
-Y = [0;0;0];
-eprev = inf;
-for n = 1:10
-  [e,J] = resid(Y,u,Q);
-  if 1-norm(e)/norm(eprev) < 1000*eps
-    break
-  end
-  eprev = e;  
-  Y = Y - (J'*J)\(J'*e);
-end
-
-X = T*[Y;1];
-
-return
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function [e,J] = resid(Y,u,Q)
-K = size(Q,3);
-e = [];
-J = [];
-for k = 1:K
-  q = Q(:,1:3,k);
-  x0 = Q(:,4,k);
-  x = q*Y + x0;
-  e = [e; x(1:2)/x(3)-u(:,k)];
-  J = [J; [x(3)*q(1,:)-x(1)*q(3,:)
-           x(3)*q(2,:)-x(2)*q(3,:)]/x(3)^2];
-end
-return
+void residule(const Vec3f& pt3d, const vector<Vec2f>& pts, const vector<Mat34f>& Q, Vecf& e, Matf& J)
+{
+  int sz = static_cast<int>(pts.size());
+  Vec3f x;
+  for (int i = 0; i < sz; ++i)
+  {
+    Mat3f q = Q[i].block<3, 3>(0, 0);
+    Vec3f x0 = Q[i].block<3, 1>(0, 3);
+    x = q * pt3d + x0;
+    e.block<2, 1>(2 * i, 0) = x.block<2, 1>(0, 0) / x(2) - pts[i];
+    J.block<1, 3>(2 * i, 0) = (x(2) * q.row(0) - x(0) * q.row(2)) / powf(x(2), 2.0);
+    J.block<1, 3>(2 * i + 1, 0) = (x(2) * q.row(1) - x(1) * q.row(2)) / powf(x(2), 2.0);
+  }
+}
 ```
 
-## Optimal triangulation (non-iterative)
+### Optimal triangulation (non-iterative)
 Let $$x\leftrightarrow x'$$ be the measured point correspondence, and the goal of geometric error proposed above is to find a pair of estimated points $$\hat{x}\leftrightarrow \hat{x'}$$ that minimize the SSD subject to the epipolar constraint $$\hat{x'}^\top F \hat{x}=0$$. However, this formulation requires iterative techniques to solve the problem. This cost function can be reformulated so that a non-iterative algorithm can be used.
 
 Since the estimated points lie on the epipolar lines, more specifically, $$\hat{x}$$ lies on line $$l$$ while $$\hat{\mathbf{x'}}$$ lies on line $$\mathbf{l'}$$. Minimize the distance $$d(x, \hat{x})$$, where $$\hat{x}\in l$$ is the same as minimizing the distance from the point $$x$$ to the line $$l$$, therefore, the cost function can be rewritten as
@@ -364,7 +375,8 @@ $$
 
 [TBD]
 
-## Angular triangulation
+### Angular triangulation
+Computes the 3D scene structure using the algorithm proposed in WACV '12 by Recker et. al. This implementation uses a midpoint start and also uses an adaptive gradient descent for optimization.
 ```cpp
 StructurePoint Triangulation::angular(const vector<Camera> &cameras,
       const FeatureTrack &track) const
@@ -401,11 +413,7 @@ StructurePoint Triangulation::angular(const vector<Camera> &cameras,
   }
   return StructurePoint(x_new, point.color());
 }
-```
 
-## Angular gradient triangulation
-
-```cpp
 Vector3d Triangulation::angular_gradient(const vector<Camera> &cameras,
       const FeatureTrack &track, const Vector3d &point) const
 {
