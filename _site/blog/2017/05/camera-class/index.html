@@ -97,21 +97,79 @@
 
 <p>The camera class should have the following methods:</p>
 <ul>
-  <li>IO: read to/write from file:
+  <li>constructor
     <ul>
-      <li>intrinsic and extrinsic parameters: type 0;</li>
-      <li>projection matrix.</li>
+      <li>projection matrix;</li>
+      <li>intrinsic matrix (<script type="math/tex">K</script>), rotation matrix (<script type="math/tex">R</script>), translation (<script type="math/tex">t</script>);</li>
+      <li>parameters: intrinsics (<script type="math/tex">f_x, f_y, c_x, c_w, \alpha</script>), extrinsics (<script type="math/tex">om_1, om_2, om_3, t_1, t_2, t_3</script>).</li>
     </ul>
   </li>
-  <li>set intrinsic and extrinsic parameters;</li>
-  <li>camera coordinate system: camera center and axes;</li>
-  <li>set/get matrix <script type="math/tex">K</script>, <script type="math/tex">R</script>, <script type="math/tex">t</script>, <script type="math/tex">Rt</script>, and <script type="math/tex">P</script>;</li>
-  <li>project/unproject;</li>
-  <li>compute depth</li>
+  <li>update projection matrix (<script type="math/tex">P</script>): <code class="highlighter-rouge">update_projection()</code>;</li>
+  <li>update intrinsic matrix (<script type="math/tex">K</script>), rotation matrix (<script type="math/tex">R</script>), translation (<script type="math/tex">t</script>): <code class="highlighter-rouge">update_matrices()</code>;</li>
+  <li>update parameters: <code class="highlighter-rouge">update_parameters()</code>;</li>
+  <li>update camera center: <code class="highlighter-rouge">update_center()</code>;</li>
+  <li>update axes: <code class="highlighter-rouge">update_axes()</code>;</li>
+  <li>pixel to ray: <code class="highlighter-rouge">pixel2ray()</code>;</li>
+  <li>project from 3D point to 2D point: <code class="highlighter-rouge">Vec2f project(const Vec3f&amp;)</code>;</li>
+  <li>re-project from 2D point to 3D point: <code class="highlighter-rouge">Vec3f unproject(const Vec2f&amp;, const int d)</code></li>
+  <li>compute depth: <code class="highlighter-rouge">compute_depth()</code></li>
   <li>possiblly more</li>
 </ul>
 
-<h2 id="intrinsic-and-extrinsic-parameter">Intrinsic and extrinsic parameter</h2>
+<h3 id="header-file">header file</h3>
+<p>The header file of the <code class="highlighter-rouge">camera</code> class</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Camera</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Camera</span><span class="p">();</span>
+    <span class="n">Camera</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&amp;</span> <span class="n">r_intrinsics</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&amp;</span> <span class="n">r_extrinsics</span><span class="p">);</span>
+    <span class="n">Camera</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat34f</span><span class="o">&amp;</span> <span class="n">r_projection</span><span class="p">);</span>
+    <span class="n">Camera</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat3f</span><span class="o">&amp;</span> <span class="n">R</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vec3f</span><span class="o">&amp;</span> <span class="n">t</span><span class="p">);</span>
+    <span class="n">Camera</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat3f</span><span class="o">&amp;</span> <span class="n">K</span><span class="p">,</span> <span class="k">const</span> <span class="n">Mat3f</span><span class="o">&amp;</span> <span class="n">R</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vec3f</span><span class="o">&amp;</span> <span class="n">t</span><span class="p">);</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">Camera</span><span class="p">();</span>
+    
+    <span class="kt">void</span> <span class="n">update_projection</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="n">update_parameters</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="n">update_matrices</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">is_proj</span> <span class="o">=</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="kt">void</span> <span class="n">update_center</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="n">update_axes</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="n">P_from_KRt</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="n">KRt_from_P</span><span class="p">();</span>
+    
+    <span class="kt">int</span> <span class="n">decompose</span><span class="p">(</span><span class="n">Mat3f</span> <span class="o">&amp;</span> <span class="n">K</span><span class="p">,</span> <span class="n">Mat3f</span><span class="o">&amp;</span> <span class="n">R</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    
+    <span class="k">const</span> <span class="n">Mat34f</span><span class="o">&amp;</span> <span class="n">projection</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="n">Mat34f</span><span class="o">&amp;</span> <span class="n">projection</span><span class="p">();</span>
+    <span class="k">const</span> <span class="n">Vec3f</span><span class="o">&amp;</span> <span class="n">direction</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="n">Vec3f</span><span class="o">&amp;</span> <span class="n">direction</span><span class="p">();</span>
+    <span class="k">const</span> <span class="n">Vec3f</span><span class="o">&amp;</span> <span class="n">center</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="n">Vec3f</span><span class="o">&amp;</span> <span class="n">center</span><span class="p">();</span>
+    
+    <span class="n">Vec3f</span> <span class="n">pixel2ray</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec2f</span><span class="o">&amp;</span> <span class="n">pixel</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+    <span class="n">Vec3f</span> <span class="n">project</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec4f</span><span class="o">&amp;</span> <span class="n">coord</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+    <span class="n">Vec4f</span> <span class="n">unproject</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec3f</span><span class="o">&amp;</span> <span class="n">icoord</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">compute_depth</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec4f</span><span class="o">&amp;</span> <span class="n">coord</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+    
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">Vec3f</span> <span class="n">center_</span><span class="p">;</span> <span class="c1">// optical center
+</span>    <span class="n">Vec3f</span> <span class="n">oaxis_</span><span class="p">;</span> <span class="c1">// optical axis
+</span>    <span class="n">Vec3f</span> <span class="n">xaxis_</span><span class="p">;</span> <span class="c1">// x-axis of the camera-centered coordinate system
+</span>    <span class="n">Vec3f</span> <span class="n">yaxis_</span><span class="p">;</span> <span class="c1">// y-axis of the camera-centered coordinate system
+</span>    <span class="n">Vec3f</span> <span class="n">zaxis_</span><span class="p">;</span> <span class="c1">// z-axis of the camera-centered coordinate system
+</span>    <span class="n">Mat34f</span> <span class="n">projection_</span><span class="p">;</span> <span class="c1">// projection matrix
+</span>    <span class="n">Mat3f</span> <span class="n">K_</span><span class="p">;</span> <span class="c1">// intrinsic matrix
+</span>    <span class="n">Mat3f</span> <span class="n">R_</span><span class="p">;</span> <span class="c1">// rotation
+</span>    <span class="n">Vec3f</span> <span class="n">om_</span><span class="p">;</span> <span class="c1">// axis-angle
+</span>    <span class="n">Vec3f</span> <span class="n">t_</span><span class="p">;</span> <span class="c1">// translation
+</span>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">intrinsics_</span><span class="p">;</span> <span class="c1">// intrinsic params: f_x, f_y, c_x, c_y, alpha
+</span>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">extrinsics_</span><span class="p">;</span> <span class="c1">// extrinsic params: om(0), om(1), om(2), t(0), t(1), t(2);
+</span><span class="p">};</span>
+</code></pre>
+</div>
+
+<h3 id="intrinsic-and-extrinsic-parameter">Intrinsic and extrinsic parameter</h3>
 <p>The camera matrix, or often named projection matrix is a <script type="math/tex">3\times 4</script> matrix. Sometimes a fourth row <script type="math/tex">[0, 0, 0, 1]</script> is added to make a <script type="math/tex">4\times 4</script> matrix. Let’s denote the camera matrix as <script type="math/tex">P</script>, and <script type="math/tex">P</script> is often decomposed into</p>
 
 <script type="math/tex; mode=display">P=\left[ M \vert -MC \right]</script>
@@ -141,12 +199,7 @@
    \end{bmatrix}=-RC</script>.</li>
 </ul>
 
-<h3 id="recovering-c">Recovering <script type="math/tex">C</script></h3>
-<p>Decompose <script type="math/tex">C</script> is the easiest, since <script type="math/tex">M</script> is invertible, and <script type="math/tex">-MC</script> is the fourth column of the camera matrix <script type="math/tex">P</script>, thus</p>
-
-<script type="math/tex; mode=display">C = -M^{-1}P(:, 4)</script>
-
-<h3 id="recovering-k-and-r">Recovering <script type="math/tex">K</script> and <script type="math/tex">R</script></h3>
+<h3 id="update-k-and-r-from-p">Update <script type="math/tex">K</script> and <script type="math/tex">R</script> from <script type="math/tex">P</script></h3>
 <p>We know that all full rank matrices can be decomposed into an upper-triangular matrix and an orthogonal matrix by using <a href="https://en.wikipedia.org/wiki/QR_decomposition">RQ-decomposition</a>, and this is exactly the case with <script type="math/tex">K</script> and <script type="math/tex">R</script>. RQ decomposition is normally unavailable in many numeric libraries. A nice <a href="http://www.janeriksolem.net/rq-factorization-of-camera-matrices.html">post</a> in <a href="http://www.janeriksolem.net/blog.html">Solem’s vision blog</a> gives an implementation of this decomposition.</p>
 
 <p>The problem is RQ-decomposition is not unique, since the sign of the diagonal elements can be flipped. Let’s first assume that the diagonal elements of <script type="math/tex">K</script> are positive, which is not necessarily true. Nonetheless, we can achieve a unique solution by enforcing non-negative diagonal elements. An elegant solution is</p>
@@ -157,6 +210,21 @@
 <span class="n">R</span> <span class="o">=</span> <span class="n">T</span> <span class="o">*</span> <span class="n">R</span> <span class="c1">% the inverse of T is itself</span>
 </code></pre>
 </div>
+
+<h3 id="update-c">Update <script type="math/tex">C</script></h3>
+<p>Decompose <script type="math/tex">C</script> is the easiest, since <script type="math/tex">M</script> is invertible, and <script type="math/tex">-MC</script> is the fourth column of the camera matrix <script type="math/tex">P</script>, thus</p>
+
+<script type="math/tex; mode=display">C = -M^{-1}P(:, 4)</script>
+
+<h3 id="update-axes">Update axes</h3>
+
+<h3 id="pixel-to-ray">Pixel to ray</h3>
+
+<h3 id="project-from-3d-to-2d">Project from 3D to 2D</h3>
+
+<h3 id="re-project-from-2d-to-3d">Re-project from 2D to 3D</h3>
+
+<h3 id="compute-depth">Compute depth</h3>
 
   </article>
 

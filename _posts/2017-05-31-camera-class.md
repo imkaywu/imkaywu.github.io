@@ -10,17 +10,75 @@ tags:
 Camera is the starting point of perceiving the world, and it's probably the single most component in the computer vision library.
 
 The camera class should have the following methods:
-- IO: read to/write from file: 
-	- intrinsic and extrinsic parameters: type 0;
-	- projection matrix.
-- set intrinsic and extrinsic parameters;
-- camera coordinate system: camera center and axes;
-- set/get matrix $$K$$, $$R$$, $$t$$, $$Rt$$, and $$P$$;
-- project/unproject;
-- compute depth
+- constructor
+  - projection matrix;
+  - intrinsic matrix ($$K$$), rotation matrix ($$R$$), translation ($$t$$);
+  - parameters: intrinsics ($$f_x, f_y, c_x, c_w, \alpha$$), extrinsics ($$om_1, om_2, om_3, t_1, t_2, t_3$$).
+- update projection matrix ($$P$$): `update_projection()`;
+- update intrinsic matrix ($$K$$), rotation matrix ($$R$$), translation ($$t$$): `update_matrices()`;
+- update parameters: `update_parameters()`;
+- update camera center: `update_center()`;
+- update axes: `update_axes()`;
+- pixel to ray: `pixel2ray()`;
+- project from 3D point to 2D point: `Vec2f project(const Vec3f&)`;
+- re-project from 2D point to 3D point: `Vec3f unproject(const Vec2f&, const int d)`
+- compute depth: `compute_depth()`
 - possiblly more
 
-## Intrinsic and extrinsic parameter
+### header file
+The header file of the `camera` class
+
+```cpp
+class Camera
+{
+public:
+    Camera();
+    Camera(const std::vector<float>& r_intrinsics, const std::vector<float>& r_extrinsics);
+    Camera(const Mat34f& r_projection);
+    Camera(const Mat3f& R, const Vec3f& t);
+    Camera(const Mat3f& K, const Mat3f& R, const Vec3f& t);
+    virtual ~Camera();
+    
+    void update_projection();
+    void update_parameters();
+    void update_matrices(const int is_proj = 1);
+    void update_center();
+    void update_axes();
+    void P_from_KRt();
+    void KRt_from_P();
+    
+    int decompose(Mat3f & K, Mat3f& R) const;
+
+    
+    const Mat34f& projection() const;
+    Mat34f& projection();
+    const Vec3f& direction() const;
+    Vec3f& direction();
+    const Vec3f& center() const;
+    Vec3f& center();
+    
+    Vec3f pixel2ray(const Vec2f& pixel) const;
+    Vec3f project(const Vec4f& coord) const;
+    Vec4f unproject(const Vec3f& icoord) const;
+    float compute_depth(const Vec4f& coord) const;
+    
+private:
+    Vec3f center_; // optical center
+    Vec3f oaxis_; // optical axis
+    Vec3f xaxis_; // x-axis of the camera-centered coordinate system
+    Vec3f yaxis_; // y-axis of the camera-centered coordinate system
+    Vec3f zaxis_; // z-axis of the camera-centered coordinate system
+    Mat34f projection_; // projection matrix
+    Mat3f K_; // intrinsic matrix
+    Mat3f R_; // rotation
+    Vec3f om_; // axis-angle
+    Vec3f t_; // translation
+    std::vector<float> intrinsics_; // intrinsic params: f_x, f_y, c_x, c_y, alpha
+    std::vector<float> extrinsics_; // extrinsic params: om(0), om(1), om(2), t(0), t(1), t(2);
+};
+```
+
+### Intrinsic and extrinsic parameter
 The camera matrix, or often named projection matrix is a $$3\times 4$$ matrix. Sometimes a fourth row $$[0, 0, 0, 1]$$ is added to make a $$4\times 4$$ matrix. Let's denote the camera matrix as $$P$$, and $$P$$ is often decomposed into
 
 $$
@@ -51,14 +109,7 @@ The properties of these matrices are:
        1
      \end{bmatrix}=-RC$$.
 
-### Recovering $$C$$
-Decompose $$C$$ is the easiest, since $$M$$ is invertible, and $$-MC$$ is the fourth column of the camera matrix $$P$$, thus
-
-$$
-C = -M^{-1}P(:, 4)
-$$
-
-### Recovering $$K$$ and $$R$$
+### Update $$K$$ and $$R$$ from $$P$$
 We know that all full rank matrices can be decomposed into an upper-triangular matrix and an orthogonal matrix by using [RQ-decomposition](https://en.wikipedia.org/wiki/QR_decomposition), and this is exactly the case with $$K$$ and $$R$$. RQ decomposition is normally unavailable in many numeric libraries. A nice [post](http://www.janeriksolem.net/rq-factorization-of-camera-matrices.html) in [Solem's vision blog](http://www.janeriksolem.net/blog.html) gives an implementation of this decomposition.
 
 The problem is RQ-decomposition is not unique, since the sign of the diagonal elements can be flipped. Let's first assume that the diagonal elements of $$K$$ are positive, which is not necessarily true. Nonetheless, we can achieve a unique solution by enforcing non-negative diagonal elements. An elegant solution is
@@ -69,3 +120,24 @@ T = sign(K);
 K = K * T;
 R = T * R % the inverse of T is itself
 ```
+
+### Update $$C$$
+Decompose $$C$$ is the easiest, since $$M$$ is invertible, and $$-MC$$ is the fourth column of the camera matrix $$P$$, thus
+
+$$
+C = -M^{-1}P(:, 4)
+$$
+
+### Update axes
+
+
+### Pixel to ray
+
+
+### Project from 3D to 2D
+
+
+### Re-project from 2D to 3D
+
+
+### Compute depth
