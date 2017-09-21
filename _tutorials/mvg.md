@@ -20,7 +20,7 @@ tags:
 ## Multiple Views
 [Essential Matrix]({{site.url}}{{site.baseurl}}/blog/2017/08/essential-matrix/)\\
 [Fundamental Matrix]({{site.url}}{{site.baseurl}}/blog/2017/06/fundamental-matrix/)\\
-[Automatic Fundamental Matrix]({{site.url}}{{site.baseurl}}/blog/2017/09/auto-fundamental-matrix/)\\
+[Automatic Fundamental Matrix]({{site.url}}{{site.baseurl}}/blog/2017/09/robust-fundamental-matrix/)\\
 [Triangulation]({{site.url}}{{site.baseurl}}/blog/2017/07/triangulation/)
 
 ## Others
