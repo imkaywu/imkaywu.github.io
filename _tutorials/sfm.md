@@ -72,12 +72,12 @@ See the code above
 ### 4. Feature matching
 See the matching results below
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/sfm/matching1_2.jpg" alt="" title="example image"/>
-    <img class="col one" src="/assets/img/open3DCV/sfm/matching2_3.jpg" alt="" title="example image"/>
-    <img class="col one" src="/assets/img/open3DCV/sfm/matching3_4.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier1_2.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier2_3.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier3_4.jpg" alt="" title="example image"/>
 </div>
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/sfm/matching4_5.jpg" alt="" title="example image"/>
+    <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier4_5.jpg" alt="" title="example image"/>
 </div>
 <div class="col three caption">
     Results of feature matching.
