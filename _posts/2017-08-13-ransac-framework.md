@@ -110,3 +110,11 @@ private:
 }
 #endif
 ```
+
+### Select random data
+
+
+### Uniqueness of selected data
+
+
+###

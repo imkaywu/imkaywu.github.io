@@ -95,7 +95,50 @@
   <article class="post-content Structure from Motion - a tutorial clearfix">
     <p>Structure from Motion is the holy grail of multiple view geometry. It is a process of estimating camera pose and retrieving a sparse reconstruction. In this tutorial, I’ll explain every step of this technique and provide detailed implementation using <a href="//imkaywu.github.io/blog/2017/05/3d-vision-lib/">open3DCV</a>.</p>
 
-<h3 id="0-test-images">0. Test images</h3>
+<h3 id="table-of-content">Table of Content</h3>
+<ol>
+  <li><a href="#test_image">Test images</a></li>
+  <li><a href="#image_io">Image IO</a></li>
+  <li><a href="#feature_detection">Feature detection</a></li>
+  <li><a href="#descriptor_extraction">Descriptor extraction</a></li>
+  <li><a href="#feature_matching">Feature matching</a></li>
+  <li><a href="#relative_pose">Relative pose estimation</a>
+    <ul>
+      <li>Known intrinsic parameters
+        <ul>
+          <li>Essential matrix estimation</li>
+          <li>Fundamental matrix estimation</li>
+        </ul>
+      </li>
+      <li>Unknown intrinsic parameters
+        <ul>
+          <li>Homography estimation</li>
+          <li>focal length from Homography</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#triangulation">N-view triangulation</a></li>
+  <li><a href="#bundle_adjustment">Bundle adjustment</a></li>
+  <li><a href="#2v_sfm">Two-view SfM</a>
+    <ul>
+      <li>Two-view matching</li>
+      <li>Two-view relative pose estimation</li>
+      <li>Two-view triangulation</li>
+      <li>Two-view bundle adjustment</li>
+    </ul>
+  </li>
+  <li><a href="#nv_sfm">N-view SfM</a>
+    <ul>
+      <li>merge two graphs</li>
+      <li>N-view triangulation</li>
+      <li>N-view bundle adjustment</li>
+    </ul>
+  </li>
+  <li><a href="#output">Output</a></li>
+</ol>
+
+<h3 id="0-test-images-">0. Test images <a name="test_image"></a></h3>
 <p>I used the <code class="highlighter-rouge">bust</code> images from Jianxiong Xiao’s SfM tutorial, and <code class="highlighter-rouge">templeSparseRing</code> dataset from Middlebury mview datasets. The directory of the test images is</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">string</span> <span class="n">idir</span> <span class="o">=</span> <span class="s">"/Users/BlacKay/Documents/Projects/Images/test/bust/"</span><span class="p">;</span>
@@ -103,7 +146,7 @@
 </span></code></pre>
 </div>
 
-<h3 id="1-image-io">1. Image IO</h3>
+<h3 id="1-image-io-">1. Image IO <a name="image_io"></a></h3>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="n">nimages</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
 <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">inames</span><span class="p">(</span><span class="n">nimages</span><span class="p">);</span>
@@ -120,7 +163,7 @@
 </code></pre>
 </div>
 
-<h3 id="2-feature-detection">2. Feature detection</h3>
+<h3 id="2-feature-detection-">2. Feature detection <a name="feature_detection"></a></h3>
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/sfm/feature1.jpg" alt="" title="example image" />
     <img class="col one" src="/assets/img/open3DCV/sfm/feature2.jpg" alt="" title="example image" />
@@ -151,10 +194,10 @@
 </code></pre>
 </div>
 
-<h3 id="3-descriptor-extraction">3. Descriptor extraction</h3>
+<h3 id="3-descriptor-extraction-">3. Descriptor extraction <a href="descriptor_extraction"></a></h3>
 <p>See the code above</p>
 
-<h3 id="4-feature-matching">4. Feature matching</h3>
+<h3 id="4-feature-matching-">4. Feature matching <a name="feature_matching"></a></h3>
 <p>See the matching results below</p>
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier1_2.jpg" alt="" title="example image" />
@@ -183,15 +226,15 @@
 </code></pre>
 </div>
 
-<h3 id="5-relative-pose-estimation">5. Relative pose estimation</h3>
+<h3 id="5-relative-pose-estimation-">5. Relative pose estimation <a name="relative_pose"></a></h3>
 
 <h4 id="known-intrinsic-parameters">Known intrinsic parameters</h4>
 <p>Assuming the cameras have been calibrated, thus euclidean (metric) reconstruction is possible.</p>
 
-<h5 id="estimate-essential-matrix">Estimate essential matrix</h5>
+<h5 id="estimate-essential-matrix-">Estimate essential matrix <a name="essential"></a></h5>
 <p>[TBD]</p>
 
-<h5 id="estimate-fundamental-matrix">Estimate fundamental matrix</h5>
+<h5 id="estimate-fundamental-matrix-">Estimate fundamental matrix <a name="fundamental"></a></h5>
 <p>I use the <code class="highlighter-rouge">7-point algorithm</code> + <code class="highlighter-rouge">RANSAC</code> to estimate fundamental matrix. See the results below.</p>
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/sfm/epipolar1_2.jpg" alt="" title="example image" />
@@ -239,18 +282,18 @@
 <h4 id="unknown-intrinsic-parameters">Unknown intrinsic parameters</h4>
 <p>Assuming that the cameras have not been calibrated, in this case, the scene is reconstructed up to a projective projection.</p>
 
-<h5 id="estimate-homography">Estimate homography</h5>
+<h5 id="estimate-homography-">Estimate homography <a name="homography"></a></h5>
 <p>[TBD]</p>
 
-<h5 id="estimate-focal-length-from-homography">Estimate focal length from homography</h5>
+<h5 id="estimate-focal-length-from-homography-">Estimate focal length from homography <a href="focal_length"></a></h5>
 <p>[TBD]</p>
 
-<h3 id="6-n-view-triangulation">6. N-view triangulation</h3>
+<h3 id="6-n-view-triangulation-">6. N-view triangulation <a name="triangulation"></a></h3>
 <p>[Done]</p>
 
-<h3 id="7-bundle-adjustment">7. Bundle adjustment</h3>
+<h3 id="7-bundle-adjustment-">7. Bundle adjustment <a name="bundle_adjustment"></a></h3>
 
-<h3 id="8-two-view-sfm">8. Two-view SfM</h3>
+<h3 id="8-two-view-sfm-">8. Two-view SfM <a name="2v_sfm"></a></h3>
 <p>One graph represents two views with sufficient correspondences. This sub-section is for all possible graphs.</p>
 
 <h4 id="81-two-view-matching">8.1. Two-view matching</h4>
@@ -261,7 +304,7 @@
 
 <h4 id="84-two-view-bundle-adjustment">8.4. Two-view bundle adjustment</h4>
 
-<h3 id="9-sequential-sfm">9. Sequential SfM</h3>
+<h3 id="9-sequential-sfm-">9. Sequential SfM <a name="nv_sfm"></a></h3>
 
 <h4 id="91-merge-two-graphs">9.1. merge two graphs</h4>
 
@@ -269,7 +312,7 @@
 
 <h4 id="93-n-view-bundle-adjustment">9.3. N-view bundle adjustment</h4>
 
-<h3 id="10-output">10. Output</h3>
+<h3 id="10-output-">10. Output <a name="output"></a></h3>
 
   </article>
 

@@ -10,7 +10,33 @@ tags:
 
 Structure from Motion is the holy grail of multiple view geometry. It is a process of estimating camera pose and retrieving a sparse reconstruction. In this tutorial, I'll explain every step of this technique and provide detailed implementation using [open3DCV]({{site.url}}/{{site.baseurl}}blog/2017/05/3d-vision-lib/).
 
-### 0. Test images
+### Table of Content
+0. [Test images](#test_image)
+1. [Image IO](#image_io)
+2. [Feature detection](#feature_detection)
+3. [Descriptor extraction](#descriptor_extraction)
+4. [Feature matching](#feature_matching)
+5. [Relative pose estimation](#relative_pose)
+    * Known intrinsic parameters
+        * Essential matrix estimation
+        * Fundamental matrix estimation
+    * Unknown intrinsic parameters
+        * Homography estimation
+        * focal length from Homography
+6. [N-view triangulation](#triangulation)
+7. [Bundle adjustment](#bundle_adjustment)
+8. [Two-view SfM](#2v_sfm)
+    * Two-view matching
+    * Two-view relative pose estimation
+    * Two-view triangulation
+    * Two-view bundle adjustment
+9. [N-view SfM](#nv_sfm)
+    * merge two graphs
+    * N-view triangulation
+    * N-view bundle adjustment
+10. [Output](#output)
+
+### 0. Test images <a name="test_image"></a>
 I used the `bust` images from Jianxiong Xiao's SfM tutorial, and `templeSparseRing` dataset from Middlebury mview datasets. The directory of the test images is
 
 ```cpp
@@ -18,7 +44,7 @@ string idir = "/Users/BlacKay/Documents/Projects/Images/test/bust/";
 // string idir = "/Users/BlacKay/Documents/Projects/Images/test/templeSparseRing/";
 ```
 
-### 1. Image IO
+### 1. Image IO <a name="image_io"></a>
 
 ```cpp
 const int nimages = 5;
@@ -35,7 +61,7 @@ for (int i = 0; i < nimages; ++i)
 }
 ```
 
-### 2. Feature detection
+### 2. Feature detection <a name="feature_detection"></a>
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/sfm/feature1.jpg" alt="" title="example image"/>
     <img class="col one" src="/assets/img/open3DCV/sfm/feature2.jpg" alt="" title="example image"/>
@@ -66,10 +92,10 @@ for (int i = 0; i < nimages; ++i)
 }
 ```
 
-### 3. Descriptor extraction
+### 3. Descriptor extraction <a href="descriptor_extraction"></a>
 See the code above
 
-### 4. Feature matching
+### 4. Feature matching <a name="feature_matching"></a>
 See the matching results below
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier1_2.jpg" alt="" title="example image"/>
@@ -98,15 +124,15 @@ for (int i = 0; i < nimages - 1; ++i)
     }
 ```
 
-### 5. Relative pose estimation
+### 5. Relative pose estimation <a name="relative_pose"></a>
 
 #### Known intrinsic parameters
 Assuming the cameras have been calibrated, thus euclidean (metric) reconstruction is possible.
 
-##### Estimate essential matrix
+##### Estimate essential matrix <a name="essential"></a>
 [TBD]
 
-##### Estimate fundamental matrix
+##### Estimate fundamental matrix <a name="fundamental"></a>
 I use the `7-point algorithm` + `RANSAC` to estimate fundamental matrix. See the results below.
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/sfm/epipolar1_2.jpg" alt="" title="example image"/>
@@ -154,18 +180,18 @@ for (int i = 0; i < nimages - 1; ++i)
 #### Unknown intrinsic parameters
 Assuming that the cameras have not been calibrated, in this case, the scene is reconstructed up to a projective projection.
 
-##### Estimate homography
+##### Estimate homography <a name="homography"></a>
 [TBD]
 
-##### Estimate focal length from homography
+##### Estimate focal length from homography <a href="focal_length"></a>
 [TBD]
 
-### 6. N-view triangulation
+### 6. N-view triangulation <a name="triangulation"></a>
 [Done]
 
-### 7. Bundle adjustment
+### 7. Bundle adjustment <a name="bundle_adjustment"></a>
 
-### 8. Two-view SfM
+### 8. Two-view SfM <a name="2v_sfm"></a>
 One graph represents two views with sufficient correspondences. This sub-section is for all possible graphs.
 
 #### 8.1. Two-view matching
@@ -176,7 +202,7 @@ One graph represents two views with sufficient correspondences. This sub-section
 
 #### 8.4. Two-view bundle adjustment
 
-### 9. Sequential SfM 
+### 9. Sequential SfM <a name="nv_sfm"></a>
 
 #### 9.1. merge two graphs
 
@@ -184,4 +210,4 @@ One graph represents two views with sufficient correspondences. This sub-section
 
 #### 9.3. N-view bundle adjustment
 
-### 10. Output
+### 10. Output <a name="output"></a>
