@@ -1,5 +1,5 @@
 ---
-title: A C++ implmentation of camera class
+title: Pinhole camera model - a C++ implementation
 categories: 
   - Research
   - Dev
@@ -7,7 +7,7 @@ tags:
   - Computer Vision
   - Computer Graphics
 ---
-Camera is the starting point of perceiving the world, and it's probably the single most component in the computer vision library.
+Camera is the starting point of perceiving the world, and it is one of the most components in the computer vision/graphics library. This post discusses the implementation of a pinhole camera model WITHOUT lens distortion. Please refer to [camera part 3]({{site.url}}{{site.baseurl}}/blog/2017/09/camera-distortion/) for camera with lens distortion.
 
 The camera class should have the following methods:
 - constructor
@@ -76,7 +76,7 @@ private:
 };
 ```
 
-### Intrinsic and extrinsic parameter
+### Decompose projection matrix $$P$$
 The camera matrix, or often named projection matrix is a $$3\times 4$$ matrix. Sometimes a fourth row $$[0, 0, 0, 1]$$ is added to make a $$4\times 4$$ matrix. Let's denote the camera matrix as $$P$$, and $$P$$ is often decomposed into
 
 $$
@@ -107,10 +107,25 @@ The properties of these matrices are:
        1
      \end{bmatrix}=-RC$$.
 
-### Update $$K$$ and $$R$$ from $$P$$
-We know that all full rank matrices can be decomposed into an upper-triangular matrix and an orthogonal matrix by using [RQ-decomposition](https://en.wikipedia.org/wiki/QR_decomposition), and this is exactly the case with $$K$$ and $$R$$. RQ decomposition is normally unavailable in many numeric libraries. A nice [post](http://www.janeriksolem.net/rq-factorization-of-camera-matrices.html) in [Solem's vision blog](http://www.janeriksolem.net/blog.html) gives an implementation of this decomposition.
+### Estimate $$K$$ and $$Rt$$ from projection matrix $$P$$
+We know that all full rank matrices can be decomposed into an upper-triangular matrix and an orthogonal matrix by using [RQ-decomposition](https://en.wikipedia.org/wiki/QR_decomposition), and this is exactly the case with $$K$$ and $$R$$. RQ decomposition is normally unavailable in many numeric libraries. A nice [post](http://www.janeriksolem.net/rq-factorization-of-camera-matrices.html) in [Solem's vision blog](http://www.janeriksolem.net/blog.html) gives an implementation of this decomposition in Python, a Matlab implementation is given in [this post](http://ksimek.github.io/2012/08/14/decompose/).
 
-The problem is RQ-decomposition is not unique, since the sign of the diagonal elements can be flipped. Let's first assume that the diagonal elements of $$K$$ are positive, which is not necessarily true. Nonetheless, we can achieve a unique solution by enforcing non-negative diagonal elements. An elegant solution is
+```matlab
+function [R Q] = rq(M)
+    [Q,R] = qr(flipud(M)')
+    R = flipud(R');
+    R = fliplr(R);
+
+    Q = Q';   
+    Q = flipud(Q);
+```
+
+The problem of RQ-decomposition is that the solution is not unique, since negating the sign of any column of K and the corresponding row of R gives the exactly same projection matrix. We may enforce the diagonal elements of $$K$$ to be non-negative, but it is true under the following conditions:
+
+* the X/Y axes of the image coordinate system are in the same direction as those of the camera coordinate system;
+* the camera looks down in the positive $$z-$$ direction.
+
+[Solem's post](http://www.janeriksolem.net/rq-factorization-of-camera-matrices.html) gives the positive diagonal elements in the following code:
 
 ```matlab
 % non-negative diagonal elements
@@ -118,6 +133,29 @@ T = sign(K);
 K = K * T;
 R = T * R % the inverse of T is itself
 ```
+
+Enforcing this assumption might be unjustified for cases mentioned above. Thus, we need to carry out several steps to correct $$K$$ and $$R$$ from the non-negative decomposition.
+
+1. If the image $$x-$$axis and camera $$x-$$axis point in opposite directions, negate the first column of $$K$$ and the first row of $$R$$.
+2. If the image $$y-$$axis and camera $$y-$$axis point in opposite directions, negate the second column of $$K$$ and the second row of $$R$$.
+3. If the camera looks down the negative$$-z$$ axis, negate the third column of $$K$$ and negate the third column of $$R$$.
+4. If the determinant of $$R$$ is -1, negate it.
+
+#### Conventions of image coordinate system
+* **Matlab-style**: 
+  * origin: top-left
+  * $$x-$$axis: point right
+  * $$y-$$axis: point down
+* **Math-style**:
+  * origin: bottom-left
+  * $$x-$$axis: point right
+  * $$y-$$axis: point up
+
+#### Conventions of camera coordinate system
+* **OpenGL-style**: 
+    * camera looks down the negative $$z-$$axis
+* **Hartley&Zisserman-style**: 
+  * camera looks down the positive $$z-$$axis
 
 ### Update $$C$$
 Decompose $$C$$ is the easiest, since $$M$$ is invertible, and $$-MC$$ is the fourth column of the camera matrix $$P$$, thus

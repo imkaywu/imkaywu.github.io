@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | A C++ implmentation of camera class</title>
+  <title>Kai Wu | Pinhole camera model - a C++ implementation</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
@@ -61,7 +61,7 @@
           
         
           
-            <a class="page-link" href="//imkaywu.github.io/tutorials/">collections</a>
+            <a class="page-link" href="//imkaywu.github.io/tutorials/">tutorials</a>
           
         
           
@@ -88,12 +88,12 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">A C++ implmentation of camera class</h1>
+    <h1 class="post-title">Pinhole camera model - a C++ implementation</h1>
     <p class="post-meta">May 31, 2017</p>
   </header>
 
   <article class="post-content">
-    <p>Camera is the starting point of perceiving the world, and it’s probably the single most component in the computer vision library.</p>
+    <p>Camera is the starting point of perceiving the world, and it is one of the most components in the computer vision/graphics library. This post discusses the implementation of a pinhole camera model WITHOUT lens distortion. Please refer to <a href="//imkaywu.github.io/blog/2017/09/camera-distortion/">camera part 3</a> for camera with lens distortion.</p>
 
 <p>The camera class should have the following methods:</p>
 <ul>
@@ -167,7 +167,7 @@
 </code></pre>
 </div>
 
-<h3 id="intrinsic-and-extrinsic-parameter">Intrinsic and extrinsic parameter</h3>
+<h3 id="decompose-projection-matrix-p">Decompose projection matrix <script type="math/tex">P</script></h3>
 <p>The camera matrix, or often named projection matrix is a <script type="math/tex">3\times 4</script> matrix. Sometimes a fourth row <script type="math/tex">[0, 0, 0, 1]</script> is added to make a <script type="math/tex">4\times 4</script> matrix. Let’s denote the camera matrix as <script type="math/tex">P</script>, and <script type="math/tex">P</script> is often decomposed into</p>
 
 <script type="math/tex; mode=display">P=\left[ M \vert -MC \right]</script>
@@ -197,10 +197,27 @@
    \end{bmatrix}=-RC</script>.</li>
 </ul>
 
-<h3 id="update-k-and-r-from-p">Update <script type="math/tex">K</script> and <script type="math/tex">R</script> from <script type="math/tex">P</script></h3>
-<p>We know that all full rank matrices can be decomposed into an upper-triangular matrix and an orthogonal matrix by using <a href="https://en.wikipedia.org/wiki/QR_decomposition">RQ-decomposition</a>, and this is exactly the case with <script type="math/tex">K</script> and <script type="math/tex">R</script>. RQ decomposition is normally unavailable in many numeric libraries. A nice <a href="http://www.janeriksolem.net/rq-factorization-of-camera-matrices.html">post</a> in <a href="http://www.janeriksolem.net/blog.html">Solem’s vision blog</a> gives an implementation of this decomposition.</p>
+<h3 id="estimate-k-and-rt-from-projection-matrix-p">Estimate <script type="math/tex">K</script> and <script type="math/tex">Rt</script> from projection matrix <script type="math/tex">P</script></h3>
+<p>We know that all full rank matrices can be decomposed into an upper-triangular matrix and an orthogonal matrix by using <a href="https://en.wikipedia.org/wiki/QR_decomposition">RQ-decomposition</a>, and this is exactly the case with <script type="math/tex">K</script> and <script type="math/tex">R</script>. RQ decomposition is normally unavailable in many numeric libraries. A nice <a href="http://www.janeriksolem.net/rq-factorization-of-camera-matrices.html">post</a> in <a href="http://www.janeriksolem.net/blog.html">Solem’s vision blog</a> gives an implementation of this decomposition in Python, a Matlab implementation is given in <a href="http://ksimek.github.io/2012/08/14/decompose/">this post</a>.</p>
 
-<p>The problem is RQ-decomposition is not unique, since the sign of the diagonal elements can be flipped. Let’s first assume that the diagonal elements of <script type="math/tex">K</script> are positive, which is not necessarily true. Nonetheless, we can achieve a unique solution by enforcing non-negative diagonal elements. An elegant solution is</p>
+<div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="k">function</span> <span class="p">[</span><span class="n">R</span> <span class="n">Q</span><span class="p">]</span> <span class="o">=</span> <span class="n">rq</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+    <span class="p">[</span><span class="n">Q</span><span class="p">,</span><span class="n">R</span><span class="p">]</span> <span class="o">=</span> <span class="nb">qr</span><span class="p">(</span><span class="nb">flipud</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">'</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="nb">flipud</span><span class="p">(</span><span class="n">R</span><span class="o">'</span><span class="p">);</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="nb">fliplr</span><span class="p">(</span><span class="n">R</span><span class="p">);</span>
+
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span><span class="o">'</span><span class="p">;</span>   
+    <span class="n">Q</span> <span class="o">=</span> <span class="nb">flipud</span><span class="p">(</span><span class="n">Q</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>The problem of RQ-decomposition is that the solution is not unique, since negating the sign of any column of K and the corresponding row of R gives the exactly same projection matrix. We may enforce the diagonal elements of <script type="math/tex">K</script> to be non-negative, but it is true under the following conditions:</p>
+
+<ul>
+  <li>the X/Y axes of the image coordinate system are in the same direction as those of the camera coordinate system;</li>
+  <li>the camera looks down in the positive <script type="math/tex">z-</script> direction.</li>
+</ul>
+
+<p><a href="http://www.janeriksolem.net/rq-factorization-of-camera-matrices.html">Solem’s post</a> gives the positive diagonal elements in the following code:</p>
 
 <div class="language-matlab highlighter-rouge"><pre class="highlight"><code><span class="c1">% non-negative diagonal elements</span>
 <span class="n">T</span> <span class="o">=</span> <span class="nb">sign</span><span class="p">(</span><span class="n">K</span><span class="p">);</span>
@@ -208,6 +225,47 @@
 <span class="n">R</span> <span class="o">=</span> <span class="n">T</span> <span class="o">*</span> <span class="n">R</span> <span class="c1">% the inverse of T is itself</span>
 </code></pre>
 </div>
+
+<p>Enforcing this assumption might be unjustified for cases mentioned above. Thus, we need to carry out several steps to correct <script type="math/tex">K</script> and <script type="math/tex">R</script> from the non-negative decomposition.</p>
+
+<ol>
+  <li>If the image <script type="math/tex">x-</script>axis and camera <script type="math/tex">x-</script>axis point in opposite directions, negate the first column of <script type="math/tex">K</script> and the first row of <script type="math/tex">R</script>.</li>
+  <li>If the image <script type="math/tex">y-</script>axis and camera <script type="math/tex">y-</script>axis point in opposite directions, negate the second column of <script type="math/tex">K</script> and the second row of <script type="math/tex">R</script>.</li>
+  <li>If the camera looks down the negative<script type="math/tex">-z</script> axis, negate the third column of <script type="math/tex">K</script> and negate the third column of <script type="math/tex">R</script>.</li>
+  <li>If the determinant of <script type="math/tex">R</script> is -1, negate it.</li>
+</ol>
+
+<h4 id="conventions-of-image-coordinate-system">Conventions of image coordinate system</h4>
+<ul>
+  <li><strong>Matlab-style</strong>:
+    <ul>
+      <li>origin: top-left</li>
+      <li><script type="math/tex">x-</script>axis: point right</li>
+      <li><script type="math/tex">y-</script>axis: point down</li>
+    </ul>
+  </li>
+  <li><strong>Math-style</strong>:
+    <ul>
+      <li>origin: bottom-left</li>
+      <li><script type="math/tex">x-</script>axis: point right</li>
+      <li><script type="math/tex">y-</script>axis: point up</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="conventions-of-camera-coordinate-system">Conventions of camera coordinate system</h4>
+<ul>
+  <li><strong>OpenGL-style</strong>:
+    <ul>
+      <li>camera looks down the negative <script type="math/tex">z-</script>axis</li>
+    </ul>
+  </li>
+  <li><strong>Hartley&amp;Zisserman-style</strong>:
+    <ul>
+      <li>camera looks down the positive <script type="math/tex">z-</script>axis</li>
+    </ul>
+  </li>
+</ul>
 
 <h3 id="update-c">Update <script type="math/tex">C</script></h3>
 <p>Decompose <script type="math/tex">C</script> is the easiest, since <script type="math/tex">M</script> is invertible, and <script type="math/tex">-MC</script> is the fourth column of the camera matrix <script type="math/tex">P</script>, thus</p>

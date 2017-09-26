@@ -1,7 +1,7 @@
 ---
 layout: page
 permalink: /tutorials/
-title: collections
+title: tutorials
 ---
 
 ## Vision
