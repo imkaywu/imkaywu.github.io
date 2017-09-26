@@ -89,6 +89,7 @@ title: "links"
 [Junyuan Xie]()\\
 [Ziv Yaniv - Absolute orientation, ICP](http://yanivresearch.info)\\
 [Xiong Ying - PSBox, DfGBox](http://ying.xiongs.org/index.html)\\
+[Christopher Zach](http://www.cvg.ethz.ch/research/chzach/index.html)\\
 [Victor Zappi](http://toomuchidle.com/blog/)\\
 [Qianyi Zhou](http://qianyi.info)\\
 [Wang Zhe](http://wangzheallen.github.io)

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | Bundle adjustment in Ceres Solver</title>
+  <title>Kai Wu | Bundle adjustment of Structure from Motion in Ceres Solver</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
@@ -88,12 +88,251 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Bundle adjustment in Ceres Solver</h1>
+    <h1 class="post-title">Bundle adjustment of Structure from Motion in Ceres Solver</h1>
     <p class="post-meta">September 25, 2017</p>
   </header>
 
   <article class="post-content">
-    <p>Bundle adjustment is ubiquitously used as the last step of most feature based estimation problems. The goal is to simultaneously optimize the motion and data (estimated 2D feature or 3D point position).</p>
+    <p>Bundle adjustment is used ubiquitously as the last step of most feature based estimation problems. The goal is to simultaneously optimize the motion and data (estimated 2D feature or 3D point position). Some popular open source libraries are: <a href="http://users.ics.forth.gr/~lourakis/sba/">sparse bundle adjustment</a> (sba), <a href="http://ceres-solver.org/index.html">ceres solver</a>, <a href="http://grail.cs.washington.edu/projects/mcba/">Multicore Bundle Adjustment</a>, <a href="http://www.cvg.ethz.ch/research/chzach/opensource.html">Simple Sparse Bundle Adjustment (SSBA)</a>. In this post, I focus only on ceres solver. I’ll add support for <a href="http://users.ics.forth.gr/~lourakis/sba/">sba</a> in future release of open3DCV.</p>
+
+<p>There are multiple ways to formulate the optimization problem, one way to write the cost function is as follows:</p>
+
+<script type="math/tex; mode=display">E_{BA\_2D}=\sum_i \sum_j \|f(X_i; K_j, R_j, t_j)-x_{ij}\|</script>
+
+<p>The parameters that need to be updated are:</p>
+<ul>
+  <li>camera intrinsic parameters: <script type="math/tex">f_x</script>, <script type="math/tex">f_x</script>, <script type="math/tex">c_x</script>, <script type="math/tex">c_y</script></li>
+  <li>camera extrinsic parameters: <script type="math/tex">om[0,1,2]</script>, and <script type="math/tex">t[0,1,2]</script>, where <script type="math/tex">om</script> is the axis-angle representation of rotation matrix</li>
+  <li>camera distortion parameters: <script type="math/tex">k1</script>, <script type="math/tex">k2</script>, <script type="math/tex">k3</script>, <script type="math/tex">p1</script>, <script type="math/tex">p2</script>.</li>
+  <li>a set of 3D point positions</li>
+</ul>
+
+<p>The first step is to define a templated functor that computes the reprojection error/residual. This cost functor depends on the 3D points and the parameters listed above.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Open3DCVReprojectionError</span>
+<span class="p">{</span>
+    <span class="n">Open3DCVReprojectionError</span><span class="p">(</span><span class="k">const</span> <span class="kt">double</span> <span class="n">observed_x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">double</span> <span class="n">observed_y</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">observed_x_</span><span class="p">(</span><span class="n">observed_x</span><span class="p">),</span> <span class="n">observed_y_</span><span class="p">(</span><span class="n">observed_y</span><span class="p">)</span> <span class="p">{}</span>
+    
+    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">T</span><span class="o">*</span> <span class="k">const</span> <span class="n">intrinsics</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">T</span><span class="o">*</span> <span class="k">const</span> <span class="n">extrinsics</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">T</span><span class="o">*</span> <span class="k">const</span> <span class="n">point</span><span class="p">,</span>
+                    <span class="n">T</span><span class="o">*</span> <span class="n">residules</span><span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">focal_length</span>       <span class="o">=</span> <span class="n">intrinsics</span><span class="p">[</span><span class="n">OFFSET_FOCAL_LENGTH</span><span class="p">];</span>
+        <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">principal_point_x</span>  <span class="o">=</span> <span class="n">intrinsics</span><span class="p">[</span><span class="n">OFFSET_PRINCIPAL_POINT_X</span><span class="p">];</span>
+        <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">principal_point_y</span>  <span class="o">=</span> <span class="n">intrinsics</span><span class="p">[</span><span class="n">OFFSET_PRINCIPAL_POINT_Y</span><span class="p">];</span>
+        <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">k1</span>                 <span class="o">=</span> <span class="n">intrinsics</span><span class="p">[</span><span class="n">OFFSET_K1</span><span class="p">];</span>
+        <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">k2</span>                 <span class="o">=</span> <span class="n">intrinsics</span><span class="p">[</span><span class="n">OFFSET_K2</span><span class="p">];</span>
+        <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">k3</span>                 <span class="o">=</span> <span class="n">intrinsics</span><span class="p">[</span><span class="n">OFFSET_K3</span><span class="p">];</span>
+        <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">p1</span>                 <span class="o">=</span> <span class="n">intrinsics</span><span class="p">[</span><span class="n">OFFSET_P1</span><span class="p">];</span>
+        <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">p2</span>                 <span class="o">=</span> <span class="n">intrinsics</span><span class="p">[</span><span class="n">OFFSET_P2</span><span class="p">];</span>
+        
+        <span class="c1">// compute projective coordinates: x = RX + t.
+</span>        <span class="c1">// extrinsics[0, 1, 2]: axis-angle
+</span>        <span class="c1">// extrinsics[3, 4, 5]: translation
+</span>        <span class="n">T</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+        <span class="n">ceres</span><span class="o">::</span><span class="n">AngleAxisRotatePoint</span><span class="p">(</span><span class="n">extrinsics</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+        <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">extrinsics</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+        <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">extrinsics</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+        <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">extrinsics</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+        
+        <span class="c1">// compute normalized coordinates
+</span>        <span class="n">T</span> <span class="n">xn</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+        <span class="n">T</span> <span class="n">yn</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+        
+        <span class="n">T</span> <span class="n">predicted_x</span><span class="p">,</span> <span class="n">predicted_y</span><span class="p">;</span>
+        
+        <span class="c1">// apply distortion to the normalized points to get (xd, yd)
+</span>        <span class="c1">// do something for zero distortion
+</span>        <span class="n">apply_radio_distortion_camera_intrinsics</span><span class="p">(</span><span class="n">focal_length</span><span class="p">,</span>
+                                                 <span class="n">focal_length</span><span class="p">,</span>
+                                                 <span class="n">principal_point_x</span><span class="p">,</span>
+                                                 <span class="n">principal_point_y</span><span class="p">,</span>
+                                                 <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">k3</span><span class="p">,</span>
+                                                 <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span>
+                                                 <span class="n">xn</span><span class="p">,</span> <span class="n">yn</span><span class="p">,</span>
+                                                 <span class="o">&amp;</span><span class="n">predicted_x</span><span class="p">,</span>
+                                                 <span class="o">&amp;</span><span class="n">predicted_y</span><span class="p">);</span>
+        
+        <span class="n">residules</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">predicted_x</span> <span class="o">-</span> <span class="n">T</span><span class="p">(</span><span class="n">observed_x_</span><span class="p">);</span>
+        <span class="n">residules</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">predicted_y</span> <span class="o">-</span> <span class="n">T</span><span class="p">(</span><span class="n">observed_y_</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Factory to hide the construction of the CostFunction object from the client code
+</span>    <span class="k">static</span> <span class="n">ceres</span><span class="o">::</span><span class="n">CostFunction</span><span class="o">*</span> <span class="n">create</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">observed_x</span><span class="p">,</span>
+                                       <span class="k">const</span> <span class="kt">float</span> <span class="n">observed_y</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">new</span> <span class="n">ceres</span><span class="o">::</span><span class="n">AutoDiffCostFunction</span><span class="o">&lt;</span><span class="n">Open3DCVReprojectionError</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span>
+                    <span class="k">new</span> <span class="n">Open3DCVReprojectionError</span><span class="p">(</span><span class="n">observed_x</span><span class="p">,</span> <span class="n">observed_y</span><span class="p">)));</span>
+    <span class="p">}</span>
+    
+    <span class="kt">double</span> <span class="n">observed_x_</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">observed_y_</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<h3 id="data-conversion">Data conversion</h3>
+<p>In the <a href="">open3DCV</a> implementation of SfM, these information are originally stored in a class call <code class="highlighter-rouge">Graph</code>, thus we need methods for data conversion.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// Graph class
+</span><span class="k">class</span> <span class="nc">Graph</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Graph</span><span class="p">();</span>
+    <span class="n">Graph</span><span class="p">(</span><span class="k">const</span> <span class="n">Pair</span><span class="o">&amp;</span> <span class="n">pair</span><span class="p">);</span>
+    <span class="o">~</span><span class="n">Graph</span><span class="p">();</span>
+    
+    <span class="kt">void</span> <span class="n">init</span><span class="p">(</span><span class="k">const</span> <span class="n">Pair</span><span class="o">&amp;</span> <span class="n">pair</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">index</span><span class="p">(</span><span class="kt">int</span> <span class="n">icam</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span> <span class="c1">// return the index of camera i in the array
+</span>    <span class="kt">int</span> <span class="n">size</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    
+    <span class="kt">int</span> <span class="n">ncams_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ind_cam_</span><span class="p">;</span>
+    <span class="n">Mat3f</span> <span class="n">F_</span><span class="p">;</span>
+    <span class="n">Mat3f</span> <span class="n">E_</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">f_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat3f</span><span class="o">&gt;</span> <span class="n">intrinsics_mat_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat34f</span><span class="o">&gt;</span> <span class="n">extrinsics_mat_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Track</span><span class="o">&gt;</span> <span class="n">tracks_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Structure_Point</span><span class="o">&gt;</span> <span class="n">structure_points_</span><span class="p">;</span>
+    
+<span class="p">};</span>
+
+<span class="c1">// data conversion methods
+</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec6</span><span class="o">&gt;</span> <span class="n">pack_camera_extrinsics</span><span class="p">(</span><span class="k">const</span> <span class="n">Graph</span><span class="o">&amp;</span> <span class="n">graph</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">unpack_camera_extrinsics</span><span class="p">(</span><span class="n">Graph</span><span class="o">&amp;</span> <span class="n">graph</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec6</span><span class="o">&gt;&amp;</span> <span class="n">extrinsics</span><span class="p">);</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec8</span><span class="o">&gt;</span> <span class="n">pack_camera_intrinsics</span><span class="p">(</span><span class="k">const</span> <span class="n">Graph</span><span class="o">&amp;</span> <span class="n">graph</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">unpack_camera_intrinsics</span><span class="p">(</span><span class="n">Graph</span><span class="o">&amp;</span> <span class="n">graph</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec8</span><span class="o">&gt;&amp;</span> <span class="n">intrinsics</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>We need to convert the data stored in <code class="highlighter-rouge">Graph</code> to data used in bundle adjustment functor, which is two arrays of camera parameters, 3D point, keypoint position.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// convert camera rotation to angle axis and merge with translation
+</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec6</span><span class="o">&gt;</span> <span class="n">extrinsics</span> <span class="o">=</span> <span class="n">pack_camera_extrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec8</span><span class="o">&gt;</span> <span class="n">intrinsics</span> <span class="o">=</span> <span class="n">pack_camera_intrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
+
+<span class="c1">// for each track
+</span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">m</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// for each keypoint in the track
+</span>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">[</span><span class="n">m</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Keypoint</span> <span class="n">key</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">];</span>
+        
+        <span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">x</span><span class="p">();</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">y</span><span class="p">();</span>
+        <span class="n">ceres</span><span class="o">::</span><span class="n">CostFunction</span><span class="o">*</span> <span class="n">cost_function</span> <span class="o">=</span> <span class="n">Open3DCVReprojectionError</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+        
+        <span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">.</span><span class="n">index</span><span class="p">());</span>
+        <span class="n">Vec3</span> <span class="n">pt3d</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">structure_points_</span><span class="p">[</span><span class="n">m</span><span class="p">].</span><span class="n">coords</span><span class="p">().</span><span class="n">cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span>
+        <span class="n">problem</span><span class="p">.</span><span class="n">AddResidualBlock</span><span class="p">(</span><span class="n">cost_function</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">intrinsics</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="mi">0</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">extrinsics</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="mi">0</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">pt3d</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="fixing-parameters">Fixing parameters</h3>
+<p>To provide more flexibility, the user is allowed to specified which part of intrinsics remains fixed. This is done by setting <code class="highlighter-rouge">SubsetParameterization</code>. For instance, there are some cases where translation is fixed (rotating camera), thus the translation parameters should be specified as fixed.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">constant_translation</span><span class="p">;</span>
+<span class="c1">// First three elements are rotation, last three are translation.
+</span><span class="n">constant_translation</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">constant_translation</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="n">constant_translation</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="n">constant_transform_parameterization</span> <span class="o">=</span>
+	<span class="k">new</span> <span class="n">ceres</span><span class="o">::</span><span class="n">SubsetParameterization</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">constant_translation</span><span class="p">);</span>
+<span class="n">problem</span><span class="p">.</span><span class="n">SetParameterization</span><span class="p">(</span><span class="n">current_camera_R_t</span><span class="p">,</span>
+	<span class="n">constant_transform_parameterization</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h3 id="bundle-adjustment-solver">Bundle adjustment solver</h3>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">Open3DCVBundleAdjustment</span><span class="p">(</span><span class="n">Graph</span><span class="o">&amp;</span> <span class="n">graph</span><span class="p">,</span>
+                            <span class="k">const</span> <span class="kt">int</span> <span class="n">bundle_intrinsics</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ceres</span><span class="o">::</span><span class="n">Problem</span><span class="o">::</span><span class="n">Options</span> <span class="n">problem_options</span><span class="p">;</span>
+    <span class="n">ceres</span><span class="o">::</span><span class="n">Problem</span> <span class="n">problem</span><span class="p">(</span><span class="n">problem_options</span><span class="p">);</span>
+    
+    <span class="c1">// convert camera rotation in Graph to angle-axis representation and merge with translation
+</span>    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec6</span><span class="o">&gt;</span> <span class="n">extrinsics</span> <span class="o">=</span> <span class="n">pack_camera_extrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec8</span><span class="o">&gt;</span> <span class="n">intrinsics</span> <span class="o">=</span> <span class="n">pack_camera_intrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
+    
+    <span class="c1">// construct the problem
+</span>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">m</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">[</span><span class="n">m</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Keypoint</span> <span class="n">key</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">];</span>
+            
+            <span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">x</span><span class="p">();</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">y</span><span class="p">();</span>
+            <span class="n">ceres</span><span class="o">::</span><span class="n">CostFunction</span><span class="o">*</span> <span class="n">cost_function</span> <span class="o">=</span> <span class="n">Open3DCVReprojectionError</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+            
+            <span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">.</span><span class="n">index</span><span class="p">());</span>
+            <span class="n">Vec3</span> <span class="n">pt3d</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">structure_points_</span><span class="p">[</span><span class="n">m</span><span class="p">].</span><span class="n">coords</span><span class="p">().</span><span class="n">cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span>
+            <span class="n">problem</span><span class="p">.</span><span class="n">AddResidualBlock</span><span class="p">(</span><span class="n">cost_function</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">intrinsics</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="mi">0</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">extrinsics</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="mi">0</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">pt3d</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// set certain parameters constant
+</span>    <span class="k">if</span> <span class="p">(</span><span class="n">bundle_intrinsics</span> <span class="o">==</span> <span class="n">BUNDLE_NO_INTRINSICS</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">intrinsics</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">problem</span><span class="p">.</span><span class="n">SetParameterBlockConstant</span><span class="p">(</span><span class="o">&amp;</span><span class="n">intrinsics</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="mi">0</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">constant_intrinsics</span><span class="p">;</span>
+<span class="cp">#define MAYBE_SET_CONSTANT(bundle_enum, offset) \
+        if (!(bundle_intrinsics &amp; bundle_enum)) { \
+            constant_intrinsics.push_back(offset); \
+        }
+</span>        <span class="n">MAYBE_SET_CONSTANT</span><span class="p">(</span><span class="n">BUNDLE_FOCAL_LENGTH</span><span class="p">,</span>    <span class="n">OFFSET_FOCAL_LENGTH</span><span class="p">);</span>
+        <span class="n">MAYBE_SET_CONSTANT</span><span class="p">(</span><span class="n">BUNDLE_PRINCIPAL_POINT</span><span class="p">,</span> <span class="n">OFFSET_PRINCIPAL_POINT_X</span><span class="p">);</span>
+        <span class="n">MAYBE_SET_CONSTANT</span><span class="p">(</span><span class="n">BUNDLE_PRINCIPAL_POINT</span><span class="p">,</span> <span class="n">OFFSET_PRINCIPAL_POINT_Y</span><span class="p">);</span>
+        <span class="n">MAYBE_SET_CONSTANT</span><span class="p">(</span><span class="n">BUNDLE_RADIAL_K1</span><span class="p">,</span>       <span class="n">OFFSET_K1</span><span class="p">);</span>
+        <span class="n">MAYBE_SET_CONSTANT</span><span class="p">(</span><span class="n">BUNDLE_RADIAL_K2</span><span class="p">,</span>       <span class="n">OFFSET_K2</span><span class="p">);</span>
+        <span class="n">MAYBE_SET_CONSTANT</span><span class="p">(</span><span class="n">BUNDLE_TANGENTIAL_P1</span><span class="p">,</span>   <span class="n">OFFSET_P1</span><span class="p">);</span>
+        <span class="n">MAYBE_SET_CONSTANT</span><span class="p">(</span><span class="n">BUNDLE_TANGENTIAL_P2</span><span class="p">,</span>   <span class="n">OFFSET_P2</span><span class="p">);</span>
+<span class="cp">#undef MAYBE_SET_CONSTANT
+</span>        
+        <span class="c1">// always set K3 constant, it's not used at the moment
+</span>        <span class="n">constant_intrinsics</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">OFFSET_K3</span><span class="p">);</span>
+        <span class="n">ceres</span><span class="o">::</span><span class="n">SubsetParameterization</span> <span class="o">*</span><span class="n">subset_parameterizaiton</span> <span class="o">=</span>
+            <span class="k">new</span> <span class="n">ceres</span><span class="o">::</span><span class="n">SubsetParameterization</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">constant_intrinsics</span><span class="p">);</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">intrinsics</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">problem</span><span class="p">.</span><span class="n">SetParameterization</span><span class="p">(</span><span class="o">&amp;</span><span class="n">intrinsics</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="mi">0</span><span class="p">),</span> <span class="n">subset_parameterizaiton</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// configure the solver
+</span>    <span class="n">ceres</span><span class="o">::</span><span class="n">Solver</span><span class="o">::</span><span class="n">Options</span> <span class="n">options</span><span class="p">;</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">use_nonmonotonic_steps</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">preconditioner_type</span> <span class="o">=</span> <span class="n">ceres</span><span class="o">::</span><span class="n">SCHUR_JACOBI</span><span class="p">;</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">linear_solver_type</span> <span class="o">=</span> <span class="n">ceres</span><span class="o">::</span><span class="n">ITERATIVE_SCHUR</span><span class="p">;</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">use_inner_iterations</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">max_num_iterations</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">minimizer_progress_to_stdout</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+    <span class="c1">// solve
+</span>    <span class="n">ceres</span><span class="o">::</span><span class="n">Solver</span><span class="o">::</span><span class="n">Summary</span> <span class="n">summary</span><span class="p">;</span>
+    <span class="n">ceres</span><span class="o">::</span><span class="n">Solve</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">problem</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">summary</span><span class="p">);</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">summary</span><span class="p">.</span><span class="n">FullReport</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    
+    <span class="c1">// copy intrinsics and extrinsics back to Graph
+</span>    <span class="n">unpack_camera_extrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">extrinsics</span><span class="p">);</span>
+    <span class="n">unpack_camera_intrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">intrinsics</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
   </article>
 
