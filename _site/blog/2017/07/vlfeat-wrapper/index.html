@@ -11,7 +11,6 @@
 ">
 
   <link rel="shortcut icon" href="//imkaywu.github.io/assets/img/favicon.ico">
-
   <link rel="stylesheet" href="//imkaywu.github.io/assets/css/main.css">
   <link rel="canonical" href="//imkaywu.github.io/blog/2017/07/vlfeat-wrapper/">
 </head>
@@ -149,228 +148,226 @@
 
 <h3 id="keypoint-class-header-file"><code class="highlighter-rouge">Keypoint</code> class: header file</h3>
 <p>The header file of the <code class="highlighter-rouge">Keypoint</code> class</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>#ifndef keypoint_h
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#ifndef keypoint_h
 #define keypoint_h
-
-#include "numeric.h"
-
-namespace open3DCV {
-    //! Keypoint class
-    /*!
+</span>
+<span class="cp">#include "numeric.h"
+</span>
+<span class="k">namespace</span> <span class="n">open3DCV</span> <span class="p">{</span>
+    <span class="c1">//! Keypoint class
+</span>    <span class="cm">/*!
      * This class encapsulates the data associated with a 2D image keypoint.
      * This class stores the x and y coordinates of the image location, along
      * with the index (i) of the image (camera) it is found, and color value
      * (stored in a 0-255 format).
-     */
-    enum KeypointType
-    {
-        INVALID = -1,
-        DOG = 0,
-        HARRIS = 1,
-        SIFT = 2,
-        SURF = 3,
-    };
+     */</span>
+    <span class="k">enum</span> <span class="n">KeypointType</span>
+    <span class="p">{</span>
+        <span class="n">INVALID</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">DOG</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">HARRIS</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">SIFT</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">SURF</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="p">};</span>
     
-    class Keypoint {
-    public:
-        Keypoint(const Vec2 &amp;r_x, KeypointType &amp;r_t);
-        Keypoint(const Vec2 &amp;r_x, KeypointType &amp;r_t, unsigned int r_i);
-        Keypoint(const Vec2 &amp;r_x, KeypointType &amp;r_t, unsigned int r_i, const Vec3i &amp;r_c);
-        virtual ~Keypoint() { };
+    <span class="k">class</span> <span class="nc">Keypoint</span> <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+        <span class="n">Keypoint</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec2</span> <span class="o">&amp;</span><span class="n">r_x</span><span class="p">,</span> <span class="n">KeypointType</span> <span class="o">&amp;</span><span class="n">r_t</span><span class="p">);</span>
+        <span class="n">Keypoint</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec2</span> <span class="o">&amp;</span><span class="n">r_x</span><span class="p">,</span> <span class="n">KeypointType</span> <span class="o">&amp;</span><span class="n">r_t</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">r_i</span><span class="p">);</span>
+        <span class="n">Keypoint</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec2</span> <span class="o">&amp;</span><span class="n">r_x</span><span class="p">,</span> <span class="n">KeypointType</span> <span class="o">&amp;</span><span class="n">r_t</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">r_i</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vec3i</span> <span class="o">&amp;</span><span class="n">r_c</span><span class="p">);</span>
+        <span class="k">virtual</span> <span class="o">~</span><span class="n">Keypoint</span><span class="p">()</span> <span class="p">{</span> <span class="p">};</span>
         
-        const Vec2 &amp;coords() const;
-        void coords(const Vec2 r_coords);
-        const unsigned int index() const;
-        void index(const unsigned int r_i);
-        const Vec3i &amp;color() const;
-        void color(const Vec3i r_c);
-        const double scale() const;
-        void scale(const double r_s);
-        const double orientation() const;
-        void orientation(const double r_o);
+        <span class="k">const</span> <span class="n">Vec2</span> <span class="o">&amp;</span><span class="n">coords</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+        <span class="kt">void</span> <span class="n">coords</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec2</span> <span class="n">r_coords</span><span class="p">);</span>
+        <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+        <span class="kt">void</span> <span class="n">index</span><span class="p">(</span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">r_i</span><span class="p">);</span>
+        <span class="k">const</span> <span class="n">Vec3i</span> <span class="o">&amp;</span><span class="n">color</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+        <span class="kt">void</span> <span class="n">color</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec3i</span> <span class="n">r_c</span><span class="p">);</span>
+        <span class="k">const</span> <span class="kt">double</span> <span class="n">scale</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+        <span class="kt">void</span> <span class="n">scale</span><span class="p">(</span><span class="k">const</span> <span class="kt">double</span> <span class="n">r_s</span><span class="p">);</span>
+        <span class="k">const</span> <span class="kt">double</span> <span class="n">orientation</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+        <span class="kt">void</span> <span class="n">orientation</span><span class="p">(</span><span class="k">const</span> <span class="kt">double</span> <span class="n">r_o</span><span class="p">);</span>
 
-    private:
-        Vec2 coords_;                   // coordinates
-        unsigned int index_;            // Image index
-        Vec3i color_;                   // color
-        KeypointType keypoint_type_;
-        double scale_;
-        double orientation_;
+    <span class="k">private</span><span class="o">:</span>
+        <span class="n">Vec2</span> <span class="n">coords_</span><span class="p">;</span>                   <span class="c1">// coordinates
+</span>        <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index_</span><span class="p">;</span>            <span class="c1">// Image index
+</span>        <span class="n">Vec3i</span> <span class="n">color_</span><span class="p">;</span>                   <span class="c1">// color
+</span>        <span class="n">KeypointType</span> <span class="n">keypoint_type_</span><span class="p">;</span>
+        <span class="kt">double</span> <span class="n">scale_</span><span class="p">;</span>
+        <span class="kt">double</span> <span class="n">orientation_</span><span class="p">;</span>
         
-    };
-    // inline code
-}
-#endif // keypoint_h
-
-</code></pre>
+    <span class="p">};</span>
+    <span class="c1">// inline code
+</span><span class="p">}</span>
+<span class="cp">#endif // keypoint_h
+</span></code></pre>
 </div>
 
 <h3 id="detector-class-header-file"><code class="highlighter-rouge">Detector</code> class: header file</h3>
 <p>The header file of the <code class="highlighter-rouge">Detector</code></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>#ifndef detector_h_
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#ifndef detector_h_
 #define detector_h_
-
-#include "image/image.h"
+</span>
+<span class="cp">#include "image/image.h"
 #include "keypoint/keypoint.h"
-
-namespace open3DCV {
-    class Detector {
-    public:
-        Detector();
-        virtual ~Detector();
+</span>
+<span class="k">namespace</span> <span class="n">open3DCV</span> <span class="p">{</span>
+    <span class="k">class</span> <span class="nc">Detector</span> <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+        <span class="n">Detector</span><span class="p">();</span>
+        <span class="k">virtual</span> <span class="o">~</span><span class="n">Detector</span><span class="p">();</span>
         
-        virtual int detect_keypoints(const Image&amp; image, vector&lt;Keypoint&gt;&amp; keypoints);
-    };
-} // namespace open3DCV
-
-#endif
-</code></pre>
+        <span class="k">virtual</span> <span class="kt">int</span> <span class="n">detect_keypoints</span><span class="p">(</span><span class="k">const</span> <span class="n">Image</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Keypoint</span><span class="o">&gt;&amp;</span> <span class="n">keypoints</span><span class="p">);</span>
+    <span class="p">};</span>
+<span class="p">}</span> <span class="c1">// namespace open3DCV
+</span>
+<span class="cp">#endif
+</span></code></pre>
 </div>
 
 <h3 id="descriptor-class-header-file"><code class="highlighter-rouge">Descriptor</code> class: header file</h3>
-<div class="highlighter-rouge"><pre class="highlight"><code>#ifndef descriptor_h_
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#ifndef descriptor_h_
 #define descriptor_h_
-
-#include "math/numeric.h"
+</span>
+<span class="cp">#include "math/numeric.h"
 #include "image/image.h"
 #include "keypoint/keypoint.h"
-
-namespace open3DCV {
-    class Descriptor {
-    public:
-        Descriptor() { };
-        virtual ~Descriptor() { };
+</span>
+<span class="k">namespace</span> <span class="n">open3DCV</span> <span class="p">{</span>
+    <span class="k">class</span> <span class="nc">Descriptor</span> <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+        <span class="n">Descriptor</span><span class="p">()</span> <span class="p">{</span> <span class="p">};</span>
+        <span class="k">virtual</span> <span class="o">~</span><span class="n">Descriptor</span><span class="p">()</span> <span class="p">{</span> <span class="p">};</span>
         
-        virtual int extract_descriptor(const Image&amp; image, const Keypoint&amp; keypoint, Vecf&amp; descriptor) = 0;
-        virtual int extract_descriptors(const Image&amp; image, vector&lt;Keypoint&gt;&amp; keypoints, vector&lt;Vecf&gt;&amp; descriptors);
-    };
+        <span class="k">virtual</span> <span class="kt">int</span> <span class="n">extract_descriptor</span><span class="p">(</span><span class="k">const</span> <span class="n">Image</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="k">const</span> <span class="n">Keypoint</span><span class="o">&amp;</span> <span class="n">keypoint</span><span class="p">,</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">descriptor</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">virtual</span> <span class="kt">int</span> <span class="n">extract_descriptors</span><span class="p">(</span><span class="k">const</span> <span class="n">Image</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Keypoint</span><span class="o">&gt;&amp;</span> <span class="n">keypoints</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">descriptors</span><span class="p">);</span>
+    <span class="p">};</span>
     
-    // If any descriptors could not be extracted at a given keypoint, that keypoint would be removed from the container
-    inline int Descriptor::extract_descriptors(const Image&amp; image, vector&lt;Keypoint&gt;&amp; keypoints, vector&lt;Vecf&gt;&amp; descriptors)
-    {
-        descriptors.reserve(keypoints.size());
+    <span class="c1">// If any descriptors could not be extracted at a given keypoint, that keypoint would be removed from the container
+</span>    <span class="kr">inline</span> <span class="kt">int</span> <span class="n">Descriptor</span><span class="o">::</span><span class="n">extract_descriptors</span><span class="p">(</span><span class="k">const</span> <span class="n">Image</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Keypoint</span><span class="o">&gt;&amp;</span> <span class="n">keypoints</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">descriptors</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">descriptors</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">keypoints</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
         
-        auto keypoint_it = keypoints.begin();
-        while (keypoint_it != keypoints.end())
-        {
-            Vecf descriptor;
-            if (!extract_descriptor(image, *keypoint_it, descriptor))
-            {
-                keypoint_it = keypoints.erase(keypoint_it);
-                continue;
-            }
-            descriptors.push_back(descriptor);
-        }
-        return 0;
-    }
-} // namespace open3DCV
-
-#endif
-
-</code></pre>
+        <span class="k">auto</span> <span class="n">keypoint_it</span> <span class="o">=</span> <span class="n">keypoints</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">keypoint_it</span> <span class="o">!=</span> <span class="n">keypoints</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="n">Vecf</span> <span class="n">descriptor</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">extract_descriptor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="o">*</span><span class="n">keypoint_it</span><span class="p">,</span> <span class="n">descriptor</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">keypoint_it</span> <span class="o">=</span> <span class="n">keypoints</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">keypoint_it</span><span class="p">);</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">descriptors</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">descriptor</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="c1">// namespace open3DCV
+</span>
+<span class="cp">#endif
+</span></code></pre>
 </div>
 
 <h3 id="sift-detector-class-header-file"><code class="highlighter-rouge">Sift</code> detector class: header file</h3>
 <p>The header file</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>#ifndef sift_h_
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#ifndef sift_h_
 #define sift_h_
-
-#include "vl/sift.h"
+</span>
+<span class="cp">#include "vl/sift.h"
 #include "keypoint/keypoint.h"
 #include "keypoint/detector.h"
 #include "keypoint/descriptor.h"
+</span>
+<span class="k">namespace</span> <span class="n">open3DCV</span> <span class="p">{</span>
 
-namespace open3DCV {
+<span class="k">class</span> <span class="nc">Sift_Params</span> <span class="p">{</span>
+    
+<span class="p">};</span>
 
-class Sift_Params {
+<span class="k">class</span> <span class="nc">Sift</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Detector</span><span class="p">,</span> <span class="k">public</span> <span class="n">Descriptor</span> <span class="p">{</span>
     
-};
-
-class Sift : public Detector, public Descriptor {
+<span class="k">public</span><span class="o">:</span>
     
-public:
+    <span class="n">Sift</span><span class="p">()</span> <span class="p">{</span> <span class="n">type_</span> <span class="o">=</span> <span class="n">SIFT</span> <span class="p">};</span>
+    <span class="o">~</span><span class="n">Sift</span><span class="p">()</span> <span class="p">{</span> <span class="k">delete</span> <span class="n">data_</span><span class="p">;</span> <span class="p">};</span>
     
-    Sift() { type_ = SIFT };
-    ~Sift() { delete data_; };
+    <span class="kt">int</span> <span class="n">convert</span><span class="p">(</span><span class="n">Image</span> <span class="o">&amp;</span><span class="n">img</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">detect_keypoints</span><span class="p">(</span><span class="k">const</span> <span class="n">Image</span> <span class="o">&amp;</span><span class="n">image</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Keypoint</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">keypoints</span><span class="p">,</span> <span class="kt">int</span> <span class="n">verbose</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">extract_descript</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="n">transpose_descriptor</span> <span class="p">(</span><span class="n">vl_sift_pix</span><span class="o">*</span> <span class="n">dst</span><span class="p">,</span> <span class="n">vl_sift_pix</span><span class="o">*</span> <span class="n">src</span><span class="p">);</span>
+    <span class="k">static</span> <span class="kt">bool</span> <span class="n">ksort</span><span class="p">(</span><span class="k">const</span> <span class="n">Keypoint</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Keypoint</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+    <span class="n">vl_bool</span> <span class="n">check_sorted</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Keypoint</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">keys</span><span class="p">,</span> <span class="n">vl_size</span> <span class="n">nkeys</span><span class="p">);</span>
     
-    int convert(Image &amp;img);
-    int detect_keypoints(const Image &amp;image, vector&lt;Keypoint&gt; &amp;keypoints, int verbose);
-    int extract_descript();
-    void transpose_descriptor (vl_sift_pix* dst, vl_sift_pix* src);
-    static bool ksort(const Keypoint &amp;a, const Keypoint &amp;b);
-    vl_bool check_sorted(const vector&lt;Keypoint&gt; &amp;keys, vl_size nkeys);
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">vl_sift_pix</span><span class="o">*</span> <span class="n">data_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">width_</span><span class="p">,</span> <span class="n">height_</span><span class="p">,</span> <span class="n">channel_</span><span class="p">;</span>
+    <span class="n">KeypointType</span> <span class="n">type_</span><span class="p">;</span>
     
-private:
-    vl_sift_pix* data_;
-    int width_, height_, channel_;
-    KeypointType type_;
-    
-}; // end of class Sift
-
-} // end of namespace open3DCV
-
-#endif // sift_h
-
-</code></pre>
+<span class="p">};</span> <span class="c1">// end of class Sift
+</span>
+<span class="p">}</span> <span class="c1">// end of namespace open3DCV
+</span>
+<span class="cp">#endif // sift_h
+</span></code></pre>
 </div>
 
 <h3 id="sift-detector-class-implementation-file"><code class="highlighter-rouge">Sift</code> detector class: implementation file</h3>
-<div class="highlighter-rouge"><pre class="highlight"><code>int Sift::detect_keypoints_simp(Image &amp;image, vector&lt;Keypoint&gt; &amp;keypoints, int verbose)
-{
-    // convert image
-    convert(image);
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">Sift</span><span class="o">::</span><span class="n">detect_keypoints_simp</span><span class="p">(</span><span class="n">Image</span> <span class="o">&amp;</span><span class="n">image</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Keypoint</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">keypoints</span><span class="p">,</span> <span class="kt">int</span> <span class="n">verbose</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// convert image
+</span>    <span class="n">convert</span><span class="p">(</span><span class="n">image</span><span class="p">);</span>
     
-    // sift setting
-    int O = 3;
-    int S = 3;
-    int o_min = 0;
-    double edge_thresh = 10;
-    double peak_thresh = 0;
-    double norm_thresh = -INFINITY;
-    double magnif = 3;
-    double window_size = 2;
+    <span class="c1">// sift setting
+</span>    <span class="kt">int</span> <span class="n">O</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">S</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">o_min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">edge_thresh</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">peak_thresh</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">norm_thresh</span> <span class="o">=</span> <span class="o">-</span><span class="n">INFINITY</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">magnif</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">window_size</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
     
-    VlSiftFilt* filt = 0;
+    <span class="n">VlSiftFilt</span><span class="o">*</span> <span class="n">filt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     
-    if (filt == nullptr || (filt-&gt;width != image.width() ||
-                            filt-&gt;height != image.height()))
-    {
-        vl_sift_delete(filt);
-        filt = vl_sift_new(image.width(), image.height(),
-                           O, S, o_min);
-        vl_sift_set_edge_thresh(filt, edge_thresh);
-        vl_sift_set_peak_thresh(filt, peak_thresh);
-    }
+    <span class="k">if</span> <span class="p">(</span><span class="n">filt</span> <span class="o">==</span> <span class="nb">nullptr</span> <span class="o">||</span> <span class="p">(</span><span class="n">filt</span><span class="o">-&gt;</span><span class="n">width</span> <span class="o">!=</span> <span class="n">image</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">||</span>
+                            <span class="n">filt</span><span class="o">-&gt;</span><span class="n">height</span> <span class="o">!=</span> <span class="n">image</span><span class="p">.</span><span class="n">height</span><span class="p">()))</span>
+    <span class="p">{</span>
+        <span class="n">vl_sift_delete</span><span class="p">(</span><span class="n">filt</span><span class="p">);</span>
+        <span class="n">filt</span> <span class="o">=</span> <span class="n">vl_sift_new</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">width</span><span class="p">(),</span> <span class="n">image</span><span class="p">.</span><span class="n">height</span><span class="p">(),</span>
+                           <span class="n">O</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">o_min</span><span class="p">);</span>
+        <span class="n">vl_sift_set_edge_thresh</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="n">edge_thresh</span><span class="p">);</span>
+        <span class="n">vl_sift_set_peak_thresh</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="n">peak_thresh</span><span class="p">);</span>
+    <span class="p">}</span>
     
-    int vl_status = vl_sift_process_first_octave(filt, data_);
+    <span class="kt">int</span> <span class="n">vl_status</span> <span class="o">=</span> <span class="n">vl_sift_process_first_octave</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="n">data_</span><span class="p">);</span>
     
-    keypoints.reserve(2000);
+    <span class="n">keypoints</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
     
-    while (vl_status != VL_ERR_EOF)
-    {
-        vl_sift_detect(filt);
+    <span class="k">while</span> <span class="p">(</span><span class="n">vl_status</span> <span class="o">!=</span> <span class="n">VL_ERR_EOF</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">vl_sift_detect</span><span class="p">(</span><span class="n">filt</span><span class="p">);</span>
         
-        const VlSiftKeypoint* vl_keypoints = vl_sift_get_keypoints(filt);
-        int nkeys = vl_sift_get_nkeypoints(filt);
+        <span class="k">const</span> <span class="n">VlSiftKeypoint</span><span class="o">*</span> <span class="n">vl_keypoints</span> <span class="o">=</span> <span class="n">vl_sift_get_keypoints</span><span class="p">(</span><span class="n">filt</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">nkeys</span> <span class="o">=</span> <span class="n">vl_sift_get_nkeypoints</span><span class="p">(</span><span class="n">filt</span><span class="p">);</span>
         
-        for (int i = 0; i &lt; nkeys; ++i)
-        {
-            double angles[4];
-            int nangles = vl_sift_calc_keypoint_orientations(filt, angles, &amp;vl_keypoints[i]);
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nkeys</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">double</span> <span class="n">angles</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nangles</span> <span class="o">=</span> <span class="n">vl_sift_calc_keypoint_orientations</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="n">angles</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">vl_keypoints</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
             
-            for (int j = 0; j &lt; nangles; ++j)
-            {
-                Keypoint keypoint(Vec2(vl_keypoints[i].x + 1, vl_keypoints[i].y + 1), type_);
-                keypoint.scale(vl_keypoints[i].sigma);
-                keypoint.orientation(angles[j]);
-                keypoints.push_back(keypoint);
-            }
-        }
-        vl_status = vl_sift_process_next_octave(filt);
-    }
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">nangles</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">Keypoint</span> <span class="n">keypoint</span><span class="p">(</span><span class="n">Vec2</span><span class="p">(</span><span class="n">vl_keypoints</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vl_keypoints</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">type_</span><span class="p">);</span>
+                <span class="n">keypoint</span><span class="p">.</span><span class="n">scale</span><span class="p">(</span><span class="n">vl_keypoints</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">sigma</span><span class="p">);</span>
+                <span class="n">keypoint</span><span class="p">.</span><span class="n">orientation</span><span class="p">(</span><span class="n">angles</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+                <span class="n">keypoints</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">keypoint</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">vl_status</span> <span class="o">=</span> <span class="n">vl_sift_process_next_octave</span><span class="p">(</span><span class="n">filt</span><span class="p">);</span>
+    <span class="p">}</span>
     
-    return 0;
-}
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 

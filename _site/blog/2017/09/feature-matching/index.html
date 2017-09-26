@@ -11,7 +11,6 @@
 ">
 
   <link rel="shortcut icon" href="//imkaywu.github.io/assets/img/favicon.ico">
-
   <link rel="stylesheet" href="//imkaywu.github.io/assets/css/main.css">
   <link rel="canonical" href="//imkaywu.github.io/blog/2017/09/feature-matching/">
 </head>
@@ -109,116 +108,116 @@
 <h3 id="base-class-matcher">Base class: <code class="highlighter-rouge">matcher</code></h3>
 <p>There is a base class <code class="highlighter-rouge">matcher</code> that all actual matching algorithms need to extend. The <code class="highlighter-rouge">match</code> method takes two vectors of descriptors and returns the indexes of the matching pair. Note that there are two declarations of <code class="highlighter-rouge">match</code> method, the second provides an additional parameter - a function pointer, that allows to use the user-defined distance function.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>class Matcher
-{
-public:
-    Matcher() { };
-    Matcher(Matcher_Param r_matcher_param);
-    virtual ~Matcher() { };
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Matcher</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Matcher</span><span class="p">()</span> <span class="p">{</span> <span class="p">};</span>
+    <span class="n">Matcher</span><span class="p">(</span><span class="n">Matcher_Param</span> <span class="n">r_matcher_param</span><span class="p">);</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">Matcher</span><span class="p">()</span> <span class="p">{</span> <span class="p">};</span>
     
-    virtual void init_param(Matcher_Param r_matcher_param) = 0;
-    virtual int match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches) = 0;
-    virtual int match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches, float (*dist_metric)(const Vecf&amp; desc1, const Vecf&amp; desc2)) = 0;
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">init_param</span><span class="p">(</span><span class="n">Matcher_Param</span> <span class="n">r_matcher_param</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="kt">int</span> <span class="n">match</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc2</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Match</span><span class="o">&gt;&amp;</span> <span class="n">matches</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="kt">int</span> <span class="n">match</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc2</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Match</span><span class="o">&gt;&amp;</span> <span class="n">matches</span><span class="p">,</span> <span class="kt">float</span> <span class="p">(</span><span class="o">*</span><span class="n">dist_metric</span><span class="p">)(</span><span class="k">const</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">desc2</span><span class="p">))</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     
-protected:
-    Matcher_Param matcher_param_;
-};
+<span class="k">protected</span><span class="o">:</span>
+    <span class="n">Matcher_Param</span> <span class="n">matcher_param_</span><span class="p">;</span>
+<span class="p">};</span>
 </code></pre>
 </div>
 
 <h3 id="parameter-matcher_param">Parameter: <code class="highlighter-rouge">Matcher_Param</code></h3>
 <p>We need a structure type to pass the parameters to the specific <code class="highlighter-rouge">matcher</code> class, which is defined as follows</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>struct Matcher_Param
-{
-    // all matchers
-    float ratio = 0.8;
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Matcher_Param</span>
+<span class="p">{</span>
+    <span class="c1">// all matchers
+</span>    <span class="kt">float</span> <span class="n">ratio</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">;</span>
     
-    // Flann matcher
-    int ndims = 128;
-    int leaf_max_size = 10;
-    int nresults = 3;
+    <span class="c1">// Flann matcher
+</span>    <span class="kt">int</span> <span class="n">ndims</span> <span class="o">=</span> <span class="mi">128</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">leaf_max_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">nresults</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
     
-    Matcher_Param() { };
-    Matcher_Param(const float r_ratio) : ratio(r_ratio) { };
-    Matcher_Param(const float r_ratio, const int r_ndims, const int r_leaf_max_size, const int r_nresults) :
-                  ratio(r_ratio), ndims(r_ndims), leaf_max_size(r_leaf_max_size), nresults(r_nresults) { };    
-};
+    <span class="n">Matcher_Param</span><span class="p">()</span> <span class="p">{</span> <span class="p">};</span>
+    <span class="n">Matcher_Param</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">r_ratio</span><span class="p">)</span> <span class="o">:</span> <span class="n">ratio</span><span class="p">(</span><span class="n">r_ratio</span><span class="p">)</span> <span class="p">{</span> <span class="p">};</span>
+    <span class="n">Matcher_Param</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">r_ratio</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">r_ndims</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">r_leaf_max_size</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">r_nresults</span><span class="p">)</span> <span class="o">:</span>
+                  <span class="n">ratio</span><span class="p">(</span><span class="n">r_ratio</span><span class="p">),</span> <span class="n">ndims</span><span class="p">(</span><span class="n">r_ndims</span><span class="p">),</span> <span class="n">leaf_max_size</span><span class="p">(</span><span class="n">r_leaf_max_size</span><span class="p">),</span> <span class="n">nresults</span><span class="p">(</span><span class="n">r_nresults</span><span class="p">)</span> <span class="p">{</span> <span class="p">};</span>    
+<span class="p">};</span>
 </code></pre>
 </div>
 
 <h3 id="data-structure-match">Data structure: <code class="highlighter-rouge">Match</code></h3>
 <p>This is the class to store the matching feature points, I should probably rename it to <code class="highlighter-rouge">DMatch</code> to avoid confusion.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>class Match
-{
-public:
-    Match () { };
-    Match (int r_ikey1, int r_ikey2, float dist) :
-        ikey1_(r_ikey1), ikey2_(r_ikey2), dist_(dist) { };
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Match</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Match</span> <span class="p">()</span> <span class="p">{</span> <span class="p">};</span>
+    <span class="n">Match</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r_ikey1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r_ikey2</span><span class="p">,</span> <span class="kt">float</span> <span class="n">dist</span><span class="p">)</span> <span class="o">:</span>
+        <span class="n">ikey1_</span><span class="p">(</span><span class="n">r_ikey1</span><span class="p">),</span> <span class="n">ikey2_</span><span class="p">(</span><span class="n">r_ikey2</span><span class="p">),</span> <span class="n">dist_</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="p">{</span> <span class="p">};</span>
     
-    int ikey1_;
-    int ikey2_;
-    float dist_;
-};
+    <span class="kt">int</span> <span class="n">ikey1_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">ikey2_</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">dist_</span><span class="p">;</span>
+<span class="p">};</span>
 </code></pre>
 </div>
 
 <h3 id="distance-metrics">Distance metrics</h3>
 <p>I implemented two of the most used distance metrics for now, sum of squared distance (SSD) and sum of absolute difference (SAD). The can be passed onto the function pointer when call the <code class="highlighter-rouge">matcher</code> method.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>inline float l2_dist(const Vecf&amp; desc1, const Vecf&amp; desc2)
-{
-//    return (desc1 - desc2).squaredNorm();
-    return (desc1 - desc2).norm();
-};
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">float</span> <span class="nf">l2_dist</span><span class="p">(</span><span class="k">const</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">desc2</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="c1">//    return (desc1 - desc2).squaredNorm();
+</span>    <span class="k">return</span> <span class="p">(</span><span class="n">desc1</span> <span class="o">-</span> <span class="n">desc2</span><span class="p">).</span><span class="n">norm</span><span class="p">();</span>
+<span class="p">};</span>
     
-inline float l1_dist(const Vecf&amp; desc1, const Vecf&amp; desc2)
-{
-    return (desc1 - desc2).lpNorm&lt;1&gt;();
-}
+<span class="kr">inline</span> <span class="kt">float</span> <span class="nf">l1_dist</span><span class="p">(</span><span class="k">const</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">desc2</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">desc1</span> <span class="o">-</span> <span class="n">desc2</span><span class="p">).</span><span class="n">lpNorm</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 
 <h3 id="brute-force-method">Brute-force method</h3>
 <p>This is the simplest, yet most computationally expensive method. It iterates all possible point pairs and see if the cost function is below a user-specified threshold.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>inline int Matcher_Brute_Force::match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches)
-{
-    return match(desc1, desc2, matches, l2_dist);
-}
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">int</span> <span class="n">Matcher_Brute_Force</span><span class="o">::</span><span class="n">match</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc2</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Match</span><span class="o">&gt;&amp;</span> <span class="n">matches</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">match</span><span class="p">(</span><span class="n">desc1</span><span class="p">,</span> <span class="n">desc2</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">l2_dist</span><span class="p">);</span>
+<span class="p">}</span>
 
-inline int Matcher_Brute_Force::match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches, float (*dist_metric)(const Vecf&amp; desc1, const Vecf&amp; desc2))
-{
-    float dist = 0, min_dist = 1e8, sec_min_dist = 1e8, ratio = matcher_param_.ratio;
-    int ind_min_key = 0;
+<span class="kr">inline</span> <span class="kt">int</span> <span class="n">Matcher_Brute_Force</span><span class="o">::</span><span class="n">match</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc2</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Match</span><span class="o">&gt;&amp;</span> <span class="n">matches</span><span class="p">,</span> <span class="kt">float</span> <span class="p">(</span><span class="o">*</span><span class="n">dist_metric</span><span class="p">)(</span><span class="k">const</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">desc2</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="kt">float</span> <span class="n">dist</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">min_dist</span> <span class="o">=</span> <span class="mf">1e8</span><span class="p">,</span> <span class="n">sec_min_dist</span> <span class="o">=</span> <span class="mf">1e8</span><span class="p">,</span> <span class="n">ratio</span> <span class="o">=</span> <span class="n">matcher_param_</span><span class="p">.</span><span class="n">ratio</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">ind_min_key</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     
-    for (int i = 0; i &lt; desc1.size(); ++i)
-    {
-        min_dist = sec_min_dist = 1e8;
-        for (int j = 0; j &lt; desc2.size(); ++j)
-        {
-            dist = dist_metric(desc1[i], desc2[j]);
-            if (dist &lt; min_dist)
-            {
-                sec_min_dist = min_dist;
-                min_dist = dist;
-                ind_min_key = j;
-            }
-            else if (dist &lt; sec_min_dist)
-            {
-                sec_min_dist = dist;
-            }
-        }
-        if (min_dist &lt; ratio * sec_min_dist)
-        {
-            Match m(i, ind_min_key, min_dist);
-            matches.push_back(m);
-        }
-    }
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">desc1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">min_dist</span> <span class="o">=</span> <span class="n">sec_min_dist</span> <span class="o">=</span> <span class="mf">1e8</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">desc2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="n">dist_metric</span><span class="p">(</span><span class="n">desc1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">desc2</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">dist</span> <span class="o">&lt;</span> <span class="n">min_dist</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">sec_min_dist</span> <span class="o">=</span> <span class="n">min_dist</span><span class="p">;</span>
+                <span class="n">min_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="p">;</span>
+                <span class="n">ind_min_key</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">dist</span> <span class="o">&lt;</span> <span class="n">sec_min_dist</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">sec_min_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">min_dist</span> <span class="o">&lt;</span> <span class="n">ratio</span> <span class="o">*</span> <span class="n">sec_min_dist</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Match</span> <span class="n">m</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ind_min_key</span><span class="p">,</span> <span class="n">min_dist</span><span class="p">);</span>
+            <span class="n">matches</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
     
-    return 0;
-}
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 
@@ -227,68 +226,68 @@ inline int Matcher_Brute_Force::match(const vector&lt;Vecf&gt;&amp; desc1, const
 
 <p>My implementation is adapted from the example code <code class="highlighter-rouge">vector_of_vectors_example.cpp</code>. There is one place that needs a heads-up, this function call of <code class="highlighter-rouge">init(IndexType* indices_, DistanceType* dist_)</code> has to be invoked everytime you do a search of nearest neighbor. The reason is best explained using the source code, see below</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// implementation from nanoflann.h
-inline void init(IndexType* indices_, DistanceType* dists_)
-{
-    indices = indices_;
-    dists = dists_;
-    count = 0;
-    if (capacity)
-        dists[capacity-1] = (std::numeric_limits&lt;DistanceType&gt;::max)();
-}
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// implementation from nanoflann.h
+</span><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">init</span><span class="p">(</span><span class="n">IndexType</span><span class="o">*</span> <span class="n">indices_</span><span class="p">,</span> <span class="n">DistanceType</span><span class="o">*</span> <span class="n">dists_</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">indices_</span><span class="p">;</span>
+    <span class="n">dists</span> <span class="o">=</span> <span class="n">dists_</span><span class="p">;</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">capacity</span><span class="p">)</span>
+        <span class="n">dists</span><span class="p">[</span><span class="n">capacity</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="n">DistanceType</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">)();</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 
 <p>As we can see that <code class="highlighter-rouge">init</code> need to re-initialize <code class="highlighter-rouge">dist[]</code> to max values. Otherwise, the distances from the previous search is still stored in <code class="highlighter-rouge">dist[]</code>. The full implementation is as follows:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>inline int Matcher_Flann::match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches)
-{
-    return match(desc1, desc2, matches, l2_dist);
-}
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">int</span> <span class="n">Matcher_Flann</span><span class="o">::</span><span class="n">match</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc2</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Match</span><span class="o">&gt;&amp;</span> <span class="n">matches</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">match</span><span class="p">(</span><span class="n">desc1</span><span class="p">,</span> <span class="n">desc2</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">l2_dist</span><span class="p">);</span>
+<span class="p">}</span>
 
-inline int Matcher_Flann::match(const vector&lt;Vecf&gt;&amp; desc1, const vector&lt;Vecf&gt;&amp; desc2, vector&lt;Match&gt;&amp; matches, float (*dist_metric)(const Vecf&amp; desc1, const Vecf&amp; desc2))
-{
-    // use the one with larger keypoints to construct kd-tree
-    size_t nkeys1 = desc1.size(), nkeys2 = desc2.size();
-    const vector&lt;Vecf&gt;&amp; desc_source = nkeys1 &lt; nkeys2 ? desc1 : desc2;
-    const vector&lt;Vecf&gt;&amp; desc_target = nkeys1 &lt; nkeys2 ? desc2 : desc1;
-    Matching_Dirc matching_dirc = nkeys1 &lt; nkeys2 ? FORWARD : BACKWARD;
+<span class="kr">inline</span> <span class="kt">int</span> <span class="n">Matcher_Flann</span><span class="o">::</span><span class="n">match</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc2</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Match</span><span class="o">&gt;&amp;</span> <span class="n">matches</span><span class="p">,</span> <span class="kt">float</span> <span class="p">(</span><span class="o">*</span><span class="n">dist_metric</span><span class="p">)(</span><span class="k">const</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">desc1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vecf</span><span class="o">&amp;</span> <span class="n">desc2</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="c1">// use the one with larger keypoints to construct kd-tree
+</span>    <span class="kt">size_t</span> <span class="n">nkeys1</span> <span class="o">=</span> <span class="n">desc1</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">nkeys2</span> <span class="o">=</span> <span class="n">desc2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc_source</span> <span class="o">=</span> <span class="n">nkeys1</span> <span class="o">&lt;</span> <span class="n">nkeys2</span> <span class="o">?</span> <span class="n">desc1</span> <span class="o">:</span> <span class="n">desc2</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;&amp;</span> <span class="n">desc_target</span> <span class="o">=</span> <span class="n">nkeys1</span> <span class="o">&lt;</span> <span class="n">nkeys2</span> <span class="o">?</span> <span class="n">desc2</span> <span class="o">:</span> <span class="n">desc1</span><span class="p">;</span>
+    <span class="n">Matching_Dirc</span> <span class="n">matching_dirc</span> <span class="o">=</span> <span class="n">nkeys1</span> <span class="o">&lt;</span> <span class="n">nkeys2</span> <span class="o">?</span> <span class="n">FORWARD</span> <span class="o">:</span> <span class="n">BACKWARD</span><span class="p">;</span>
     
-    // construct a kd-tree index
-    typedef KDTreeVectorOfVectorsAdaptor&lt;vector&lt;Vecf&gt;, float&gt;  kd_tree_t;
+    <span class="c1">// construct a kd-tree index
+</span>    <span class="k">typedef</span> <span class="n">KDTreeVectorOfVectorsAdaptor</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vecf</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span>  <span class="n">kd_tree_t</span><span class="p">;</span>
     
-    int leaf_max_size = matcher_param_.leaf_max_size;
-    kd_tree_t desc_index(matcher_param_.ndims, desc_target, leaf_max_size /* max leaf */);
-    desc_index.index-&gt;buildIndex();
+    <span class="kt">int</span> <span class="n">leaf_max_size</span> <span class="o">=</span> <span class="n">matcher_param_</span><span class="p">.</span><span class="n">leaf_max_size</span><span class="p">;</span>
+    <span class="n">kd_tree_t</span> <span class="n">desc_index</span><span class="p">(</span><span class="n">matcher_param_</span><span class="p">.</span><span class="n">ndims</span><span class="p">,</span> <span class="n">desc_target</span><span class="p">,</span> <span class="n">leaf_max_size</span> <span class="cm">/* max leaf */</span><span class="p">);</span>
+    <span class="n">desc_index</span><span class="p">.</span><span class="n">index</span><span class="o">-&gt;</span><span class="n">buildIndex</span><span class="p">();</span>
     
-    // do knn searches
-    int nresults = matcher_param_.nresults;
-    vector&lt;size_t&gt; ret_indexes(nresults);
-    vector&lt;float&gt; dists(nresults);
+    <span class="c1">// do knn searches
+</span>    <span class="kt">int</span> <span class="n">nresults</span> <span class="o">=</span> <span class="n">matcher_param_</span><span class="p">.</span><span class="n">nresults</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">ret_indexes</span><span class="p">(</span><span class="n">nresults</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">dists</span><span class="p">(</span><span class="n">nresults</span><span class="p">);</span>
     
-    nanoflann::KNNResultSet&lt;float&gt; result_set(nresults);
+    <span class="n">nanoflann</span><span class="o">::</span><span class="n">KNNResultSet</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">result_set</span><span class="p">(</span><span class="n">nresults</span><span class="p">);</span>
     
-    for (int i = 0; i &lt; desc_source.size(); ++i)
-    {
-        result_set.init(&amp;ret_indexes[0], &amp;dists[0]); // has to be inside loop, there is a 'dist' variable that needs to be set as MAX
-        desc_index.index-&gt;findNeighbors(result_set, desc_source[i].data(), nanoflann::SearchParams(10));
-        if (dists[0] &lt; matcher_param_.ratio * dists[1])
-        {
-            if (matching_dirc == FORWARD)
-            {
-                Match match(i, static_cast&lt;int&gt;(ret_indexes[0]), dists[0]);
-                matches.push_back(match);
-            }
-            else
-            {
-                Match match(static_cast&lt;int&gt;(ret_indexes[0]), i, dists[0]);
-                matches.push_back(match);
-            }
-        }
-    }
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">desc_source</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">result_set</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ret_indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">dists</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="c1">// has to be inside loop, there is a 'dist' variable that needs to be set as MAX
+</span>        <span class="n">desc_index</span><span class="p">.</span><span class="n">index</span><span class="o">-&gt;</span><span class="n">findNeighbors</span><span class="p">(</span><span class="n">result_set</span><span class="p">,</span> <span class="n">desc_source</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">(),</span> <span class="n">nanoflann</span><span class="o">::</span><span class="n">SearchParams</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dists</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">matcher_param_</span><span class="p">.</span><span class="n">ratio</span> <span class="o">*</span> <span class="n">dists</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">matching_dirc</span> <span class="o">==</span> <span class="n">FORWARD</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">Match</span> <span class="n">match</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ret_indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dists</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+                <span class="n">matches</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">match</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="n">Match</span> <span class="n">match</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ret_indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">i</span><span class="p">,</span> <span class="n">dists</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+                <span class="n">matches</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">match</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
     
-    return 0;
-}
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 

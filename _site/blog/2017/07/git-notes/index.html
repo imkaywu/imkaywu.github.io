@@ -11,7 +11,6 @@
 ">
 
   <link rel="shortcut icon" href="//imkaywu.github.io/assets/img/favicon.ico">
-
   <link rel="stylesheet" href="//imkaywu.github.io/assets/css/main.css">
   <link rel="canonical" href="//imkaywu.github.io/blog/2017/07/git-notes/">
 </head>
@@ -95,52 +94,52 @@
   <article class="post-content">
     <h2 id="exclude-a-directory">Exclude a directory</h2>
 <p>Create a <code class="highlighter-rouge">.gitignore</code> file in root, and add the directory name in it</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>/dirName
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>/dirName
 </code></pre>
 </div>
 
 <h2 id="remove-directory-from-git-and-local">Remove directory from git and local</h2>
-<div class="highlighter-rouge"><pre class="highlight"><code>git rm -r dirName
-git commit -m "Remove directory"
-git push origin [you-git-branch]
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>git rm -r dirName
+git commit -m <span class="s2">"Remove directory"</span>
+git push origin <span class="o">[</span>you-git-branch]
 </code></pre>
 </div>
 
 <h2 id="remove-directory-from-git-but-not-local">Remove directory from git but NOT local</h2>
-<div class="highlighter-rouge"><pre class="highlight"><code>git rm -r --cached dirName
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>git rm -r --cached dirName
 </code></pre>
 </div>
 <h2 id="remove-ds_store">Remove <code class="highlighter-rouge">.DS_Store</code></h2>
-<div class="highlighter-rouge"><pre class="highlight"><code># Remove existing files from the repository
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># Remove existing files from the repository</span>
 find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
-# Add the line to `.gitignore`
+<span class="c"># Add the line to `.gitignore`</span>
 .DS_Store
-# git commands
+<span class="c"># git commands</span>
 git add .gitignore
-git commit -m ".DS_Store removed"
+git commit -m <span class="s2">".DS_Store removed"</span>
 </code></pre>
 </div>
 
 <h2 id="delete-master-branch">Delete master branch</h2>
 <p>First delete <code class="highlighter-rouge">master</code> in the local repo. To do this we first make a new branch call <code class="highlighter-rouge">placeholder</code>, and delete <code class="highlighter-rouge">master</code> from there:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git branch placeholder
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>git branch placeholder
 git checkout placeholder
 git branch -D master
 </code></pre>
 </div>
 
 <p>We next want to delete the branch on github. However, if we do this the naive way:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>git push origin :master
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>git push origin :master
 </code></pre>
 </div>
 
 <p>we will get error like this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>remote: error: refusing to delete the current branch: refs/heads/master
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>remote: error: refusing to delete the current branch: refs/heads/master
 To git@github.com:matthew-brett/datarray.git
-! [remote rejected] master (deletion of the current branch prohibited)
-error: failed to push some refs to 'git@github.com:matthew-brett/datarray.git'
+! <span class="o">[</span>remote rejected] master <span class="o">(</span>deletion of the current branch prohibited<span class="o">)</span>
+error: failed to push some refs to <span class="s1">'git@github.com:matthew-brett/datarray.git'</span>
 </code></pre>
 </div>
 
@@ -148,14 +147,14 @@ error: failed to push some refs to 'git@github.com:matthew-brett/datarray.git'
 
 <p>First push up the <code class="highlighter-rouge">placeholder</code> branch</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git checkout placeholder
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>git checkout placeholder
 git push origin placeholder
 </code></pre>
 </div>
 
 <p>Then set <code class="highlighter-rouge">placeholder</code> to be the github default branch. Go to the page of remote repo, then select <code class="highlighter-rouge">Settings</code>&gt;<code class="highlighter-rouge">Branches</code>. Under <code class="highlighter-rouge">Default branch</code>, switch the default branch from <code class="highlighter-rouge">master</code> to <code class="highlighter-rouge">placeholder</code>. Now you can delete the <code class="highlighter-rouge">master</code> branch</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git push origin :master
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>git push origin :master
 </code></pre>
 </div>
 

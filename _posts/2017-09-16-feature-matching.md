@@ -23,7 +23,7 @@ Feature matching is a critical part in many vision problems, such as estimation 
 ### Base class: `matcher`
 There is a base class `matcher` that all actual matching algorithms need to extend. The `match` method takes two vectors of descriptors and returns the indexes of the matching pair. Note that there are two declarations of `match` method, the second provides an additional parameter - a function pointer, that allows to use the user-defined distance function.
 
-```
+```cpp
 class Matcher
 {
 public:
@@ -43,7 +43,7 @@ protected:
 ### Parameter: `Matcher_Param`
 We need a structure type to pass the parameters to the specific `matcher` class, which is defined as follows
 
-```
+```cpp
 struct Matcher_Param
 {
     // all matchers
@@ -64,7 +64,7 @@ struct Matcher_Param
 ### Data structure: `Match`
 This is the class to store the matching feature points, I should probably rename it to `DMatch` to avoid confusion.
 
-```
+```cpp
 class Match
 {
 public:
@@ -81,7 +81,7 @@ public:
 ### Distance metrics
 I implemented two of the most used distance metrics for now, sum of squared distance (SSD) and sum of absolute difference (SAD). The can be passed onto the function pointer when call the `matcher` method.
 
-```
+```cpp
 inline float l2_dist(const Vecf& desc1, const Vecf& desc2)
 {
 //    return (desc1 - desc2).squaredNorm();
@@ -97,7 +97,7 @@ inline float l1_dist(const Vecf& desc1, const Vecf& desc2)
 ### Brute-force method
 This is the simplest, yet most computationally expensive method. It iterates all possible point pairs and see if the cost function is below a user-specified threshold.
 
-```
+```cpp
 inline int Matcher_Brute_Force::match(const vector<Vecf>& desc1, const vector<Vecf>& desc2, vector<Match>& matches)
 {
     return match(desc1, desc2, matches, l2_dist);
@@ -141,7 +141,7 @@ inline int Matcher_Brute_Force::match(const vector<Vecf>& desc1, const vector<Ve
 
 My implementation is adapted from the example code `vector_of_vectors_example.cpp`. There is one place that needs a heads-up, this function call of `init(IndexType* indices_, DistanceType* dist_)` has to be invoked everytime you do a search of nearest neighbor. The reason is best explained using the source code, see below
 
-```
+```cpp
 // implementation from nanoflann.h
 inline void init(IndexType* indices_, DistanceType* dists_)
 {
@@ -155,7 +155,7 @@ inline void init(IndexType* indices_, DistanceType* dists_)
 
 As we can see that `init` need to re-initialize `dist[]` to max values. Otherwise, the distances from the previous search is still stored in `dist[]`. The full implementation is as follows:
 
-```
+```cpp
 inline int Matcher_Flann::match(const vector<Vecf>& desc1, const vector<Vecf>& desc2, vector<Match>& matches)
 {
     return match(desc1, desc2, matches, l2_dist);

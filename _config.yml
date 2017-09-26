@@ -95,7 +95,7 @@ defaults:
 
 # Build settings
 markdown: kramdown
-highlighter: rouge
+# highlighter: rouge
 
 # Markdown Processing
 kramdown:

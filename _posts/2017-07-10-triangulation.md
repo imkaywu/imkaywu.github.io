@@ -109,7 +109,7 @@ int main(const int argc, const char** argv)
 
 Here is a typical result of one execution. We can see the nonlinear triangulation gives the best, whereas the midpoint triangulation gives the worst result.
 
-```
+```cpp
 linear triangulation: 2.95963e-15
 midpoint triangulation: 0.00366608
 nonlinear triangulation: 9.65e-16

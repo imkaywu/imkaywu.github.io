@@ -52,7 +52,8 @@ The specific keypoint class is the subclass of both `Detector` and `Descriptor`.
 
 ### `Keypoint` class: header file
 The header file of the `Keypoint` class
-```
+
+```cpp
 #ifndef keypoint_h
 #define keypoint_h
 
@@ -105,12 +106,11 @@ namespace open3DCV {
     // inline code
 }
 #endif // keypoint_h
-
 ```
 
 ### `Detector` class: header file
 The header file of the `Detector`
-```
+```cpp
 #ifndef detector_h_
 #define detector_h_
 
@@ -131,7 +131,7 @@ namespace open3DCV {
 ```
 
 ### `Descriptor` class: header file
-```
+```cpp
 #ifndef descriptor_h_
 #define descriptor_h_
 
@@ -170,12 +170,11 @@ namespace open3DCV {
 } // namespace open3DCV
 
 #endif
-
 ```
 
 ### `Sift` detector class: header file
 The header file
-```
+```cpp
 #ifndef sift_h_
 #define sift_h_
 
@@ -214,11 +213,10 @@ private:
 } // end of namespace open3DCV
 
 #endif // sift_h
-
 ```
 
 ### `Sift` detector class: implementation file
-```
+```cpp
 int Sift::detect_keypoints_simp(Image &image, vector<Keypoint> &keypoints, int verbose)
 {
     // convert image

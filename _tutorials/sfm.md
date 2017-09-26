@@ -187,9 +187,10 @@ Assuming that the cameras have not been calibrated, in this case, the scene is r
 [TBD]
 
 ### 6. N-view triangulation <a name="triangulation"></a>
-[Done]
+[finished]
 
 ### 7. Bundle adjustment <a name="bundle_adjustment"></a>
+[finished]
 
 ### 8. Two-view SfM <a name="2v_sfm"></a>
 One graph represents two views with sufficient correspondences. This sub-section is for all possible graphs.

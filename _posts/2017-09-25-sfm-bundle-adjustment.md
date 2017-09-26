@@ -23,7 +23,7 @@ The parameters that need to be updated are:
 
 The first step is to define a templated functor that computes the reprojection error/residual. This cost functor depends on the 3D points and the parameters listed above.
 
-```cpp
+``` cpp
 struct Open3DCVReprojectionError
 {
     Open3DCVReprojectionError(const double observed_x, const double observed_y)
