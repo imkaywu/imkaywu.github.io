@@ -153,8 +153,12 @@ Enforcing this assumption might be unjustified for cases mentioned above. Thus, 
 
 #### Conventions of camera coordinate system
 * **OpenGL-style**: 
+    * $$x-$$axis: point right
+    * $$y-$$axis: point up
     * camera looks down the negative $$z-$$axis
 * **Hartley&Zisserman-style**: 
+  * $$x-$$axis: point right
+  * $$y-$$axis: point down
   * camera looks down the positive $$z-$$axis
 
 ### Update $$C$$

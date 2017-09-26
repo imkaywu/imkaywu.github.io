@@ -4,7 +4,7 @@ permalink: /tutorials/
 title: tutorials
 ---
 
-## Vision
+### Vision
 
 [Basic Vision Modules]({{site.url}}{{site.baseurl}}/tutorials/vision)
 

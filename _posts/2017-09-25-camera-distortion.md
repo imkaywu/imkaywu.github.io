@@ -6,4 +6,3 @@ categories:
 tags:
   - Computer Vision
 ---
-
