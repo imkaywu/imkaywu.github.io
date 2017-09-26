@@ -14,6 +14,7 @@ tags:
 ### Camera
 [Camera Part 1]({{site.url}}{{site.baseurl}}/blog/2017/01/camera-model/)\\
 [Camera Part 2]({{site.url}}{{site.baseurl}}/blog/2017/05/camera-class/)\\
+[Camera Part 3]({{site.url}}{{site.baseurl}}/blog/2017/09/camera-distortion/)
 [Camera Visualization]({{site.url}}{{site.baseurl}}/blog/2017/05/draw-camera/)\\
 [Projection Matrix]()
 

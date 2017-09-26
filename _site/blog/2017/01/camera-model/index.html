@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Kai Wu | Camera model and coordinate system</title>
+  <title>Kai Wu | Camera models</title>
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
@@ -88,20 +88,22 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Camera model and coordinate system</h1>
+    <h1 class="post-title">Camera models</h1>
     <p class="post-meta">January 17, 2017</p>
   </header>
 
   <article class="post-content">
     <p>This post give an introduction to various camera models, and specifically focuses on the pinhole camera model.</p>
 
-<h3 id="camera-model">Camera model</h3>
+<h3 id="camera-models">Camera models</h3>
 
 <h4 id="thin-lens-model">Thin Lens Model</h4>
 
 <p>Most cameras use a lens to focus light onto the image plane so that enough light can be captured in a short period of time. Lens models can be quite complex, however, we can consider the simplist case, known as the thin lens model. In this model, light emmited from a single scene point travelling along different paths converge at a point behind the lens. This phenomena is governed by focus length, which is defined as the distance behind the lens to which rays from infinitely distant source converge in focus.</p>
 
-<p><img src="/assets/img/research/cv/thin_lens_model.png" alt="thin lens model" /></p>
+<div class="img_row">
+    <img class="col three" src="/assets/img/research/cv/thin_lens_model.png" alt="thin lens model" title="thin lens model" />
+</div>
 
 <p>If <script type="math/tex">z_1</script> is the distance from the center of the lens to a surface point, then for a focal length <script type="math/tex">\|f\|</script>, the rays from that surface point will be in focus at a distance <script type="math/tex">z_0</script> behind the lens center, where <script type="math/tex">z_0</script>, and <script type="math/tex">z_1</script> will satisfy the thin lens equation:</p>
 
@@ -109,15 +111,21 @@
 
 <h4 id="pinhole-camera-model">Pinhole Camera Model</h4>
 
-<p>Light from a point travels along a single straight path through a pinhole onto the image plane. The object is imaged upside-down on the image plane.</p>
+<p>A pinhole camera is an idealization of the thin lens as aperture shrinks to zero. Light from a point travels along a single straight path through a pinhole onto the image plane. The object is imaged upside-down on the image plane.</p>
 
-<h3 id="projections">Projections</h3>
+<div class="img_row">
+    <img class="col three" src="/assets/img/research/cv/pinhole_camera_model.png" alt="pinhole camera model" title="pinhole camera model" />
+</div>
+
+<h3 id="camera-projections">Camera projections</h3>
 
 <h4 id="perspective-projections">Perspective Projections</h4>
 
 <p>Consider a point <script type="math/tex">\mathbf{X}(X, Y, Z)</script> in 3D space with tthe camera center at the origin. The projection onto the image plane is <script type="math/tex">\mathbf{x}(x, y, z)</script>, where <script type="math/tex">x = \frac{f}{Z}X</script>. This is <strong>perspective projection</strong>.</p>
 
-<p><img src="/assets/img/research/cv/perspective_projection.png" alt="perspective projection" /></p>
+<div class="img_row">
+    <img class="col three" src="/assets/img/research/cv/perspective_projection.png" alt="perspective projection" title="perspective projection" />
+</div>
 
 <p>Two important properties:</p>
 
@@ -132,11 +140,15 @@
 
 <p>In this case, <script type="math/tex">y = \alpha Y</script>, for some real scalar <script type="math/tex">\alpha</script>. This is <strong>orthographic projection</strong>.</p>
 
-<p><img src="/assets/img/research/cv/orthographic_projection.png" alt="orthographic projection" /></p>
+<div class="img_row">
+    <img class="col three" src="/assets/img/research/cv/orthographic_projection.png" alt="orthographic projection" title="orthographic projection" />
+</div>
 
-<h3 id="camera-position-and-orientation">Camera Position and Orientation</h3>
+<h3 id="camera-coordinate-system">Camera coordinate system</h3>
 
-<p><img src="/assets/img/research/cv/world_camera_coord_system.png" alt="world camera coordinate system" /></p>
+<div class="img_row">
+    <img class="col three" src="/assets/img/research/cv/world_camera_coord_system.png" alt="world camera coordinate system" title="world camera coordinate system" />
+</div>
 
 <p>The center of projection <script type="math/tex">e</script> is the origin of coordinate system <script type="math/tex">uvw</script>. Let <script type="math/tex">\vec{g}</script> is the optical axis, also the gaze direction, so the optical axis is</p>
 
