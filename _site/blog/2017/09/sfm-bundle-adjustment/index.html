@@ -69,6 +69,8 @@
         
           
         
+          
+        
 
         <!-- CV link -->
         <!-- <a class="page-link" href="//imkaywu.github.io/assets/pdf/CV.pdf">vitae</a> -->
@@ -175,7 +177,7 @@
 </div>
 
 <h3 id="data-conversion">Data conversion</h3>
-<p>In the <a href="">open3DCV</a> implementation of SfM, these information are originally stored in a class call <code class="highlighter-rouge">Graph</code>, thus we need methods for data conversion.</p>
+<p>In the <a href="//imkaywu.github.io//blog/2017/05/3d-vision-lib">open3DCV</a> implementation of SfM, these information are originally stored in a class call <code class="highlighter-rouge">Graph</code>, thus we need methods for data conversion.</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// Graph class
 </span><span class="k">class</span> <span class="nc">Graph</span>
@@ -206,33 +208,48 @@
 <span class="kt">void</span> <span class="n">unpack_camera_extrinsics</span><span class="p">(</span><span class="n">Graph</span><span class="o">&amp;</span> <span class="n">graph</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec6</span><span class="o">&gt;&amp;</span> <span class="n">extrinsics</span><span class="p">);</span>
 <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec8</span><span class="o">&gt;</span> <span class="n">pack_camera_intrinsics</span><span class="p">(</span><span class="k">const</span> <span class="n">Graph</span><span class="o">&amp;</span> <span class="n">graph</span><span class="p">);</span>
 <span class="kt">void</span> <span class="n">unpack_camera_intrinsics</span><span class="p">(</span><span class="n">Graph</span><span class="o">&amp;</span> <span class="n">graph</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec8</span><span class="o">&gt;&amp;</span> <span class="n">intrinsics</span><span class="p">);</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec3</span><span class="o">&gt;</span> <span class="n">pack_3d_pts</span><span class="p">(</span><span class="k">const</span> <span class="n">Graph</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">unpack_3d_pts</span><span class="p">(</span><span class="n">Graph</span> <span class="o">&amp;</span><span class="n">graph</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec3</span><span class="o">&gt;&amp;</span> <span class="n">pts3d</span><span class="p">)</span>
 </code></pre>
 </div>
 
-<p>We need to convert the data stored in <code class="highlighter-rouge">Graph</code> to data used in bundle adjustment functor, which is two arrays of camera parameters, 3D point, keypoint position.</p>
+<p>We need to convert the data stored in <code class="highlighter-rouge">Graph</code> to data used in bundle adjustment functor, which is two arrays of camera parameters, and positions of 3D points.</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// convert camera rotation to angle axis and merge with translation
 </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec6</span><span class="o">&gt;</span> <span class="n">extrinsics</span> <span class="o">=</span> <span class="n">pack_camera_extrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
 <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec8</span><span class="o">&gt;</span> <span class="n">intrinsics</span> <span class="o">=</span> <span class="n">pack_camera_intrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec3</span><span class="o">&gt;</span> <span class="n">pts3d</span> <span class="o">=</span> <span class="n">pack_3d_pts</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
 
-<span class="c1">// for each track
-</span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// for each 3D point
+</span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">pts3d</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">m</span><span class="p">)</span>
 <span class="p">{</span>
-	<span class="c1">// for each keypoint in the track
-</span>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">[</span><span class="n">m</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">Vec3</span><span class="o">&amp;</span> <span class="n">pt3d</span> <span class="o">=</span> <span class="n">pts3d</span><span class="p">[</span><span class="n">m</span><span class="p">];</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">[</span><span class="n">m</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="n">Keypoint</span> <span class="n">key</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">];</span>
-        
-        <span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">x</span><span class="p">();</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">y</span><span class="p">();</span>
+        <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">x</span><span class="p">();</span>
+        <span class="kt">double</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">y</span><span class="p">();</span>
         <span class="n">ceres</span><span class="o">::</span><span class="n">CostFunction</span><span class="o">*</span> <span class="n">cost_function</span> <span class="o">=</span> <span class="n">Open3DCVReprojectionError</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
         
         <span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">.</span><span class="n">index</span><span class="p">());</span>
-        <span class="n">Vec3</span> <span class="n">pt3d</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">structure_points_</span><span class="p">[</span><span class="n">m</span><span class="p">].</span><span class="n">coords</span><span class="p">().</span><span class="n">cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span>
         <span class="n">problem</span><span class="p">.</span><span class="n">AddResidualBlock</span><span class="p">(</span><span class="n">cost_function</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">intrinsics</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="mi">0</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">extrinsics</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="mi">0</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">pt3d</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+        
+        <span class="c1">// lock the first camera to better deal with scene orientation ambiguity
+</span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">is_camera_locked</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">problem</span><span class="p">.</span><span class="n">SetParameterBlockConstant</span><span class="p">(</span><span class="o">&amp;</span><span class="n">extrinsics</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="mi">0</span><span class="p">));</span>
+            <span class="n">is_camera_locked</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
+
+<span class="c1">// other bundle adjustment code
+</span>
+<span class="c1">// copy intrinsics and extrinsics back
+</span><span class="n">unpack_camera_extrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">extrinsics</span><span class="p">);</span>
+<span class="n">unpack_camera_intrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">intrinsics</span><span class="p">);</span>
+<span class="n">unpack_3d_pts</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">pts3d</span><span class="p">);</span>
 </code></pre>
 </div>
 
@@ -254,34 +271,42 @@
 <h3 id="bundle-adjustment-solver">Bundle adjustment solver</h3>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">Open3DCVBundleAdjustment</span><span class="p">(</span><span class="n">Graph</span><span class="o">&amp;</span> <span class="n">graph</span><span class="p">,</span>
-                            <span class="k">const</span> <span class="kt">int</span> <span class="n">bundle_intrinsics</span><span class="p">)</span>
+                                  <span class="k">const</span> <span class="kt">int</span> <span class="n">bundle_intrinsics</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">ceres</span><span class="o">::</span><span class="n">Problem</span><span class="o">::</span><span class="n">Options</span> <span class="n">problem_options</span><span class="p">;</span>
     <span class="n">ceres</span><span class="o">::</span><span class="n">Problem</span> <span class="n">problem</span><span class="p">(</span><span class="n">problem_options</span><span class="p">);</span>
     
-    <span class="c1">// convert camera rotation in Graph to angle-axis representation and merge with translation
+    <span class="c1">// convert camera rotation to angle axis and merge with translation
 </span>    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec6</span><span class="o">&gt;</span> <span class="n">extrinsics</span> <span class="o">=</span> <span class="n">pack_camera_extrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec8</span><span class="o">&gt;</span> <span class="n">intrinsics</span> <span class="o">=</span> <span class="n">pack_camera_intrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec3</span><span class="o">&gt;</span> <span class="n">pts3d</span> <span class="o">=</span> <span class="n">pack_3d_pts</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
     
     <span class="c1">// construct the problem
-</span>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">m</span><span class="p">)</span>
+</span>    <span class="kt">bool</span> <span class="n">is_camera_locked</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">pts3d</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">m</span><span class="p">)</span>
     <span class="p">{</span>
+        <span class="n">Vec3</span><span class="o">&amp;</span> <span class="n">pt3d</span> <span class="o">=</span> <span class="n">pts3d</span><span class="p">[</span><span class="n">m</span><span class="p">];</span>
+        
         <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">[</span><span class="n">m</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span>
         <span class="p">{</span>
             <span class="n">Keypoint</span> <span class="n">key</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">tracks_</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">];</span>
-            
-            <span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">x</span><span class="p">();</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">y</span><span class="p">();</span>
+            <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">x</span><span class="p">();</span>
+            <span class="kt">double</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">key</span><span class="p">.</span><span class="n">coords</span><span class="p">().</span><span class="n">y</span><span class="p">();</span>
             <span class="n">ceres</span><span class="o">::</span><span class="n">CostFunction</span><span class="o">*</span> <span class="n">cost_function</span> <span class="o">=</span> <span class="n">Open3DCVReprojectionError</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
             
             <span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">.</span><span class="n">index</span><span class="p">());</span>
-            <span class="n">Vec3</span> <span class="n">pt3d</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">structure_points_</span><span class="p">[</span><span class="n">m</span><span class="p">].</span><span class="n">coords</span><span class="p">().</span><span class="n">cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span>
             <span class="n">problem</span><span class="p">.</span><span class="n">AddResidualBlock</span><span class="p">(</span><span class="n">cost_function</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">intrinsics</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="mi">0</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">extrinsics</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="mi">0</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">pt3d</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+            
+            <span class="c1">// lock the first camera to better deal with scene orientation ambiguity
+</span>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">is_camera_locked</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">problem</span><span class="p">.</span><span class="n">SetParameterBlockConstant</span><span class="p">(</span><span class="o">&amp;</span><span class="n">extrinsics</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="mi">0</span><span class="p">));</span>
+                <span class="n">is_camera_locked</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+            <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span>
     
-    <span class="c1">// set certain parameters constant
+    <span class="c1">// set part of parameters constant
 </span>    <span class="k">if</span> <span class="p">(</span><span class="n">bundle_intrinsics</span> <span class="o">==</span> <span class="n">BUNDLE_NO_INTRINSICS</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">intrinsics</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
@@ -318,17 +343,18 @@
     <span class="n">options</span><span class="p">.</span><span class="n">preconditioner_type</span> <span class="o">=</span> <span class="n">ceres</span><span class="o">::</span><span class="n">SCHUR_JACOBI</span><span class="p">;</span>
     <span class="n">options</span><span class="p">.</span><span class="n">linear_solver_type</span> <span class="o">=</span> <span class="n">ceres</span><span class="o">::</span><span class="n">ITERATIVE_SCHUR</span><span class="p">;</span>
     <span class="n">options</span><span class="p">.</span><span class="n">use_inner_iterations</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-    <span class="n">options</span><span class="p">.</span><span class="n">max_num_iterations</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">max_num_iterations</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
     <span class="n">options</span><span class="p">.</span><span class="n">minimizer_progress_to_stdout</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 
     <span class="c1">// solve
 </span>    <span class="n">ceres</span><span class="o">::</span><span class="n">Solver</span><span class="o">::</span><span class="n">Summary</span> <span class="n">summary</span><span class="p">;</span>
     <span class="n">ceres</span><span class="o">::</span><span class="n">Solve</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">problem</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">summary</span><span class="p">);</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">summary</span><span class="p">.</span><span class="n">FullReport</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">summary</span><span class="p">.</span><span class="n">BriefReport</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
     
-    <span class="c1">// copy intrinsics and extrinsics back to Graph
+    <span class="c1">// copy intrinsics and extrinsics back
 </span>    <span class="n">unpack_camera_extrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">extrinsics</span><span class="p">);</span>
     <span class="n">unpack_camera_intrinsics</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">intrinsics</span><span class="p">);</span>
+    <span class="n">unpack_3d_pts</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">pts3d</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
 </div>

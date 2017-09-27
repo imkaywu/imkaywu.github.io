@@ -90,7 +90,7 @@ struct Open3DCVReprojectionError
 ```
 
 ### Data conversion
-In the [open3DCV]() implementation of SfM, these information are originally stored in a class call `Graph`, thus we need methods for data conversion.
+In the [open3DCV]({{site.url}}/{{site.baseurl}}/blog/2017/05/3d-vision-lib) implementation of SfM, these information are originally stored in a class call `Graph`, thus we need methods for data conversion.
 
 ```cpp
 // Graph class
@@ -122,33 +122,48 @@ vector<Vec6> pack_camera_extrinsics(const Graph& graph);
 void unpack_camera_extrinsics(Graph& graph, const vector<Vec6>& extrinsics);
 vector<Vec8> pack_camera_intrinsics(const Graph& graph);
 void unpack_camera_intrinsics(Graph& graph, const vector<Vec8>& intrinsics);
+vector<Vec3> pack_3d_pts(const Graph&graph);
+void unpack_3d_pts(Graph &graph, const vector<Vec3>& pts3d)
 ```
 
-We need to convert the data stored in `Graph` to data used in bundle adjustment functor, which is two arrays of camera parameters, 3D point, keypoint position.
+We need to convert the data stored in `Graph` to data used in bundle adjustment functor, which is two arrays of camera parameters, and positions of 3D points.
 
 ```cpp
 // convert camera rotation to angle axis and merge with translation
 vector<Vec6> extrinsics = pack_camera_extrinsics(graph);
 vector<Vec8> intrinsics = pack_camera_intrinsics(graph);
+vector<Vec3> pts3d = pack_3d_pts(graph);
 
-// for each track
-for (int m = 0; m < graph.tracks_.size(); ++m)
+// for each 3D point
+for (int m = 0; m < pts3d.size(); ++m)
 {
-	// for each keypoint in the track
+    Vec3& pt3d = pts3d[m];
+    
     for (int n = 0; n < graph.tracks_[m].size(); ++n)
     {
         Keypoint key = graph.tracks_[m][n];
-        
-        double x, y;
-        x = (double)key.coords().x();
-        y = (double)key.coords().y();
+        double x = (double)key.coords().x();
+        double y = (double)key.coords().y();
         ceres::CostFunction* cost_function = Open3DCVReprojectionError::create(x, y);
         
         int idx = graph.index(key.index());
-        Vec3 pt3d = graph.structure_points_[m].coords().cast<double>();
         problem.AddResidualBlock(cost_function, NULL, &intrinsics[idx](0), &extrinsics[idx](0), &pt3d(0));
+        
+        // lock the first camera to better deal with scene orientation ambiguity
+        if (!is_camera_locked)
+        {
+            problem.SetParameterBlockConstant(&extrinsics[idx](0));
+            is_camera_locked = true;
+        }
     }
 }
+
+// other bundle adjustment code
+
+// copy intrinsics and extrinsics back
+unpack_camera_extrinsics(graph, extrinsics);
+unpack_camera_intrinsics(graph, intrinsics);
+unpack_3d_pts(graph, pts3d);
 ```
 
 ### Fixing parameters
@@ -170,34 +185,42 @@ problem.SetParameterization(current_camera_R_t,
 
 ```cpp
 void Open3DCVBundleAdjustment(Graph& graph,
-                            const int bundle_intrinsics)
+                                  const int bundle_intrinsics)
 {
     ceres::Problem::Options problem_options;
     ceres::Problem problem(problem_options);
     
-    // convert camera rotation in Graph to angle-axis representation and merge with translation
+    // convert camera rotation to angle axis and merge with translation
     vector<Vec6> extrinsics = pack_camera_extrinsics(graph);
     vector<Vec8> intrinsics = pack_camera_intrinsics(graph);
+    vector<Vec3> pts3d = pack_3d_pts(graph);
     
     // construct the problem
-    for (int m = 0; m < graph.tracks_.size(); ++m)
+    bool is_camera_locked = false;
+    for (int m = 0; m < pts3d.size(); ++m)
     {
+        Vec3& pt3d = pts3d[m];
+        
         for (int n = 0; n < graph.tracks_[m].size(); ++n)
         {
             Keypoint key = graph.tracks_[m][n];
-            
-            double x, y;
-            x = (double)key.coords().x();
-            y = (double)key.coords().y();
+            double x = (double)key.coords().x();
+            double y = (double)key.coords().y();
             ceres::CostFunction* cost_function = Open3DCVReprojectionError::create(x, y);
             
             int idx = graph.index(key.index());
-            Vec3 pt3d = graph.structure_points_[m].coords().cast<double>();
             problem.AddResidualBlock(cost_function, NULL, &intrinsics[idx](0), &extrinsics[idx](0), &pt3d(0));
+            
+            // lock the first camera to better deal with scene orientation ambiguity
+            if (!is_camera_locked)
+            {
+                problem.SetParameterBlockConstant(&extrinsics[idx](0));
+                is_camera_locked = true;
+            }
         }
     }
     
-    // set certain parameters constant
+    // set part of parameters constant
     if (bundle_intrinsics == BUNDLE_NO_INTRINSICS)
     {
         for (int i = 0; i < intrinsics.size(); ++i)
@@ -234,16 +257,17 @@ void Open3DCVBundleAdjustment(Graph& graph,
     options.preconditioner_type = ceres::SCHUR_JACOBI;
     options.linear_solver_type = ceres::ITERATIVE_SCHUR;
     options.use_inner_iterations = true;
-    options.max_num_iterations = 1000;
+    options.max_num_iterations = 100;
     options.minimizer_progress_to_stdout = true;
 
     // solve
     ceres::Solver::Summary summary;
     ceres::Solve(options, &problem, &summary);
-	std::cout << summary.FullReport() << "\n";
+    std::cout << summary.BriefReport() << std::endl;
     
-    // copy intrinsics and extrinsics back to Graph
+    // copy intrinsics and extrinsics back
     unpack_camera_extrinsics(graph, extrinsics);
     unpack_camera_intrinsics(graph, intrinsics);
+    unpack_3d_pts(graph, pts3d);
 }
 ```
