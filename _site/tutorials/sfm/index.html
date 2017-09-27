@@ -94,7 +94,7 @@
   </header>
 
   <article class="post-content Structure from Motion - a tutorial clearfix">
-    <p>Structure from Motion is the holy grail of multiple view geometry. It is a process of estimating camera pose and retrieving a sparse reconstruction. In this tutorial, I’ll explain every step of this technique and provide detailed implementation using <a href="//imkaywu.github.io/blog/2017/05/3d-vision-lib/">open3DCV</a>.</p>
+    <p>Structure from Motion is the holy grail of multiple view geometry. It is a process of estimating camera pose and retrieving a sparse reconstruction. In this tutorial, I’ll explain every step of this technique and provide detailed implementation using <a href="//imkaywu.github.io/blog/2017/05/3d-vision-lib/">open3DCV</a>. The source code can be found <a href="https://github.com/imkaywu/open3DCV/blob/master/test/sfm.cc">here</a>.</p>
 
 <h3 id="table-of-content">Table of Content</h3>
 <ol>
@@ -127,13 +127,7 @@
   </li>
   <li><a href="#bundle_adjustment">Bundle adjustment</a></li>
   <li><a href="#2v_sfm">Two-view SfM</a></li>
-  <li><a href="#nv_sfm">N-view SfM</a>
-    <ul>
-      <li>merge two graphs</li>
-      <li>N-view triangulation</li>
-      <li>N-view bundle adjustment</li>
-    </ul>
-  </li>
+  <li><a href="#nv_sfm">N-view SfM</a></li>
   <li><a href="#output">Output</a></li>
 </ol>
 
@@ -357,7 +351,7 @@
   <li>indexes of cameras: <code class="highlighter-rouge">ind_cam_</code>;</li>
   <li>Fundamental and Essential matrix: <code class="highlighter-rouge">F_</code>, <code class="highlighter-rouge">E_</code>;</li>
   <li>intrinsics and extrinsics of cameras: <code class="highlighter-rouge">intrinsics_mat_</code>, <code class="highlighter-rouge">extrinsics_mat_</code>;</li>
-  <li>feature tracks: <code class="highlighter-rouge">tracks_</code>, can be considered as a fancier version of matching features;</li>
+  <li>point tracks: <code class="highlighter-rouge">tracks_</code>. Each set of matching pixels across multiple images should correspond to a single point in 3D, i.e., each individual pixel in a matched set should be the projection of the same 3D point.</li>
   <li>structure points: <code class="highlighter-rouge">structure_points_</code>, a fancier version of 3D point.</li>
 </ul>
 
@@ -494,12 +488,36 @@
 </div>
 
 <h3 id="9-sequential-sfm-">9. Sequential SfM <a name="nv_sfm"></a></h3>
+<p>The sequential SfM can be summarized as follows:</p>
+<ul>
+  <li>merge two graphs</li>
+  <li>N-view triangulation</li>
+  <li>N-view bundle adjustment</li>
+</ul>
 
-<h4 id="91-merge-two-graphs">9.1. merge two graphs</h4>
-
-<h4 id="92-n-view-triangulation">9.2. N-view triangulation</h4>
-
-<h4 id="93-n-view-bundle-adjustment">9.3. N-view bundle adjustment</h4>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">Graph</span> <span class="n">global_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nimages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"*******************************"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">" N-View SfM: merging image "</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"*******************************"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="c1">// ------ merge graphs ------
+</span>    <span class="n">Graph</span><span class="o">::</span><span class="n">merge_graph</span><span class="p">(</span><span class="n">global_graph</span><span class="p">,</span> <span class="n">graph</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    
+    <span class="c1">// ------ triangulation ------
+</span>    <span class="n">triangulate_nonlinear</span><span class="p">(</span><span class="n">global_graph</span><span class="p">);</span>
+    <span class="kt">float</span> <span class="n">error</span> <span class="o">=</span> <span class="n">reprojection_error</span><span class="p">(</span><span class="n">global_graph</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"reprojection error (before bundle adjustment): "</span> <span class="o">&lt;&lt;</span> <span class="n">error</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    
+    <span class="c1">// ------ bundle adjustment ------
+</span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"------ start bundle adjustment ------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">Open3DCVBundleAdjustment</span><span class="p">(</span><span class="n">global_graph</span><span class="p">,</span> <span class="n">BUNDLE_PRINCIPAL_POINT</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"------ end bundle adjustment ------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">reprojection_error</span><span class="p">(</span><span class="n">global_graph</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"reprojection error (after bundle adjustment): "</span> <span class="o">&lt;&lt;</span> <span class="n">error</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <h3 id="10-output-">10. Output <a name="output"></a></h3>
 

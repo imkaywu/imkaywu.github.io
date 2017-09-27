@@ -8,7 +8,7 @@ tags:
   - Computer Vision
 ---
 
-Structure from Motion is the holy grail of multiple view geometry. It is a process of estimating camera pose and retrieving a sparse reconstruction. In this tutorial, I'll explain every step of this technique and provide detailed implementation using [open3DCV]({{site.url}}/{{site.baseurl}}blog/2017/05/3d-vision-lib/).
+Structure from Motion is the holy grail of multiple view geometry. It is a process of estimating camera pose and retrieving a sparse reconstruction. In this tutorial, I'll explain every step of this technique and provide detailed implementation using [open3DCV]({{site.url}}/{{site.baseurl}}blog/2017/05/3d-vision-lib/). The source code can be found [here](https://github.com/imkaywu/open3DCV/blob/master/test/sfm.cc).
 
 ### Table of Content
 0. [Test images](#test_image)
@@ -29,9 +29,6 @@ Structure from Motion is the holy grail of multiple view geometry. It is a proce
 7. [Bundle adjustment](#bundle_adjustment)
 8. [Two-view SfM](#2v_sfm)
 9. [N-view SfM](#nv_sfm)
-    * merge two graphs
-    * N-view triangulation
-    * N-view bundle adjustment
 10. [Output](#output)
 
 ### 0. Test images <a name="test_image"></a>
@@ -251,7 +248,7 @@ The class `Graph` is heavily used hereafter, it is a data type that stores multi
 * indexes of cameras: `ind_cam_`;
 * Fundamental and Essential matrix: `F_`, `E_`;
 * intrinsics and extrinsics of cameras: `intrinsics_mat_`, `extrinsics_mat_`;
-* feature tracks: `tracks_`, can be considered as a fancier version of matching features;
+* point tracks: `tracks_`. Each set of matching pixels across multiple images should correspond to a single point in 3D, i.e., each individual pixel in a matched set should be the projection of the same 3D point.
 * structure points: `structure_points_`, a fancier version of 3D point.
 
 ```cpp
@@ -387,11 +384,33 @@ reprojection error (after bundle adjustment): 0.178282
 ```
 
 ### 9. Sequential SfM <a name="nv_sfm"></a>
+The sequential SfM can be summarized as follows:
+* merge two graphs
+* N-view triangulation
+* N-view bundle adjustment
 
-#### 9.1. merge two graphs
-
-#### 9.2. N-view triangulation
-
-#### 9.3. N-view bundle adjustment
+```cpp
+Graph global_graph(graph[0]);
+for (int i = 1; i < nimages - 1; ++i)
+{
+    cout << "*******************************" << endl;
+    cout << " N-View SfM: merging image " << i << endl;
+    cout << "*******************************" << endl;
+    // ------ merge graphs ------
+    Graph::merge_graph(global_graph, graph[i]);
+    
+    // ------ triangulation ------
+    triangulate_nonlinear(global_graph);
+    float error = reprojection_error(global_graph);
+    std::cout << "reprojection error (before bundle adjustment): " << error << std::endl;
+    
+    // ------ bundle adjustment ------
+    cout << "------ start bundle adjustment ------" << endl;
+    Open3DCVBundleAdjustment(global_graph, BUNDLE_PRINCIPAL_POINT);
+    cout << "------ end bundle adjustment ------" << endl;
+    error = reprojection_error(global_graph);
+    std::cout << "reprojection error (after bundle adjustment): " << error << std::endl;
+}
+```
 
 ### 10. Output <a name="output"></a>
