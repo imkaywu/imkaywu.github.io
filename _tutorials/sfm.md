@@ -389,6 +389,88 @@ The sequential SfM can be summarized as follows:
 * N-view triangulation
 * N-view bundle adjustment
 
+The code for N-view triangulation and N-view bundle adjustment are exactly the same as those of the 2-view counterparts. Thus the main issue is merge multiple pairwise graphs into a global graph containing all cameras, feature tracks, and 3D structure points.
+
+#### Merge graphs
+
+```cpp
+void Graph::merge_graph(Graph &graph1, Graph &graph2)
+{
+    vector<int>::iterator iter;
+    
+    // find overlapping cameras
+    vector<int> cams_common(std::max(graph1.ncams_, graph2.ncams_));
+    iter = std::set_intersection(graph1.cams_.begin(), graph1.cams_.end(), graph2.cams_.begin(), graph2.cams_.end(), cams_common.begin());
+    cams_common.resize(iter - cams_common.begin());
+    
+    // find distinct cameras
+    vector<int> cams_diff(std::max(graph1.ncams_, graph2.ncams_));
+    iter = std::set_difference(graph2.cams_.begin(), graph2.cams_.end(), graph1.cams_.begin(), graph1.cams_.end(), cams_diff.begin());
+    cams_diff.resize(iter - cams_diff.begin());
+    
+    if (cams_common.empty())
+        return;
+    
+    // merge the camera intrinsic and extrinsic parameters
+    int ind_cam1 = graph1.index(cams_common[0]);
+    int ind_cam2 = graph2.index(cams_common[0]);
+    Mat34f Rt1 = graph1.extrinsics_mat_[ind_cam1];
+    Mat34f Rt2 = graph2.extrinsics_mat_[ind_cam2];
+    Mat34f Rt21 = concat_Rt(inv_Rt(Rt1), Rt2);
+    for (int i = 0; i < graph2.structure_points_.size(); ++i)
+    {
+        Vec3f& pt3d = graph2.structure_points_[i].coords();
+        pt3d = Rt21 * pt3d.homogeneous();
+    }
+    Mat34f Rt21t = inv_Rt(Rt21);
+    for (int i = 0; i < cams_diff.size(); ++i)
+    {
+        graph1.cams_.push_back(cams_diff[i]);
+        graph1.intrinsics_mat_.push_back(graph2.intrinsics_mat_[graph2.index(cams_diff[i])]);
+        graph1.extrinsics_mat_.push_back(concat_Rt(graph2.extrinsics_mat_[graph2.index(cams_diff[i])], Rt21t));
+    }
+    graph1.ncams_ = static_cast<int>(graph1.cams_.size());
+    vector<size_t> indexes;
+    sort<int>(graph1.cams_, graph1.cams_, indexes);
+    reorder<Mat3f>(graph1.intrinsics_mat_, indexes, graph1.intrinsics_mat_);
+    reorder<Mat34f>(graph1.extrinsics_mat_, indexes, graph1.extrinsics_mat_);
+    
+    const int ntracks = static_cast<int>(graph1.tracks_.size());
+    for (int j = 0; j < graph2.tracks_.size(); ++j)
+    {
+        Track& track2 = graph2.tracks_[j];
+        bool is_track_connected = false;
+        for (int i = 0; i < ntracks; ++i)
+        {
+            Track& track1 = graph1.tracks_[i];
+            vector<pair<int, int> > feats_common;
+            Track::find_overlapping_keypoints(track1, track2, feats_common);
+            // find overlapping feature tracks from common cameras
+            if (!feats_common.empty())
+            {
+                Graph::merge_tracks(track1, track2, feats_common);
+                is_track_connected = true;
+                // check if the structur_points are close, for debug purpose
+                if (false)
+                {
+                    std::cout << "graph1 structure_point: " << std::endl << graph1.structure_points_[i].coords() << std::endl;
+                    std::cout << "graph2 structure_point: " << std::endl << graph2.structure_points_[j].coords() << std::endl;
+                }
+                break;
+            }
+        }
+        // find non-overlapping feature tracks from common cameras
+        if (!is_track_connected)
+        {
+            graph1.add_track(track2);
+            graph1.add_struct_pt(graph2.structure_points_[j]);
+        }
+    }
+
+    // find new features from non-overlapping cameras, this part is not needed for now
+}
+```
+
 ```cpp
 Graph global_graph(graph[0]);
 for (int i = 1; i < nimages - 1; ++i)
