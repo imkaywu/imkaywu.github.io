@@ -389,10 +389,34 @@ The sequential SfM can be summarized as follows:
 * N-view triangulation
 * N-view bundle adjustment
 
-The code for N-view triangulation and N-view bundle adjustment are exactly the same as those of the 2-view counterparts. Thus the main issue is merge multiple pairwise graphs into a global graph containing all cameras, feature tracks, and 3D structure points.
+The code for N-view triangulation and N-view bundle adjustment are exactly the same as those of the 2-view counterparts. The main issue is to merge multiple pairwise graphs into a global graph containing all camera parameters, feature tracks, and 3D structure points.
+
+#### N-view SfM
+```cpp
+Graph global_graph(graph[0]);
+for (int i = 1; i < nimages - 1; ++i)
+{
+    cout << "*******************************" << endl;
+    cout << " N-View SfM: merging graph 0-" << i << endl;
+    cout << "*******************************" << endl;
+    // ------ merge graphs ------
+    Graph::merge_graph(global_graph, graph[i]);
+    
+    // ------ N-view triangulation ------
+    triangulate_nonlinear(global_graph);
+    float error = reprojection_error(global_graph);
+    std::cout << "reprojection error (before bundle adjustment): " << error << std::endl;
+    
+    // ------ N-view bundle adjustment ------
+    cout << "------ start bundle adjustment ------" << endl;
+    Open3DCVBundleAdjustment(global_graph, BUNDLE_PRINCIPAL_POINT);
+    cout << "------ end bundle adjustment ------" << endl;
+    error = reprojection_error(global_graph);
+    std::cout << "reprojection error (after bundle adjustment): " << error << std::endl;
+}
+```
 
 #### Merge graphs
-
 ```cpp
 void Graph::merge_graph(Graph &graph1, Graph &graph2)
 {
@@ -471,28 +495,44 @@ void Graph::merge_graph(Graph &graph1, Graph &graph2)
 }
 ```
 
+#### Results
 ```cpp
-Graph global_graph(graph[0]);
-for (int i = 1; i < nimages - 1; ++i)
-{
-    cout << "*******************************" << endl;
-    cout << " N-View SfM: merging image " << i << endl;
-    cout << "*******************************" << endl;
-    // ------ merge graphs ------
-    Graph::merge_graph(global_graph, graph[i]);
-    
-    // ------ triangulation ------
-    triangulate_nonlinear(global_graph);
-    float error = reprojection_error(global_graph);
-    std::cout << "reprojection error (before bundle adjustment): " << error << std::endl;
-    
-    // ------ bundle adjustment ------
-    cout << "------ start bundle adjustment ------" << endl;
-    Open3DCVBundleAdjustment(global_graph, BUNDLE_PRINCIPAL_POINT);
-    cout << "------ end bundle adjustment ------" << endl;
-    error = reprojection_error(global_graph);
-    std::cout << "reprojection error (after bundle adjustment): " << error << std::endl;
-}
+*******************************
+ N-View SfM: merging graph 0-1
+*******************************
+reprojection error (before bundle adjustment): 1.76187
+------ start bundle adjustment ------
+iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
+   0  1.982806e+03    0.00e+00    2.31e+05   0.00e+00   0.00e+00  1.00e+04        0    7.02e-02    7.25e-02
+   [iterations omitted]
+  13  1.143924e+02    6.80e-03    1.26e+01   3.70e-01   9.99e-01  1.59e+10        9    8.41e-02    2.26e+00
+Ceres Solver Report: Iterations: 13, Initial cost: 1.982806e+03, Final cost: 1.143924e+02, Termination: CONVERGENCE
+------ end bundle adjustment ------
+reprojection error (after bundle adjustment): 0.340547
+*******************************
+ N-View SfM: merging graph 0-2
+*******************************
+reprojection error (before bundle adjustment): 3.91939
+------ start bundle adjustment ------
+iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
+   0  1.464648e+04    0.00e+00    7.46e+05   0.00e+00   0.00e+00  1.00e+04        0    1.24e-01    1.32e-01
+   [iterations omitted]
+  34  1.442173e+02    2.78e-03    8.02e+00   3.16e+06   9.77e-01  1.00e+16       14    1.07e-01    8.95e+00
+Ceres Solver Report: Iterations: 34, Initial cost: 1.464648e+04, Final cost: 1.442173e+02, Termination: CONVERGENCE
+------ end bundle adjustment ------
+reprojection error (after bundle adjustment): 0.328052
+*******************************
+ N-View SfM: merging graph 0-3
+*******************************
+reprojection error (before bundle adjustment): 4.75183
+------ start bundle adjustment ------
+iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
+   0  5.316645e+04    0.00e+00    3.86e+05   0.00e+00   0.00e+00  1.00e+04        0    1.27e-01    1.33e-01
+   [iterations omitted]
+  26  1.586235e+02    3.25e-03    1.79e+01   4.73e+06   9.11e-01  5.93e+13       25    1.35e-01    9.55e+00
+Ceres Solver Report: Iterations: 26, Initial cost: 5.316645e+04, Final cost: 1.586235e+02, Termination: CONVERGENCE
+------ end bundle adjustment ------
+reprojection error (after bundle adjustment): 0.321569
 ```
 
 ### 10. Output <a name="output"></a>

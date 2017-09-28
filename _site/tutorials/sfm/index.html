@@ -495,10 +495,34 @@
   <li>N-view bundle adjustment</li>
 </ul>
 
-<p>The code for N-view triangulation and N-view bundle adjustment are exactly the same as those of the 2-view counterparts. Thus the main issue is merge multiple pairwise graphs into a global graph containing all cameras, feature tracks, and 3D structure points.</p>
+<p>The code for N-view triangulation and N-view bundle adjustment are exactly the same as those of the 2-view counterparts. The main issue is to merge multiple pairwise graphs into a global graph containing all camera parameters, feature tracks, and 3D structure points.</p>
+
+<h4 id="n-view-sfm">N-view SfM</h4>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">Graph</span> <span class="n">global_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nimages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"*******************************"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">" N-View SfM: merging graph 0-"</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"*******************************"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="c1">// ------ merge graphs ------
+</span>    <span class="n">Graph</span><span class="o">::</span><span class="n">merge_graph</span><span class="p">(</span><span class="n">global_graph</span><span class="p">,</span> <span class="n">graph</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    
+    <span class="c1">// ------ N-view triangulation ------
+</span>    <span class="n">triangulate_nonlinear</span><span class="p">(</span><span class="n">global_graph</span><span class="p">);</span>
+    <span class="kt">float</span> <span class="n">error</span> <span class="o">=</span> <span class="n">reprojection_error</span><span class="p">(</span><span class="n">global_graph</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"reprojection error (before bundle adjustment): "</span> <span class="o">&lt;&lt;</span> <span class="n">error</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    
+    <span class="c1">// ------ N-view bundle adjustment ------
+</span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"------ start bundle adjustment ------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">Open3DCVBundleAdjustment</span><span class="p">(</span><span class="n">global_graph</span><span class="p">,</span> <span class="n">BUNDLE_PRINCIPAL_POINT</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"------ end bundle adjustment ------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">reprojection_error</span><span class="p">(</span><span class="n">global_graph</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"reprojection error (after bundle adjustment): "</span> <span class="o">&lt;&lt;</span> <span class="n">error</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <h4 id="merge-graphs">Merge graphs</h4>
-
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="n">Graph</span><span class="o">::</span><span class="n">merge_graph</span><span class="p">(</span><span class="n">Graph</span> <span class="o">&amp;</span><span class="n">graph1</span><span class="p">,</span> <span class="n">Graph</span> <span class="o">&amp;</span><span class="n">graph2</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">iter</span><span class="p">;</span>
@@ -577,27 +601,43 @@
 </code></pre>
 </div>
 
-<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">Graph</span> <span class="n">global_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nimages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"*******************************"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">" N-View SfM: merging image "</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"*******************************"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="c1">// ------ merge graphs ------
-</span>    <span class="n">Graph</span><span class="o">::</span><span class="n">merge_graph</span><span class="p">(</span><span class="n">global_graph</span><span class="p">,</span> <span class="n">graph</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-    
-    <span class="c1">// ------ triangulation ------
-</span>    <span class="n">triangulate_nonlinear</span><span class="p">(</span><span class="n">global_graph</span><span class="p">);</span>
-    <span class="kt">float</span> <span class="n">error</span> <span class="o">=</span> <span class="n">reprojection_error</span><span class="p">(</span><span class="n">global_graph</span><span class="p">);</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"reprojection error (before bundle adjustment): "</span> <span class="o">&lt;&lt;</span> <span class="n">error</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-    
-    <span class="c1">// ------ bundle adjustment ------
-</span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"------ start bundle adjustment ------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="n">Open3DCVBundleAdjustment</span><span class="p">(</span><span class="n">global_graph</span><span class="p">,</span> <span class="n">BUNDLE_PRINCIPAL_POINT</span><span class="p">);</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"------ end bundle adjustment ------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="n">error</span> <span class="o">=</span> <span class="n">reprojection_error</span><span class="p">(</span><span class="n">global_graph</span><span class="p">);</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"reprojection error (after bundle adjustment): "</span> <span class="o">&lt;&lt;</span> <span class="n">error</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="p">}</span>
+<h4 id="results">Results</h4>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="o">*******************************</span>
+ <span class="n">N</span><span class="o">-</span><span class="n">View</span> <span class="n">SfM</span><span class="o">:</span> <span class="n">merging</span> <span class="n">graph</span> <span class="mi">0</span><span class="o">-</span><span class="mi">1</span>
+<span class="o">*******************************</span>
+<span class="n">reprojection</span> <span class="n">error</span> <span class="p">(</span><span class="n">before</span> <span class="n">bundle</span> <span class="n">adjustment</span><span class="p">)</span><span class="o">:</span> <span class="mf">1.76187</span>
+<span class="o">------</span> <span class="n">start</span> <span class="n">bundle</span> <span class="n">adjustment</span> <span class="o">------</span>
+<span class="n">iter</span>      <span class="n">cost</span>      <span class="n">cost_change</span>  <span class="o">|</span><span class="n">gradient</span><span class="o">|</span>   <span class="o">|</span><span class="n">step</span><span class="o">|</span>    <span class="n">tr_ratio</span>  <span class="n">tr_radius</span>  <span class="n">ls_iter</span>  <span class="n">iter_time</span>  <span class="n">total_time</span>
+   <span class="mi">0</span>  <span class="mf">1.982806e+03</span>    <span class="mf">0.00e+00</span>    <span class="mf">2.31e+05</span>   <span class="mf">0.00e+00</span>   <span class="mf">0.00e+00</span>  <span class="mf">1.00e+04</span>        <span class="mi">0</span>    <span class="mf">7.02e-02</span>    <span class="mf">7.25e-02</span>
+   <span class="p">[</span><span class="n">iterations</span> <span class="n">omitted</span><span class="p">]</span>
+  <span class="mi">13</span>  <span class="mf">1.143924e+02</span>    <span class="mf">6.80e-03</span>    <span class="mf">1.26e+01</span>   <span class="mf">3.70e-01</span>   <span class="mf">9.99e-01</span>  <span class="mf">1.59e+10</span>        <span class="mi">9</span>    <span class="mf">8.41e-02</span>    <span class="mf">2.26e+00</span>
+<span class="n">Ceres</span> <span class="n">Solver</span> <span class="n">Report</span><span class="o">:</span> <span class="n">Iterations</span><span class="o">:</span> <span class="mi">13</span><span class="p">,</span> <span class="n">Initial</span> <span class="n">cost</span><span class="o">:</span> <span class="mf">1.982806e+03</span><span class="p">,</span> <span class="n">Final</span> <span class="n">cost</span><span class="o">:</span> <span class="mf">1.143924e+02</span><span class="p">,</span> <span class="n">Termination</span><span class="o">:</span> <span class="n">CONVERGENCE</span>
+<span class="o">------</span> <span class="n">end</span> <span class="n">bundle</span> <span class="n">adjustment</span> <span class="o">------</span>
+<span class="n">reprojection</span> <span class="n">error</span> <span class="p">(</span><span class="n">after</span> <span class="n">bundle</span> <span class="n">adjustment</span><span class="p">)</span><span class="o">:</span> <span class="mf">0.340547</span>
+<span class="o">*******************************</span>
+ <span class="n">N</span><span class="o">-</span><span class="n">View</span> <span class="n">SfM</span><span class="o">:</span> <span class="n">merging</span> <span class="n">graph</span> <span class="mi">0</span><span class="o">-</span><span class="mi">2</span>
+<span class="o">*******************************</span>
+<span class="n">reprojection</span> <span class="n">error</span> <span class="p">(</span><span class="n">before</span> <span class="n">bundle</span> <span class="n">adjustment</span><span class="p">)</span><span class="o">:</span> <span class="mf">3.91939</span>
+<span class="o">------</span> <span class="n">start</span> <span class="n">bundle</span> <span class="n">adjustment</span> <span class="o">------</span>
+<span class="n">iter</span>      <span class="n">cost</span>      <span class="n">cost_change</span>  <span class="o">|</span><span class="n">gradient</span><span class="o">|</span>   <span class="o">|</span><span class="n">step</span><span class="o">|</span>    <span class="n">tr_ratio</span>  <span class="n">tr_radius</span>  <span class="n">ls_iter</span>  <span class="n">iter_time</span>  <span class="n">total_time</span>
+   <span class="mi">0</span>  <span class="mf">1.464648e+04</span>    <span class="mf">0.00e+00</span>    <span class="mf">7.46e+05</span>   <span class="mf">0.00e+00</span>   <span class="mf">0.00e+00</span>  <span class="mf">1.00e+04</span>        <span class="mi">0</span>    <span class="mf">1.24e-01</span>    <span class="mf">1.32e-01</span>
+   <span class="p">[</span><span class="n">iterations</span> <span class="n">omitted</span><span class="p">]</span>
+  <span class="mi">34</span>  <span class="mf">1.442173e+02</span>    <span class="mf">2.78e-03</span>    <span class="mf">8.02e+00</span>   <span class="mf">3.16e+06</span>   <span class="mf">9.77e-01</span>  <span class="mf">1.00e+16</span>       <span class="mi">14</span>    <span class="mf">1.07e-01</span>    <span class="mf">8.95e+00</span>
+<span class="n">Ceres</span> <span class="n">Solver</span> <span class="n">Report</span><span class="o">:</span> <span class="n">Iterations</span><span class="o">:</span> <span class="mi">34</span><span class="p">,</span> <span class="n">Initial</span> <span class="n">cost</span><span class="o">:</span> <span class="mf">1.464648e+04</span><span class="p">,</span> <span class="n">Final</span> <span class="n">cost</span><span class="o">:</span> <span class="mf">1.442173e+02</span><span class="p">,</span> <span class="n">Termination</span><span class="o">:</span> <span class="n">CONVERGENCE</span>
+<span class="o">------</span> <span class="n">end</span> <span class="n">bundle</span> <span class="n">adjustment</span> <span class="o">------</span>
+<span class="n">reprojection</span> <span class="n">error</span> <span class="p">(</span><span class="n">after</span> <span class="n">bundle</span> <span class="n">adjustment</span><span class="p">)</span><span class="o">:</span> <span class="mf">0.328052</span>
+<span class="o">*******************************</span>
+ <span class="n">N</span><span class="o">-</span><span class="n">View</span> <span class="n">SfM</span><span class="o">:</span> <span class="n">merging</span> <span class="n">graph</span> <span class="mi">0</span><span class="o">-</span><span class="mi">3</span>
+<span class="o">*******************************</span>
+<span class="n">reprojection</span> <span class="n">error</span> <span class="p">(</span><span class="n">before</span> <span class="n">bundle</span> <span class="n">adjustment</span><span class="p">)</span><span class="o">:</span> <span class="mf">4.75183</span>
+<span class="o">------</span> <span class="n">start</span> <span class="n">bundle</span> <span class="n">adjustment</span> <span class="o">------</span>
+<span class="n">iter</span>      <span class="n">cost</span>      <span class="n">cost_change</span>  <span class="o">|</span><span class="n">gradient</span><span class="o">|</span>   <span class="o">|</span><span class="n">step</span><span class="o">|</span>    <span class="n">tr_ratio</span>  <span class="n">tr_radius</span>  <span class="n">ls_iter</span>  <span class="n">iter_time</span>  <span class="n">total_time</span>
+   <span class="mi">0</span>  <span class="mf">5.316645e+04</span>    <span class="mf">0.00e+00</span>    <span class="mf">3.86e+05</span>   <span class="mf">0.00e+00</span>   <span class="mf">0.00e+00</span>  <span class="mf">1.00e+04</span>        <span class="mi">0</span>    <span class="mf">1.27e-01</span>    <span class="mf">1.33e-01</span>
+   <span class="p">[</span><span class="n">iterations</span> <span class="n">omitted</span><span class="p">]</span>
+  <span class="mi">26</span>  <span class="mf">1.586235e+02</span>    <span class="mf">3.25e-03</span>    <span class="mf">1.79e+01</span>   <span class="mf">4.73e+06</span>   <span class="mf">9.11e-01</span>  <span class="mf">5.93e+13</span>       <span class="mi">25</span>    <span class="mf">1.35e-01</span>    <span class="mf">9.55e+00</span>
+<span class="n">Ceres</span> <span class="n">Solver</span> <span class="n">Report</span><span class="o">:</span> <span class="n">Iterations</span><span class="o">:</span> <span class="mi">26</span><span class="p">,</span> <span class="n">Initial</span> <span class="n">cost</span><span class="o">:</span> <span class="mf">5.316645e+04</span><span class="p">,</span> <span class="n">Final</span> <span class="n">cost</span><span class="o">:</span> <span class="mf">1.586235e+02</span><span class="p">,</span> <span class="n">Termination</span><span class="o">:</span> <span class="n">CONVERGENCE</span>
+<span class="o">------</span> <span class="n">end</span> <span class="n">bundle</span> <span class="n">adjustment</span> <span class="o">------</span>
+<span class="n">reprojection</span> <span class="n">error</span> <span class="p">(</span><span class="n">after</span> <span class="n">bundle</span> <span class="n">adjustment</span><span class="p">)</span><span class="o">:</span> <span class="mf">0.321569</span>
 </code></pre>
 </div>
 
