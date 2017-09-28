@@ -7,7 +7,7 @@ tags:
   - Computer Vision
 ---
 
-Bundle adjustment is used ubiquitously as the last step of most feature based estimation problems. The goal is to simultaneously optimize the motion and data (estimated 2D feature or 3D point position). Some popular open source libraries are: [sparse bundle adjustment](http://users.ics.forth.gr/~lourakis/sba/) (sba), [ceres solver](http://ceres-solver.org/index.html), [Multicore Bundle Adjustment](http://grail.cs.washington.edu/projects/mcba/), [Simple Sparse Bundle Adjustment (SSBA)](http://www.cvg.ethz.ch/research/chzach/opensource.html). In this post, I focus only on ceres solver. I'll add support for [sba](http://users.ics.forth.gr/~lourakis/sba/) in future release of open3DCV.
+Bundle adjustment is used ubiquitously as the last step of most feature based estimation problems. The goal is to simultaneously optimize the motion and data (estimated 2D feature or 3D point position). Some popular open source libraries are: [sparse bundle adjustment](http://users.ics.forth.gr/~lourakis/sba/) (sba), [ceres solver](http://ceres-solver.org/index.html), [Multicore Bundle Adjustment](http://grail.cs.washington.edu/projects/mcba/), [Simple Sparse Bundle Adjustment (SSBA)](http://www.cvg.ethz.ch/research/chzach/opensource.html). In this post, I focus only on ceres solver. I'll add support for [sba](http://users.ics.forth.gr/~lourakis/sba/) in future release of [open3DCV]({{site.url}}{{site.baseurl}}/open3DCV/).
 
 There are multiple ways to formulate the optimization problem, one way to write the cost function is as follows:
 
@@ -90,7 +90,7 @@ struct Open3DCVReprojectionError
 ```
 
 ### Data conversion
-In the [open3DCV]({{site.url}}/{{site.baseurl}}/blog/2017/05/3d-vision-lib) implementation of SfM, these information are originally stored in a class call `Graph`, thus we need methods for data conversion.
+In the [open3DCV]({{site.url}}/{{site.baseurl}}/open3DCV/) implementation of SfM, these information are originally stored in a class call `Graph`, thus we need methods for data conversion.
 
 ```cpp
 // Graph class

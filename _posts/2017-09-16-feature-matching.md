@@ -7,7 +7,7 @@ tags:
   - Computer Vision
 ---
 
-Feature matching is a critical part in many vision problems, such as estimation of various matrices (projection, homography, essential, fundamental, relative post, etc), tracking, SfM and SLAM, just to name a few. I will discuss here in this post implementation of the feature matching algorithms implemented in [open3DCV]({{site.url}}{{site.baseurl}}/blog/2017/05/3d-vision-lib/).
+Feature matching is a critical part in many vision problems, such as estimation of various matrices (projection, homography, essential, fundamental, relative post, etc), tracking, SfM and SLAM, just to name a few. I will discuss here in this post implementation of the feature matching algorithms implemented in [open3DCV]({{site.url}}{{site.baseurl}}/open3DCV/).
 
 ### Result
 <div class="img_row">

@@ -20,7 +20,7 @@ The internal data structure used to store image is a vector of `unsigned char`. 
     * draw line
     * draw dot (denoted by `+`, or `x`)
 
-I use the [CImg](http://cimg.eu) library for read/write `ppm`, and `jpeg` images. The additional support of `jpeg` depends on the [libjpeg](http://www.ijg.org) library. Support of `png` and `tiff` is possible, but relies on external libraries. The source code can be found in the `src/image` directory of [open3DCV]({{ site.url }}{{ site.baseurl }}/blog/2017/05/3d-vision-lib/). Below are the implementation
+I use the [CImg](http://cimg.eu) library for read/write `ppm`, and `jpeg` images. The additional support of `jpeg` depends on the [libjpeg](http://www.ijg.org) library. Support of `png` and `tiff` is possible, but relies on external libraries. The source code can be found in the `src/image` directory of [open3DCV]({{ site.url }}{{ site.baseurl }}/open3DCV/). Below are the implementation
 
 Here is the header file
 ```cpp
