@@ -10,9 +10,9 @@
   <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
-  <link rel="shortcut icon" href="//imkaywu.github.io/assets/img/favicon.ico">
-  <link rel="stylesheet" href="//imkaywu.github.io/assets/css/main.css">
-  <link rel="canonical" href="//imkaywu.github.io/tutorials/sfm/">
+  <link rel="shortcut icon" href="https://imkaywu.github.io/assets/img/favicon.ico">
+  <link rel="stylesheet" href="https://imkaywu.github.io/assets/css/main.css">
+  <link rel="canonical" href="https://imkaywu.github.io/tutorials/sfm/">
 </head>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
@@ -34,33 +34,33 @@
 
       <div class="trigger">
         <!-- About -->
-        <a class="page-link" href="//imkaywu.github.io/">about</a>
+        <a class="page-link" href="https://imkaywu.github.io/">about</a>
 
         <!-- Blog -->
-        <a class="page-link" href="//imkaywu.github.io/blog/">blog</a>
+        <a class="page-link" href="https://imkaywu.github.io/blog/">blog</a>
 
         <!-- Pages -->
         
           
         
           
-            <a class="page-link" href="//imkaywu.github.io/code/">code</a>
+            <a class="page-link" href="https://imkaywu.github.io/code/">code</a>
           
         
           
         
           
-            <a class="page-link" href="//imkaywu.github.io/links/">links</a>
+            <a class="page-link" href="https://imkaywu.github.io/links/">links</a>
           
         
           
         
           
-            <a class="page-link" href="//imkaywu.github.io/projects/">projects</a>
+            <a class="page-link" href="https://imkaywu.github.io/projects/">projects</a>
           
         
           
-            <a class="page-link" href="//imkaywu.github.io/tutorials/">tutorials</a>
+            <a class="page-link" href="https://imkaywu.github.io/tutorials/">tutorials</a>
           
         
           
@@ -73,7 +73,7 @@
         
 
         <!-- CV link -->
-        <!-- <a class="page-link" href="//imkaywu.github.io/assets/pdf/CV.pdf">vitae</a> -->
+        <!-- <a class="page-link" href="https://imkaywu.github.io/assets/pdf/CV.pdf">vitae</a> -->
 
       </div>
     </nav>
@@ -94,7 +94,7 @@
   </header>
 
   <article class="post-content Structure from Motion Tutorial clearfix">
-    <p>Structure from Motion is the holy grail of multiple view geometry. It is a process of estimating camera pose and retrieving a sparse reconstruction. In this tutorial, I’ll explain every step of this technique and provide detailed implementation using <a href="//imkaywu.github.io/blog/2017/05/3d-vision-lib/">open3DCV</a>. The source code can be found <a href="https://github.com/imkaywu/open3DCV/blob/master/test/sfm.cc">here</a>.</p>
+    <p>Structure from Motion is the holy grail of multiple view geometry. It is a process of estimating camera pose and retrieving a sparse reconstruction. In this tutorial, I’ll explain every step of this technique and provide detailed implementation using <a href="https://imkaywu.github.io/blog/2017/05/3d-vision-lib/">open3DCV</a>. The source code can be found <a href="https://github.com/imkaywu/open3DCV/blob/master/test/sfm.cc">here</a>.</p>
 
 <h3 id="table-of-content">Table of Content</h3>
 <ol>
@@ -319,7 +319,7 @@
 </div>
 
 <h5 id="estimate-pose-and-orientation-of-camera-pair-">Estimate pose and orientation of camera pair <a name="rt_from_e"></a></h5>
-<p>We can estimate the relative position and orientation of two cameras from Essential matrix, the detail is discussed in <a href="//imkaywu.github.io//blog/2017/09/relative-pose/">this post</a>.</p>
+<p>We can estimate the relative position and orientation of two cameras from Essential matrix, the detail is discussed in <a href="https://imkaywu.github.io//blog/2017/09/relative-pose/">this post</a>.</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// ------ estimate relative pose ------
 // ugly, but works for now
@@ -341,7 +341,7 @@
 <p>[TBD]</p>
 
 <h3 id="6-n-view-triangulation-">6. N-view triangulation <a name="triangulation"></a></h3>
-<p>The N-view triangulation is discussed in <a href="//imkaywu.github.io//blog/2017/07/triangulation/">this pose</a>. I use the <code class="highlighter-rouge">triangulate_nonlinear()</code> method to compute the 3D points.</p>
+<p>The N-view triangulation is discussed in <a href="https://imkaywu.github.io//blog/2017/07/triangulation/">this pose</a>. I use the <code class="highlighter-rouge">triangulate_nonlinear()</code> method to compute the 3D points.</p>
 
 <h4 id="class-graph-">class <code class="highlighter-rouge">Graph</code> <a name="class_graph"></a></h4>
 <p>The class <code class="highlighter-rouge">Graph</code> is heavily used hereafter, it is a data type that stores multiple camera views with sufficient amount of matching features, the corresponding camera poses/orientations, and sparse 3D points, the detailed definition is as follows</p>
@@ -389,7 +389,7 @@
 </div>
 
 <h3 id="7-bundle-adjustment-">7. Bundle adjustment <a name="bundle_adjustment"></a></h3>
-<p>The detailed bundle adjustment for SfM is discussed in <a href="//imkaywu.github.io//blog/2017/09/sfm-bundle-adjustment/">this post</a>.</p>
+<p>The detailed bundle adjustment for SfM is discussed in <a href="https://imkaywu.github.io//blog/2017/09/sfm-bundle-adjustment/">this post</a>.</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// ------ bundle adjustment ------
 </span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"------ start bundle adjustment ------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
@@ -670,15 +670,15 @@
 <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
 
 <!-- Load Common JS -->
-<script src="//imkaywu.github.io/assets/js/common.js"></script>
+<script src="https://imkaywu.github.io/assets/js/common.js"></script>
 
 
 
 
 
 <!-- Include custom icon fonts -->
-<link rel="stylesheet" href="//imkaywu.github.io/assets/css/font-awesome.min.css">
-<link rel="stylesheet" href="//imkaywu.github.io/assets/css/academicons.min.css">
+<link rel="stylesheet" href="https://imkaywu.github.io/assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://imkaywu.github.io/assets/css/academicons.min.css">
 
 <!-- Google Analytics -->
 <script>
