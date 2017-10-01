@@ -30,6 +30,7 @@ Structure from Motion is the holy grail of multiple view geometry. It is a proce
 8. [Two-view SfM](#2v_sfm)
 9. [N-view SfM](#nv_sfm)
 10. [Output](#output)
+11. [Results](#result)
 
 ### 0. Test images <a name="test_image"></a>
 I used the `bust` images from Jianxiong Xiao's SfM tutorial, and `templeSparseRing` dataset from Middlebury mview datasets. The directory of the test images is
@@ -536,3 +537,11 @@ reprojection error (after bundle adjustment): 0.321569
 ```
 
 ### 10. Output <a name="output"></a>
+
+### 11. Results <a name="result"></a>
+<div class="img_row">
+    <img class="col two" src="/assets/img/open3DCV/sfm/sfm_camera_pose.png" alt="" title="sfm results"/>
+</div>
+<div class="col three caption">
+    Estimated camera position and orientation
+</div>
