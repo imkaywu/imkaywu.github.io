@@ -56,6 +56,7 @@ title: "links"
 [Tianqi Chen](http://homes.cs.washington.edu/~tqchen/)\\
 [Noam Chomsky](https://chomsky.info)\\
 [Shuoyang Ding](http://cs.jhu.edu/~sding/)\\
+[Ethan Eade](http://ethaneade.com)\\
 [Matthew Fisher](https://graphics.stanford.edu/~mdfisher/index.html)\\
 [Sean Ryan Fanello](http://www.seanfanello.it)\\
 [Yasutaka Furukawa](http://www.cse.wustl.edu/~furukawa/)\\
@@ -86,6 +87,7 @@ title: "links"
 [Tombone's Computer Vision Blog](http://www.computervisionblog.com)\\
 [George Vogiatzis](http://george-vogiatzis.org)\\
 [Michael Wilber](http://mjwilber.org)\\
+[Kai Wolf](http://kai-wolf.me)\\
 [Junyuan Xie]()\\
 [Ziv Yaniv - Absolute orientation, ICP](http://yanivresearch.info)\\
 [Xiong Ying - PSBox, DfGBox](http://ying.xiongs.org/index.html)\\
@@ -221,6 +223,7 @@ title: "links"
 ## Dataset
 [Middlebury CV](http://vision.middlebury.edu)\\
 [DTU Robot Image Data Sets](http://roboimagedata.compute.dtu.dk)\\
+[ETH3D Benchmark](https://www.eth3d.net)\\
 [Stanford 3D Scanning Repository](http://graphics.stanford.edu/data/3Dscanrep/)\\
 [MERL BRDF Dataset](http://www.merl.com/brdf/)\\
 [Experimental Analysis of BRDF Models](http://people.csail.mit.edu/addy/research/brdf/)\\
