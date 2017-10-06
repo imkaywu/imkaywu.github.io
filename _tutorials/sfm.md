@@ -16,8 +16,8 @@ Structure from Motion is the holy grail of multiple view geometry. It is a proce
 2. [Feature detection](#feature_detection)
 3. [Descriptor extraction](#descriptor_extraction)
 4. [Feature matching](#feature_matching)
-5. [Relative pose estimation](#relative_pose)
     * [class `pair`](#class_pair)
+5. [Relative pose estimation](#relative_pose)
     * Known intrinsic parameters
         * [Essential matrix estimation](#essential)
         * [Fundamental matrix estimation](#fundamental)
@@ -28,6 +28,7 @@ Structure from Motion is the holy grail of multiple view geometry. It is a proce
     * [class `Graph`](#class_graph)
 7. [Bundle adjustment](#bundle_adjustment)
 8. [Two-view SfM](#2v_sfm)
+    * [Two-view filtering](#2v_filter)
 9. [N-view SfM](#nv_sfm)
 10. [Output](#output)
 11. [Results](#result)
@@ -44,16 +45,12 @@ string idir = "/Users/BlacKay/Documents/Projects/Images/test/bust/";
 
 ```cpp
 const int nimages = 5;
-vector<string> inames(nimages);
-inames[0] = idir + "B21.jpg";
-inames[1] = idir + "B22.jpg";
-inames[2] = idir + "B23.jpg";
-inames[3] = idir + "B24.jpg";
-inames[4] = idir + "B25.jpg";
+char iname[100];
 vector<Image> images(nimages);
 for (int i = 0; i < nimages; ++i)
 {
-    images[i].read(inames[i]);
+    sprintf(iname, "%s/%08d.jpg", idir.c_str(), i);
+    images[i].read(iname);
 }
 ```
 
@@ -92,7 +89,41 @@ for (int i = 0; i < nimages; ++i)
 The code above also extract descriptors from detected features.
 
 ### 4. Feature matching <a name="feature_matching"></a>
-See the matching results below
+
+#### class `Pair` <a name="class_pair"></a>
+This is the most important data structure in pairwise image matching. It stores everything regaring the two-view geometry, including matching features, fundamental matrix, essential matrix, relative rotation and translation, and so on. A brief summary of the class `Pair` and the declaration is as follows:
+* camera indexes: `ind_cam_`;
+* matching features: `matches_`;
+* fundamental and essential matrix: `F_`, `E_`;
+* intrinsics and extrinsics of the corresponding cameras: `intrinsics_mat_`, `extrinsics_mat_`.
+
+```cpp
+class Pair
+{
+public:
+    Pair();
+    Pair(const int cam1, const int cam2);
+    Pair(const int cam1, const int cam2, const std::vector<std::pair<Vec2f, Vec2f> >& matches);
+    Pair(const int cam1, const int cam2, const std::vector<DMatch>& matches);
+    ~Pair();
+    
+    void init(const int ind_cam1, const int ind_cam2);
+    void update_matches(const int* vote_inlier);
+    void update_intrinsics(const float f, const int w, const int h);
+    bool operator<(const Pair& rhs) const;
+    float baseline_angle() const;
+    
+    std::vector<int> cams_;
+    std::vector<DMatch> matches_;
+    Mat3f F_;
+    Mat3f E_;
+    std::vector<Mat3f> intrinsics_mat_;
+    std::vector<Mat34f> extrinsics_mat_;
+    
+};
+```
+
+The matching is an exhaustive matching between any two images in the set. See the matching results below
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier1_2.jpg" alt="" title="example image"/>
     <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier2_3.jpg" alt="" title="example image"/>
@@ -106,57 +137,37 @@ See the matching results below
 </div>
 
 ```cpp
-Matcher_Param matcher_param;
+vector<Pair> pairs;
+Matcher_Param matcher_param(0.6*0.6, 50);
 Matcher_Flann matcher(matcher_param);
-vector<vector<Match> > matches(nimages - 1, vector<Match>());
-for (int i = 0; i < nimages - 1; ++i)
-    for (int j = i + 1; i < nimages; ++j)
+vector<vector<vector<DMatch> > > matches_pairwise(nimages-1, vector<vector<DMatch> >());
+for (int i = 0; i < nimages-1; ++i)
+{
+  matches_pairwise[i].resize(nimages-(i+1));
+  for (int j = i+1; j < nimages; ++j)
+  {
+    vector<DMatch>& matches = matches_pairwise[i][j-(i+1)];
+    matcher.match(descs[i], descs[j], matches);
+    matcher.matching_keys(keys[i], keys[j], matches);
+    pairs.push_back(Pair(i, j, matches));
+    string fname = odir+"matching"+to_string(i+1)+"_"+to_string(j+1)+".txt";
+    write_matches(fname, matches);
+    if ((false))
     {
-        matcher.match(descs[i], descs[j], matches[i]);
-        if (is_vis)
-        {
-            draw_matches(images[i], keys[i], images[j], keys[j], matches[i], "matching"+to_string(i+1));
-        }
+      draw_matches(images[i], keys[i], images[j], keys[j], matches, odir+"matching"+to_string(i+1)+"_"+to_string(j+1));
     }
+    cout << "Image (" << i+1 << ", " << j+1 << "): matches number: " << matches.size() << endl;
+  }
+}
 ```
 
 ### 5. Relative pose estimation <a name="relative_pose"></a>
-
-#### class `pair` <a name="class_pair"></a>
-We first need to define a class `pair` to store information of an image pair, which is defined as follows:
-* camera indexes: `ind_cam_`;
-* matching features: `matches_`;
-* fundamental and essential matrix: `F_`, `E_`;
-* intrinsics and extrinsics of the corresponding cameras: `intrinsics_mat_`, `extrinsics_mat_`.
-
-```cpp
-class Pair
-{
-public:
-    Pair(const int ind_cam1, const int ind_cam2);
-    Pair(const int ind_cam1, const int ind_cam2, const std::vector<std::pair<Vec2f, Vec2f> >& matches);
-    ~Pair();
-    
-    void update_matches(const std::vector<std::pair<Vec2f, Vec2f> >& matches, const int* vote_inlier);
-    void update_intrinsics(const float f, const int w, const int h);
-    
-    std::vector<int> ind_cam_;
-    std::vector<std::pair<Vec2f, Vec2f> > matches_;
-    Mat3f F_;
-    Mat3f E_;
-    std::vector<Mat3f> intrinsics_mat_;
-    std::vector<Mat34f> extrinsics_mat_;
-    
-private:
-    void init(const int ind_cam1, const int ind_cam2);
-};
-```
 
 #### Known intrinsic parameters
 Assuming the cameras have been calibrated, thus euclidean (metric) reconstruction is possible.
 
 ##### Estimate essential matrix <a name="essential"></a>
-[TBD]
+5-point algorithm + RANSAC.
 
 ##### Estimate fundamental matrix <a name="fundamental"></a>
 I use the `7-point algorithm` + `RANSAC` to estimate fundamental matrix. See the results below.
@@ -173,47 +184,33 @@ I use the `7-point algorithm` + `RANSAC` to estimate fundamental matrix. See the
 </div>
 
 ```cpp
-// variable to store the coordinates of matching features
-vector<std::pair<Vec2f, Vec2f> > data;
-for (int i = 0; i < nimages - 1; ++i)
+for (int i = 0; i < pairs.size(); ++i)
 {
+    // ------ image pair ------
+    Pair& pair = pairs[i];
+    int nmatches = static_cast<int>(pair.matches_.size());
+    const int& ind1 = pair.cams_[0];
+    const int& ind2 = pair.cams_[1];
     cout << "*******************************" << endl;
-    cout << " 2-View SfM of image " << i << " and " << i + 1 << endl;
+    cout << " 2-View SfM of image " << ind1+1 << " and " << ind2+1 << endl;
     cout << "*******************************" << endl;
 
-    // ------ image pair ------
-    Pair pair(i, i+1);
-    int nmatches = static_cast<int>(matches[i].size());
-    for (int j = 0; j < nmatches; ++j)
-    {
-        Vec2f x1 = keys[i][matches[i][j].ikey1_].coords();
-        Vec2f x2 = keys[i+1][matches[i][j].ikey2_].coords();
-        std::pair<Vec2f, Vec2f> pair_data;
-        pair_data.first = x1;
-        pair_data.second = x2;
-        data.push_back(pair_data);
-    }
-    int *vote_inlier = new int[nmatches];
-    std::fill(vote_inlier, vote_inlier + nmatches, 1);
-    pair.update_matches(data, vote_inlier);
-    
     // ------ estimate Fundamental matrix ------
     vector<float> params(9);
-    Param_Estimator<std::pair<Vec2f, Vec2f>, float>* fund_esti = new open3DCV::Fundamental_Estimator(10e-8);
-    float ratio_inlier = Ransac<std::pair<Vec2f, Vec2f>, float>::estimate(fund_esti, pair.matches_, params, 0.99, vote_inlier);
+    int *vote_inlier = new int[nmatches];
+    Param_Estimator<DMatch, float>* fund_esti = new open3DCV::Fundamental_Estimator(1e-8);
+    float ratio_inlier = Ransac<DMatch, float>::estimate(fund_esti, pair.matches_, params, 0.99, vote_inlier);
     std::cout << "ratio of matching inliers: " << ratio_inlier << std::endl;
+    if (ratio_inlier < thresh_inlier_ratio)
+    {
+        delete [] vote_inlier;
+        continue;
+    }
     pair.F_ << params[0], params[3], params[6],
                params[1], params[4], params[7],
                params[2], params[5], params[8];
-    
-    // remove outliers
-    pair.update_matches(data, vote_inlier);
-    std::cout << "number of matches: " << pair.matches_.size() << std::endl;
 
-    // ------ other code ------
-
-    delete [] vote_inlier;
-    data.clear();
+    // ------ other more code ------
 }
 ```
 
@@ -222,10 +219,9 @@ We can estimate the relative position and orientation of two cameras from Essent
 
 ```cpp
 // ------ estimate relative pose ------
-// ugly, but works for now
-const float f = 719.5459;
-const int w = 480, h = 640;
-pair.update_intrinsics(f, w, h);
+const float f = 1520.4;
+const int w = 302.32*2, h = 246.87*2;
+pair.update_intrinsics(f, 0, 0);
 pair.E_ = pair.intrinsics_mat_[1].transpose() * pair.F_ * pair.intrinsics_mat_[0];
 Rt_from_E(pair);
 ```
@@ -267,9 +263,6 @@ public:
     
     int ncams_;
     std::vector<int> ind_cam_;
-    Mat3f F_;
-    Mat3f E_;
-    float f_;
     std::vector<Mat3f> intrinsics_mat_;
     std::vector<Mat34f> extrinsics_mat_;
     std::vector<Track> tracks_;
@@ -291,9 +284,13 @@ The detailed bundle adjustment for SfM is discussed in [this post]({{site.url}}/
 ```cpp
 // ------ bundle adjustment ------
 cout << "------ start bundle adjustment ------" << endl;
-Open3DCVBundleAdjustment(graph[i], BUNDLE_PRINCIPAL_POINT);
+Open3DCVBundleAdjustment(graph, BUNDLE_NO_INTRINSICS);
+if (update_focal)
+    Open3DCVBundleAdjustment(graph, BUNDLE_FOCAL_LENGTH);
+else if (update_intrinsic)
+    Open3DCVBundleAdjustment(graph, BUNDLE_INTRINSICS);
 cout << "------ end bundle adjustment ------" << endl;
-error = reprojection_error(graph[i]);
+error = reprojection_error(graph);
 std::cout << "reprojection error (after bundle adjustment): " << error << std::endl;
 ```
 
