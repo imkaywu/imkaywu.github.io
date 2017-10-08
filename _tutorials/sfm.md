@@ -534,11 +534,23 @@ reprojection error (after bundle adjustment): 0.321569
 ```
 
 ### 10. Output <a name="output"></a>
+For now, the camera parameters are written to PMVS-compatible files.
+
+```cpp
+write_sfm(global_graph);
+```
 
 ### 11. Results <a name="result"></a>
+The lack of detail in the first dataset could be due to the lack of surface texture.
 <div class="img_row">
-    <img class="col two" src="/assets/img/open3DCV/sfm/sfm_camera_pose.png" alt="" title="sfm results"/>
+    <img class="col one" src="/assets/img/open3DCV/sfm/sfm_camera_pose_bust.png" alt="" title="sfm results"/>
+    <img class="col two" src="/assets/img/open3DCV/sfm/bust.png" alt="" title="sfm results"/>
+</div>
+<div class="img_row">
+    <img class="col one" src="/assets/img/open3DCV/sfm/sfm_camera_pose_temple_front.png" alt="" title="sfm results"/>
+    <img class="col one" src="/assets/img/open3DCV/sfm/sfm_camera_pose_temple_top.png" alt="" title="sfm results"/>
+    <img class="col one" src="/assets/img/open3DCV/sfm/temple.png" alt="" title="sfm results"/>
 </div>
 <div class="col three caption">
-    Estimated camera position and orientation
+    Estimated camera position and orientation, and the dense reconstruction result using PMVS
 </div>
