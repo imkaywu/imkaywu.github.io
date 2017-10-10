@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Computer Vision Tutorial
+title: Open3DCV Implementation Tutorials
 categories: 
   - Research
 tags:
