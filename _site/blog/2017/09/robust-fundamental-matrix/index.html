@@ -108,7 +108,32 @@
 </div>
 
 <h3 id="implementation">Implementation</h3>
-<p>In this specific example, type <code class="highlighter-rouge">T</code> is <code class="highlighter-rouge">std::pair&lt;Vec2f, Vec2f&gt;</code>, <code class="highlighter-rouge">S</code> is <code class="highlighter-rouge">float</code>.</p>
+<p>In this specific example, type <code class="highlighter-rouge">T</code> is <code class="highlighter-rouge">DMatch</code>, <code class="highlighter-rouge">S</code> is <code class="highlighter-rouge">float</code>, where <code class="highlighter-rouge">DMatch</code> is a datatype defined in open3DCV, that is designed to handle pairwise matching results. The definition of this datatype is as follows:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">std::pair&lt;int, int&gt; ind_key_</code> stores the index of the matching keypoints;</li>
+  <li><code class="highlighter-rouge">std::pair&lt;Vec2f, Vec2f&gt; point_</code> stores the positions of the matching keypoints.</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DMatch</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">DMatch</span> <span class="p">()</span> <span class="p">{};</span>
+    <span class="n">DMatch</span> <span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">r_ikey1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">r_ikey2</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">dist</span><span class="p">)</span> <span class="o">:</span>
+        <span class="n">ind_key_</span><span class="p">(</span><span class="n">r_ikey1</span><span class="p">,</span> <span class="n">r_ikey2</span><span class="p">),</span> <span class="n">dist_</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="p">{};</span>
+    <span class="n">DMatch</span> <span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">r_ikey1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">r_ikey2</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vec2f</span> <span class="n">r_pt1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vec2f</span> <span class="n">r_pt2</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">dist</span><span class="p">)</span> <span class="o">:</span>
+        <span class="n">ind_key_</span><span class="p">(</span><span class="n">r_ikey1</span><span class="p">,</span> <span class="n">r_ikey2</span><span class="p">),</span> <span class="n">point_</span><span class="p">(</span><span class="n">r_pt1</span><span class="p">,</span> <span class="n">r_pt2</span><span class="p">),</span> <span class="n">dist_</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="p">{};</span>
+    <span class="n">DMatch</span> <span class="p">(</span><span class="k">const</span> <span class="n">DMatch</span><span class="o">&amp;</span> <span class="n">match</span><span class="p">)</span> <span class="o">:</span>
+        <span class="n">ind_key_</span><span class="p">(</span><span class="n">match</span><span class="p">.</span><span class="n">ind_key_</span><span class="p">),</span> <span class="n">point_</span><span class="p">(</span><span class="n">match</span><span class="p">.</span><span class="n">point_</span><span class="p">),</span> <span class="n">dist_</span><span class="p">(</span><span class="n">match</span><span class="p">.</span><span class="n">dist_</span><span class="p">)</span> <span class="p">{};</span>
+    
+    <span class="k">const</span> <span class="kt">float</span><span class="o">&amp;</span> <span class="n">dist</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">ind_key_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="p">,</span> <span class="n">Vec2f</span><span class="o">&gt;</span> <span class="n">point_</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">dist_</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre>
+</div>
 
 <h3 id="header-file">Header file</h3>
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#ifndef fundamental_h_
@@ -122,30 +147,26 @@
 
 <span class="k">namespace</span> <span class="n">open3DCV</span>
 <span class="p">{</span>
+    <span class="k">class</span> <span class="nc">Fundamental_Estimator</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Param_Estimator</span><span class="o">&lt;</span><span class="n">DMatch</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span>
+    <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+        <span class="n">Fundamental_Estimator</span><span class="p">();</span>
+        <span class="n">Fundamental_Estimator</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">thresh</span><span class="p">);</span>
+        
+        <span class="kt">void</span> <span class="n">estimate</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">DMatch</span><span class="o">&gt;&amp;</span> <span class="n">data</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&amp;</span> <span class="n">params</span><span class="p">);</span>
+        
+        <span class="kt">void</span> <span class="n">ls_estimate</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">DMatch</span><span class="o">&gt;&amp;</span> <span class="n">data</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&amp;</span> <span class="n">params</span><span class="p">);</span>
+        
+        <span class="kt">int</span> <span class="n">check_inlier</span><span class="p">(</span><span class="n">DMatch</span><span class="o">&amp;</span> <span class="n">data</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&amp;</span> <span class="n">params</span><span class="p">);</span>
 
-<span class="k">class</span> <span class="nc">Fundamental_Estimator</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Param_Estimator</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="p">,</span> <span class="n">Vec2f</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span>
-<span class="p">{</span>
-<span class="k">public</span><span class="o">:</span>
-    
-    <span class="n">Fundamental_Estimator</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="n">thresh</span><span class="p">);</span>
-    
-    <span class="kt">void</span> <span class="n">estimate</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="p">,</span> <span class="n">Vec2f</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">data</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&amp;</span> <span class="n">params</span><span class="p">);</span>
-    
-    <span class="kt">void</span> <span class="n">ls_estimate</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="p">,</span> <span class="n">Vec2f</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">data</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&amp;</span> <span class="n">params</span><span class="p">);</span>
-    
-    <span class="kt">int</span> <span class="n">check_inliers</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&amp;</span> <span class="n">params</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="p">,</span> <span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">data</span><span class="p">);</span>
-
-    
-<span class="k">private</span><span class="o">:</span>
-    
-    <span class="kt">void</span> <span class="n">fund_seven_pts</span> <span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">x1</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">x2</span><span class="p">,</span> <span class="n">Mat3f</span><span class="o">&amp;</span> <span class="n">F</span><span class="p">);</span>
-    
-    <span class="kt">void</span> <span class="n">fund_eight_pts</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">x1</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">x2</span><span class="p">,</span> <span class="n">Mat3f</span><span class="o">&amp;</span> <span class="n">F</span><span class="p">);</span>
-    
-    <span class="kt">float</span> <span class="n">error_thresh_</span><span class="p">;</span>
-
-<span class="p">};</span>
-    
+    <span class="k">private</span><span class="o">:</span>
+        
+        <span class="kt">void</span> <span class="n">fund_seven_pts</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">x1</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">x2</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat3f</span><span class="o">&gt;&amp;</span> <span class="n">F</span><span class="p">);</span>
+        
+        <span class="kt">void</span> <span class="n">fund_eight_pts</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">x1</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vec2f</span><span class="o">&gt;&amp;</span> <span class="n">x2</span><span class="p">,</span> <span class="n">Mat3f</span><span class="o">&amp;</span> <span class="n">F</span><span class="p">);</span>
+        
+        <span class="kt">float</span> <span class="n">error_thresh_</span><span class="p">;</span>
+    <span class="p">};</span>    
 <span class="p">}</span>
 
 <span class="cp">#endif

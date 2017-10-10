@@ -7,7 +7,7 @@ tags:
   - Computer Vision
 ---
 
-RANSAC is short for Random SAmple Consensus, which is an iterative method to estimate parameters of a mathematical model from a set of observed data that contains outliers. It can be incorporated to estimate many key matrices in vision, such as homography, fundamental/essential matrix, etc. This post aims to develop a general framework so that RANSAC could be easier applied to existing estimation algorithms.
+RANSAC is short for Random SAmple Consensus, which is an iterative method to estimate parameters of a mathematical model from a set of observed data that contains outliers. It can be incorporated to estimate many key matrices in vision, such as homography, fundamental/essential matrix, etc. This post aims to develop a general framework so that RANSAC could be easier applied to existing estimation algorithms. The code is modified from the code originally written by [Ziv Yaniv](http://yanivresearch.info).
 
 There are two separate classes:
 * Parameter_Estimator: this is a super-class that each estimation class need to extend. It defines the interfaces for estimating parameters of the model. Classes inherit from this class are used by the `Ransac` class to perform robust parameter estimation.

@@ -34,17 +34,17 @@ Structure from Motion is the holy grail of multiple view geometry. It is a proce
 11. [Results](#result)
 
 ### 0. Test images <a name="test_image"></a>
-I used the `bust` images from Jianxiong Xiao's SfM tutorial, and `templeSparseRing` dataset from Middlebury mview datasets. The directory of the test images is
+I used the `bust` images from Jianxiong Xiao's SfM tutorial, and `templeRing` dataset from Middlebury mview datasets. The directory of the test images is
 
 ```cpp
 string idir = "/Users/BlacKay/Documents/Projects/Images/test/bust/";
-// string idir = "/Users/BlacKay/Documents/Projects/Images/test/templeSparseRing/";
+string idir = "/Users/BlacKay/Documents/Projects/Images/test/templeRing/";
 ```
 
 ### 1. Image IO <a name="image_io"></a>
 
 ```cpp
-const int nimages = 5;
+const int nimages = 10;
 char iname[100];
 vector<Image> images(nimages);
 for (int i = 0; i < nimages; ++i)
@@ -304,20 +304,6 @@ For each `Graph` instance, we repeat the step 1-7 to compute both camera paramet
 ratio of matching inliers: 0.988506
 number of matches: 172
 reprojection error (before bundle adjustment): 3.87837
------- start bundle adjustment ------
-iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
-   0  2.885275e+03    0.00e+00    4.96e+05   0.00e+00   0.00e+00  1.00e+04        0    3.84e-02    4.09e-02
-   1  1.967958e+02    2.69e+03    2.71e+02   6.75e+01   1.00e+00  3.00e+04        2    2.11e-01    2.52e-01
-   2  1.930865e+02    3.71e+00    1.84e+02   7.41e+01   1.00e+00  9.00e+04        4    2.11e-01    4.64e-01
-   3  1.922473e+02    8.39e-01    1.40e+03   1.44e+01   1.00e+00  2.70e+05        4    3.42e-02    4.98e-01
-   4  2.242285e+02   -3.20e+01    1.95e+04   5.30e+01   9.87e-01  8.10e+05        9    3.54e-02    5.33e-01
-   5  1.879325e+02    3.63e+01    1.50e+02   3.25e+01   1.00e+00  2.43e+06        3    3.41e-02    5.67e-01
-   6  1.947733e+02   -6.84e+00    9.32e+03   4.59e+01   9.84e-01  7.29e+06        9    3.85e-02    6.06e-01
-   7  1.873827e+02    7.39e+00    3.45e+01   1.17e+01   1.00e+00  2.19e+07        3    3.73e-02    6.43e-01
-   8  1.873775e+02    5.22e-03    1.56e+02   5.25e+00   9.84e-01  6.56e+07        9    4.01e-02    6.84e-01
-   9  1.873755e+02    1.94e-03    3.41e-01   2.34e-01   1.00e+00  1.97e+08        9    4.21e-02    7.26e-01
-Ceres Solver Report: Iterations: 9, Initial cost: 2.885275e+03, Final cost: 1.873755e+02, Termination: CONVERGENCE
------- end bundle adjustment ------
 reprojection error (after bundle adjustment): 0.43175
 *******************************
  2-View SfM of image 1 and 2
@@ -325,20 +311,6 @@ reprojection error (after bundle adjustment): 0.43175
 ratio of matching inliers: 0.916667
 number of matches: 110
 reprojection error (before bundle adjustment): 2.25564
------- start bundle adjustment ------
-iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
-   0  7.923923e+02    0.00e+00    1.81e+05   0.00e+00   0.00e+00  1.00e+04        0    1.92e-02    2.02e-02
-   1  8.861546e+01    7.04e+02    2.30e+02   1.79e+01   9.87e-01  3.00e+04        2    1.44e-01    1.64e-01
-   2  8.837636e+01    2.39e-01    2.77e+02   1.17e+00   9.87e-01  9.00e+04        3    1.21e-01    2.85e-01
-   3  8.811263e+01    2.64e-01    5.18e+03   1.05e+01   9.85e-01  2.70e+05        8    1.92e-02    3.04e-01
-   4  9.234304e+01   -4.23e+00    1.23e+04   1.62e+01   9.77e-01  8.10e+05        7    2.07e-02    3.25e-01
-   5  9.005855e+01    2.28e+00    7.36e+03   1.24e+01   9.73e-01  2.43e+06        7    1.99e-02    3.45e-01
-   6  8.677939e+01    3.28e+00    1.15e+03   4.87e+00   9.73e-01  7.29e+06        7    1.96e-02    3.65e-01
-   7  8.661048e+01    1.69e-01    4.21e+01   1.31e+00   9.99e-01  2.19e+07        7    2.20e-02    3.87e-01
-   8  8.661011e+01    3.66e-04    6.15e+01   1.26e+00   9.73e-01  6.56e+07        7    2.20e-02    4.09e-01
-   9  8.660974e+01    3.73e-04    6.49e+00   4.53e-01   9.73e-01  1.97e+08        7    2.26e-02    4.31e-01
-Ceres Solver Report: Iterations: 9, Initial cost: 7.923923e+02, Final cost: 8.660974e+01, Termination: CONVERGENCE
------- end bundle adjustment ------
 reprojection error (after bundle adjustment): 0.381238
 *******************************
  2-View SfM of image 2 and 3
@@ -346,18 +318,6 @@ reprojection error (after bundle adjustment): 0.381238
 ratio of matching inliers: 0.967742
 number of matches: 120
 reprojection error (before bundle adjustment): 2.01501
------- start bundle adjustment ------
-iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
-   0  5.076611e+02    0.00e+00    1.77e+05   0.00e+00   0.00e+00  1.00e+04        0    2.20e-02    2.31e-02
-   1  1.520502e+01    4.92e+02    1.94e+02   2.60e+00   1.00e+00  3.00e+04        2    1.39e-01    1.62e-01
-   2  1.435592e+01    8.49e-01    1.50e+02   4.68e+00   1.00e+00  9.00e+04       10    2.49e-02    1.87e-01
-   3  1.431633e+01    3.96e-02    4.29e+01   2.89e+00   1.00e+00  2.70e+05        9    2.89e-02    2.16e-01
-   4  1.430186e+01    1.45e-02    5.72e+01   3.77e+00   1.00e+00  8.10e+05        7    3.23e-02    2.48e-01
-   5  1.429232e+01    9.54e-03    4.04e+01   2.46e+00   1.00e+00  2.43e+06        7    2.29e-02    2.71e-01
-   6  1.428941e+01    2.91e-03    4.77e+00   1.09e+00   1.00e+00  7.29e+06        9    2.17e-02    2.93e-01
-   7  1.428935e+01    5.70e-05    4.03e-01   4.41e-02   1.00e+00  2.19e+07        2    2.10e-02    3.14e-01
-Ceres Solver Report: Iterations: 7, Initial cost: 5.076611e+02, Final cost: 1.428935e+01, Termination: CONVERGENCE
------- end bundle adjustment ------
 reprojection error (after bundle adjustment): 0.238207
 *******************************
  2-View SfM of image 3 and 4
@@ -365,19 +325,6 @@ reprojection error (after bundle adjustment): 0.238207
 ratio of matching inliers: 0.840426
 number of matches: 79
 reprojection error (before bundle adjustment): 1.19674
------- start bundle adjustment ------
-iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
-   0  1.606857e+02    0.00e+00    7.20e+04   0.00e+00   0.00e+00  1.00e+04        0    1.39e-02    1.48e-02
-   1  6.570561e+00    1.54e+02    1.25e+01   6.56e+00   1.00e+00  3.00e+04        3    8.53e-02    1.00e-01
-   2  6.563225e+00    7.34e-03    4.53e-01   8.34e-01   1.00e+00  9.00e+04        7    7.00e-02    1.70e-01
-   3  6.553658e+00    9.57e-03    1.51e+01   2.09e+00   1.00e+00  2.70e+05        5    1.48e-02    1.85e-01
-   4  6.541664e+00    1.20e-02    6.03e+01   5.22e+00   1.00e+00  8.10e+05        8    1.43e-02    1.99e-01
-   5  6.561159e+00   -1.95e-02    5.65e+01   7.57e+00   9.99e-01  2.43e+06        8    1.39e-02    2.13e-01
-   6  6.520189e+00    4.10e-02    2.92e+01   5.26e+00   9.99e-01  7.29e+06        8    1.43e-02    2.28e-01
-   7  6.506048e+00    1.41e-02    3.96e+00   1.42e+00   9.99e-01  2.19e+07        9    1.41e-02    2.42e-01
-   8  6.505955e+00    9.28e-05    4.77e-02   1.43e-01   1.00e+00  6.56e+07        9    1.45e-02    2.56e-01
-Ceres Solver Report: Iterations: 8, Initial cost: 1.606857e+02, Final cost: 6.505955e+00, Termination: CONVERGENCE
------- end bundle adjustment ------
 reprojection error (after bundle adjustment): 0.178282
 ```
 
@@ -499,37 +446,16 @@ void Graph::merge_graph(Graph &graph1, Graph &graph2)
  N-View SfM: merging graph 0-1
 *******************************
 reprojection error (before bundle adjustment): 1.76187
------- start bundle adjustment ------
-iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
-   0  1.982806e+03    0.00e+00    2.31e+05   0.00e+00   0.00e+00  1.00e+04        0    7.02e-02    7.25e-02
-   [iterations omitted]
-  13  1.143924e+02    6.80e-03    1.26e+01   3.70e-01   9.99e-01  1.59e+10        9    8.41e-02    2.26e+00
-Ceres Solver Report: Iterations: 13, Initial cost: 1.982806e+03, Final cost: 1.143924e+02, Termination: CONVERGENCE
------- end bundle adjustment ------
 reprojection error (after bundle adjustment): 0.340547
 *******************************
  N-View SfM: merging graph 0-2
 *******************************
 reprojection error (before bundle adjustment): 3.91939
------- start bundle adjustment ------
-iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
-   0  1.464648e+04    0.00e+00    7.46e+05   0.00e+00   0.00e+00  1.00e+04        0    1.24e-01    1.32e-01
-   [iterations omitted]
-  34  1.442173e+02    2.78e-03    8.02e+00   3.16e+06   9.77e-01  1.00e+16       14    1.07e-01    8.95e+00
-Ceres Solver Report: Iterations: 34, Initial cost: 1.464648e+04, Final cost: 1.442173e+02, Termination: CONVERGENCE
------- end bundle adjustment ------
 reprojection error (after bundle adjustment): 0.328052
 *******************************
  N-View SfM: merging graph 0-3
 *******************************
 reprojection error (before bundle adjustment): 4.75183
------- start bundle adjustment ------
-iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
-   0  5.316645e+04    0.00e+00    3.86e+05   0.00e+00   0.00e+00  1.00e+04        0    1.27e-01    1.33e-01
-   [iterations omitted]
-  26  1.586235e+02    3.25e-03    1.79e+01   4.73e+06   9.11e-01  5.93e+13       25    1.35e-01    9.55e+00
-Ceres Solver Report: Iterations: 26, Initial cost: 5.316645e+04, Final cost: 1.586235e+02, Termination: CONVERGENCE
------- end bundle adjustment ------
 reprojection error (after bundle adjustment): 0.321569
 ```
 
