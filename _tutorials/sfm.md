@@ -34,7 +34,8 @@ Structure from Motion is like the holy grail of multiple view geometry. It is a 
 10. [Output](#output)
 11. [Results](#result)
 
-### 0. Test images <a name="test_image"></a>
+<a id="test_image"></a>
+### 0. Test images
 I used the `bust` images from Jianxiong Xiao's SfM tutorial, and `templeRing` dataset from Middlebury mview datasets. The directory of the test images is
 
 ```cpp
@@ -42,7 +43,8 @@ string idir = "/Users/BlacKay/Documents/Projects/Images/test/bust/";
 string idir = "/Users/BlacKay/Documents/Projects/Images/test/templeRing/";
 ```
 
-### 1. Image IO <a name="image_io"></a>
+<a id="image_io"></a>
+### 1. Image IO
 The image naming convention follows that of PMVS. For instance, the first image is named as `00000000.jpg`, the second is named as `00000001.jpg`, and so on.
 
 ```cpp
@@ -56,7 +58,8 @@ for (int i = 0; i < nimages; ++i)
 }
 ```
 
-### 2. Feature detection <a name="feature_detection"></a>
+<a id="feature_detection"></a>
+### 2. Feature detection
 The currently implemented feature detector is SIFT detector, and more feature detectors are under development. The configuration class `SiftParam` needs eight parameters to configure both SIFT detector and descriptor, the first five is responsible for the detector while the last three is responsible for the descriptor. The datatype `Keypoint` is used to hold the detected keypoint.
 
 ```cpp
@@ -85,10 +88,12 @@ for (int i = 0; i < nimages; ++i)
     Results of feature detection.
 </div>
 
-### 3. Descriptor extraction <a name="descriptor_extraction"></a>
+<a id="descriptor_extraction"></a>
+### 3. Descriptor extraction
 Feature descriptor is extracted per keypoint, though theoretically, more than one descriptor is possible (at most 4). Currently, only SIFT descriptor is implemented, but more descriptors are under developments. The last three parameters of the `SiftParam` class is responsible for the configuration of the SIFT descriptor. Each descriptor is a 128 vector which is hold by a type `Vec` or `Vecf`. See the code above.
 
-### 4. Feature matching <a name="feature_matching"></a>
+<a id="feature_matching"></a>
+### 4. Feature matching
 Once features have been detected and descriptors extracted in each image, the system matches features between each pair of images in the input image set. The number of image pairs is $$\binom{N}{2}$$, where $$N$$ is the size of the image set. Let $$\{f_I\}$$ denote the set of features detected in image $$I$$ and $$d(f_I^m)$$ descriptor of feature $$f_I^m$$. For each pair of images $$I$$ and $$J$$, the system considers each feature $$f_I^m\in \{f_I\}$$ and finds its nearest neighbor $$f_J^n\in \{f_J\}$$:
 
 $$
@@ -97,7 +102,8 @@ $$
 
 where $$dist(\cdot, \cdot)$$ is a user-specified distance metric. This brute-force approach can be replaced by using an approximate nearest neighbour library, such as [FLANN](), [ANN](), [Nanoflann](), and so on. To make the matching results more robust, a bi-directional verification is performed, which requires that $$f_I^m$$ and $$f_J^n$$ need to be among the top $$K$$ matching points of one another. The information of a pair of matching keypoints is stored in a type `DMatch`, which is discussed below.
 
-#### class `DMatch` <a name="class_dmatch"></a>
+<a id="class_dmatch"></a>
+#### class `DMatch`
 The datatype `DMatch` holds the information of a pair of correspondening features, and is defined as follows:
 
 * `std::pair<int, int> ind_key_` holds the indexes of the matching keypoints;
@@ -123,7 +129,8 @@ public:
 };
 ```
 
-#### class `Pair` <a name="class_pair"></a>
+<a id="class_pair"></a>
+#### class `Pair` 
 Before heading to the next section of estimating the relative pose of an image pair, we first define the most fundmental data structure used in pairwise image matching, which is named `Pair`. It stores everything regaring the two-view geometry, including matching features, fundamental matrix, essential matrix, relative rotation and translation, and so on. A brief summary of the class `Pair` and the declaration is as follows:
 * camera indexes: `ind_cam_`;
 * matching features: `matches_`;
@@ -194,20 +201,24 @@ for (int i = 0; i < nimages-1; ++i)
 }
 ```
 
-### 5. Relative pose estimation <a name="relative_pose"></a>
+<a id="relative_pose"></a>
+### 5. Relative pose estimation
 For each pair of images with sufficient number of matches/correspondences, a relative pose estimation is performed, which is followed by a triangulation step, a bundle adjustment step, and then various verification steps to check if this pair of images holds enough information for subsequent steps, or if the estimated relative pose is accurate enough. This step is a crucial part of two-view SfM, and is generally divided into two groups, one with calibrated cameras, or known focal length, and one with uncalibrated cameras, or unknown focal length.
 
-#### Known intrinsic parameters <a name="known_intrinsics"></a>
+<a id="known_intrinsics"></a>
+#### Known intrinsic parameters
 SfM using calibrated cameras is the most common case in practice since the camera intrinsics remain fixed unless manually changed. This is the case where euclidean (metric) reconstruction is possible, whereas in the uncalibrated case, only projective reconstruction is possible.
 
-##### Estimate essential matrix <a name="essential"></a>
+<a id="essential"></a>
+##### Estimate essential matrix
 Essential matrix can be estimated using the `5-point algorithm` + `RANSAC`. This approach is still under development since currently the Essential Matrix is computed from the estimated Fundamental Matrix, the underlying theory is as follows:
 
 $$
 E = K_2^\top F K_1
 $$
 
-##### Estimate fundamental matrix <a name="fundamental"></a>
+<a id="fundamental"></a>
+##### Estimate fundamental matrix
 The Fundamental matrix can be estimated using the `7-point algorithm` + `RANSAC`. I choose `7-point algorithm` over `8-point algorithm` because it requires less data thus less iterations are needed to achieve the same probability of inliers. The theory and implementation of the estimation of [Fundamental matrix]({{site.url}}{{site.baseurl}}/blog/2017/06/fundamental-matrix/), [RANSAC]({{site.url}}{{site.baseurl}}/blog/2017/08/ransac-framework/), and [robust estimation of fundamental matrix using RANSAC]({{site.url}}{{site.baseurl}}/blog/2017/09/robust-fundamental-matrix/) are discussed in depth in the corresponding blog posts. The estimated matrices regarding the epipolar geometry are stored in the data structure `Pair` as mention previously. The source code of estimating fundamental matrix is as follows:
 
 ```cpp
@@ -252,7 +263,8 @@ for (int i = 0; i < pairs.size(); ++i)
     Results of fundamental matrix.
 </div>
 
-##### Rigid pose estimation from Essential matrix <a name="rigid_pose"></a>
+<a id="rigid_pose"></a>
+##### Rigid pose estimation from Essential matrix
 We can estimate the relative position and orientation of two cameras from Essential matrix, the theory and implementation are discussed in depth in [this post]({{site.url}}/{{site.baseurl}}/blog/2017/09/relative-pose/). The source code of estimating the rigid pose is as follows:
 
 ```cpp
@@ -264,19 +276,24 @@ pair.E_ = pair.intrinsics_mat_[1].transpose() * pair.F_ * pair.intrinsics_mat_[0
 Rt_from_E(pair);
 ```
 
-#### Unknown intrinsic parameters <a name="unknown_intrinsics"></a>
+<a id="unknown_intrinsics"></a>
+#### Unknown intrinsic parameters
 This is the case where uncalibrated cameras are used, and the scene is reconstructed up to a projective projection. This section is still under development.
 
-##### Estimate homography <a name="homography"></a>
+<a id="homography"></a>
+##### Estimate homography
 [TBD]
 
-##### Estimate focal length from homography <a name="f_from_homog"></a>
+<a id="f_from_homog"></a>
+##### Estimate focal length from homography
 [TBD]
 
-### 6. N-view triangulation <a name="triangulation"></a>
+<a id="triangulation"></a>
+### 6. N-view triangulation
 From calibrated cameras and correspondences, the positions of the 3D points can be estimated using N-view triangulation techniques. The theory and implementation of various triangulation techniques are discussed in depth in [this post]({{site.url}}/{{site.baseurl}}/blog/2017/07/triangulation/). Recall that we defined a data structure `Pair` for two-view case, a new data structure named `Graph` is defined for the N-view case.
 
-#### class `Graph` <a name="class_graph"></a>
+<a id="class_graph"></a>
+#### class `Graph`
 The class `Graph` is heavily used hereafter, it is a data structure that stores information of multiple cameras with sufficient amount of matching features, the corresponding camera poses/orientations, and a sparse 3D reconstruction, the detailed definition is as follows:
 
 * number of cameras: `ncams_`;
@@ -316,7 +333,8 @@ float error = reprojection_error(graph[i]);
 std::cout << "reprojection error (before bundle adjustment): " << error << std::endl;
 ```
 
-### 7. Bundle adjustment <a name="bundle_adjustment"></a>
+<a id="bundle_adjustment"></a>
+### 7. Bundle adjustment
 After successfully estimating the camera extrinsics as well as the 3D point positions, we proceed to optimize a reprojection error with respect to all estimated parameters. This process is known as [bundle adjustment](https://en.wikipedia.org/wiki/Bundle_adjustment), which is ubiquitously used as the last step in most feature-based estimation problems. The implementation of bundle adjustment of SfM using Ceres solver is discussed in [this post]({{site.url}}/{{site.baseurl}}/blog/2017/09/sfm-bundle-adjustment/).
 
 ```cpp
@@ -332,7 +350,8 @@ error = reprojection_error(graph);
 std::cout << "reprojection error (after bundle adjustment): " << error << std::endl;
 ```
 
-### 8. Two-view SfM <a name="2v_sfm"></a>
+<a id="2v_sfm"></a>
+### 8. Two-view SfM
 Two-view SfM is performed on each pair of images with sufficient amount of matches. The pseudocode of two-view SfM is as follows:
 
 ```
@@ -383,7 +402,8 @@ reprojection error (before bundle adjustment): 1.19674
 reprojection error (after bundle adjustment): 0.178282
 ```
 
-### 9. N-view SfM <a name="nv_sfm"></a>
+<a id="nv_sfm"></a>
+### 9. N-view SfM
 After two-view SfM, an iterative step that merges multiple graphs into a global graph is performed, the pseudocode of this process is as follows:
 
 ```
@@ -523,14 +543,16 @@ reprojection error (before bundle adjustment): 4.75183
 reprojection error (after bundle adjustment): 0.321569
 ```
 
-### 10. Output <a name="output"></a>
+<a id="output"></a>
+### 10. Output
 For now, the camera parameters are written to PMVS-compatible files.
 
 ```cpp
 write_sfm(global_graph);
 ```
 
-### 11. Results <a name="result"></a>
+<a id="result"></a>
+### 11. Results
 The lack of detail in the first dataset could be due to the lack of surface texture.
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/sfm/sfm_camera_pose_bust.png" alt="" title="sfm results"/>

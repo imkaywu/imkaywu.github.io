@@ -135,7 +135,8 @@
   <li><a href="#result">Results</a></li>
 </ol>
 
-<h3 id="0-test-images-">0. Test images <a name="test_image"></a></h3>
+<p><a id="test_image"></a></p>
+<h3 id="0-test-images">0. Test images</h3>
 <p>I used the <code class="highlighter-rouge">bust</code> images from Jianxiong Xiao’s SfM tutorial, and <code class="highlighter-rouge">templeRing</code> dataset from Middlebury mview datasets. The directory of the test images is</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">string</span> <span class="n">idir</span> <span class="o">=</span> <span class="s">"/Users/BlacKay/Documents/Projects/Images/test/bust/"</span><span class="p">;</span>
@@ -143,7 +144,8 @@
 </code></pre>
 </div>
 
-<h3 id="1-image-io-">1. Image IO <a name="image_io"></a></h3>
+<p><a id="image_io"></a></p>
+<h3 id="1-image-io">1. Image IO</h3>
 <p>The image naming convention follows that of PMVS. For instance, the first image is named as <code class="highlighter-rouge">00000000.jpg</code>, the second is named as <code class="highlighter-rouge">00000001.jpg</code>, and so on.</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="n">nimages</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
@@ -157,7 +159,8 @@
 </code></pre>
 </div>
 
-<h3 id="2-feature-detection-">2. Feature detection <a name="feature_detection"></a></h3>
+<p><a id="feature_detection"></a></p>
+<h3 id="2-feature-detection">2. Feature detection</h3>
 <p>The currently implemented feature detector is SIFT detector, and more feature detectors are under development. The configuration class <code class="highlighter-rouge">SiftParam</code> needs eight parameters to configure both SIFT detector and descriptor, the first five is responsible for the detector while the last three is responsible for the descriptor. The datatype <code class="highlighter-rouge">Keypoint</code> is used to hold the detected keypoint.</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">SiftParams</span> <span class="n">sift_param</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">10.0</span><span class="n">f</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">INFINITY</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
@@ -186,17 +189,20 @@
     Results of feature detection.
 </div>
 
-<h3 id="3-descriptor-extraction-">3. Descriptor extraction <a name="descriptor_extraction"></a></h3>
+<p><a id="descriptor_extraction"></a></p>
+<h3 id="3-descriptor-extraction">3. Descriptor extraction</h3>
 <p>Feature descriptor is extracted per keypoint, though theoretically, more than one descriptor is possible (at most 4). Currently, only SIFT descriptor is implemented, but more descriptors are under developments. The last three parameters of the <code class="highlighter-rouge">SiftParam</code> class is responsible for the configuration of the SIFT descriptor. Each descriptor is a 128 vector which is hold by a type <code class="highlighter-rouge">Vec</code> or <code class="highlighter-rouge">Vecf</code>. See the code above.</p>
 
-<h3 id="4-feature-matching-">4. Feature matching <a name="feature_matching"></a></h3>
+<p><a id="feature_matching"></a></p>
+<h3 id="4-feature-matching">4. Feature matching</h3>
 <p>Once features have been detected and descriptors extracted in each image, the system matches features between each pair of images in the input image set. The number of image pairs is <script type="math/tex">\binom{N}{2}</script>, where <script type="math/tex">N</script> is the size of the image set. Let <script type="math/tex">\{f_I\}</script> denote the set of features detected in image <script type="math/tex">I</script> and <script type="math/tex">d(f_I^m)</script> descriptor of feature <script type="math/tex">f_I^m</script>. For each pair of images <script type="math/tex">I</script> and <script type="math/tex">J</script>, the system considers each feature <script type="math/tex">f_I^m\in \{f_I\}</script> and finds its nearest neighbor <script type="math/tex">f_J^n\in \{f_J\}</script>:</p>
 
 <script type="math/tex; mode=display">f_J^n = argmin_{f_J^p\in \{f_J\}} dist(d(f_I^m), d(f_J^p))</script>
 
 <p>where <script type="math/tex">dist(\cdot, \cdot)</script> is a user-specified distance metric. This brute-force approach can be replaced by using an approximate nearest neighbour library, such as <a href="">FLANN</a>, <a href="">ANN</a>, <a href="">Nanoflann</a>, and so on. To make the matching results more robust, a bi-directional verification is performed, which requires that <script type="math/tex">f_I^m</script> and <script type="math/tex">f_J^n</script> need to be among the top <script type="math/tex">K</script> matching points of one another. The information of a pair of matching keypoints is stored in a type <code class="highlighter-rouge">DMatch</code>, which is discussed below.</p>
 
-<h4 id="class-dmatch-">class <code class="highlighter-rouge">DMatch</code> <a name="class_dmatch"></a></h4>
+<p><a id="class_dmatch"></a></p>
+<h4 id="class-dmatch">class <code class="highlighter-rouge">DMatch</code></h4>
 <p>The datatype <code class="highlighter-rouge">DMatch</code> holds the information of a pair of correspondening features, and is defined as follows:</p>
 
 <ul>
@@ -224,7 +230,8 @@
 </code></pre>
 </div>
 
-<h4 id="class-pair-">class <code class="highlighter-rouge">Pair</code> <a name="class_pair"></a></h4>
+<p><a id="class_pair"></a></p>
+<h4 id="class-pair">class <code class="highlighter-rouge">Pair</code></h4>
 <p>Before heading to the next section of estimating the relative pose of an image pair, we first define the most fundmental data structure used in pairwise image matching, which is named <code class="highlighter-rouge">Pair</code>. It stores everything regaring the two-view geometry, including matching features, fundamental matrix, essential matrix, relative rotation and translation, and so on. A brief summary of the class <code class="highlighter-rouge">Pair</code> and the declaration is as follows:</p>
 <ul>
   <li>camera indexes: <code class="highlighter-rouge">ind_cam_</code>;</li>
@@ -297,18 +304,22 @@
 </code></pre>
 </div>
 
-<h3 id="5-relative-pose-estimation-">5. Relative pose estimation <a name="relative_pose"></a></h3>
+<p><a id="relative_pose"></a></p>
+<h3 id="5-relative-pose-estimation">5. Relative pose estimation</h3>
 <p>For each pair of images with sufficient number of matches/correspondences, a relative pose estimation is performed, which is followed by a triangulation step, a bundle adjustment step, and then various verification steps to check if this pair of images holds enough information for subsequent steps, or if the estimated relative pose is accurate enough. This step is a crucial part of two-view SfM, and is generally divided into two groups, one with calibrated cameras, or known focal length, and one with uncalibrated cameras, or unknown focal length.</p>
 
-<h4 id="known-intrinsic-parameters-">Known intrinsic parameters <a name="known_intrinsics"></a></h4>
+<p><a id="known_intrinsics"></a></p>
+<h4 id="known-intrinsic-parameters">Known intrinsic parameters</h4>
 <p>SfM using calibrated cameras is the most common case in practice since the camera intrinsics remain fixed unless manually changed. This is the case where euclidean (metric) reconstruction is possible, whereas in the uncalibrated case, only projective reconstruction is possible.</p>
 
-<h5 id="estimate-essential-matrix-">Estimate essential matrix <a name="essential"></a></h5>
+<p><a id="essential"></a></p>
+<h5 id="estimate-essential-matrix">Estimate essential matrix</h5>
 <p>Essential matrix can be estimated using the <code class="highlighter-rouge">5-point algorithm</code> + <code class="highlighter-rouge">RANSAC</code>. This approach is still under development since currently the Essential Matrix is computed from the estimated Fundamental Matrix, the underlying theory is as follows:</p>
 
 <script type="math/tex; mode=display">E = K_2^\top F K_1</script>
 
-<h5 id="estimate-fundamental-matrix-">Estimate fundamental matrix <a name="fundamental"></a></h5>
+<p><a id="fundamental"></a></p>
+<h5 id="estimate-fundamental-matrix">Estimate fundamental matrix</h5>
 <p>The Fundamental matrix can be estimated using the <code class="highlighter-rouge">7-point algorithm</code> + <code class="highlighter-rouge">RANSAC</code>. I choose <code class="highlighter-rouge">7-point algorithm</code> over <code class="highlighter-rouge">8-point algorithm</code> because it requires less data thus less iterations are needed to achieve the same probability of inliers. The theory and implementation of the estimation of <a href="https://imkaywu.github.io/blog/2017/06/fundamental-matrix/">Fundamental matrix</a>, <a href="https://imkaywu.github.io/blog/2017/08/ransac-framework/">RANSAC</a>, and <a href="https://imkaywu.github.io/blog/2017/09/robust-fundamental-matrix/">robust estimation of fundamental matrix using RANSAC</a> are discussed in depth in the corresponding blog posts. The estimated matrices regarding the epipolar geometry are stored in the data structure <code class="highlighter-rouge">Pair</code> as mention previously. The source code of estimating fundamental matrix is as follows:</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pairs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
@@ -353,7 +364,8 @@
     Results of fundamental matrix.
 </div>
 
-<h5 id="rigid-pose-estimation-from-essential-matrix-">Rigid pose estimation from Essential matrix <a name="rigid_pose"></a></h5>
+<p><a id="rigid_pose"></a></p>
+<h5 id="rigid-pose-estimation-from-essential-matrix">Rigid pose estimation from Essential matrix</h5>
 <p>We can estimate the relative position and orientation of two cameras from Essential matrix, the theory and implementation are discussed in depth in <a href="https://imkaywu.github.io//blog/2017/09/relative-pose/">this post</a>. The source code of estimating the rigid pose is as follows:</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// ------ estimate relative pose ------
@@ -365,19 +377,24 @@
 </code></pre>
 </div>
 
-<h4 id="unknown-intrinsic-parameters-">Unknown intrinsic parameters <a name="unknown_intrinsics"></a></h4>
+<p><a id="unknown_intrinsics"></a></p>
+<h4 id="unknown-intrinsic-parameters">Unknown intrinsic parameters</h4>
 <p>This is the case where uncalibrated cameras are used, and the scene is reconstructed up to a projective projection. This section is still under development.</p>
 
-<h5 id="estimate-homography-">Estimate homography <a name="homography"></a></h5>
+<p><a id="homography"></a></p>
+<h5 id="estimate-homography">Estimate homography</h5>
 <p>[TBD]</p>
 
-<h5 id="estimate-focal-length-from-homography-">Estimate focal length from homography <a name="f_from_homog"></a></h5>
+<p><a id="f_from_homog"></a></p>
+<h5 id="estimate-focal-length-from-homography">Estimate focal length from homography</h5>
 <p>[TBD]</p>
 
-<h3 id="6-n-view-triangulation-">6. N-view triangulation <a name="triangulation"></a></h3>
+<p><a id="triangulation"></a></p>
+<h3 id="6-n-view-triangulation">6. N-view triangulation</h3>
 <p>From calibrated cameras and correspondences, the positions of the 3D points can be estimated using N-view triangulation techniques. The theory and implementation of various triangulation techniques are discussed in depth in <a href="https://imkaywu.github.io//blog/2017/07/triangulation/">this post</a>. Recall that we defined a data structure <code class="highlighter-rouge">Pair</code> for two-view case, a new data structure named <code class="highlighter-rouge">Graph</code> is defined for the N-view case.</p>
 
-<h4 id="class-graph-">class <code class="highlighter-rouge">Graph</code> <a name="class_graph"></a></h4>
+<p><a id="class_graph"></a></p>
+<h4 id="class-graph">class <code class="highlighter-rouge">Graph</code></h4>
 <p>The class <code class="highlighter-rouge">Graph</code> is heavily used hereafter, it is a data structure that stores information of multiple cameras with sufficient amount of matching features, the corresponding camera poses/orientations, and a sparse 3D reconstruction, the detailed definition is as follows:</p>
 
 <ul>
@@ -419,7 +436,8 @@
 </code></pre>
 </div>
 
-<h3 id="7-bundle-adjustment-">7. Bundle adjustment <a name="bundle_adjustment"></a></h3>
+<p><a id="bundle_adjustment"></a></p>
+<h3 id="7-bundle-adjustment">7. Bundle adjustment</h3>
 <p>After successfully estimating the camera extrinsics as well as the 3D point positions, we proceed to optimize a reprojection error with respect to all estimated parameters. This process is known as <a href="https://en.wikipedia.org/wiki/Bundle_adjustment">bundle adjustment</a>, which is ubiquitously used as the last step in most feature-based estimation problems. The implementation of bundle adjustment of SfM using Ceres solver is discussed in <a href="https://imkaywu.github.io//blog/2017/09/sfm-bundle-adjustment/">this post</a>.</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// ------ bundle adjustment ------
@@ -435,7 +453,8 @@
 </code></pre>
 </div>
 
-<h3 id="8-two-view-sfm-">8. Two-view SfM <a name="2v_sfm"></a></h3>
+<p><a id="2v_sfm"></a></p>
+<h3 id="8-two-view-sfm">8. Two-view SfM</h3>
 <p>Two-view SfM is performed on each pair of images with sufficient amount of matches. The pseudocode of two-view SfM is as follows:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>Require: internal camera calibration (possibly from EXIF data)
@@ -486,7 +505,8 @@ end for
 </code></pre>
 </div>
 
-<h3 id="9-n-view-sfm-">9. N-view SfM <a name="nv_sfm"></a></h3>
+<p><a id="nv_sfm"></a></p>
+<h3 id="9-n-view-sfm">9. N-view SfM</h3>
 <p>After two-view SfM, an iterative step that merges multiple graphs into a global graph is performed, the pseudocode of this process is as follows:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>Require: internal camera calibration (possibly from EXIF data)
@@ -626,14 +646,16 @@ end for
 </code></pre>
 </div>
 
-<h3 id="10-output-">10. Output <a name="output"></a></h3>
+<p><a id="output"></a></p>
+<h3 id="10-output">10. Output</h3>
 <p>For now, the camera parameters are written to PMVS-compatible files.</p>
 
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">write_sfm</span><span class="p">(</span><span class="n">global_graph</span><span class="p">);</span>
 </code></pre>
 </div>
 
-<h3 id="11-results-">11. Results <a name="result"></a></h3>
+<p><a id="result"></a></p>
+<h3 id="11-results">11. Results</h3>
 <p>The lack of detail in the first dataset could be due to the lack of surface texture.</p>
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/sfm/sfm_camera_pose_bust.png" alt="" title="sfm results" />
