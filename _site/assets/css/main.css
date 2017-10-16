@@ -773,15 +773,19 @@ footer {
   vertical-align: middle;
   width: 33.33%; }
   .project .thumbnail {
+    position: relative;
     overflow: hidden;
     height: 200px;
     width: 100%; }
     .project .thumbnail img {
-      height: auto;
-      position: relative;
-      left: -25%;
-      top: -5%;
-      width: 500px; }
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      height: 100%;
+      width: auto;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%); }
     .project .thumbnail a {
       float: left;
       height: 230px;
@@ -796,10 +800,10 @@ footer {
         right: 0;
         background: rgba(0, 0, 0, 0.4);
         color: #e8e8e8;
-        padding: 40px;
+        padding: 24px;
         text-align: center; }
         .project .thumbnail a span h1 {
-          font-size: 1.5rem;
+          font-size: 1rem;
           margin: 0; }
         .project .thumbnail a span p {
           color: #e8e8e8; }
@@ -1323,7 +1327,7 @@ figcaption {
   background: #2698BA; }
 
 .img_row {
-  height: 275px;
+  height: 300px;
   width: 100%;
   overflow: hidden;
   box-sizing: border-box; }
@@ -1345,12 +1349,18 @@ figcaption {
 .three {
   width: 100%; }
 
+.half {
+  width: 50%; }
+
+.quarter {
+  width: 25%; }
+
 .caption {
   height: 100%;
   color: #aaa;
   text-align: center;
   vertical-align: middle;
-  font-size: 12px; }
+  font-size: 16px; }
 
 .gist,
 .gist .highlight .p {

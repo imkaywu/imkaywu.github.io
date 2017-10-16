@@ -49,7 +49,7 @@ $$
 **Another proof is**: suppose we have two coordinate systems, $$CS_1$$ and $$CS_2$$, having coincident origins (?), but having different orientations. Let $$\vec{i}, \vec{j}, \vec{k}$$ be the basis vectors, or axes of $$CS_1$$, and $$\vec{m}, \vec{n}, \vec{o}$$ be the basis vectors of $$SC_2$$. The coordinates of $$P$$ in $$SC_1$$ is $$(x, y, z)$$, and the coordinates in $$SC_2$$ is $$(a, b, c)$$.
 
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/tbasis.gif" alt="rotation interpretation" title="Rotation Interpretation"/>
+    <img class="col half" src="/assets/img/open3DCV/tbasis.gif" alt="rotation interpretation" title="Rotation Interpretation"/>
 </div>
 
 The transformation between the two coordinate systems can be obtain as follows

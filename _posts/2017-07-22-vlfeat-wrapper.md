@@ -21,7 +21,7 @@ The specific keypoint class is the subclass of both `Detector` and `Descriptor`.
 
 ### Results of Detector
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/keypoint/sift_pgm.pgm" alt="sift detector" title="sift detector"/>
+    <img class="col one" src="/assets/img/open3DCV/keypoint/sift_pgm.jpg" alt="sift detector" title="sift detector"/>
     <img class="col two" src="/assets/img/open3DCV/keypoint/sift_jpg.jpg" alt="sift detector" title="sift detector"/>
 </div>
 <div class="col three caption">
@@ -38,13 +38,13 @@ The specific keypoint class is the subclass of both `Detector` and `Descriptor`.
 
 ### Results of Matching
 <div class="img_row">
-    <img class="col three" src="/assets/img/open3DCV/keypoint/matching_0.pgm" alt="sift detector" title="sift detector"/>
+    <img class="col three" src="/assets/img/open3DCV/keypoint/matching_0.jpg" alt="sift detector" title="sift detector"/>
 </div>
 <div class="img_row">
-    <img class="col three" src="/assets/img/open3DCV/keypoint/matching_1.pgm" alt="sift detector" title="sift detector"/>
+    <img class="col three" src="/assets/img/open3DCV/keypoint/matching_1.jpg" alt="sift detector" title="sift detector"/>
 </div>
 <div class="img_row">
-    <img class="col three" src="/assets/img/open3DCV/keypoint/matching_2.pgm" alt="sift detector" title="sift detector"/>
+    <img class="col three" src="/assets/img/open3DCV/keypoint/matching_2.jpg" alt="sift detector" title="sift detector"/>
 </div>
 <div class="col three caption">
     SIFT feature matching results returned by the implemented C++ wrapper

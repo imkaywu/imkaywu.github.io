@@ -555,8 +555,8 @@ write_sfm(global_graph);
 ### 11. Results
 The lack of detail in the first dataset could be due to the lack of surface texture.
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/sfm/sfm_camera_pose_bust.png" alt="" title="sfm results"/>
-    <img class="col two" src="/assets/img/open3DCV/sfm/bust.png" alt="" title="sfm results"/>
+    <img class="col half" src="/assets/img/open3DCV/sfm/sfm_camera_pose_bust.png" alt="" title="sfm results"/>
+    <img class="col half" src="/assets/img/open3DCV/sfm/bust.png" alt="" title="sfm results"/>
 </div>
 <div class="img_row">
     <img class="col one" src="/assets/img/open3DCV/sfm/sfm_camera_pose_temple_front.png" alt="" title="sfm results"/>
