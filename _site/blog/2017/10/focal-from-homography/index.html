@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kai Wu | Estimate focal length from Homography</title>
+  <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <link rel="shortcut icon" href="https://imkaywu.github.io/assets/img/favicon.ico">
+  <link rel="stylesheet" href="https://imkaywu.github.io/assets/css/main.css">
+  <link rel="canonical" href="https://imkaywu.github.io/blog/2017/10/focal-from-homography/">
+</head>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    
+    <span class="site-title">
+        
+        <strong>Kai</strong> Wu
+    </span>
+    
+
+    <nav class="site-nav">
+
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="https://imkaywu.github.io/">about</a>
+
+        <!-- Blog -->
+        <a class="page-link" href="https://imkaywu.github.io/blog/">blog</a>
+
+        <!-- Pages -->
+        
+          
+        
+          
+            <a class="page-link" href="https://imkaywu.github.io/code/">code</a>
+          
+        
+          
+        
+          
+            <a class="page-link" href="https://imkaywu.github.io/links/">links</a>
+          
+        
+          
+        
+          
+            <a class="page-link" href="https://imkaywu.github.io/projects/">projects</a>
+          
+        
+          
+            <a class="page-link" href="https://imkaywu.github.io/tutorials/">tutorials</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+
+        <!-- CV link -->
+        <!-- <a class="page-link" href="https://imkaywu.github.io/assets/pdf/CV.pdf">vitae</a> -->
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Estimate focal length from Homography</h1>
+    <p class="post-meta">October 15, 2017</p>
+  </header>
+
+  <article class="post-content">
+    <p>This post discusses estimating focal length from Homography. This technique tries to estimate focal lengths from the given homography under the assumption that the camera undergoes rotations around its centre only. The original paper is <em>Construction of Panoramic Image Mosaics with Global and Local Alignment</em>. The <a href="https://opencv.org/">OpenCV</a> implementation can be found <a href="https://github.com/opencv/opencv/blob/05b15943d6a42c99e5f921b7dbaa8323f3c042c6/modules/stitching/src/autocalib.cpp">here</a>.</p>
+
+<h3 id="theory">Theory</h3>
+<p>We assume that the camera center is fixed, and goes through pure rotation, then the Homography between two views is:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+H &= \lambda K_1 R K_0^{-1}\\
+\begin{bmatrix}
+h_0 & h_1 & h_2\\
+h_3 & h_4 & h_5\\
+h_6 & h_7 & h_8\\
+\end{bmatrix} &\sim
+\begin{bmatrix}
+r_{00} & r_{01} & r_{02}f_0\\
+r_{10} & r_{11} & r_{12}f_0\\
+r_{20}/f_1 & r_{21}/f_1 & r_{22}f_0/f_1
+\end{bmatrix}
+\end{align} %]]></script>
+
+<p>We observe that the first two rows (or columns) of <script type="math/tex">R</script> must have the same norm and be orthogonal, i.e.,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+h_0^2 + h_1^2 + \frac{h_2^2}{f_0^2} &= h_3^2 + h_4^2 + \frac{h_5^2}{f_0^2}\\
+h_0h_3+h_1h_4+\frac{h_2h_5}{f_0^2} &=0\\
+h_0^2 + h_3^2 + \frac{h_6^2}{f_1^2} &= h_1^2 + h_4^2 + \frac{h_7^2}{f_0^2}\\
+h_0h_1+h_3h_4+\frac{h_6h_7}{f_1^2} &=0\\
+\end{align} %]]></script>
+
+<p>From this, we can compute the estimates</p>
+
+<script type="math/tex; mode=display">f_0^2 = \frac{h_5^2-h_2^2}{h_0^2+h_1^2-h_3^2-h_4^2} \quad \text{if } h_0^2+h_1^2\neq h_3^2+h_4^2</script>
+
+<p>or</p>
+
+<script type="math/tex; mode=display">f_0^2 = -\frac{h_2h_5}{h_0h_3+h_1h_4} \quad \text{if } h_0h_3\neq -h_1h_4</script>
+
+<p>Similar result can be obtained for <script type="math/tex">f1</script> as well. If the focal length is fixed for two images, we can take the geometric mean of <script type="math/tex">f0</script> and <script type="math/tex">f1</script> as the estimated focal length <script type="math/tex">f=\sqrt(f1f0)</script>. When multiple estimates of <script type="math/tex">f</script> are available, the median value is used as the final estimate.</p>
+
+<h3 id="opencv-implementation">OpenCV implementation</h3>
+<p>The implementation can be found in <code class="highlighter-rouge">autocalib.cpp</code>.</p>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">focalsFromHomography</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">H</span><span class="p">,</span> <span class="kt">double</span> <span class="o">&amp;</span><span class="n">f0</span><span class="p">,</span> <span class="kt">double</span> <span class="o">&amp;</span><span class="n">f1</span><span class="p">,</span> <span class="kt">bool</span> <span class="o">&amp;</span><span class="n">f0_ok</span><span class="p">,</span> <span class="kt">bool</span> <span class="o">&amp;</span><span class="n">f1_ok</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">CV_Assert</span><span class="p">(</span><span class="n">H</span><span class="p">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">CV_64F</span> <span class="o">&amp;&amp;</span> <span class="n">H</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="n">Size</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">));</span>
+
+    <span class="k">const</span> <span class="kt">double</span><span class="o">*</span> <span class="n">h</span> <span class="o">=</span> <span class="n">H</span><span class="p">.</span><span class="n">ptr</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span>
+
+    <span class="kt">double</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">;</span> <span class="c1">// Denominators
+</span>    <span class="kt">double</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">;</span> <span class="c1">// Focal squares value candidates
+</span>
+    <span class="n">f1_ok</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">7</span><span class="p">];</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">-</span> <span class="n">h</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">[</span><span class="mi">6</span><span class="p">]);</span>
+    <span class="n">v1</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="n">d1</span><span class="p">;</span>
+    <span class="n">v2</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">h</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="n">d2</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">v1</span> <span class="o">&lt;</span> <span class="n">v2</span><span class="p">)</span> <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">v1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">v2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">f1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span> <span class="o">?</span> <span class="n">v1</span> <span class="o">:</span> <span class="n">v2</span><span class="p">);</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">v1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">f1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v1</span><span class="p">);</span>
+    <span class="k">else</span> <span class="n">f1_ok</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="n">f0_ok</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">h</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">h</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+    <span class="n">v1</span> <span class="o">=</span> <span class="o">-</span><span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">/</span> <span class="n">d1</span><span class="p">;</span>
+    <span class="n">v2</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">-</span> <span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">d2</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">v1</span> <span class="o">&lt;</span> <span class="n">v2</span><span class="p">)</span> <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">v1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">v2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">f0</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span> <span class="o">?</span> <span class="n">v1</span> <span class="o">:</span> <span class="n">v2</span><span class="p">);</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">v1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">f0</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v1</span><span class="p">);</span>
+    <span class="k">else</span> <span class="n">f0_ok</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="open3dcv-implementation">Open3DCV implementation</h3>
+
+  </article>
+
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <footer>
+
+  <div class="wrapper">
+    &copy; Copyright 2017 Kai Wu.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+
+    
+  </div>
+
+</footer>
+
+
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="https://imkaywu.github.io/assets/js/common.js"></script>
+
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="https://imkaywu.github.io/assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://imkaywu.github.io/assets/css/academicons.min.css">
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-XXXXXXXX-X', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+
+</html>
