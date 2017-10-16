@@ -51,8 +51,7 @@ $$
 f_0^2 = -\frac{h_2h_5}{h_0h_3+h_1h_4} \quad \text{if } h_0h_3\neq -h_1h_4
 $$
 
-Similar result can be obtained for $$f1$$ as well. If the focal length is fixed for two images, we can take the geometric mean of $$f0$$ and $$f1$$ as the estimated focal length $$f=\sqrt(f1f0)$$. When multiple estimates of $$f$$ are available, the median value is used as the final estimate.
-
+Similar result can be obtained for $$f_1$$ as well. If the focal length is fixed for two images, we can take the geometric mean of $$f_0$$ and $$f_1$$ as the estimated focal length $$f=\sqrt(f_1f_0)$$. When multiple estimates of $$f$$ are available, the median value is used as the final estimate.
 
 ### OpenCV implementation
 The implementation can be found in `autocalib.cpp`.
