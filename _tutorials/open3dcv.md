@@ -1,10 +1,7 @@
 ---
-layout: page
 title: Open3DCV Implementation Tutorials
-categories: 
-  - Research
-tags:
-  - Computer Vision
+description:
+img: /assets/img/tutorial/thumbnail/open3dcv.png
 ---
 
 ## open3DCV

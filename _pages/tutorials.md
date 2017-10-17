@@ -1,13 +1,47 @@
 ---
 layout: page
-permalink: /tutorials/
 title: tutorials
+permalink: /tutorials/
 ---
 
-### Vision
+{% for tutorial in site.tutorials %}
 
-[Open3DCV implementation tutorials]({{site.url}}{{site.baseurl}}/tutorials/open3dcv)
+{% if tutorial.redirect %}
+<div class="project">
+    <div class="thumbnail">
+        <a href="{{ tutorial.redirect }}" target="_blank">
+        {% if tutorial.img %}
+        <img class="thumbnail" src="{{ tutorial.img | prepend: site.baseurl | prepend: site.url }}"/>
+        {% else %}
+        <div class="thumbnail blankbox"></div>
+        {% endif %}    
+        <span>
+            <h1>{{ tutorial.title }}</h1>
+            <br/>
+            <p>{{ tutorial.description }}</p>
+        </span>
+        </a>
+    </div>
+</div>
+{% else %}
 
-[Multiple View Geometry tutorial]({{site.url}}{{site.baseurl}}/tutorials/mvg)
+<div class="project ">
+    <div class="thumbnail">
+        <a href="{{ tutorial.url | prepend: site.baseurl | prepend: site.url }}">
+        {% if tutorial.img %}
+        <img class="thumbnail" src="{{ tutorial.img | prepend: site.baseurl | prepend: site.url }}"/>
+        {% else %}
+        <div class="thumbnail blankbox"></div>
+        {% endif %}    
+        <span>
+            <h1>{{ tutorial.title }}</h1>
+            <br/>
+            <p>{{ tutorial.description }}</p>
+        </span>
+        </a>
+    </div>
+</div>
 
-[Structure from Motion tutorial]({{ site.url }}{{ site.baseurl }}/tutorials/sfm)
+{% endif %}
+
+{% endfor %}
