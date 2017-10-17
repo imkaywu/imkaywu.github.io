@@ -1,10 +1,7 @@
 ---
-layout: page
 title: Multiple View Geometry - a tutorial
-categories: 
-  - Research
-tags:
-  - Computer Vision
+description:
+img: /assets/img/tutorial/thumbnail/vision.jpg
 ---
 
 <!-- [Post](http://www.robots.ox.ac.uk/~az/lectures/aims-cv/practical_MVG.html) -->

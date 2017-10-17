@@ -1,11 +1,7 @@
 ---
-layout: page
 title: Structure from Motion Tutorial
-categories: 
-  - Research
-  - Dev
-tags:
-  - Computer Vision
+description:
+img: /assets/img/tutorial/thumbnail/sfm.jpg
 ---
 
 Structure from Motion is like the holy grail of multiple view geometry. It is a process of estimating camera pose and retrieving a sparse reconstruction simultaneously. In this tutorial, I'll discuss every step of this technique and provide detailed implementation using [open3DCV]({{site.url}}{{site.baseurl}}/open3DCV/). The source code can be found [here](https://github.com/imkaywu/open3DCV/blob/master/test/sfm.cc).
