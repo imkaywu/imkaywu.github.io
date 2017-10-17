@@ -34,6 +34,21 @@ title: "links"
 
 ---
 
+## Travel blogs
+[Flying the nest](http://flyingthenest.tv)
+
+---
+
+## Photography
+[Digital photography](https://sites.google.com/site/marclevoylectures/schedule)\\
+[Clarkvision Articles](http://www.clarkvision.com/articles/index.html)\\
+[Cambridge in Colour](http://www.cambridgeincolour.com)\\
+[iPhone photography school](https://iphonephotographyschool.com)\\
+[Ken Rockwell](http://www.kenrockwell.com/index.htm)\\
+[500px](https://500px.com)
+
+---
+
 ## Websites
 
 ### Collection
@@ -265,13 +280,6 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [Interactive Computer Graphics: A Top-Down Approach with OpenGL](http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/)\\
 [ONLINE FREE TUTORIALS AND BOOKS](https://courses.edx.org/asset-v1:UCSDx+CSE167x+1T2017+type@asset+block/links.html)\\
 [OpenGLBook](http://openglbook.com)
-
-### Photography
-[Digital photography](https://sites.google.com/site/marclevoylectures/schedule)\\
-[Clarkvision Articles](http://www.clarkvision.com/articles/index.html)\\
-[Cambridge in Colour](http://www.cambridgeincolour.com)\\
-[iPhone photography school](https://iphonephotographyschool.com)\\
-[Ken Rockwell](http://www.kenrockwell.com/index.htm)
 
 ### Machine Learning
 [Machine Learning Reading Group at UBC](http://www.cs.ubc.ca/labs/lci/mlrg/)\\
