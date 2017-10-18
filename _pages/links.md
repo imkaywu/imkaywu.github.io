@@ -138,39 +138,36 @@ title: "links"
 
 ### Computer Vision
 
-#### Vision library
+#### Resources
+[Awesome Computer Vision](https://github.com/jbhuang0604/awesome-computer-vision)\\
+[CVonline](http://homepages.inf.ed.ac.uk/rbf/CVonline/)
 
+#### Vision library
+[OpenCV](https://opencv.org)\\
 [CVT Library: General purpose computer vision library written in C++](https://github.com/phheise/cvt)\\
-[MRPT](http://www.mrpt.org)\\
 [Peter Kovesi's MATLAB and Octave Functions for Computer Vision and Image Processing](http://www.peterkovesi.com/matlabfns/)\\
 [VLFeat](http://www.vlfeat.org)\\
 [VXL](http://vxl.sourceforge.net)
 
-#### Reconstruction
-[Dense Visual SLAM](http://vision.in.tum.de/data/software/dvo)\\
-[openMVS](http://cdcseacave.github.io/openMVS/)\\
-[MVE: include incremental SfM, MVS, FSSR](http://www.gcc.tu-darmstadt.de/home/proj/mve/)\\
+#### 3D vision library
 [CMPMVS - Jancosek](http://ptak.felk.cvut.cz/sfmservice/websfm.pl?menu=cmpmvs)\\
 [PMVS2](http://www.di.ens.fr/pmvs/)\\
 [CMVS](http://www.di.ens.fr/cmvs/)\\
+[OpenMVS](http://cdcseacave.github.io/openMVS/)\\
+[VGG Multiple View Geometry Library](http://www.robots.ox.ac.uk/~vgg/hzbook/code/)\\
+[Bundler: SfM system for unordered image collections, C/C++](http://www.cs.cornell.edu/%7Esnavely/bundler/)\\
 [Libmv](https://github.com/ahojnnes/libmv)\\
 [openMVG: open Multiple View Geometry](http://imagine.enpc.fr/~moulonp/openMVG/)\\
-[VGG Multiple View Geometry Library](http://www.robots.ox.ac.uk/~vgg/hzbook/code/)
-[Toolbox Graph](http://www.mathworks.com/matlabcentral/fileexchange/5355-toolbox-graph)\\
-[Visual Hull from Uncalibrated Sanpshots](http://www.dip.ee.uct.ac.za/~kforbes/DoubleMirror/DoubleMirror.html)\\
-[Visual Hull](http://vision.gel.ulaval.ca/~visualhull/)\\
-[QHull]()\\
-[Manolis Lourakis](http://users.ics.forth.gr/~lourakis/)
-
-#### SfM
-[Bundler: SfM system for unordered image collections, C/C++](http://www.cs.cornell.edu/%7Esnavely/bundler/)\\
 [Theia Vision Library - for SfM](http://www.theia-sfm.org/sfm.html#chapter-sfm)\\
-[VisualSFM: a GUI application for 3D reconstruction using SFM](http://ccwu.me/vsfm/)\\
 [COLMAP - SfM + MVS](https://colmap.github.io)\\
-[Structure and Motion Toolkit in MATLAB - Torr](https://www.mathworks.com/matlabcentral/fileexchange/4576-structure-and-motion-toolkit-in-matlab)
-
-#### Appearance
-[Inverse Shade Trees](http://ist.cs.princeton.edu)
+[MVE: include incremental SfM, MVS, FSSR](http://www.gcc.tu-darmstadt.de/home/proj/mve/)\\
+[VisualSFM: a GUI application for 3D reconstruction using SFM](http://ccwu.me/vsfm/)\\
+[Structure and Motion Toolkit in MATLAB - Torr](https://www.mathworks.com/matlabcentral/fileexchange/4576-structure-and-motion-toolkit-in-matlab)\\
+[MRPT](http://www.mrpt.org)\\
+[Dense Visual SLAM](http://vision.in.tum.de/data/software/dvo)\\
+[Visual Hull from Uncalibrated Sanpshots](http://www.dip.ee.uct.ac.za/~kforbes/DoubleMirror/DoubleMirror.html)\\
+[QHull](http://www.qhull.org)\\
+[Manolis Lourakis](http://users.ics.forth.gr/~lourakis/)
 
 #### Calibration
 [Multi-Camera Self-Calibration](http://cmp.felk.cvut.cz/~svoboda/SelfCal/index.html)\\
@@ -223,17 +220,16 @@ title: "links"
 [Ceres Solver](http://ceres-solver.org)\\
 [LSQR: Sparse Equations and Least Squares](http://web.stanford.edu/group/SOL/software/lsqr/)
 
-#### Misc
+### Misc
 [GMM EM](https://www.mathworks.com/matlabcentral/fileexchange/26184-em-algorithm-for-gaussian-mixture-model--em-gmm-)\\
 [GMM Variational Bayesian](https://www.mathworks.com/matlabcentral/fileexchange/35362-variational-bayesian-inference-for-gaussian-mixture-model)\\
-[FAST GAUSS TRANSFORM](http://www.umiacs.umd.edu/labs/cvl/pirl/vikas/Software/IFGT/IFGT_code.htm)
-
-### Misc
+[FAST GAUSS TRANSFORM](http://www.umiacs.umd.edu/labs/cvl/pirl/vikas/Software/IFGT/IFGT_code.htm)\\
 [Eigen: C++ template library for linear algebra](http://eigen.tuxfamily.org/index.php?title=Main_Page)\\
 [Armadillo - A C++ linear algebra library](http://arma.sourceforge.net/download.html)\\
 [WNLIB](http://www.willnaylor.com/wnlib.html)\\
 [Microsoft opensource](http://research.microsoft.com/downloads/)\\
-[Professor X Toolkit](https://dl.dropboxusercontent.com/u/7775117/jianxiongxiao.com/code.html)
+[Professor X Toolkit](https://dl.dropboxusercontent.com/u/7775117/jianxiongxiao.com/code.html)\\
+[Toolbox Graph](http://www.mathworks.com/matlabcentral/fileexchange/5355-toolbox-graph)
 
 ---
 
@@ -247,7 +243,6 @@ title: "links"
 [FAUST](http://faust.is.tue.mpg.de)\\
 [‘DiLiGenT’ Photometric Stereo Dataset](https://sites.google.com/site/photometricstereodata/)\\
 [Multiview Photometric Stereo](http://www.jaesik.info/publications/multiviewps)\\
-[CVonline](http://homepages.inf.ed.ac.uk/rbf/CVonline/)\\
 [RGB-D Object Dataset](http://rgbd-dataset.cs.washington.edu/index.html)\\
 [List of RGBD datasets](http://www0.cs.ucl.ac.uk/staff/M.Firman/RGBDdatasets/)
 
@@ -259,14 +254,13 @@ title: "links"
 
 [CS231A: Computer Vision, From 3D Reconstruction to Recognition](http://web.stanford.edu/class/cs231a/syllabus.html)\\
 [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu)\\
-[Physics based Methods in Vision](http://www.cs.cmu.edu/afs/cs/academic/class/16823-s16/www/)\\
+[Physics based Methods in Vision - CMU](http://www.cs.cmu.edu/afs/cs/academic/class/16823-s16/www/)\\
 [3D Computer Vision - U of Utah](http://www.sci.utah.edu/%7Egerig/CS6320-S2015/CS6320_3D_Computer_Vision.html)\\
 [CSC320S: Introduction to Visual Computing](http://www.cs.toronto.edu/~kyros/courses/320/)\\
 [SFMedu: A Structure from Motion System for Education](http://vision.princeton.edu/courses/SFMedu/)\\
 [Open Source Structure-from-Motion](http://www.kitware.com/cvpr2015-tutorial.html)\\
 [3d Shape Reconstruction from Photographs: a Multi-View Stereo Approach](http://carlos-hernandez.org/cvpr2010/)\\
 [Build Your Own 3D Scanner: Optical Triangulation for Beginners](http://mesh.brown.edu/byo3d/index.html)\\
-[Numerical Tours](http://www.numerical-tours.com)\\
 [Visual 3D Modeling from Images](http://www.cs.unc.edu/~marc/tutorial/tutorial02.html)
 
 ### Computer Graphics
@@ -292,6 +286,7 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [multi-variate calculus]()\\
 [Introduction to Linear Algebra](http://math.mit.edu/~gs/linearalgebra/)\\
 [The Matrix in Computer Science](https://cs.brown.edu/video/channels/coding-matrix-fall-2014/)\\
+[Numerical Tours](http://www.numerical-tours.com)\\
 [Introduction to Probability and Statistics]()\\
 [Learn Differential Equations](http://www.mathworks.com/academia/courseware/learn-differential-equations.html)\\
 [Mathematics for Computer Science](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/index.htm)\\
@@ -327,7 +322,7 @@ computer architecture\\
 [UDLS](http://www.cs.ubc.ca/~udls/)
 
 ---
-## Resources
+## CG softwares
 [Remington's PBR Shader](http://store.remingtongraphics.net/pbr-shader/)\\
 [Procedural 4 Texture](http://store.remingtongraphics.net/procedural/)\\
 [BLENDER DISNEY SURFACE UBER SHADER - ONELVXE](http://www.onelvxe.com/ubershaderbeta/)
@@ -352,4 +347,3 @@ ICP code [1](http://www.mathworks.com/matlabcentral/fileexchange/12627-iterative
 [CMake Doc](https://cmake.org/cmake/help/v2.8.9/cmake.html#opt:-Cinitial-cache)\\
 [Computing Correspondences in Geometric Data Sets](http://resources.mpi-inf.mpg.de/deformableShapeMatching/EG2011_Tutorial/)\\
 [Xiaojun Chang's CV CODE](https://sites.google.com/site/uqchang/home/cv-code)\\
-[Dissecting the Camera Matrix](http://ksimek.github.io/archive.html)
