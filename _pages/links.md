@@ -49,15 +49,19 @@ title: "links"
 
 ---
 
-## Websites
-
-### Collection
+## Resources
+[Awesome Computer Vision](https://github.com/jbhuang0604/awesome-computer-vision)\\
+[CVonline](http://homepages.inf.ed.ac.uk/rbf/CVonline/)\\
 [The Computer Vision Homepage](http://www.cs.cmu.edu/~cil/vision.html)\\
 [USC Vision Bibliography](http://iris.usc.edu/Vision-Notes/bibliography/contents.html)\\
 [Minimal Problems in Computer Vision](http://cmp.felk.cvut.cz/mini/)\\
 [Background Subtraction Website](https://sites.google.com/site/backgroundsubtraction/overview)\\
-[Theory of computation](https://rjlipton.wordpress.com)\\
-[Open Source Photogrammetry](http://opensourcephotogrammetry.blogspot.ca)
+[Open Source Photogrammetry](http://opensourcephotogrammetry.blogspot.ca)\\
+[Theory of computation](https://rjlipton.wordpress.com)
+
+---
+
+## Websites
 
 ### Group
 [Princeton Vision & Robotics Toolkit (PVRT)](http://robots.princeton.edu/code.html)\\
@@ -138,11 +142,7 @@ title: "links"
 
 ### Computer Vision
 
-#### Resources
-[Awesome Computer Vision](https://github.com/jbhuang0604/awesome-computer-vision)\\
-[CVonline](http://homepages.inf.ed.ac.uk/rbf/CVonline/)
-
-#### Vision library
+#### General vision library
 [OpenCV](https://opencv.org)\\
 [CVT Library: General purpose computer vision library written in C++](https://github.com/phheise/cvt)\\
 [Peter Kovesi's MATLAB and Octave Functions for Computer Vision and Image Processing](http://www.peterkovesi.com/matlabfns/)\\
@@ -150,9 +150,9 @@ title: "links"
 [VXL](http://vxl.sourceforge.net)
 
 #### 3D vision library
-[CMPMVS - Jancosek](http://ptak.felk.cvut.cz/sfmservice/websfm.pl?menu=cmpmvs)\\
 [PMVS2](http://www.di.ens.fr/pmvs/)\\
 [CMVS](http://www.di.ens.fr/cmvs/)\\
+[CMPMVS - Jancosek](http://ptak.felk.cvut.cz/sfmservice/websfm.pl?menu=cmpmvs)\\
 [OpenMVS](http://cdcseacave.github.io/openMVS/)\\
 [VGG Multiple View Geometry Library](http://www.robots.ox.ac.uk/~vgg/hzbook/code/)\\
 [Bundler: SfM system for unordered image collections, C/C++](http://www.cs.cornell.edu/%7Esnavely/bundler/)\\
@@ -254,6 +254,7 @@ title: "links"
 
 [CS231A: Computer Vision, From 3D Reconstruction to Recognition](http://web.stanford.edu/class/cs231a/syllabus.html)\\
 [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu)\\
+[COMPUTER VISION - EPFL, Pascal Fua](http://klewel.com/conferences/epfl-computer-vision/)\\
 [Physics based Methods in Vision - CMU](http://www.cs.cmu.edu/afs/cs/academic/class/16823-s16/www/)\\
 [3D Computer Vision - U of Utah](http://www.sci.utah.edu/%7Egerig/CS6320-S2015/CS6320_3D_Computer_Vision.html)\\
 [CSC320S: Introduction to Visual Computing](http://www.cs.toronto.edu/~kyros/courses/320/)\\
