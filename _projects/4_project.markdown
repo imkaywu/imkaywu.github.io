@@ -63,7 +63,7 @@ A thumbnail is static or dynamic images extracted from videos to represent and s
 
 ## Final report
 
-<embed src="/assets/files/cpsc554m_personalized-video-thumbnails.pdf" width="700" height="500" type='application/pdf'>
+<embed src="/assets/files/cpsc554m_personalized-video-thumbnails.pdf" width="700" height="600" type='application/pdf'>
 
 ## Slides
 

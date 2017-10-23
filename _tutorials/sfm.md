@@ -161,12 +161,12 @@ public:
 
 See below some of the matching results:
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier1_2.jpg" alt="" title="example image"/>
-    <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier2_3.jpg" alt="" title="example image"/>
-    <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier3_4.jpg" alt="" title="example image"/>
+    <img class="col half" src="/assets/img/open3DCV/sfm/matching_inlier1_2.jpg" alt="" title="example image"/>
+    <img class="col half" src="/assets/img/open3DCV/sfm/matching_inlier2_3.jpg" alt="" title="example image"/>
 </div>
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/sfm/matching_inlier4_5.jpg" alt="" title="example image"/>
+    <img class="col half" src="/assets/img/open3DCV/sfm/matching_inlier3_4.jpg" alt="" title="example image"/>
+    <img class="col half" src="/assets/img/open3DCV/sfm/matching_inlier4_5.jpg" alt="" title="example image"/>
 </div>
 <div class="col three caption">
     Results of feature matching.
@@ -248,12 +248,12 @@ for (int i = 0; i < pairs.size(); ++i)
 }
 ```
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/sfm/epipolar1_2.jpg" alt="" title="example image"/>
-    <img class="col one" src="/assets/img/open3DCV/sfm/epipolar2_3.jpg" alt="" title="example image"/>
-    <img class="col one" src="/assets/img/open3DCV/sfm/epipolar3_4.jpg" alt="" title="example image"/>
+    <img class="col half" src="/assets/img/open3DCV/sfm/epipolar1_2.jpg" alt="" title="example image"/>
+    <img class="col half" src="/assets/img/open3DCV/sfm/epipolar2_3.jpg" alt="" title="example image"/>
 </div>
 <div class="img_row">
-    <img class="col one" src="/assets/img/open3DCV/sfm/epipolar4_5.jpg" alt="" title="example image"/>
+    <img class="col half" src="/assets/img/open3DCV/sfm/epipolar3_4.jpg" alt="" title="example image"/>
+    <img class="col half" src="/assets/img/open3DCV/sfm/epipolar4_5.jpg" alt="" title="example image"/>
 </div>
 <div class="col three caption">
     Results of fundamental matrix.
@@ -282,7 +282,7 @@ This is the case where uncalibrated cameras are used, and the scene is reconstru
 
 <a id="f_from_homog"></a>
 ##### Estimate focal length from homography
-[TBD]
+The detail of estimation of focal length from homography can be found [here]({site.url}{site.baseurl}/blog/2017/10/focal-from-homography/).
 
 <a id="triangulation"></a>
 ### 6. N-view triangulation

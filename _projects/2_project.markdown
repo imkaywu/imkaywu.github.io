@@ -8,4 +8,4 @@ This is the coding project of the graduate Maching Learning course CPSC 540.
 
 ## Report
 
-<embed src="/assets/files/cpsc540_multi_class_adaboost.pdf" width="700" height="375" type='application/pdf'>
+<embed src="/assets/files/cpsc540_multi_class_adaboost.pdf" width="700" height="600" type='application/pdf'>

@@ -8,4 +8,4 @@ This is the course project of the graduate Maching Learning course CPSC 540.
 
 ## Report
 
-<embed src="/assets/files/cpsc540_An_Empirical_Comparison_of_Adaboost_Using_Three_Different_Weak_Learners.pdf" width="700" height="375" type='application/pdf'>
+<embed src="/assets/files/cpsc540_An_Empirical_Comparison_of_Adaboost_Using_Three_Different_Weak_Learners.pdf" width="700" height="600" type='application/pdf'>

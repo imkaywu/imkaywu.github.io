@@ -122,6 +122,7 @@ title: "links"
 [考据癖](http://localhost-8080.com)\\
 [虎兔手记](http://notes.localhost-8080.com)\\
 [酷壳](http://coolshell.cn)\\
+[AskTog](http://www.asktog.com)\\
 [Brandon Gregg](http://www.brendangregg.com)\\
 [BYVoid](https://www.byvoid.com/zhs/)\\
 [Clay Bavor](https://www.claybavor.com)\\
@@ -130,6 +131,7 @@ title: "links"
 [Laruence](http://www.laruence.com/)
 [Lee Jacobson](http://www.theprojectspot.com/home)\\
 [Matrix67](http://www.matrix67.com)\\
+[Don Normal: Designing For People](https://www.jnd.org)\\
 [Surely I Am Joking](https://yinwang0.wordpress.com)
 
 ### Misc
@@ -268,6 +270,8 @@ title: "links"
 [Computer Graphics - Edx](https://www.edx.org/course/computer-graphics-uc-san-diegox-cse167x-1)\\
 Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~joy/ecs175/), [Videos](http://graphics.cs.ucdavis.edu/~joy/ecs175/))\\
 [CSC418/2504 Computer Graphics](http://www.dgp.toronto.edu/~egarfink/courses/CSC418/)\\
+[Nate Robins Tutorial]()\\
+[Song Ho Ahn's OpenGL Tutorial](http://www.songho.ca/opengl/index.html)\\
 [Learn OpenGL](https://learnopengl.com)\\
 [Learn Computer Graphics Programming from Scratch](http://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry)\\
 [Lode's Computer Graphics Tutorial (FT tutoril)](http://lodev.org/cgtutor/)\\
