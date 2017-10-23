@@ -282,7 +282,7 @@ This is the case where uncalibrated cameras are used, and the scene is reconstru
 
 <a id="f_from_homog"></a>
 ##### Estimate focal length from homography
-The detail of estimation of focal length from homography can be found [here]({site.url}{site.baseurl}/blog/2017/10/focal-from-homography/).
+The detail of estimation of focal length from homography can be found [here]({{site.url}}{{site.baseurl}}/blog/2017/10/focal-from-homography/).
 
 <a id="triangulation"></a>
 ### 6. N-view triangulation
