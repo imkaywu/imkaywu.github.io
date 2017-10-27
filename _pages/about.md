@@ -8,7 +8,7 @@ profile:
   align: right
   image: prof_pic.jpg
   address: >
-    <p>2329 West Mall</p>
+    <p>X509, 2366 Main Mall</p>
     <p>Vancouver, BC Canada V6T 1Z4</p>
 
 news: true
