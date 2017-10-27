@@ -24,7 +24,7 @@ JEKYLL_ENV=production jekyll build
 
 # Push to gh-pages.
 git add -fA
-git commit --allow-empty -m "$(git log -1 --pretty=%B) [ci skip]"
+git commit --allow-empty -m "$1"
 git push -f -q origin master
 
 # Move back to previous branch.
