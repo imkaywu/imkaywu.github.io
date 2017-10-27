@@ -15,7 +15,7 @@ news: true
 social: true
 ---
 
-I am a Master of Applied Science student at the ECE Department of University of British Columbia. I am with the [Human Communication Technologies Lab](http://hct.ece.ubc.ca) supervised by [Prof. Sidney Fels](http://hct.ece.ubc.ca/person/sid-fels/) and [Dr. Gregor Miller](http://www.ece.ubc.ca/~gregor/). Go to my [CV](https://imkaywu.github.io/cv) for more detailed information.
+I am a Master of Applied Science student at the ECE Department of University of British Columbia. I am with the [Human Communication Technologies Lab](http://hct.ece.ubc.ca) supervised by [Prof. Sidney Fels]() and [Dr. Gregor Miller](http://www.ece.ubc.ca/~gregor/). Go to my [CV](https://imkaywu.github.io/cv) for more detailed information.
 
 ## Interests
 - 3D computer vision (check out [open3DCV]({{ site.url }}{{ site.baseurl }}/open3DCV/))

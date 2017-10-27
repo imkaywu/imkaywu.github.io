@@ -81,6 +81,7 @@ title: "links"
 [Yasutaka Furukawa](http://www.cse.wustl.edu/~furukawa/)\\
 [Jun Gong](https://jungeorge.github.io)\\
 [Philip Guo](http://pgbovine.net/writings.htm)\\
+[Kaiming He](http://kaiminghe.com)\\
 [Felix Heide](http://stanford.edu/~fheide/)\\
 [Philipp Heise](http://www.philippheise.com)\\
 [DANIEL HOMOLA](http://danielhomola.com)\\
@@ -319,6 +320,7 @@ computer architecture\\
 [C++ tutorial](http://www.cs.ubc.ca/~mike323/cs314.html)\\
 [Thinking in C++ 2nd Edition by Bruce Eckel](Thinking in C++ 2nd Edition by Bruce Eckel)\\
 [Python tutor](http://pythontutor.com)\\
+[NumPy for Matlab users](NumPy_for_Matlab_Users)\\
 [The Hitchhiker’s Guide to Python!](http://docs.python-guide.org/en/latest/)\\
 [Software Carpentry](http://software-carpentry.org/lessons/)\\
 [Cracking the coding](http://www.hawstein.com/posts/ctci-solutions-contents.html)\\
