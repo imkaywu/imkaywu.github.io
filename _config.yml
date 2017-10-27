@@ -43,6 +43,9 @@ text:
 # Comments
 disqus_shortname: kaystechblog # put your disqus shortname
 
+# Google Analytics
+google_analytics: UA—108804637-1
+
 # Optional features
 show_social_icons:  false
 enable_anchorjs:    false
