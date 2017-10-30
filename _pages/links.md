@@ -98,6 +98,7 @@ title: "links"
 [Marc Pollefeys](https://www.inf.ethz.ch/personal/marc.pollefeys/)\\
 [Mark Reid](http://mark.reid.name)\\
 [Marco Tulio Ribeiro](http://homes.cs.washington.edu/~marcotcr/blog/)\\
+[Random collection by Prof. Henning Schulzrinne](http://www.cs.columbia.edu/~hgs/etc/)
 [Steve Seitz](http://homes.cs.washington.edu/~seitz/)\\
 [Chris Sweeney](http://homes.cs.washington.edu/~csweeney/)\\
 [Julian Straub](http://people.csail.mit.edu/jstraub/)\\
