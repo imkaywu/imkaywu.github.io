@@ -39,6 +39,8 @@ Photo formatting is made simple using rows of a 2-column system (1/2 width), 3-c
 This theme implements Jekyll's built in code syntax highlighting with Rouge.
 Just use the tags `{% raw %}``{% endraw %}` to delineate your code:
 
+```
+{% raw %}
 ```cpp
 int main (int argc, char const *argv[])
 {
@@ -56,6 +58,8 @@ int main (int argc, char const *argv[])
 
 	return 0;
 }
+```
+{% endraw %}
 ```
 
 ## Contributing
