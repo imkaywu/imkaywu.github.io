@@ -5,11 +5,9 @@
 
 A simple and clean [Jekyll](https://jekyllrb.com/) theme for academics.
 
-[![Screenshot](assets/img/full-screenshot.png)](https://alshedivat.github.io/al-folio/)
+<!-- [![Screenshot](assets/img/full-screenshot.png)](https://alshedivat.github.io/al-folio/) -->
 
-Originally, **al-folio** was based on the [\*folio theme](https://github.com/bogoli/-folio) (published by [Lia Bogoev](http://liabogoev.com) and under the MIT license).
-Since then, it got a full re-write of the styles and many additional cool features.
-The emphasis is on whitespace, transparency, and academic usage: [theme demo](https://alshedivat.github.io/al-folio/).
+This theme is adapted from **[al-folio](https://github.com/alshedivat/al-folio)**. Originally, **al-folio** was based on the [\*folio theme](https://github.com/bogoli/-folio) (published by [Lia Bogoev](http://liabogoev.com) and under the MIT license). Since then, it got a full re-write of the styles and many additional cool features. The emphasis is on whitespace, transparency, and academic usage: [theme demo](https://alshedivat.github.io/al-folio/).
 
 ## Getting started
 
@@ -17,14 +15,6 @@ For more about how to use Jekyll, check out [this tutorial](https://www.taniaras
 Why Jekyll? Read this [blog post](https://karpathy.github.io/2014/07/01/switching-to-jekyll/)!
 
 ## Features
-
-#### Ergonomic Publications
-
-Your publications page is generated automatically from your BibTex bibliography.
-Simply edit `_bibliography/papers.bib`.
-You can also add new `*.bib` files and customize the look of your publications however you like by editing `_pages/publications.md`.
-
-Keep meta-information about your co-authors in `_data/coauthors.yml` and Jekyll will insert links to their webpages automatically.
 
 #### Collections
 This Jekyll theme implements collections to let you break up your work into categories.
@@ -43,30 +33,34 @@ The default is purple, but quickly change it by editing `$theme-color` variable 
 Other color variables are listed there, as well.
 
 #### Photos
-Photo formatting is made simple using rows of a 3-column system.
-Make photos 1/3, 2/3, or full width.
-Easily create beautiful grids within your blog posts and projects pages:
-
-<p align="center">
-  <a href="https://alshedivat.github.io/al-folio/projects/1_project/">
-    <img src="assets/img/photos-screenshot.png" width="75%">
-  </a>
-</p>
+Photo formatting is made simple using rows of a 2-column system (1/2 width), 3-column system (1/3, 2/3, or full width), or 4-column system (1/4 width). Easily create beautiful grids within your blog posts and projects pages:
 
 #### Code Highlighting
-This theme implements Jekyll's built in code syntax highlighting with Pygments.
-Just use the liquid tags `{% highlight python %}` and `{% endhighlight %}` to delineate your code:
+This theme implements Jekyll's built in code syntax highlighting with Rouge.
+Just use the tags `{% raw %}``{% endraw %}` to delineate your code:
 
-<p align="center">
-  <a href="https://alshedivat.github.io/al-folio/blog/2015/code/">
-    <img src="assets/img/code-screenshot.png" width="75%">
-  </a>
-</p>
+```cpp
+int main (int argc, char const *argv[])
+{
+	string myString;
+	cout << "input a string: ";
+	getline(cin, myString);
+	int length = myString.length();
+
+	char charArray = new char *[length];
+	charArray = myString;
+	for (int i = 0;i < length; ++i)
+	{
+		cout << charArray[i] << " ";
+	}
+
+	return 0;
+}
+```
 
 ## Contributing
 
-Feel free to contribute new features and theme improvements by sending a pull request.
-Style improvements and bug fixes are especially welcome.
+Feel free to contribute new features and theme improvements by sending a pull request. Style improvements and bug fixes are especially welcome.
 
 ## License
 
