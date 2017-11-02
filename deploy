@@ -23,7 +23,7 @@ JEKYLL_ENV=production jekyll build
 # rm -R _site/
 
 # Push to gh-pages.
-git add -fA
+git add .
 git commit --allow-empty -m "$1"
 git push -f -q origin master
 
