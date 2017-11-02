@@ -9,10 +9,12 @@ A simple and clean [Jekyll](https://jekyllrb.com/) theme for academics.
 
 This theme is adapted from **[al-folio](https://github.com/alshedivat/al-folio)**. Originally, **al-folio** was based on the [\*folio theme](https://github.com/bogoli/-folio) (published by [Lia Bogoev](http://liabogoev.com) and under the MIT license). Since then, it got a full re-write of the styles and many additional cool features. The emphasis is on whitespace, transparency, and academic usage: [theme demo](https://alshedivat.github.io/al-folio/).
 
+
 ## Getting started
 
 For more about how to use Jekyll, check out [this tutorial](https://www.taniarascia.com/make-a-static-website-with-jekyll/).
 Why Jekyll? Read this [blog post](https://karpathy.github.io/2014/07/01/switching-to-jekyll/)!
+
 
 ## Features
 
@@ -39,32 +41,11 @@ Photo formatting is made simple using rows of a 2-column system (1/2 width), 3-c
 This theme implements Jekyll's built in code syntax highlighting with Rouge.
 Just use the tags `{% raw %}``{% endraw %}` to delineate your code:
 
-```liquid
-{% raw %}
-```cpp
-int main (int argc, char const *argv[])
-{
-	string myString;
-	cout << "input a string: ";
-	getline(cin, myString);
-	int length = myString.length();
-
-	char charArray = new char *[length];
-	charArray = myString;
-	for (int i = 0;i < length; ++i)
-	{
-		cout << charArray[i] << " ";
-	}
-
-	return 0;
-}
-```
-{% endraw %}
-```
 
 ## Contributing
 
 Feel free to contribute new features and theme improvements by sending a pull request. Style improvements and bug fixes are especially welcome.
+
 
 ## License
 
