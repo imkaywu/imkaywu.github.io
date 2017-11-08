@@ -57,7 +57,8 @@ title: "links"
 [Minimal Problems in Computer Vision](http://cmp.felk.cvut.cz/mini/)\\
 [Background Subtraction Website](https://sites.google.com/site/backgroundsubtraction/overview)\\
 [Open Source Photogrammetry](http://opensourcephotogrammetry.blogspot.ca)\\
-[Theory of computation](https://rjlipton.wordpress.com)
+[Theory of computation](https://rjlipton.wordpress.com)\\
+[Paper we love](http://paperswelove.org)
 
 ---
 
@@ -80,6 +81,7 @@ title: "links"
 [Sean Ryan Fanello](http://www.seanfanello.it)\\
 [Yasutaka Furukawa](http://www.cse.wustl.edu/~furukawa/)\\
 [Jun Gong](https://jungeorge.github.io)\\
+[Ross Girshick (rbg)](http://www.rossgirshick.info)\\
 [Philip Guo](http://pgbovine.net/writings.htm)\\
 [Kaiming He](http://kaiminghe.com)\\
 [Felix Heide](http://stanford.edu/~fheide/)\\
@@ -134,7 +136,8 @@ title: "links"
 [Lee Jacobson](http://www.theprojectspot.com/home)\\
 [Matrix67](http://www.matrix67.com)\\
 [Don Normal: Designing For People](https://www.jnd.org)\\
-[Surely I Am Joking](https://yinwang0.wordpress.com)
+[Surely I Am Joking](https://yinwang0.wordpress.com)\\
+[Hujiawei Bujidao](http://javayhu.me)
 
 ### Misc
 [Hacker News](https://news.ycombinator.com)\\
@@ -302,7 +305,7 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 ### Algorithm
 [Algorithms from Princeton](http://algs4.cs.princeton.edu/home/)\\
 [Algorithms by Jeff Erickson](http://web.engr.illinois.edu/~jeffe/teaching/algorithms/)\\
-[introduction to algorithm](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011)
+[Introduction to algorithm](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011)
 
 ### CS-related
 Scientific Programming in [Matlab](http://ucl-cs-grad.github.io/matlabgrad/index.html) and [Python](http://ucl-cs-grad.github.io/scipython/)\\
@@ -320,9 +323,13 @@ computer architecture\\
 [Effective Programming in C and C++](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s096-effective-programming-in-c-and-c-january-iap-2014/)\\
 [C++ tutorial](http://www.cs.ubc.ca/~mike323/cs314.html)\\
 [Thinking in C++ 2nd Edition by Bruce Eckel](Thinking in C++ 2nd Edition by Bruce Eckel)\\
+Topcoder - Power up C++ with the Standard Template Library by Dmitry Korolev [Part 1](https://www.topcoder.com/community/data-science/data-science-tutorials/power-up-c-with-the-standard-template-library-part-1/), [Part 2](https://www.topcoder.com/community/data-science/data-science-tutorials/power-up-c-with-the-standard-template-library-part-2/)\\
+[Topcoder - Introduction to Graphs and Their Data Structures](https://www.topcoder.com/community/data-science/data-science-tutorials/introduction-to-graphs-and-their-data-structures-section-1/)\\
+[Topcoder - Dynamic programming](https://www.topcoder.com/community/data-science/data-science-tutorials/dynamic-programming-from-novice-to-advanced/)\\
 [Python tutor](http://pythontutor.com)\\
 [NumPy for Matlab users](NumPy_for_Matlab_Users)\\
 [The Hitchhiker’s Guide to Python!](http://docs.python-guide.org/en/latest/)\\
+[Full list of 600 online courses](https://qz.com/1120344/200-universities-just-launched-600-free-online-courses-heres-the-full-list/)\\
 [Software Carpentry](http://software-carpentry.org/lessons/)\\
 [Cracking the coding](http://www.hawstein.com/posts/ctci-solutions-contents.html)\\
 [Leetcode编程训练](http://coolshell.cn/articles/12052.html)\\
