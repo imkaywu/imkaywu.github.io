@@ -74,6 +74,7 @@ title: "links"
 ### Academia
 [Sameer Agarwal](http://homes.cs.washington.edu/~sagarwal/)\\
 [Tianqi Chen](http://homes.cs.washington.edu/~tqchen/)\\
+[Colah's blog](http://colah.github.io)\\
 [Noam Chomsky](https://chomsky.info)\\
 [Shuoyang Ding](http://cs.jhu.edu/~sding/)\\
 [Ethan Eade](http://ethaneade.com)\\
@@ -91,6 +92,7 @@ title: "links"
 [Satoshi Ikehata](https://www.hal.t.u-tokyo.ac.jp/~ikehata/)\\
 [Andrej Karpathy's Blog](http://cs.stanford.edu/people/karpathy/)\\
 [Johnny Lee](http://johnnylee.net)\\
+[Ce Liu](http://people.csail.mit.edu/celiu/)\\
 [SATYA MALLICK - Learn OpenCV](http://www.learnopencv.com)\\
 [Wojciech Matusik](http://people.csail.mit.edu/wojciech/)\\
 [Gregor Miller](http://www.ece.ubc.ca/~gregor/)\\
@@ -265,6 +267,7 @@ title: "links"
 [Physics based Methods in Vision - CMU](http://www.cs.cmu.edu/afs/cs/academic/class/16823-s16/www/)\\
 [3D Computer Vision - U of Utah](http://www.sci.utah.edu/%7Egerig/CS6320-S2015/CS6320_3D_Computer_Vision.html)\\
 [CSC320S: Introduction to Visual Computing](http://www.cs.toronto.edu/~kyros/courses/320/)\\
+[Visual 3D Modeling from Images - Marc Pollefeys](http://www.cs.unc.edu/~marc/tutorial/)\\
 [SFMedu: A Structure from Motion System for Education](http://vision.princeton.edu/courses/SFMedu/)\\
 [Open Source Structure-from-Motion](http://www.kitware.com/cvpr2015-tutorial.html)\\
 [3d Shape Reconstruction from Photographs: a Multi-View Stereo Approach](http://carlos-hernandez.org/cvpr2010/)\\
