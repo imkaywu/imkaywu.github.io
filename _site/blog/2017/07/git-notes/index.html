@@ -187,6 +187,37 @@ git push origin placeholder
   <li>Under your repository name, click <code class="highlighter-rouge">Setting</code> &gt; <code class="highlighter-rouge">Options</code> &gt; <code class="highlighter-rouge">Github Pages</code> &gt; <code class="highlighter-rouge">Source</code>. Select <strong>master branch /docs folder</strong> from the drop-down menu as your Github Pages publishing source. (This option will not appear if the <code class="highlighter-rouge">/docs</code> folder doesn’t exist on the <code class="highlighter-rouge">master</code> branch.)</li>
 </ul>
 
+<h2 id="remove-sensitivelarge-data">Remove sensitive/large data</h2>
+<p>This is for the case where you accidently committed sensitive or large files, see the original <a href="https://help.github.com/articles/removing-sensitive-data-from-a-repository/">post</a>. There are more steps than what is listed here for multi-branch repos, see the original doc for more information.</p>
+
+<ol>
+  <li>Navigate into the repository’s working directory.
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">cd </span>YOUT-REPOSITORY
+</code></pre>
+    </div>
+  </li>
+  <li>Run the following command, replacing <code class="highlighter-rouge">PATH-TO-YOUR-FILE-WITH-SENSITIVE-DATA</code> with the path to the file you want to remove, not just its filename. These arguments will:
+    <ul>
+      <li>Force Git to process, but not check out, the entire history of every branch and tag;</li>
+      <li>Remove the specified file, as well as any empty commits generated as a result;</li>
+      <li>Overwrite your existing tags.
+        <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git filter-branch --force --index-filter <span class="se">\</span>
+<span class="s1">'git rm --cached --ignore-unmatch PATH-TO-YOUR-FILE-WITH-SENSITIVE-DATA'</span> <span class="se">\</span>
+--prune-empty --tag-name-filter cat -- --all
+</code></pre>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li>Add your file with sensitive data to .gitignore to ensure that you don’t accidentally commit it again.
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">echo</span> <span class="s2">"YOUR-FILE-WITH-SENSITIVE-DATA"</span> &gt;&gt; .gitignore
+<span class="gp">$ </span>git add .gitignore
+<span class="gp">$ </span>git commit -m <span class="s2">"Add YOUR-FILE-WITH-SENSITIVE-DATA to .gitignore"</span>
+</code></pre>
+    </div>
+  </li>
+</ol>
+
   </article>
 
   
