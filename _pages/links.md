@@ -10,7 +10,7 @@ title: "links"
 [Justin Timberlake]()\\
 [Coldplay]({{ site.url }}{{ site.baseurl }}/blog/2016/04/coldplay-live)\\
 [Ed Sheeran]({{ site.url }}{{ site.baseurl }}/blog/2016/04/ed-live)\\
-[Maggie Rogers](https://soundcloud.com/maggierogers)\\
+<!-- [Maggie Rogers](https://soundcloud.com/maggierogers)\\ -->
 [Justin guitar](http://www.justinguitar.com)\\
 [GoliathGuitar](http://www.goliathguitartutorials.com)\\
 [GuitarNick](http://www.guitarnick.com/easy-guitar-songs-for-absolute-beginners-tab.html)\\
@@ -49,7 +49,7 @@ title: "links"
 
 ---
 
-## Resources
+## Userful Resources
 [Awesome Computer Vision](https://github.com/jbhuang0604/awesome-computer-vision)\\
 [CVonline](http://homepages.inf.ed.ac.uk/rbf/CVonline/)\\
 [The Computer Vision Homepage](http://www.cs.cmu.edu/~cil/vision.html)\\
@@ -58,7 +58,8 @@ title: "links"
 [Background Subtraction Website](https://sites.google.com/site/backgroundsubtraction/overview)\\
 [Open Source Photogrammetry](http://opensourcephotogrammetry.blogspot.ca)\\
 [Theory of computation](https://rjlipton.wordpress.com)\\
-[Paper we love](http://paperswelove.org)
+[Paper we love](http://paperswelove.org)\\
+[Vim Cheatsheet](https://vim.rtorr.com)
 
 ---
 
@@ -99,9 +100,11 @@ title: "links"
 [Free Mind](http://freemind.pluskid.org)\\
 [Matt Might](http://matt.might.net/articles/)\\
 [Matthias Nießner](http://www.graphics.stanford.edu/~niessner/)\\
+[Jordan Peterson](https://jordanbpeterson.com)\\
 [Marc Pollefeys](https://www.inf.ethz.ch/personal/marc.pollefeys/)\\
 [Mark Reid](http://mark.reid.name)\\
 [Marco Tulio Ribeiro](http://homes.cs.washington.edu/~marcotcr/blog/)\\
+[David Robinson - Data Scientist](http://varianceexplained.org)\\
 [Random collection by Prof. Henning Schulzrinne](http://www.cs.columbia.edu/~hgs/etc/)
 [Steve Seitz](http://homes.cs.washington.edu/~seitz/)\\
 [Chris Sweeney](http://homes.cs.washington.edu/~csweeney/)\\
@@ -111,6 +114,7 @@ title: "links"
 [engin tola](http://www.engintola.com/index.html)\\
 [Tombone's Computer Vision Blog](http://www.computervisionblog.com)\\
 [George Vogiatzis](http://george-vogiatzis.org)\\
+[Xiu-Shen Wei](http://lamda.nju.edu.cn/weixs/?AspxAutoDetectCookieSupport=1)\\
 [Michael Wilber](http://mjwilber.org)\\
 [Kai Wolf](http://kai-wolf.me)\\
 [Junyuan Xie]()\\
@@ -138,6 +142,7 @@ title: "links"
 [Lee Jacobson](http://www.theprojectspot.com/home)\\
 [Matrix67](http://www.matrix67.com)\\
 [Don Normal: Designing For People](https://www.jnd.org)\\
+[Simon's Tech Blog](http://simonstechblog.blogspot.ca)\\
 [Surely I Am Joking](https://yinwang0.wordpress.com)\\
 [Hujiawei Bujidao](http://javayhu.me)
 
@@ -286,9 +291,14 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [Learn Computer Graphics From Scratch!](https://www.scratchapixel.com/index.php?redirect)\\
 [Interactive Computer Graphics: A Top-Down Approach with OpenGL](http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/)\\
 [ONLINE FREE TUTORIALS AND BOOKS](https://courses.edx.org/asset-v1:UCSDx+CSE167x+1T2017+type@asset+block/links.html)\\
-[OpenGLBook](http://openglbook.com)
+[OpenGLBook](http://openglbook.com)\\
+[SIGGRAPH 2010 Course: Physically-Based Shading Models in Film and Game Production](http://renderwonk.com/publications/s2010-shading-course/)\\
+[SIGGRAPH 2012 Course: Practical Physically Based Shading in Film and Game Production](http://blog.selfshadow.com/publications/s2012-shading-course/)\\
+[SIGGRAPH 2015 Course: Physically Based Shading in Theory and Practice](http://blog.selfshadow.com/publications/s2015-shading-course/#course_content)
 
 ### Machine Learning
+[All of Machine Learning - Prof. Mark Schmidt](https://www.cs.ubc.ca/~schmidtm/Courses/AllOfML/)\\
+[Deep Learning - Nando de Freitas](https://www.cs.ox.ac.uk/people/nando.defreitas/machinelearning/)\\
 [Machine Learning Reading Group at UBC](http://www.cs.ubc.ca/labs/lci/mlrg/)\\
 [Comvex Optimization at Stanford](https://lagunita.stanford.edu/courses/Engineering/CVX101/Winter2014/about)\\
 [Numerical Optimization by Prof. MPF]()
@@ -309,6 +319,9 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [Algorithms from Princeton](http://algs4.cs.princeton.edu/home/)\\
 [Algorithms by Jeff Erickson](http://web.engr.illinois.edu/~jeffe/teaching/algorithms/)\\
 [Introduction to algorithm](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011)
+
+### Programming
+[C & C++ HOME](http://www.tenouk.com)
 
 ### CS-related
 Scientific Programming in [Matlab](http://ucl-cs-grad.github.io/matlabgrad/index.html) and [Python](http://ucl-cs-grad.github.io/scipython/)\\

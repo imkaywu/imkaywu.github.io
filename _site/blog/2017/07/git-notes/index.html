@@ -109,21 +109,22 @@
   <article class="post-content">
     <h2 id="exclude-a-directory">Exclude a directory</h2>
 <p>Create a <code class="highlighter-rouge">.gitignore</code> file in root, and add the directory name in it</p>
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code>/dirName
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>dir_name/
 </code></pre>
 </div>
 
 <h2 id="remove-directory-from-git-and-local">Remove directory from git and local</h2>
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code>git rm -r dirName
-git commit -m <span class="s2">"Remove directory"</span>
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>git rm -r dir_name
+git commit -m <span class="s2">"remove directory"</span>
 git push origin <span class="o">[</span>you-git-branch]
 </code></pre>
 </div>
 
 <h2 id="remove-directory-from-git-but-not-local">Remove directory from git but NOT local</h2>
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code>git rm -r --cached dirName
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>git rm -r --cached dir_name
 </code></pre>
 </div>
+
 <h2 id="remove-ds_store">Remove <code class="highlighter-rouge">.DS_Store</code></h2>
 <div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># Remove existing files from the repository</span>
 find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
@@ -230,7 +231,7 @@ git push origin placeholder
     <footer>
 
   <div class="wrapper">
-    &copy; Copyright 2017 Kai Wu.
+    &copy; Copyright 2018 Kai Wu.
     Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
 
     
