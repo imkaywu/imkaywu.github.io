@@ -14,6 +14,7 @@ title: "links"
 [Justin guitar](http://www.justinguitar.com)\\
 [GoliathGuitar](http://www.goliathguitartutorials.com)\\
 [GuitarNick](http://www.guitarnick.com/easy-guitar-songs-for-absolute-beginners-tab.html)\\
+[JACOBS VOCAL ACADEMY](http://jacobsvocalacademy.com)\\
 [Openmic Vancouver](http://www.openmicvancouver.com)
 
 ---
@@ -45,7 +46,8 @@ title: "links"
 [Cambridge in Colour](http://www.cambridgeincolour.com)\\
 [iPhone photography school](https://iphonephotographyschool.com)\\
 [Ken Rockwell](http://www.kenrockwell.com/index.htm)\\
-[500px](https://500px.com)
+[500px](https://500px.com)\\
+[Shoottokyo](https://shoottokyo.com)\\
 
 ---
 
@@ -74,6 +76,7 @@ title: "links"
 
 ### Academia
 [Sameer Agarwal](http://homes.cs.washington.edu/~sagarwal/)\\
+[Ronald T. Azuma, Ph.D.](http://www.ronaldazuma.com)\\
 [Tianqi Chen](http://homes.cs.washington.edu/~tqchen/)\\
 [Colah's blog](http://colah.github.io)\\
 [Noam Chomsky](https://chomsky.info)\\
@@ -167,6 +170,7 @@ title: "links"
 [PMVS2](http://www.di.ens.fr/pmvs/)\\
 [CMVS](http://www.di.ens.fr/cmvs/)\\
 [CMPMVS - Jancosek](http://ptak.felk.cvut.cz/sfmservice/websfm.pl?menu=cmpmvs)\\
+[Open3D](http://www.open3d.org)\\
 [OpenMVS](http://cdcseacave.github.io/openMVS/)\\
 [VGG Multiple View Geometry Library](http://www.robots.ox.ac.uk/~vgg/hzbook/code/)\\
 [Bundler: SfM system for unordered image collections, C/C++](http://www.cs.cornell.edu/%7Esnavely/bundler/)\\
