@@ -11,11 +11,15 @@ title: "links"
 [Coldplay]({{ site.url }}{{ site.baseurl }}/blog/2016/04/coldplay-live)\\
 [Ed Sheeran]({{ site.url }}{{ site.baseurl }}/blog/2016/04/ed-live)\\
 <!-- [Maggie Rogers](https://soundcloud.com/maggierogers)\\ -->
+[JACOBS VOCAL ACADEMY](http://jacobsvocalacademy.com)\\
+[Openmic Vancouver](http://www.openmicvancouver.com)
+
+---
+## Guitar
 [Justin guitar](http://www.justinguitar.com)\\
 [GoliathGuitar](http://www.goliathguitartutorials.com)\\
 [GuitarNick](http://www.guitarnick.com/easy-guitar-songs-for-absolute-beginners-tab.html)\\
-[JACOBS VOCAL ACADEMY](http://jacobsvocalacademy.com)\\
-[Openmic Vancouver](http://www.openmicvancouver.com)
+Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/11/03/tips-for-taylor-gs-mini-owners-part-1/), [Part 2](https://guitarbear.wordpress.com/2016/11/10/7169/)
 
 ---
 
@@ -139,6 +143,7 @@ title: "links"
 [Brandon Gregg](http://www.brendangregg.com)\\
 [BYVoid](https://www.byvoid.com/zhs/)\\
 [Clay Bavor](https://www.claybavor.com)\\
+[danielmiessler](https://danielmiessler.com)\\
 [Debarghya Das](http://debarghyadas.com)\\
 [Ash Furrow](https://ashfurrow.com)\\
 [Laruence](http://www.laruence.com/)
@@ -266,7 +271,7 @@ title: "links"
 
 ---
 
-## Courses & Tutorial
+## Courses & Tutorials
 
 ### Computer Vision
 
@@ -282,6 +287,9 @@ title: "links"
 [3d Shape Reconstruction from Photographs: a Multi-View Stereo Approach](http://carlos-hernandez.org/cvpr2010/)\\
 [Build Your Own 3D Scanner: Optical Triangulation for Beginners](http://mesh.brown.edu/byo3d/index.html)\\
 [Visual 3D Modeling from Images](http://www.cs.unc.edu/~marc/tutorial/tutorial02.html)
+
+### 3D Vision
+[Large-scale 3D Modelling from Crowdsourced Data](https://demuc.de/tutorials/cvpr2017).
 
 ### Computer Graphics
 [Computer Graphics - Edx](https://www.edx.org/course/computer-graphics-uc-san-diegox-cse167x-1)\\
