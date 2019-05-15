@@ -97,6 +97,53 @@
 <ul class="post-list">
   
     <li>
+      <h2><a class="post-title" href="/blog/2017/09/sfm-bundle-adjustment/">Bundle adjustment of Structure from Motion in Ceres Solver</a></h2>
+      <p class="post-meta">September 25, 2017</p>
+      <p>
+      	
+    		  <p>Bundle adjustment is used ubiquitously as the last step of most feature based estimation problems. The goal is to simultaneously optimize the motion and data (estimated 2D feature or 3D point position). Some popular open source libraries are: <a href="http://users.ics.forth.gr/~lourakis/sba/">sparse bundle adjustment</a> (sba), <a href="http://ceres-solver.org/index.html">ceres solver</a>, <a href="http://grail.cs.washington.edu/projects/mcba/">Multicore Bundle Adjustment</a>, <a href="http://www.cvg.ethz.ch/research/chzach/opensource.html">Simple Sparse Bundle Adjustment (SSBA)</a>. In this post, I focus only on ceres solver. I’ll add support for <a href="http://users.ics.forth.gr/~lourakis/sba/">sba</a> in future release of <a href="https://imkaywu.github.io/open3DCV/">open3DCV</a>.</p>
+
+
+    		
+      </p>
+    </li>
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2017/09/camera-distortion/">Camera distortion</a></h2>
+      <p class="post-meta">September 25, 2017</p>
+      <p>
+      	
+    		  
+
+    		
+      </p>
+    </li>
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2017/09/feature-matching/">Feature matching</a></h2>
+      <p class="post-meta">September 16, 2017</p>
+      <p>
+      	
+    		  <p>Feature matching is a critical part in many vision problems, such as estimation of various matrices (projection, homography, essential, fundamental, relative post, etc), tracking, SfM and SLAM, just to name a few. I will discuss here in this post implementation of the feature matching algorithms implemented in <a href="https://imkaywu.github.io/open3DCV/">open3DCV</a>.</p>
+
+
+    		
+      </p>
+    </li>
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2017/09/robust-fundamental-matrix/">Robust Estimation of Fundamental Matrix</a></h2>
+      <p class="post-meta">September 15, 2017</p>
+      <p>
+      	
+    		  <p>This post is the results of two previous post: <a href="https://imkaywu.github.io//blog/2017/06/fundamental-matrix/">Estimation of fundamental matrix</a> and <a href="https://imkaywu.github.io//blog/2017/08/ransac-framework/">A framework for RANSAC</a>.</p>
+
+
+    		
+      </p>
+    </li>
+  
+    <li>
       <h2><a class="post-title" href="/blog/2017/08/blender-pc-animation/">Point cloud animation in Blender</a></h2>
       <p class="post-meta">August 28, 2017</p>
       <p>
@@ -175,58 +222,6 @@
       </p>
     </li>
   
-    <li>
-      <h2><a class="post-title" href="/blog/2017/07/git-notes/">Git cheatsheet</a></h2>
-      <p class="post-meta">July 6, 2017</p>
-      <p>
-      	
-    		  <h2 id="exclude-a-directory">Exclude a directory</h2>
-<p>Create a <code class="highlighter-rouge">.gitignore</code> file in root, and add the directory name in it</p>
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code>dir_name/
-</code></pre>
-</div>
-
-
-    		
-      </p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/07/matlab-mex/">An introduction to the `mex` file and useful implementations</a></h2>
-      <p class="post-meta">July 5, 2017</p>
-      <p>
-      	
-    		  <p>I use mostly Matlab to test my algorithms, it’s super easy to implement and fast enough for matrix computation. However, for some computationally heavy tasks that is hard to implement as matrix computation, I would normally turn to C++ for its efficiency. Thus I need an additional <code class="highlighter-rouge">mex</code> file so that my Matlab code can use the C++ code. To do so, most of the job required is to convert matlab data into C++ data, and I create some methods just for this purpose so that I don’t need to do this all over again next time. So here it is.</p>
-
-
-    		
-      </p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/06/image-class/">C++ implementation of a image class</a></h2>
-      <p class="post-meta">June 16, 2017</p>
-      <p>
-      	
-    		  <p>The internal data structure used to store image is a vector of <code class="highlighter-rouge">unsigned char</code>. Here are a list of basic functionalities included in the <code class="highlighter-rouge">Image</code> class</p>
-
-
-    		
-      </p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/06/jekyll-template-change/">Change to the al-folio theme</a></h2>
-      <p class="post-meta">June 14, 2017</p>
-      <p>
-      	
-    		  <p>This <a href="https://github.com/alshedivat/al-folio">Jekyll theme</a> is developed by <a href="https://www.cs.cmu.edu/~mshediva/">Maruan Al-Shedivat</a>, which is modified from the original template <a href="https://github.com/bogoli/-folio">-folio</a> developed by <a href="http://www.liabogoev.com">Lia Bogoev</a>. Thanks to those two for this clean, and simplistic design.</p>
-
-
-    		
-      </p>
-    </li>
-  
 </ul>
 
 
@@ -253,7 +248,7 @@
     <footer>
 
   <div class="wrapper">
-    &copy; Copyright 2018 Kai Wu.
+    &copy; Copyright 2019 Kai Wu.
     Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
 
     

@@ -39,7 +39,9 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 
 ---
 
-## Travel blogs
+## Travel
+[Wikitravel](https://wikitravel.org/en/Main_Page)\\
+[Wikivoyage](https://en.wikivoyage.org/wiki/Main_Page)\\
 [Flying the nest](http://flyingthenest.tv)
 
 ---
@@ -152,7 +154,8 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [Don Normal: Designing For People](https://www.jnd.org)\\
 [Simon's Tech Blog](http://simonstechblog.blogspot.ca)\\
 [Surely I Am Joking](https://yinwang0.wordpress.com)\\
-[Hujiawei Bujidao](http://javayhu.me)
+[Hujiawei Bujidao](http://javayhu.me)\\
+[An amateur programmer](https://dirtysalt.github.io/html/index.html)
 
 ### Misc
 [Hacker News](https://news.ycombinator.com)\\
@@ -310,10 +313,13 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 
 ### Machine Learning
 [All of Machine Learning - Prof. Mark Schmidt](https://www.cs.ubc.ca/~schmidtm/Courses/AllOfML/)\\
+[80 Lectures on Machine Learning - Prof. Mark Schmidt](https://www.cs.ubc.ca/~schmidtm/Courses/LecturesOnML/)\\
+[CPSC 340 - UBC](https://ubc-cs.github.io/cpsc340/)\\
 [Deep Learning - Nando de Freitas](https://www.cs.ox.ac.uk/people/nando.defreitas/machinelearning/)\\
 [Machine Learning Reading Group at UBC](http://www.cs.ubc.ca/labs/lci/mlrg/)\\
 [Comvex Optimization at Stanford](https://lagunita.stanford.edu/courses/Engineering/CVX101/Winter2014/about)\\
-[Numerical Optimization by Prof. MPF]()
+[Numerical Optimization by Prof. MPF]()\\
+[MIT Deep Learning](https://deeplearning.mit.edu)
 
 ### Math
 [Calculus Part 1](https://www.coursera.org/learn/calculus1/home/welcome)\\
