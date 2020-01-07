@@ -20,7 +20,7 @@ title: "links"
 [GoliathGuitar](http://www.goliathguitartutorials.com)\\
 [GuitarNick](http://www.guitarnick.com/easy-guitar-songs-for-absolute-beginners-tab.html)\\
 Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/11/03/tips-for-taylor-gs-mini-owners-part-1/), [Part 2](https://guitarbear.wordpress.com/2016/11/10/7169/)\\
-[Tomo Fujita](https://tomovhxtv.vhx.tv)
+[Tomo Fujita](https://tomovhxtv.vhx.tv)\\
 [Learn Practice Play](https://learnpracticeplay.com/signup/)\\
 [Next level playing](https://learnpracticeplay.com/next-level-course-closed//)
 
