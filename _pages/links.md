@@ -19,7 +19,10 @@ title: "links"
 [Justin guitar](http://www.justinguitar.com)\\
 [GoliathGuitar](http://www.goliathguitartutorials.com)\\
 [GuitarNick](http://www.guitarnick.com/easy-guitar-songs-for-absolute-beginners-tab.html)\\
-Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/11/03/tips-for-taylor-gs-mini-owners-part-1/), [Part 2](https://guitarbear.wordpress.com/2016/11/10/7169/)
+Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/11/03/tips-for-taylor-gs-mini-owners-part-1/), [Part 2](https://guitarbear.wordpress.com/2016/11/10/7169/)\\
+[Tomo Fujita](https://tomovhxtv.vhx.tv)
+[Learn Practice Play](https://learnpracticeplay.com/signup/)\\
+[Next level playing](https://learnpracticeplay.com/next-level-course-closed//)
 
 ---
 
@@ -309,7 +312,8 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [OpenGLBook](http://openglbook.com)\\
 [SIGGRAPH 2010 Course: Physically-Based Shading Models in Film and Game Production](http://renderwonk.com/publications/s2010-shading-course/)\\
 [SIGGRAPH 2012 Course: Practical Physically Based Shading in Film and Game Production](http://blog.selfshadow.com/publications/s2012-shading-course/)\\
-[SIGGRAPH 2015 Course: Physically Based Shading in Theory and Practice](http://blog.selfshadow.com/publications/s2015-shading-course/#course_content)
+[SIGGRAPH 2015 Course: Physically Based Shading in Theory and Practice](http://blog.selfshadow.com/publications/s2015-shading-course/#course_content)\\
+[Ray Tracing in One Weekend](https://raytracing.github.io)
 
 ### Machine Learning
 [All of Machine Learning - Prof. Mark Schmidt](https://www.cs.ubc.ca/~schmidtm/Courses/AllOfML/)\\
