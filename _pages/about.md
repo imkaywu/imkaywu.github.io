@@ -8,16 +8,16 @@ profile:
   align: right
   image: profile/clapton_harrison.jpg
   address: >
-    <p>450 National Ave</p>
+    <p>450 National Ave,</p>
     <p>Mountain View, CA, 94043</p>
 
 news: true
 social: true
 ---
-I am an engineer working on autonomous driving technology, who love playing
-guitar in spare time. My favorite guitar heros are: [Eric Clapton](https://en.wikipedia.org/wiki/Clapton_is_God) and [George Harrison](https://www.youtube.com/watch?v=N1xbHyUsLwY&list=PLgDL4nVpCFuXX6aKEFr0oy4Qjoj00nvat&index=24&frags=pl%2Cwn) (my favorite Beatle).
+I am a Compute Vision engineer working on autonomous driving, who love playing
+guitar in spare time. My favorite guitar heros are: [Eric Clapton](https://en.wikipedia.org/wiki/Clapton_is_God) and [George Harrison](https://www.youtube.com/watch?v=N1xbHyUsLwY&list=PLgDL4nVpCFuXX6aKEFr0oy4Qjoj00nvat&index=24&frags=pl%2Cwn) (favorite Beatle).
 
-Previously, I was a Master of Applied Science student at the ECE Department of University of British Columbia. I am with the [Human Communication Technologies Lab](http://hct.ece.ubc.ca) supervised by [Dr. Sidney Fels]() and [Dr. Gregor Miller](http://www.ece.ubc.ca/~gregor/). Go to my [CV](https://imkaywu.github.io/cv) for more detailed information.
+Previously, I was a Master of Applied Science student at the ECE Department of University of British Columbia. I was with the [Human Communication Technologies Lab](http://hct.ece.ubc.ca) supervised by [Dr. Sidney Fels]() and [Dr. Gregor Miller](http://www.ece.ubc.ca/~gregor/). Go to my [CV](https://imkaywu.github.io/cv) for more detailed information.
 
 ## Interests
 - 3D computer vision (check out [open3DCV]({{ site.url }}{{ site.baseurl }}/open3DCV/))
