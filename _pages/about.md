@@ -6,16 +6,18 @@ description: <a href="https://hct.ece.ubc.ca">HCT</a>. <a href="https://www.ece.
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: profile/clapton_harrison.jpg
   address: >
-    <p>X509, 2366 Main Mall</p>
-    <p>Vancouver, BC Canada V6T 1Z4</p>
+    <p>450 National Ave</p>
+    <p>Mountain View, CA, 94043</p>
 
 news: true
 social: true
 ---
+I am an engineer working on autonomous driving technology, who love playing
+guitar in spare time. My favorite guitar heros are: [Eric Clapton](https://en.wikipedia.org/wiki/Clapton_is_God) and [George Harrison](https://www.youtube.com/watch?v=N1xbHyUsLwY&list=PLgDL4nVpCFuXX6aKEFr0oy4Qjoj00nvat&index=24&frags=pl%2Cwn) (my favorite Beatle).
 
-I am a Master of Applied Science student at the ECE Department of University of British Columbia. I am with the [Human Communication Technologies Lab](http://hct.ece.ubc.ca) supervised by [Dr. Sidney Fels]() and [Dr. Gregor Miller](http://www.ece.ubc.ca/~gregor/). Go to my [CV](https://imkaywu.github.io/cv) for more detailed information.
+Previously, I was a Master of Applied Science student at the ECE Department of University of British Columbia. I am with the [Human Communication Technologies Lab](http://hct.ece.ubc.ca) supervised by [Dr. Sidney Fels]() and [Dr. Gregor Miller](http://www.ece.ubc.ca/~gregor/). Go to my [CV](https://imkaywu.github.io/cv) for more detailed information.
 
 ## Interests
 - 3D computer vision (check out [open3DCV]({{ site.url }}{{ site.baseurl }}/open3DCV/))
@@ -28,6 +30,7 @@ I am a Master of Applied Science student at the ECE Department of University of 
 	- Camera-projector calibration
 - Physics-based Vision
 - Digital Photography
+- Blues Guitar
 
 <!-- ## Note
 This articles are licensed under Creative Commons 3.0 Attribution. This means you can copy/paste it, share it, post it on your own website, change it, and generally do whatever you want with it, providing you mention my name. Although you don't have to, if you base your work on mine, I encourage you to publish your own writings under Creative Commons so that it's easier for others to share and collaborate as well. -->
