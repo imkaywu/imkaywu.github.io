@@ -203,25 +203,45 @@ Pass。需要爬升大约500米，这里的台阶非常高，每一步都要把�
 这最后这段路上我遇到三座桥，按照昨天的经验，营地就设在这离桥不远的地方。每过一座桥，我就在心里默念，应该快到了吧。最后终于看到了营地所在，我走过其他营地的帐篷，终于找到了我们的营地，我来到帐篷跟前，丢下了登山杖，把包往帐篷里一扔便一屁股坐下了。10个小时的雨中徒步结束了。我在帐篷里躺着休息了很久才去吃饭的帐篷，今天晚上的氛围特别好，大家聊得非常开心，都在分享今天的high point和low point。Max还跟我们讲了他第一次做guide时关于puma的故事。晚饭结束后，外面依旧是满天繁星，不见一片浮云遮蔽，看来今天晚上应该也是好天气。希望明天也是。
 
 <div class="img_row">
-    <img class="col three" src="/assets/img/travel/peru/day_two_camp_site.JPG" alt="" title="Day two camp site"/>
+    <img class="col three" src="/assets/img/travel/peru/day_two_camp_site_0.JPG" alt="" title="Day two camp site"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/day_two_camp_site_1.jpg" alt="" title="Day two camp site"/>
 </div>
 <div class="col three caption">
-    Day two camp site in the morning (way overexposed).
+    Day two camp site in the morning (way overexposed, second image courtesy of
+    Olga).
 </div>
 
 ## 12/29/2019: Chaquiccocha – Wiñaywayna
 * 远足距离：10km (5 hours)
 * 营地海拔：2600 m 
 
-今天早晨依旧在porter的cocoa leaf tea的叫声中醒来 V起身打开了帐篷 我随后起身
-接过茶杯后 侧躺着身子等着清醒 V起身出了帐篷 让我换衣服
-我摸了摸昨晚挂在帐篷口的湿毛衣 结果袖口依旧是湿的 今天只好不穿毛衣了
+今天早晨依旧在porter的cocoa leaf tea的叫声中醒来，Valerio起身拉开了帐篷，我随后起身，接过茶杯后，侧躺着身子等着清醒过来。Valerio起身出了帐篷让我换衣服，我摸了摸昨晚挂在帐篷门口的湿毛衣，结果袖口依旧是湿的，今天只好不穿毛衣了。今天的早餐有pancake，配上淋在上面的巧克力酱汁，实在是松软可口。
 
-今天早上刚开始是一段上坡 然后基本上都是下坡 我们需要从3800米下到2800米左右
-我们上爬到一块大平地上 这里是少数几个能接收到信号的地方
-所有人都激动的拿出手机查看信息 有的人去了不远处的洗手间 我放下书包拿出相机
-开始寻找角度拍照 现在山间还有一些迷雾环绕 但远处的风景仍隐约可见 我拍了几张
-然后回头见L正站在我旁边 她问我能不能帮她拍照 我便照做了 之后她也帮我拍了几张
+今天早上刚开始是一段平稳的上坡，这段路非常轻松，加上有绿荫遮蔽，就好像在公园散步一半。Victor给我们讲了rain forest和cloud forest貌似是一样的，只不过rain forest在海拔很低的地方（100-200米），而cloud forest长在高海拔地区。
+
+<div class="img_row">
+    <img class="col one" src="/assets/img/travel/peru/victor_talking_cloud_forest.jpg" alt="" title="Cloud forest"/>
+    <img class="col two" src="/assets/img/travel/peru/cloud_forest.jpg" alt="" title="Cloud forest"/>
+</div>
+<div class="col three caption">
+    Victor talking about cloud forest.
+</div>
+
+中途经过一个石头洞窟，每个人在进洞之前，都在洞口由Max拍了照片留念。洞内石阶高而窄小，而且湿滑，下坡需要非常小心才是。
+
+<div class="img_row">
+    <img class="col two" src="/assets/img/travel/peru/me_in_front_of_cave.JPG" alt="" title="Cave"/>
+</div>
+<div class="col three caption">
+    Me in front of the cave (by Max).
+</div>
+
+我们还停下来看了Salkantay雪山，这是Sacred
+Valley里第二高的雪山，可惜我没有拍照。
+
+今天登山的最高点就是海拔3680米的Phuyupatamarka。Phuyupatamarka这个词即指campground又代表印加遗迹。这里是少数几个能接收到信号的地方，所有人都激动的拿出手机查看信息，有的人去了不远处的洗手间。我放下书包拿出相机，开始寻找角度拍照。现在山间还有一些迷雾环绕，但远处的风景仍隐约可见，我拍了几张，然后回头见L正站在我旁边，她问我能不能帮她拍照，之后她也帮我拍了几张。
 
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/phuyupatamarca.JPG" alt="" title="Phuyupatamarca"/>
@@ -244,38 +264,54 @@ Pass。需要爬升大约500米，这里的台阶非常高，每一步都要把�
 我也实在是没能控制住自己的好奇心罢了
 -->
 
-Alex和Kat因为昨天的trek弄湿了所有衣服 所以他们不再继续今天就要在此和我们分别了
-虽然大家相处的时间很短 而我也没有和他们有太多的交流
-但是看到一起同行的伙伴的离开也一年不是滋味的 好在明天我们在马丘比丘还能再见
-但是这又以为这我们这群人的分别就在眼前了 哎 不去想这些吧 悲欢离合总有时
-此事古难全
+Alex和Kat因为昨天的登山的时候弄湿了所有衣服，所以他们不得不提前结束这次hiking，提前在此和我们分别了。虽然大家相处的时间，我也没有和他们有太多的交流，但是看到一起同行的伙伴的提早离开心里也不是滋味的。好在明天我们在马丘比丘还能再见，但是这又意味着这次旅程的结束和我们这群人的分别就在眼前了。哎，不去想这些吧，悲欢离合总有时。
 
-在下山路上 Victor要我们在一片梯田处等待休憩 印象最深的就是那片大梯田
-之前在做攻略的时候就有所见 彼时以为要从半人高的梯田上直接爬下去
-后来才知原来在梯田两边有石头台阶
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/group_in_phuyupatamarka_0.jpg" alt="" title="Group in Phuyupatamarka"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/group_in_phuyupatamarka_1.jpg" alt="" title="Group in Phuyupatamarka"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/group_in_phuyupatamarka_2.jpg" alt="" title="Group in Phuyupatamarka"/>
+</div>
+<div class="col three caption">
+    Group in Phuyupatamarka (image courtesy of Olga).
+</div>
+
+Phuyupatamarka这片古迹放眼看过去是一个很大片的梯田,这是以前印加帝国用来种植农业的地方。
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/phuyutamarca_0.jpg" alt="" title="Phuyupatamarka"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/phuyutamarca_1.jpg" alt="" title="Phuyupatamarka"/>
+</div>
+<div class="img_row">
+    <img class="col two" src="/assets/img/travel/peru/phuyutamarca_2.JPG" alt="" title="Phuyupatamarka"/>
+    <img class="col one" src="/assets/img/travel/peru/phuyutamarca_3.JPG" alt="" title="Phuyupatamarka"/>
+</div>
+<div class="col three caption">
+    Inca ruins Phuyutamarca (Town in the Clouds, first two images courtesy of
+    Olga).
+</div>
+
+从这以后基本上都是下坡，我们需要从3800米下到2800米左右。在下山路上，Victor要我们在一片梯田处等待休憩。印象最深的就是那片大梯田，之前在做攻略的时候就有所见，彼时以为要从半人高的梯田上直接爬下去，后来才知原来在梯田两边有石头台阶。这片梯田就是"Intipata -- Port of the Sun"。
+
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/group_at_terrace.jpg" alt="" title="Group at Terrace"/>
+</div>
+<div class="col three caption">
+    Group at Intipata.
+</div>
 
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/bottom_of_terrace.JPG" alt="" title="Bottom of Terrace"/>
 </div>
 <div class="col three caption">
-    Bottom of Terrace.
+    Bottom of Intipata.
 </div>
 
-Inca ruins of Phuyutamarca.
-is applied to both the campground, and the ruins.
-
-<div class="img_row">
-    <img class="col three" src="/assets/img/travel/peru/phuyutamarca_0.JPG" alt="" title="Bottom of Terrace"/>
-</div>
-<div class="img_row">
-    <img class="col three" src="/assets/img/travel/peru/phuyutamarca_1.JPG" alt="" title="Bottom of Terrace"/>
-</div>
-<div class="col three caption">
-    Inca ruins Phuyutamarca (Town in the Clouds).
-</div>
-
-下午1点左右我们到达的营地 至此印加徒步的大头就此完成 我坐在帐篷口 看着眼前远山
-不敢相信这两天半以来发生的事情 不敢相信我竟然完成了这么消耗体力和精力的项目
+下午1点左右我们到达的营地，至此印加徒步的大头就此完成。我坐在帐篷口，看着眼前远山，不敢相信这两天半以来发生的事情，不敢相信我竟然完成了这么消耗体力和精力的项目。
 
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/day_three_camp_site.JPG" alt="" title="Day three camp site"/>
@@ -288,7 +324,7 @@ is applied to both the campground, and the ruins.
 下午3点左右 Max带着我们去临近的一个印加遗迹参观 我们徒步了大概15分钟左右达到
 首先映入眼帘的就是一片巨大的梯田 继而是梯田下的遗迹
 我们在梯田的最上一级上一字排开坐下 听Max讲解这片遗迹的历史 这片遗迹叫做Winay
-Huayna 英文名叫做forever young 后来讲的什么我都不甚听清楚 只是一边荡着双腿
+Huayna 英文叫做forever young 后来讲的什么我都不甚听清楚 只是一边荡着双腿
 一边看着底下的山川河流
 
 <div class="img_row">
@@ -338,7 +374,7 @@ L笑着走过我身边 问了我一句Are u done 我点头回复说是 她又说
 </div>
 
 晚上回到帐篷 我把所有东西都收拾好以便明早可以不用太花时间
-最后一晚离开我的帐篷睡下 这是我在印加之旅的最后一夜
+最后一晚离开我的帐篷睡下 这是我在印加之旅的最后一夜。
 
 ## 12/30/2019: Sun Gate - Machu Picchu – The Lost City Of The Incas
 今天是这趟旅程过的最不开心的一天 晚上睡觉前想给手机充电
