@@ -7,9 +7,6 @@ title: "links"
 ## Music
 [周杰伦]({{ site.url }}{{ site.baseurl }}/blog/2016/05/jay-chou-music)\\
 <!-- [田馥甄]()\\ -->
-[Justin Timberlake]()\\
-[Coldplay]({{ site.url }}{{ site.baseurl }}/blog/2016/04/coldplay-live)\\
-[Ed Sheeran]({{ site.url }}{{ site.baseurl }}/blog/2016/04/ed-live)\\
 <!-- [Maggie Rogers](https://soundcloud.com/maggierogers)\\ -->
 [JACOBS VOCAL ACADEMY](http://jacobsvocalacademy.com)\\
 [Openmic Vancouver](http://www.openmicvancouver.com)
@@ -45,7 +42,8 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 ## Travel
 [Wikitravel](https://wikitravel.org/en/Main_Page)\\
 [Wikivoyage](https://en.wikivoyage.org/wiki/Main_Page)\\
-[Flying the nest](http://flyingthenest.tv)
+[Flying the nest](http://flyingthenest.tv)\\
+[TRAVEL WITH WINNY](https://www.travelwithwinny.com/)
 
 ---
 
