@@ -209,8 +209,7 @@ Pass。需要爬升大约500米，这里的台阶非常高，每一步都要把�
     <img class="col three" src="/assets/img/travel/peru/day_two_camp_site_1.jpg" alt="" title="Day two camp site"/>
 </div>
 <div class="col three caption">
-    Day two camp site in the morning (way overexposed, second image courtesy of
-    Olga).
+    Day two camp site in the morning (way overexposed, second image courtesy of Olga).
 </div>
 
 ## 12/29/2019: Chaquiccocha – Wiñaywayna
@@ -226,7 +225,7 @@ Pass。需要爬升大约500米，这里的台阶非常高，每一步都要把�
     <img class="col two" src="/assets/img/travel/peru/cloud_forest.jpg" alt="" title="Cloud forest"/>
 </div>
 <div class="col three caption">
-    Victor talking about cloud forest.
+    Victor talking about cloud forest (image courtesy of Olga).
 </div>
 
 中途经过一个石头洞窟，每个人在进洞之前，都在洞口由Max拍了照片留念。洞内石阶高而窄小，而且湿滑，下坡需要非常小心才是。
@@ -243,6 +242,10 @@ Valley里第二高的雪山，可惜我没有拍照。
 
 今天登山的最高点就是海拔3680米的Phuyupatamarka。Phuyupatamarka这个词即指campground又代表印加遗迹。这里是少数几个能接收到信号的地方，所有人都激动的拿出手机查看信息，有的人去了不远处的洗手间。我放下书包拿出相机，开始寻找角度拍照。现在山间还有一些迷雾环绕，但远处的风景仍隐约可见，我拍了几张，然后回头见L正站在我旁边，她问我能不能帮她拍照，之后她也帮我拍了几张。
 
+<!--
+快下山时我听到L再给她的什么朋友发语音 也许是voice message也未可知 大意是说你得非常喜欢户外运动才会喜欢Inca Trail 然后希望对方在SD过的开心 是说偷听别人讲话不甚道德 但好在也不是什么秘密对话 我也实在是没能控制住自己的好奇心罢了
+-->
+
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/phuyupatamarca.JPG" alt="" title="Phuyupatamarca"/>
 </div>
@@ -256,13 +259,6 @@ Valley里第二高的雪山，可惜我没有拍照。
 <div class="col three caption">
     Me at Phuyupatamarca (by Lourdes).
 </div>
-
-<!--
-快下山时我听到L再给她的什么朋友发语音 也许是voice message也未可知
-大意是说你得非常喜欢户外运动才会喜欢Inca Trail 然后希望对方在SD过的开心
-是说偷听别人讲话不甚道德 但好在也不是什么秘密对话
-我也实在是没能控制住自己的好奇心罢了
--->
 
 Alex和Kat因为昨天的登山的时候弄湿了所有衣服，所以他们不得不提前结束这次hiking，提前在此和我们分别了。虽然大家相处的时间，我也没有和他们有太多的交流，但是看到一起同行的伙伴的提早离开心里也不是滋味的。好在明天我们在马丘比丘还能再见，但是这又意味着这次旅程的结束和我们这群人的分别就在眼前了。哎，不去想这些吧，悲欢离合总有时。
 
@@ -279,7 +275,7 @@ Alex和Kat因为昨天的登山的时候弄湿了所有衣服，所以他们不�
     Group in Phuyupatamarka (image courtesy of Olga).
 </div>
 
-Phuyupatamarka这片古迹放眼看过去是一个很大片的梯田,这是以前印加帝国用来种植农业的地方。
+从这以后基本上都是下坡，我们需要从3800米下到2800米左右。Phuyupatamarka这片古迹放眼看过去是一个很大片的梯田,这是以前印加帝国用来种植农业的地方。Victor在这里给我们讲了很多历史，可惜当时我忙着拍照放空，讲什么也不甚记得清了。
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/phuyutamarca_0.jpg" alt="" title="Phuyupatamarka"/>
 </div>
@@ -291,11 +287,12 @@ Phuyupatamarka这片古迹放眼看过去是一个很大片的梯田,这是以�
     <img class="col one" src="/assets/img/travel/peru/phuyutamarca_3.JPG" alt="" title="Phuyupatamarka"/>
 </div>
 <div class="col three caption">
-    Inca ruins Phuyutamarca (Town in the Clouds, first two images courtesy of
-    Olga).
+    Inca ruins Phuyutamarca (Town in the Clouds, first two images courtesy of Olga).
 </div>
 
-从这以后基本上都是下坡，我们需要从3800米下到2800米左右。在下山路上，Victor要我们在一片梯田处等待休憩。印象最深的就是那片大梯田，之前在做攻略的时候就有所见，彼时以为要从半人高的梯田上直接爬下去，后来才知原来在梯田两边有石头台阶。这片梯田就是"Intipata -- Port of the Sun"。
+此后一直是下山路，在中途一处休息时，Olga看到我脸上和脖子上都晒得通红，一定要叫我涂防晒。Lourdes把防晒霜给了她，还没等我反应过来，她就帮我把防晒摸到了后颈和耳后根，然后给了我一面镜子，让我把防晒涂脸上。这时我才知道我的晒伤已不仅限于手了，我的额头被晒得通红，鼻子上的皮被晒得结了厚厚硬硬的一层。这趟旅程的难度确实超出了我的预料，准备工作也着实不足，搞得还需要队友来照顾我，实在是很难为情啊。就在我们坐着聊天的时，Valerio突然问我几岁，我让他猜。他说你前面有点白发，我猜26岁。听到别人把我年龄说小一岁，心中还是一阵窃喜。看来当人年纪大了，即便被人认为比实际年轻都会很开心啊。
+
+最后下山的路上，Victor要我们在一片梯田处等待休息。这片梯田就是"Intipata -- Port of the Sun"。这片梯田之前在做攻略的时候就有所见，印象很深，彼时以为要从半人高的梯田上直接爬下去，后来才知原来在梯田两边有石头台阶。我们躺在草地方，享受这难得的惬意，太阳很晒，我手上晒伤的地方火辣辣的疼，我只好把手揣在兜里，免得晒伤加重。
 
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/group_at_terrace.jpg" alt="" title="Group at Terrace"/>
@@ -311,21 +308,17 @@ Phuyupatamarka这片古迹放眼看过去是一个很大片的梯田,这是以�
     Bottom of Intipata.
 </div>
 
-下午1点左右我们到达的营地，至此印加徒步的大头就此完成。我坐在帐篷口，看着眼前远山，不敢相信这两天半以来发生的事情，不敢相信我竟然完成了这么消耗体力和精力的项目。
+下午1点左右我们到达的营地，至此印加徒步的主要部分就完成。我坐在帐篷口，看着眼前远山，不敢相信这两天半以来发生的事情，不敢相信我竟然完成了这件我之前从来没想过会去做的事情。虽然在最困难的时候，我曾经质疑过为什么要踏上这段旅程，我曾抱怨为什么要让自己经历这些生理和心理的痛苦。可是我一点也不后悔来到这里，虽然我的手被剧烈的灼伤，虽然我的左膝已经疼得不能弯曲，可是当终点就在眼前，当我一抬头就可以看到巍峨起伏的群山，当所有辛苦都已经历，剩下的只有回忆的时候，我心里真的很开心几个月前自己冲动的决定。这是一段多么棒的经历，这是一段多么难以磨灭的记忆啊。
 
 <div class="img_row">
-    <img class="col three" src="/assets/img/travel/peru/day_three_camp_site.JPG" alt="" title="Day three camp site"/>
+    <img class="col one" src="/assets/img/travel/peru/me_at_day_three_camp_site.JPG" alt="" title="Day three camp site"/>
+    <img class="col two" src="/assets/img/travel/peru/day_three_camp_site.JPG" alt="" title="Day three camp site"/>
 </div>
 <div class="col three caption">
     Day three camp site from my tent.
 </div>
 
-中午的午饭很丰盛 炒饭尤其好吃 吃过饭后 我们坐在了帐篷外欣赏风景加聊天
-下午3点左右 Max带着我们去临近的一个印加遗迹参观 我们徒步了大概15分钟左右达到
-首先映入眼帘的就是一片巨大的梯田 继而是梯田下的遗迹
-我们在梯田的最上一级上一字排开坐下 听Max讲解这片遗迹的历史 这片遗迹叫做Winay
-Huayna 英文叫做forever young 后来讲的什么我都不甚听清楚 只是一边荡着双腿
-一边看着底下的山川河流
+中午的午饭很丰盛，炒饭尤其好吃，吃过饭后，我们坐在了帐篷外喝茶，欣赏风景加聊天。下午3点左右，Max带着我们去临近的一个印加遗迹参观，我们徒步了大概15分钟左右达到。首先映入眼帘的就是一片巨大的梯田，继而是梯田下的遗迹。Max帮我们每个人在牌子前拍照留念。
 
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/winay_huayna.JPG" alt="" title="Winay Huayna"/>
@@ -335,24 +328,30 @@ Huayna 英文叫做forever young 后来讲的什么我都不甚听清楚 只是�
 </div>
 
 <div class="img_row">
-    <img class="col three" src="/assets/img/travel/peru/me_at_winay_huayna.JPG" alt="" title="Winay Huayna"/>
+    <img class="col one" src="/assets/img/travel/peru/me_at_winay_huayna_0.JPG" alt="" title="Winay Huayna"/>
+    <img class="col two" src="/assets/img/travel/peru/me_at_winay_huayna_1.JPG" alt="" title="Winay Huayna"/>
 </div>
 <div class="col three caption">
     Me at Winay Huayna (by our trusty 'paparazzi' and dutiful guide Max).
 </div>
 
-到了自由活动的时间 我们纷纷下到遗迹下去一探究竟 因为没有讲解
-我也不过是走马观花的四周转悠 当我最后又走到梯田最顶端 靠着古墙远眺前方的时候
+我们在梯田的最上一级上一字排开坐下，听Max讲解这片遗迹的历史。这片遗迹叫做Winay Huayna，英文叫做forever young。后来讲的什么我都不甚听清楚，只是一边荡着双腿，一边看着底下的山川河流。我的注意力全部被一只从营地跟着我们来到此的汪星人所吸引。
+
+<div class="img_row">
+    <img class="col one" src="/assets/img/travel/peru/group_at_winay_huayna.JPG" alt="" title="Winay Huayna"/>
+    <img class="col two" src="/assets/img/travel/peru/view_in_winay_huayna.jpg" alt="" title="Winay Huayna"/>
+</div>
+<div class="col three caption">
+    Group at Winay Huayna (second image courtesy of Olga).
+</div>
+
+到了自由活动的时间，我们纷纷下到遗迹下去一探究竟，因为没有讲解，我也不过是走马观花的四周转悠。当我最后又走到梯田最顶端，靠着古墙远眺前方的时候。
+
 <!--
-L笑着走过我身边 问了我一句Are u done 我点头回复说是 她又说了句see u at the camp
-就这样我们讲完了当天的最后几句话
+L笑着走过我身边 问了我一句Are u done 我点头回复说是 她又说了句see u at the camp 就这样我们讲完了当天的最后几句话
 -->
 
-晚餐一如既往的丰富 终了还有一个蛋糕 Victor在大家分吃蛋糕的时候
-把AE的绿色短袖分发给了大家 我们最后把准备好的给porter和cook的tip收集好
-又想第一晚一样在帐篷外排开 由l和i代表我们向他们表示感谢
-并把装有tip的信封交给他们 然后我们互相一一握手
-就此和辛勤服务了我们三天三夜的porter们告别
+晚餐一如既往的丰富，终了还有一个蛋糕。Victor在大家分吃蛋糕的时候，把AE的绿色短袖分发给了大家。我们最后把准备好的给porter和cook的tip收集好，又像第一晚一样在帐篷外排开。由Lourdes，Irene和Valerio代表我们向他们表示感谢（因为他们是我们中唯三会说西班牙语的)。并把装有tip的信封交给他们，然后我们互相一一握手，就此和辛勤服务了我们三天三夜的porter们告别。
 
 <div class="img_row">
     <img class="col one" src="/assets/img/travel/peru/last_dinner_0.jpg" alt="" title="Last dinner"/>
@@ -369,12 +368,10 @@ L笑着走过我身边 问了我一句Are u done 我点头回复说是 她又说
     <img class="col one" src="/assets/img/travel/peru/farewell_to_porters_2.jpg" alt="" title="Last dinner"/>
 </div>
 <div class="col three caption">
-    Saying thank you and farewell to our amazing team of cook and porters (image
-    courtesy of Olga).
+    Saying thank you and farewell to our amazing team of chefs and porters (image courtesy of Olga).
 </div>
 
-晚上回到帐篷 我把所有东西都收拾好以便明早可以不用太花时间
-最后一晚离开我的帐篷睡下 这是我在印加之旅的最后一夜。
+晚上回到帐篷，我把所有东西都收拾好以便明早可以不用太花时间。最后一晚离开我的帐篷睡下，这是我在印加之行的最后一夜。
 
 ## 12/30/2019: Sun Gate - Machu Picchu – The Lost City Of The Incas
 今天是这趟旅程过的最不开心的一天 晚上睡觉前想给手机充电
@@ -408,7 +405,7 @@ porter们需要赶早抹黑去车站坐车 所以我们也需要早起 起床后
     <img class="col three" src="/assets/img/travel/peru/machupichu_from_sun_gate.JPG" alt="" title="Machu Pichu from the Sun Gate"/>
 </div>
 <div class="col three caption">
-    Machu Pichu from the Sun Gate
+    Machu Pichu from the Sun Gate.
 </div>
 
 中途Victor又让我们停下 为我们讲解马丘比丘的历史
@@ -424,7 +421,7 @@ porter们需要赶早抹黑去车站坐车 所以我们也需要早起 起床后
     <img class="col three" src="/assets/img/travel/peru/machupichu.JPG" alt="" title="Machu Pichu"/>
 </div>
 <div class="col three caption">
-    Machu Pichu.
+    The Lost City: Machu Pichu.
 </div>
 
 <div class="img_row">
@@ -444,10 +441,14 @@ you, I have 2 month pregnancy 原来是这样 难怪一路上I都落在队伍的
 合了最后一张合照 印加古道之旅就此结束
 
 <div class="img_row">
-    <img class="col three" src="/assets/img/travel/peru/happy_couple.JPG" alt="" title="Happy couple after the proposal"/>
+    <img class="col three" src="/assets/img/travel/peru/ravi_and_irene_0.JPG" alt="" title="Ravi and Irene after the proposal"/>
+</div>
+<div class="img_row">
+    <img class="col two" src="/assets/img/travel/peru/ravi_and_irene_1.jpg" alt="" title="Ravi and Irene after the proposal"/>
+    <img class="col one" src="/assets/img/travel/peru/ravi_and_irene_2.jpg" alt="" title="Ravi and Irene after the proposal"/>
 </div>
 <div class="col three caption">
-    Happy couple after the proposal.
+    Ravi and Irene after the proposal (and their two months old baby~ last two images courtesy of Olga).
 </div>
 
 <div class="img_row">
@@ -483,6 +484,27 @@ you, I have 2 month pregnancy 原来是这样 难怪一路上I都落在队伍的
 </div>
 <div class="col three caption">
     Victor and Max (image courtesy of Olga).
+</div>
+
+<div class="img_row">
+    <img class="col two" src="/assets/img/travel/peru/porter_0.jpg" alt="" title="porters"/>
+    <img class="col one" src="/assets/img/travel/peru/porter_2.jpg" alt="" title="porters"/>
+</div>
+<div class="img_row">
+    <img class="col two" src="/assets/img/travel/peru/porter_1.jpg" alt="" title="porters"/>
+    <img class="col one" src="/assets/img/travel/peru/porter_3.jpg" alt="" title="porters"/>
+</div>
+<div class="img_row">
+    <img class="col two" src="/assets/img/travel/peru/porter_5.jpg" alt="" title="porters"/>
+    <img class="col one" src="/assets/img/travel/peru/porter_4.jpg" alt="" title="porters"/>
+</div>
+<div class="img_row">
+    <img class="col two" src="/assets/img/travel/peru/porter_7.jpg" alt="" title="porters"/>
+    <img class="col one" src="/assets/img/travel/peru/porter_6.jpg" alt="" title="porters"/>
+</div>
+<div class="col three caption">
+    "Green Machine": our porters (We wouldn't make the trek without them, image
+    courtesy of Olga).
 </div>
 
 ## 参考资料
