@@ -261,7 +261,7 @@ Valley里第二高的雪山，可惜我没有拍照。
 </div>
 
 <div class="img_row">
-    <img class="col three" src="/assets/img/travel/peru/panorama_of_phuyupatamarca.jpg" alt="" title="panorama of Phuyupatamarca"/>
+    <img class="col three" src="/assets/img/travel/peru/panorama_of_phuyutamarca.jpg" alt="" title="panorama of Phuyupatamarca"/>
 </div>
 <div class="col three caption">
     Panorama view of Phuyupatamarca (image courtesy of Olga).
