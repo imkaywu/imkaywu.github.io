@@ -548,8 +548,9 @@ Gate。我拿着相机等着正在或自拍或合影的人群结束，然后按�
 </div>
 
 ## 参考资料
+[Inca Trail to Machu Picchu](https://en.wikipedia.org/wiki/Inca_Trail_to_Machu_Picchu)\\
 [Inca Trail Hike to Machu Picchu 4D/3N Itinerary](https://www.alpacaexpeditions.com/classic-inca-trail-trek-4d3n-group-service/) \\
 [TREKKING THE INCA TRAIL TO MACHU
-PICCHU](https://jameshandlon.com/category/trekking-the-inca-trail-to-machu-picchu/)
+PICCHU](https://jameshandlon.com/category/trekking-the-inca-trail-to-machu-picchu/) \\
 [【秘魯】四天三夜 Inca Trail 印加古道: 一個沒在運動的女生前往 “馬丘比丘”
 健行日記](https://www.travelwithwinny.com/zh/inca-trail-印加古道-馬丘比丘-machu-picchu/)
