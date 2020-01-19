@@ -61,7 +61,7 @@ Valerio和Olga。出了房间来到入口，Bob听到导游叫了我的名字，
 </div>
 <div class="col three caption">
     Group at Piscacucho Km 82 (Jingxuan, Yueyi, Irene, Ravi, Me, Olga, Lourdes,
-    Valerio, Alex, Catherine, Taigan, Del, Robin, Ty, Bob).
+    Valerio, Alex, Katherine, Taigan, Del, Robin, Ty, Bob).
 </div>
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/me_at_km82.JPG" alt="" title="Km 82"/>
@@ -308,7 +308,7 @@ Alex和Kat因为昨天的登山的时候弄湿了所有衣服，所以他们不�
     Bottom of Intipata.
 </div>
 
-下午1点左右我们到达的营地，至此印加徒步的主要部分就完成。我坐在帐篷口，看着眼前远山，不敢相信这两天半以来发生的事情，不敢相信我竟然完成了这件我之前从来没想过会去做的事情。虽然在最困难的时候，我曾经质疑过为什么要踏上这段旅程，我曾抱怨为什么要让自己经历这些生理和心理的痛苦。可是我一点也不后悔来到这里，虽然我的手被剧烈的灼伤，虽然我的左膝已经疼得不能弯曲，可是当我知道马丘比丘就在离我不远的地方，当我一抬头就可以看到巍峨起伏的群山，当所有辛苦都已经历，剩下的只有回忆的时候，我心里真的很开心几个月前自己冲动的决定。这是一段多么棒的经历，这是一段多么难以磨灭的记忆啊。
+下午1点左右我们到达的营地，至此印加徒步的主要部分就完成。我坐在帐篷口，看着眼前的群山，回忆着这两天半以来发生种种，不敢相信我竟然完成了这件之前从来没想过会去做的事情。虽然在最困难的时候，我质疑过为什么要踏上这段旅程，抱怨为什么要让自己经历这些生理和心理的痛苦。可是我一点也不后悔来到这里，虽然我的手被剧烈的灼伤，我的左膝已经疼得不能弯曲，可是当我知道马丘比丘就在离我不远的地方，当我一抬头就可以看到巍峨起伏的群山，当我想到和这群几天前还是陌生人的伙伴们一起自嘲、鼓励、淋雨、享受美食，当所有辛苦都已成了过往，剩下的都有回忆的时候，我真的很开心几个月前得自己没有放弃这一执念。这是一段太难以磨灭的记忆了，我会一辈子都记着。
 
 <div class="img_row">
     <img class="col one" src="/assets/img/travel/peru/me_at_day_three_camp_site.JPG" alt="" title="Day three camp site"/>
@@ -345,8 +345,7 @@ Alex和Kat因为昨天的登山的时候弄湿了所有衣服，所以他们不�
     Group at Winay Huayna (second image courtesy of Olga).
 </div>
 
-到了自由活动的时间，我们纷纷下到遗迹下去一探究竟，因为没有讲解，我也不过是走马观花的四周转悠。当我最后又走到梯田最顶端，靠着古墙远眺前方的时候，好久都不想离开。这片古迹只有走印加古道的人才能看到，所以这可能是我此生第一次，唯一一次，也是最后一次看眼前的这片风景，我只想尽可能地把尽可能多的景物印到我的脑海。
-
+到了自由活动的时间，我们纷纷下到遗迹下去一探究竟，因为没有讲解，我也不过是走马观花的四周转悠。当我最后又走到梯田最顶端，靠着古墙远眺前方的时候，好久都不想离开。这片古迹只有走印加古道的人才能看到，所以这可能是我此生第一次，唯一一次，也是最后一次看眼前的这片风景，我只想把尽可能多的景物印到我的脑海。
 
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/winay_huayna_from_top_0.JPG" alt="" title="Winay Huayna"/>
@@ -421,32 +420,19 @@ L笑着走过我身边 问了我一句Are u done 我点头回复说是 她又说
 晚上回到帐篷，我把所有东西都收拾好以便明早可以不用太花时间。最后一晚在我的帐篷里睡下，这是我在印加之行的最后一夜。
 
 ## 12/30/2019: Sun Gate - Machu Picchu – The Lost City Of The Incas
-今天是这趟旅程过的最不开心的一天 晚上睡觉前想给手机充电
-结果小米的充电宝一直充不进去 也许是快没电了吧 反复折腾一会儿就失眠过了午夜
-后来小睡一会之后就到了凌晨3点 今天是trek的最后一天
-porter们需要赶早抹黑去车站坐车 所以我们也需要早起 起床后把所有东西都收拾好
-放进了昨天发给我们的白色袋子里 最后一次卷起睡袋塞好 把白色袋子
-睡袋和枕头都塞进duffle然后拉好 一切都收拾完毕了 出了帐篷外面还是一片漆黑
-吃一顿简单的早饭 倒了一杯热水 吃了一片吐司 L来的时候大家正在说我第一晚说梦话的事
-她笑着问了句K昨天又说梦话了吗 我笑着摇头回应
+远行距离: 5 km (2 hours) \\
+海拔：2400米的Machu Picchu 马丘比丘
 
-吃完简单的早饭我们便出发去马丘比丘hiking的入口出发了 天色尚黑
-没有照明灯的我只好借着前面一人的灯光小心的前行
-步行了5分钟左右我们到达了一个有棚顶的地方 在两旁的木长椅上坐下后
-便开始了1个半小时的等待 Max给我们每个人都发了早餐 我没什么胃口
-找同伴借了充电宝给手机充电 拉上了外套的拉链 静静地坐着 看着前方迷蒙的夜色
-周围的人有的去洗漱 有的三三两两聚在一起热闹地聊着笑着 我目光漠然地直视着前方
-把这一切都如同背景音一般地隔绝 我心里有一种说不清道不明的孤独感
-为什么周围的人这么多 而我却觉得没有一个可以让我放心尽情倾诉的对象
-我想是我把自己封闭得太好太久 即不让别人进来 也不允许自己出去 
+今天是这趟旅程过得最闹心的，晚上睡觉前想给手机充电，结果小米的充电宝一直充不进去，也许是充电宝没电了吧，又或者是气温太低手机充不进去电。反复折腾一会儿就失眠过了午夜。不时的有一两滴雨落在帐篷顶，好在每次都间隔了很久。后来雨点声越来越密集，就一会儿的功夫，雨下的越来越大。我从睡袋里伸出手摸了摸帐篷底，目前还没有渗水的迹象。帐篷地上还铺了一层塑料布，但四个边并没有被覆盖到，为了保险起见我把衣服和电子设备都往里面移了点。睡下后，听着敲打在帐篷顶的雨点声，还有左右两边此起彼伏的鼾声，慢慢的思绪变得空白。小睡一会儿之后就到了凌晨3点。今天是trek的最后一天，porter们需要赶早抹黑去车站坐车，所以我们也需要早起。起床后把所有东西都收拾好，放进了昨天发给我们的白色袋子里。最后一次卷起睡袋塞好，把白色袋子，睡袋和枕头都塞进duffle然后拉好，一切都收拾完毕了。出了帐篷外面还是一片漆黑，吃一顿简单的早饭：倒了一杯热水，吃了一片吐司。L来的时候大家正在说我第一晚说梦话的事，她笑着问了句K昨天又说梦话了吗，我笑着摇头回应。
 
-终于天色渐亮 前方有一小片云悬浮在群山之间 人群这时终于开始有了动静
-向马丘比丘前进的最后远行终要开始了 路上一如既往的静谧
-表面不甚平滑的石面上挂着昨夜的雨水混着今晨的露水 比几天前的路面更是湿滑
-路程的难度并不大 除了一处都不甚陡峭 队伍前行的速度很快
-在半路中我不得不停下来脱下外衣加喘气 终于最后登上了Sun Gate隐藏在一片迷雾中
-我拿着相机等着正在或自拍或合影的人群结束 然后按下快门 拍下了迷雾中的马丘比丘
-我在这里吃过了简餐 一个鸡肉三明治 两片饼干和一杯果汁 然后我们又收拾行装出发了
+吃完简单的早饭，给杯子装满水，我们便在漆黑的夜色中离开了我们的营地，向马丘比丘的检查站出发了，天色尚黑，没有照明灯的我只好借着前面一人的灯光小心的前行。步行了5分钟左右我们到达了一个有棚顶的地方，这里便是步行至马丘比丘的检查站。在两旁的木长椅上坐下后，便开始了1个半小时的等待。Max给我们每个人都发了早餐，我没什么胃口，就把早餐放在旁边。找同伴借了充电宝给手机充电，拉上了外套的拉链，看着前方迷蒙的夜色，静静地坐着。周围的人有的去洗漱，有的三三两两聚在一起热闹地聊着笑着，我目光失焦了一般地直视着前方，把这一切都如同背景音一般地隔绝。除此以外，四周的景色仿佛都还在沉睡中，没有苏醒，只有我们这群人打破这片岑寂。前面的山间有几朵云飘浮在其间，今天的风不算太大，晚上下的雨也已经停了，那几朵云已极慢的速度向右边飘去。坐在我右边的不相识的人，拿出了一本书，借着头顶照明灯，静静地看着书。
+
+<!--
+我心里有一种说不清道不明的孤独感，为什么周围的人这么多，而我却觉得没有一个可以让我放心尽情倾诉的对象。我想是我把自己封闭得太好太久，即不让别人进来，也不允许自己出去。
+-->
+
+终于天色渐亮，人群这时终于开始有了动静。向马丘比丘前进的最后远行终要开始了。路上一如既往的静谧，表面不甚平滑的石面上挂着昨夜的雨水混着今晨的露水，比几天前的路面更是湿滑。路程的难度并不大，除了一处都不甚陡峭。队伍前行的速度很快，在半路中我不得不停下来脱下外衣加喘气，终于最后登上了隐藏在一片迷雾中的Sun
+Gate。我拿着相机等着正在或自拍或合影的人群结束，然后按下快门，拍下了迷雾中的马丘比丘。我在这里吃过了简餐，一个鸡肉三明治，两片饼干和一杯果汁，然后我们又收拾行装出发了。
 
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/machupichu_from_sun_gate.JPG" alt="" title="Machu Pichu from the Sun Gate"/>
@@ -454,14 +440,17 @@ porter们需要赶早抹黑去车站坐车 所以我们也需要早起 起床后
 <div class="col three caption">
     Machu Pichu from the Sun Gate.
 </div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/last_trek_to_machupichu.JPG" alt="" title="Machu Pichu from the Sun Gate"/>
+</div>
+<div class="col three caption">
+    Last trek to Machu Pichu.
+</div>
 
-中途Victor又让我们停下 为我们讲解马丘比丘的历史
-那一条从营地跟随我们到此的小狗累得趴着睡着了 最后我们到了一个挤满游客的地方
-每个人都争前恐后的和马丘比丘合影 我下到地下 找到通行的中国女生让她们帮我拍照
+中途Victor又让我们停下，为我们讲解马丘比丘的历史。那一条从营地跟随我们到此的小狗累得趴着睡着了。最后我们到了一个挤满游客的地方，每个人都争前恐后的和马丘比丘合影。我下到台阶下面，找到同行的中国女生让她们帮我和马丘比丘合了照。
+
 <!--
-可是我的眼神却在人群中寻找L的身影 我好像找到她 让她帮我拍 或者让她叫我拍
-然后跟她在马丘比丘前合影 可是我都找寻不到她的身影
-只在我上去之后才看到她在对着镜头自拍
+拍完照，我回到上一层台阶，我的眼神在人群中寻找L的身影，我好想找到她，让她帮我拍，或者让她叫我拍。然后跟她在马丘比丘前合影，可是我都找寻不到她的身影。之后我才看到她在对着镜头自拍。
 -->
 
 <div class="img_row">
@@ -478,14 +467,14 @@ porter们需要赶早抹黑去车站坐车 所以我们也需要早起 起床后
     Me at Machu Pichu (by Ravi).
 </div>
 
-我落寞的在人群中间跺着步 这是看到Ravi和Irene回归大部队 我听到R自言自语道I need
-to find someone to hold the camera 如果我这是能主动上前的话
-就能多幸运地见证多美妙的一刻 正当我坐在石头上歇息的时候 我听到人群中有震骚动
-继而有人喊到He proposed开始我还不以为意 慢慢地站直身体想去看个究竟
-结果看到R和I站在地下 I幸福的抹着眼泪 她仰着头带着哭腔对我们说Guys, i didn’t tell
-you, I have 2 month pregnancy 原来是这样 难怪一路上I都落在队伍的最后
-而且都是R背着包 我们团队的每一个人都向这对幸福的新人祝贺 然后我们换上了AE的衣服
-合了最后一张合照 印加古道之旅就此结束
+这是我4天以来第一次看到这么多人，突然从空无一人的崇山峻岭回到熙熙攘攘的人类世界突然让我无所适从。我漫无目的在人群中间跺着布，这时我看到Ravi和Irene回归了大部队。我听到Ravi自言自语道I need to find someone to hold the camera。如果我这是能主动上前的话，就能多幸运地见证这即将发生的美丽一刻。当时我正坐在石头上歇息的时候，我听到人群中有阵骚动，继而有人喊到He proposed。开始我还不以为意，虽然我之前在准备这趟旅行的时候在别人的博客上看过在印加古道终点求婚的故事。但从没想过这种事情会发生在我们队里。Victor这时候笑着走近我身边，自语道free lunch for everyone。我这才意识到什么，站直身想去看个究竟。结果惊喜地看到Ravi和Irene站在地下，Ravi害羞地低着头，Irene一直在抹着眼泪。她仰着头带着哭腔对我们说I didn’t tell you guys, but I have two month pregnancy。原来是这样，难怪一路上Ravi和Irene落在队伍的最后，难怪Ravi背着这么大的包随身带着这么多的东西，难怪第二天的trek的最后Max几乎搀着Irene走完了全程。我们团队的每一个人都向这对幸福的新人握手拥抱祝贺。然后我们换上了AE的衣服，合了最后一张合照，印加古道之旅就此真的就结束了。
+
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/crowd_in_machupichu.JPG" alt="" title="Crowd in Machu Pichu"/>
+</div>
+<div class="col three caption">
+    The crowd in Machu Pichu.
+</div>
 
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/ravi_and_irene_0.JPG" alt="" title="Ravi and Irene after the proposal"/>
@@ -495,26 +484,23 @@ you, I have 2 month pregnancy 原来是这样 难怪一路上I都落在队伍的
     <img class="col one" src="/assets/img/travel/peru/ravi_and_irene_2.jpg" alt="" title="Ravi and Irene after the proposal"/>
 </div>
 <div class="col three caption">
-    Ravi and Irene after the proposal (and their two months old baby~ last two images courtesy of Olga).
+    Ravi and Irene after the proposal (with their two months old baby~ last two images courtesy of Olga).
 </div>
 
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/group_in_machupichu.JPG" alt="" title="last group photo"/>
 </div>
 <div class="col three caption">
-    Last group photo in Machu Pichu (without Alex and Katherine, by Max)
+    Last group photo in Machu Pichu (sadly without Alex and Katherine, by Max)
 </div>
 
-我们的车终于到了Cusco 真正到了分别的时候 我坐在第二排窗口的位置
-因为司机跟我说会用这辆车送我回酒店 所以我并不用下车 看着V, A和Kat下车 最后是L
+我们的车终于到了Cusco，真正到了分别的时候。我坐在第二排窗口的位置，因为司机跟我说会用这辆车送我回酒店，所以我并不用下车。看着Valerio，Alex和Katherine下车，最后是Lourdes。我还能说些什么呢，告别的话即使练习了百遍，练习了长篇，最后也只是悬在喉咙头，我终究只是看着他们和我一一道别，微笑的点头致意，就这样完成告别。
+
 <!--
 她对我说Bye kai, if I don’t see u, I’ve got your linkedin account
 -->
-我还能说些什么呢 告别的话我即使练习了百遍也说不出口 我只能看着她 微笑的点点头
-就这样完成告别
 
-人生 聚散终有时 我们都只是对方生命中的过客 在相聚时点亮对方的天空一瞬
-继而转向消逝 只是这一去一别 怕是今生都不会再见了吧
+人生，聚散终有时，我们都只是对方生命中的过客，在相聚时点亮对方的天空一瞬，继而转向消逝。只是这一去一别，怕是今生都不会再见了吧。
 
 ## 后记
 
@@ -550,7 +536,7 @@ you, I have 2 month pregnancy 原来是这样 难怪一路上I都落在队伍的
     <img class="col one" src="/assets/img/travel/peru/porter_6.jpg" alt="" title="porters"/>
 </div>
 <div class="col three caption">
-    "Green Machine": our porters (We wouldn't make the trek without them, image
+    "Green Machine": our porters (We wouldn't have made the trek without them, image
     courtesy of Olga).
 </div>
 
@@ -558,3 +544,5 @@ you, I have 2 month pregnancy 原来是这样 难怪一路上I都落在队伍的
 [Inca Trail Hike to Machu Picchu 4D/3N Itinerary](https://www.alpacaexpeditions.com/classic-inca-trail-trek-4d3n-group-service/) \\
 [TREKKING THE INCA TRAIL TO MACHU
 PICCHU](https://jameshandlon.com/category/trekking-the-inca-trail-to-machu-picchu/)
+[【秘魯】四天三夜 Inca Trail 印加古道: 一個沒在運動的女生前往 “馬丘比丘”
+健行日記](https://www.travelwithwinny.com/zh/inca-trail-印加古道-馬丘比丘-machu-picchu/)
