@@ -292,7 +292,7 @@ Alex和Kat因为昨天的登山的时候弄湿了所有衣服，所以他们不�
 
 此后一直是下山路，在中途一处休息时，Olga看到我脸上和脖子上都晒得通红，一定要叫我涂防晒。Lourdes把防晒霜给了她，还没等我反应过来，她就帮我把防晒摸到了后颈和耳后根，然后给了我一面镜子，让我把防晒涂脸上。这时我才知道我的晒伤已不仅限于手了，我的额头被晒得通红，鼻子上的皮被晒得结了厚厚硬硬的一层。这趟旅程的难度确实超出了我的预料，准备工作也着实不足，搞得还需要队友来照顾我，实在是很难为情啊。就在我们坐着聊天的时，Valerio突然问我几岁，我让他猜。他说你前面有点白发，我猜26岁。听到别人把我年龄说小一岁，心中还是一阵窃喜。看来当人年纪大了，即便被人认为比实际年轻都会很开心啊。
 
-最后下山的路上，Victor要我们在一片梯田处等待休息。这片梯田就是"Intipata -- Port of the Sun"。这片梯田之前在做攻略的时候就有所见，印象很深，彼时以为要从半人高的梯田上直接爬下去，后来才知原来在梯田两边有石头台阶。我们躺在草地方，享受这难得的惬意，太阳很晒，我手上晒伤的地方火辣辣的疼，我只好把手揣在兜里，免得晒伤加重。
+最后下山的路上，Victor要我们在一片梯田处等待休息。这片梯田就是"Intipata -- Port of the Sun"。这片梯田之前在做攻略的时候就有所见，印象很深，当时以为要从半人高的梯田上直接爬下去，后来才知原来在梯田两边有石头台阶。我们躺在草地方，享受这难得的惬意，太阳很晒，我手上晒伤的地方火辣辣的疼，我只好把手揣在兜里，免得晒伤加重。
 
 <div class="img_row">
     <img class="col three" src="/assets/img/travel/peru/group_at_terrace.jpg" alt="" title="Group at Terrace"/>
@@ -308,7 +308,7 @@ Alex和Kat因为昨天的登山的时候弄湿了所有衣服，所以他们不�
     Bottom of Intipata.
 </div>
 
-下午1点左右我们到达的营地，至此印加徒步的主要部分就完成。我坐在帐篷口，看着眼前远山，不敢相信这两天半以来发生的事情，不敢相信我竟然完成了这件我之前从来没想过会去做的事情。虽然在最困难的时候，我曾经质疑过为什么要踏上这段旅程，我曾抱怨为什么要让自己经历这些生理和心理的痛苦。可是我一点也不后悔来到这里，虽然我的手被剧烈的灼伤，虽然我的左膝已经疼得不能弯曲，可是当终点就在眼前，当我一抬头就可以看到巍峨起伏的群山，当所有辛苦都已经历，剩下的只有回忆的时候，我心里真的很开心几个月前自己冲动的决定。这是一段多么棒的经历，这是一段多么难以磨灭的记忆啊。
+下午1点左右我们到达的营地，至此印加徒步的主要部分就完成。我坐在帐篷口，看着眼前远山，不敢相信这两天半以来发生的事情，不敢相信我竟然完成了这件我之前从来没想过会去做的事情。虽然在最困难的时候，我曾经质疑过为什么要踏上这段旅程，我曾抱怨为什么要让自己经历这些生理和心理的痛苦。可是我一点也不后悔来到这里，虽然我的手被剧烈的灼伤，虽然我的左膝已经疼得不能弯曲，可是当我知道马丘比丘就在离我不远的地方，当我一抬头就可以看到巍峨起伏的群山，当所有辛苦都已经历，剩下的只有回忆的时候，我心里真的很开心几个月前自己冲动的决定。这是一段多么棒的经历，这是一段多么难以磨灭的记忆啊。
 
 <div class="img_row">
     <img class="col one" src="/assets/img/travel/peru/me_at_day_three_camp_site.JPG" alt="" title="Day three camp site"/>
@@ -335,7 +335,7 @@ Alex和Kat因为昨天的登山的时候弄湿了所有衣服，所以他们不�
     Me at Winay Huayna (by our trusty 'paparazzi' and dutiful guide Max).
 </div>
 
-我们在梯田的最上一级上一字排开坐下，听Max讲解这片遗迹的历史。这片遗迹叫做Winay Huayna，英文叫做forever young。后来讲的什么我都不甚听清楚，只是一边荡着双腿，一边看着底下的山川河流。我的注意力全部被一只从营地跟着我们来到此的汪星人所吸引。
+我们在梯田的最上一级一字排开坐下，听Max讲解这片遗迹的历史。这片遗迹叫做Winay Huayna，英文叫做forever young。后来讲的什么我都不甚听清楚，只是一边荡着双腿，一边看着底下的山川河流。我的注意力全部被一只从营地跟着我们来到此的汪星人所吸引。
 
 <div class="img_row">
     <img class="col one" src="/assets/img/travel/peru/group_at_winay_huayna.JPG" alt="" title="Winay Huayna"/>
@@ -345,13 +345,60 @@ Alex和Kat因为昨天的登山的时候弄湿了所有衣服，所以他们不�
     Group at Winay Huayna (second image courtesy of Olga).
 </div>
 
-到了自由活动的时间，我们纷纷下到遗迹下去一探究竟，因为没有讲解，我也不过是走马观花的四周转悠。当我最后又走到梯田最顶端，靠着古墙远眺前方的时候。
+到了自由活动的时间，我们纷纷下到遗迹下去一探究竟，因为没有讲解，我也不过是走马观花的四周转悠。当我最后又走到梯田最顶端，靠着古墙远眺前方的时候，好久都不想离开。这片古迹只有走印加古道的人才能看到，所以这可能是我此生第一次，唯一一次，也是最后一次看眼前的这片风景，我只想尽可能地把尽可能多的景物印到我的脑海。
+
+
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_from_top_0.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_from_top_1.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_stairs.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_terrace_0.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_terrace_1.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_terrace_2.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_terrace_3.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_terrace_4.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_waterfall_0.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_waterfall_1.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_ruins_0.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_ruins_1.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_ruins_2.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/winay_huayna_ruins_3.JPG" alt="" title="Winay Huayna"/>
+</div>
+<div class="col three caption">
+    Winay Huayna.
+</div>
 
 <!--
 L笑着走过我身边 问了我一句Are u done 我点头回复说是 她又说了句see u at the camp 就这样我们讲完了当天的最后几句话
 -->
 
-晚餐一如既往的丰富，终了还有一个蛋糕。Victor在大家分吃蛋糕的时候，把AE的绿色短袖分发给了大家。我们最后把准备好的给porter和cook的tip收集好，又像第一晚一样在帐篷外排开。由Lourdes，Irene和Valerio代表我们向他们表示感谢（因为他们是我们中唯三会说西班牙语的)。并把装有tip的信封交给他们，然后我们互相一一握手，就此和辛勤服务了我们三天三夜的porter们告别。
+晚餐一如既往的丰富，终了还有一个蛋糕。Victor在大家分吃蛋糕的时候，把AE的绿色短袖分发给了大家。我们最后把准备好的给porter和cook的tip收集好，又像第一晚一样在帐篷外排开。由Lourdes，Irene和Valerio代表我们向他们表示感谢（因为他们是我们中唯三会说西班牙语的)。并把装有小费的信封交给他们，然后我们互相一一握手，互道感谢，就此和辛勤服务了我们三天三夜的porter们告别。
 
 <div class="img_row">
     <img class="col one" src="/assets/img/travel/peru/last_dinner_0.jpg" alt="" title="Last dinner"/>
@@ -359,7 +406,7 @@ L笑着走过我身边 问了我一句Are u done 我点头回复说是 她又说
     <img class="col one" src="/assets/img/travel/peru/last_dinner_2.jpg" alt="" title="Last dinner"/>
 </div>
 <div class="col three caption">
-    Last dinner: we had a pizza and a cake~ (image courtesy of Olga).
+    Last dinner: we had pizzas and a cake~ (image courtesy of Olga).
 </div>
 
 <div class="img_row">
@@ -371,7 +418,7 @@ L笑着走过我身边 问了我一句Are u done 我点头回复说是 她又说
     Saying thank you and farewell to our amazing team of chefs and porters (image courtesy of Olga).
 </div>
 
-晚上回到帐篷，我把所有东西都收拾好以便明早可以不用太花时间。最后一晚离开我的帐篷睡下，这是我在印加之行的最后一夜。
+晚上回到帐篷，我把所有东西都收拾好以便明早可以不用太花时间。最后一晚在我的帐篷里睡下，这是我在印加之行的最后一夜。
 
 ## 12/30/2019: Sun Gate - Machu Picchu – The Lost City Of The Incas
 今天是这趟旅程过的最不开心的一天 晚上睡觉前想给手机充电
