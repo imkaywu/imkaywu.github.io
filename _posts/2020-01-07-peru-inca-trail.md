@@ -1,5 +1,5 @@
 ---
-title: 印加古道之旅 (Inca Trail) (still on-going)
+title: 印加古道之旅 (Inca Trail)
 categories: 
   - Travel
 tags:
@@ -260,6 +260,13 @@ Valley里第二高的雪山，可惜我没有拍照。
     Me at Phuyupatamarca (by Lourdes).
 </div>
 
+<div class="img_row">
+    <img class="col three" src="/assets/img/travel/peru/panorama_of_phuyupatamarca.jpg" alt="" title="panorama of Phuyupatamarca"/>
+</div>
+<div class="col three caption">
+    Panorama view of Phuyupatamarca (image courtesy of Olga).
+</div>
+
 Alex和Kat因为昨天的登山的时候弄湿了所有衣服，所以他们不得不提前结束这次hiking，提前在此和我们分别了。虽然大家相处的时间，我也没有和他们有太多的交流，但是看到一起同行的伙伴的提早离开心里也不是滋味的。好在明天我们在马丘比丘还能再见，但是这又意味着这次旅程的结束和我们这群人的分别就在眼前了。哎，不去想这些吧，悲欢离合总有时。
 
 <div class="img_row">
@@ -500,7 +507,7 @@ Gate。我拿着相机等着正在或自拍或合影的人群结束，然后按�
 她对我说Bye kai, if I don’t see u, I’ve got your linkedin account
 -->
 
-人生，聚散终有时，我们都只是对方生命中的过客，在相聚时点亮对方的天空一瞬，继而转向消逝。只是这一去一别，怕是今生都不会再见了吧。
+人生，聚散终有时。我们都只是对方生命中的过客，在相聚时点亮对方的天空一瞬，继而转向消逝。只是这一去一别，怕是今生都不会再见了吧。
 
 ## 后记
 
