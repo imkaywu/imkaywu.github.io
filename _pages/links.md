@@ -17,9 +17,15 @@ title: "links"
 [GoliathGuitar](http://www.goliathguitartutorials.com)\\
 [GuitarNick](http://www.guitarnick.com/easy-guitar-songs-for-absolute-beginners-tab.html)\\
 Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/11/03/tips-for-taylor-gs-mini-owners-part-1/), [Part 2](https://guitarbear.wordpress.com/2016/11/10/7169/)\\
+[BEST ONLINE GUITAR LESSONS](https://www.theguitarlesson.com/best-online-guitar-lessons#Best-lesson-site-for-beginners)\\
+[3 BEST BLUES GUITAR COURSES OF 2020](https://www.theguitarlesson.com/blues-guitar-courses#GuitarTrickscom-blues-lessons)\\
 [Tomo Fujita](https://tomovhxtv.vhx.tv)\\
 [Learn Practice Play](https://learnpracticeplay.com/signup/)\\
-[Next level playing](https://learnpracticeplay.com/next-level-course-closed//)
+[Next level playing](https://learnpracticeplay.com/next-level-course-closed//)\\
+[GuitarTricks](https://www.guitartricks.com)\\
+[Jamplay](https://www.jamplay.com)\\
+[TrueFire](https://truefire.com/)\\
+[TheGuitarLessons](https://www.theguitarlesson.com)
 
 ---
 
