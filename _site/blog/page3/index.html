@@ -90,11 +90,64 @@
       <div class="wrapper">
         <!-- <div class="header-bar">
   <h1>Kai's blog</h1>
-  <h2>A student pursuing computer vision who also likes music, movies, and coding</h2>
+  <h2>Discipline Equals Freedom</h2>
 </div> -->
 
 
 <ul class="post-list">
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2017/08/ransac-framework/">A framework for RANSAC</a></h2>
+      <p class="post-meta">August 13, 2017</p>
+      <p>
+      	
+    		  <p>RANSAC is short for Random SAmple Consensus, which is an iterative method to estimate parameters of a mathematical model from a set of observed data that contains outliers. It can be incorporated to estimate many key matrices in vision, such as homography, fundamental/essential matrix, etc. This post aims to develop a general framework so that RANSAC could be easier applied to existing estimation algorithms. The code is modified from the code originally written by <a href="http://yanivresearch.info">Ziv Yaniv</a>.</p>
+
+
+    		
+      </p>
+    </li>
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2017/08/pnp/">Estimation of camera pose</a></h2>
+      <p class="post-meta">August 6, 2017</p>
+      <p>
+      	
+    		  <p>There are multiple ways of estimating camera position and orientation, typical approaches include</p>
+<ul>
+  <li>camera pose from point correspondences</li>
+  <li>camera pose from Fundamental matrix</li>
+</ul>
+
+
+    		
+      </p>
+    </li>
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2017/07/vlfeat-wrapper/">VLFeat wrapper</a></h2>
+      <p class="post-meta">July 22, 2017</p>
+      <p>
+      	
+    		  <p>The keypoint detector and descriptor classes implemented are a wrapper of the amazing <a href="http://www.vlfeat.org">vlfeat</a> functionalities. There are three separated classes, they are:</p>
+
+
+    		
+      </p>
+    </li>
+  
+    <li>
+      <h2><a class="post-title" href="/blog/2017/07/triangulation/">Triangulation</a></h2>
+      <p class="post-meta">July 10, 2017</p>
+      <p>
+      	
+    		  <h3 id="problem-definition">Problem definition</h3>
+<p>Given camera matrices (<script type="math/tex">P, P'</script>), or fundamental matrix <script type="math/tex">F</script>, and <em>measured</em> image points <script type="math/tex">x</script> and <script type="math/tex">x'</script>, estimate the 3D point <script type="math/tex">X</script> that minimizes some cost function.</p>
+
+
+    		
+      </p>
+    </li>
   
     <li>
       <h2><a class="post-title" href="/blog/2017/07/git-notes/">Git cheatsheet</a></h2>
@@ -172,53 +225,6 @@
       </p>
     </li>
   
-    <li>
-      <h2><a class="post-title" href="/blog/2017/06/bilateral-filter/">Matlab implementation of bilateral filter</a></h2>
-      <p class="post-meta">June 11, 2017</p>
-      <p>
-      	
-    		  <p>Bilateral filter</p>
-
-
-    		
-      </p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/05/draw-camera/">Camera visualization in Matlab</a></h2>
-      <p class="post-meta">May 31, 2017</p>
-      <p>
-      	
-    		  <p>I read somewhere that to be more efficient in a long run when it comes to implementing a library, the first thing you should implement is the code that does visualization. To 3D computer vision, the single most important or common place component is probably the camera. This is what we are going to do here.</p>
-
-
-    		
-      </p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/05/camera-class/">Pinhole camera model - a C++ implementation</a></h2>
-      <p class="post-meta">May 31, 2017</p>
-      <p>
-      	
-    		  <p>Camera is the starting point of perceiving the world, and it is one of the most components in the computer vision/graphics library. This post discusses the implementation of a pinhole camera model WITHOUT lens distortion. Please refer to <a href="https://imkaywu.github.io/blog/2017/09/camera-distortion/">camera part 3</a> for camera with lens distortion.</p>
-
-
-    		
-      </p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/05/vimrc/">Vim configuration</a></h2>
-      <p class="post-meta">May 17, 2017</p>
-      <p>
-      	
-    		  
-
-    		
-      </p>
-    </li>
-  
 </ul>
 
 
@@ -245,7 +251,7 @@
     <footer>
 
   <div class="wrapper">
-    &copy; Copyright 2019 Kai Wu.
+    &copy; Copyright 2020 Kai Wu.
     Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
 
     
