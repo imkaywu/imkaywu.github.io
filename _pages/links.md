@@ -62,6 +62,8 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [500px](https://500px.com)\\
 [Shoottokyo](https://shoottokyo.com)\\
 
+## Language Learning
+[How I Learned French in 12 Months](http://www.runwes.com/2020/02/11/howilearnedfrench.html)
 ---
 
 ## Userful Resources
@@ -105,6 +107,7 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [Felix Heide](http://stanford.edu/~fheide/)\\
 [Philipp Heise](http://www.philippheise.com)\\
 [DANIEL HOMOLA](http://danielhomola.com)\\
+[Chip Huyen](https://huyenchip.com)\\
 [Ivo Ihrke](http://manao.inria.fr/perso/~ihrke/wordpress/)\\
 [Satoshi Ikehata](https://www.hal.t.u-tokyo.ac.jp/~ikehata/)\\
 [Andrej Karpathy's Blog](http://cs.stanford.edu/people/karpathy/)\\
@@ -148,6 +151,7 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [考据癖](http://localhost-8080.com)\\
 [虎兔手记](http://notes.localhost-8080.com)\\
 [酷壳](http://coolshell.cn)\\
+[稚晖的个人站](http://pengzhihui.xyz)\\
 [AskTog](http://www.asktog.com)\\
 [Brandon Gregg](http://www.brendangregg.com)\\
 [BYVoid](https://www.byvoid.com/zhs/)\\
