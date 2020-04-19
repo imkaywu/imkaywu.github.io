@@ -7,8 +7,19 @@ tags:
 ---
 
 - [Before Stratocaster]()
-- [The Birth]()
-- [Revisions]()
+- [Pre-CBS Years]()
+  - [1954 Fender Stratocaster: The Birth in October]()
+  - [1955 Fender Stratocaster]()
+  - [1956 Fender Stratocaster]()
+  - [1957 Fender Stratocaster]()
+  - [1958 Fender Stratocaster]()
+  - [1959 Fender Stratocaster]()
+  - [1960 Fender Stratocaster]()
+  - [1961 Fender Stratocaster]()
+  - [1962 Fender Stratocaster]()
+  - [1963 Fender Stratocaster]()
+  - [1964 Fender Stratocaster]()
+  - [1965 Fender Stratocaster]()
 - [Guitar Heros]()
     - [Jimi Hendrix]()
     - [Eric Clapton]()
@@ -33,7 +44,7 @@ The Strat was so well designed that the world had to wait for 10 years to apprec
     The original design of Fender Stratocaster.
 </div>
 
-## The Birth on October 1954
+## 1954 Fender Stratocaster: The Birth in October
 
 The Strat body featured a two-horned cutaway, rounded edges and contoured body. It was made of ash, which is known to have a nice twang and a good sustain.
 
@@ -123,7 +134,7 @@ Some other interesting notes about the original production Strat: a slanting out
 - Neck: Maple, 'U'-shaped ('D'-shaped), 7.25" radius fingerboard
 - Pickup: 3 single coil, 3-way switch
 
-## Year of 1955
+## 1955 Fender Stratocaster
 There were not significant changes happening to Strat besides slightly refinements. The production process was improved, leading to a lighter weight. Serial number, located in the back metal neck plate, generally ranges from 6000 to 9000, 
 
 The brittle plastic originally used for Stratocaster pickguards, control knobs and pickup covers was replaced with a more durable plastic in 1955.
@@ -137,7 +148,7 @@ The round string holes in the rear tremolo plate became oval-shaped in mid 1955.
 - Neck: Maple, 'U'-shaped ('D'-shaped), 7.25" radius fingerboard
 - Pickup: 3 single coil, 3-way switch
 
-## Year of 1956
+## 1956 Fender Stratocaster
 
 1956 Fender Stratocaster serial numbers generally run from 9000 to 16000 (stamped on the neck plate).
 
@@ -181,7 +192,7 @@ Pickup magnets were changed from alnico 3 to alnico 5 in late 1956.
 - Neck: Maple, soft 'V'-shaped, 7.25" radius fingerboard
 - Pickup: 3 single coil, 3-way switch
 
-## Year of 1957
+## 1957 Fender Stratocaster
 
 The 1957 Fender Stratocaster is considered a "classic" year by most with its two-tone sunburst finish on an Alder body wood with a Maple "V" neck. Serial number range for the 57 Fender Stratocaster are generally 16000 to 25000 (some numbers with a "0" or "-" prefix on the neck plate).
 
@@ -191,7 +202,7 @@ The plastics for a Stratocaster includes the volume and tone knobs, the pickup s
 
 George Fullerton created what is now referred to as the first “official” Fender custom color—the Fiesta Red—circa 1957.
 
-## Year of 1958
+## 1958 Fender Stratocaster
 
 The 1958 Fender Stratocaster saw some major changes take place. The serial number range for the 58 Fender Stratocaster’s are generally from 25000 to 30000 (some numbers start with a “0” or “-” prefix on the neck plate).
 
@@ -206,9 +217,12 @@ The two-color sunburst finish became a three-color sunburst finish in the first 
     1958 three-tone sunburst (amber to red to dark brown).
 </div>
 
-## Year of 1959
+## 1959 Fender Stratocaster
+The serial number range for the 59 Fender Stratocaster are generally 30000 to 40000.
 
-The one-piece neck-fingerboard was replaced by a two-piece construction consisting of a rosewood “slab” fingerboard (so nicknamed later on for its thickness and flat bottom) glued atop the maple neck. 
+The one-piece neck-fingerboard was replaced by a two-piece construction consisting of a rosewood “slab” fingerboard (so nicknamed later on for its thickness and flat bottom) glued atop the maple neck with white "clay" position dots. This change is implemented for the summer 1959 NAMM show. Basically Strats 5/59 and later will have rosewood fingerboards.
+
+The neck has a very thin "D" backshape. As 1959 progresses, the neck backshape gets even thinner.
 
 <div class="img_row">
     <img class="col half" src="/assets/img/music/stratocaster/neck_maple.jpg" alt="" title="maple neck"/>
@@ -218,7 +232,7 @@ The one-piece neck-fingerboard was replaced by a two-piece construction consisti
     One-piece maple neck-fingerboard and maple neck with rosewood "slab".
 </div>
 
-The 'skunk stripes' were rendered unnecessary because the truss rods channels on those instruments were routed into the front of the neck rather than the back, and then covered by the glued-on fingerboards.
+The 'skunk stripes' became unnecessary because the truss rods channels on those instruments were routed into the front of the neck rather than the back, and then covered by the glued-on fingerboards.
 
 <div class="img_row">
     <img class="col half" src="/assets/img/music/stratocaster/neck_maple_trussrod.jpg" alt="" title="maple neck trussrod"/>
@@ -235,9 +249,10 @@ The 'skunk stripes' were rendered unnecessary because the truss rods channels on
 
 These new rosewood-fingerboard models also replaced the black marker dots on the side of the neck with new off-white “clay” dots.
 
-The red dye in the finish was very reactive to UV light, causing it to fade, so your 3-color sunburst guitar suddenly became a 2-color sunburst
+Fender used a red dye that was very reactive to UV light in the sunburst finish, causing it to fade, so your 3-color sunburst guitar suddenly became a 2-color sunburst
 
-The single-ply white pickguard was replaced by multi-ply white-black-white celluloid pickguard with more screw holes (11) and a notable greenish tint.
+The single-ply white pickguard was replaced by multi-ply white-black-white celluloid pickguard with more screw holes (11) and a notable greenish tint. This celluloid pickguard was implemented around 7/59.
+
 <div class="img_row">
     <img class="col half" src="/assets/img/music/stratocaster/strat59_8_hole_pickguard.jpg" alt="" title="8 hole pickguard"/>
     <img class="col half" src="/assets/img/music/stratocaster/strat59_11_hole_pickguard.jpg" alt="" title="11 hole pickguard"/>
@@ -246,27 +261,172 @@ The single-ply white pickguard was replaced by multi-ply white-black-white cellu
     Left: 8 hole pickguard with greenish tint; Right: 11 hole pickguard.
 </div>
 
-## Guitar Heros
+## 1960 Fender Stratocaster
+The serial numbers for the 1960 Stratocasters generally fall within the 40,000 – 58,000 range stamped onto the neck plate. Not much changed from 1959 to 1960 but the guitar did become slightly more refined in the changes that took place over the 1959 year models.
+
+The biggest change for 1960 Strats is that Fender switched from North Wound Pickups to South Wound Pickups. North wound vs south wound pickups just relates to the position and polarity of the magnets used. There is no real difference in tone
+
+## 1961 Fender Stratocaster
+The serial number range for the 61 Fender Stratocaster are generally 55000 to 72000 (on the neck plate).
+
+Fender now using a more robust red in their sunburst finish. Hence 1961 and later Strats don't have sunburst finished with a faded out red. The dark "Amber brown" part of the sunburst finish is now changed to "black". Hence the dark part of the sunburst is more striking and does not blend as well as prior sunburst finishes.
+
+Fender also added the patent numbers to the peghead during 1961, the peghead decal logo now has 2 patent numbers (2,573,254 & 2,741,146)
+
 <div class="img_row">
-    <img class="col one" src="/assets/img/music/stratocaster/clapton_with_blackie.jpg" alt="" title="Clapton with Blackie"/>
-    <img class="col one" src="/assets/img/music/stratocaster/clapton_with_brownie.jpg" alt="" title="Clapton with Brownie"/>
-    <img class="col one" src="/assets/img/music/stratocaster/george_harrison_with_rocky.jpg" alt="" title="George Harrison with Rocky"/>
+    <img class="col three" src="/assets/img/music/stratocaster/strat61_pedhead.jpg" alt="" title="pedhead patents"/>
 </div>
 <div class="col three caption">
-    Eric Clapton with Blackie and Brownie, George Harrison with Rocky.    
+    1961 Strat pedhead patent numbers: 2,573,254 and 2,741,146. &copy; guitarHQ.com
 </div>
 
+## 1962 Fender Stratocaster
+The serial number range for the 62 Fender Stratocaster are generally 72000 to 93000 (on the neck plate).
+
+One of the early changes is that the peghead decal logo now has 3 patent numbers (2,960,900 added).
+
+<div class="img_row">
+    <img class="col three" src="/assets/img/music/stratocaster/strat62_pedhead.jpg" alt="" title="pedhead patents"/>
+</div>
+<div class="col three caption">
+    1962 Strat pedhead added a patent number: 2,960,900. &copy; guitarHQ.com
+</div>
+
+In March 1962 Fender changed from a hand-written neck date on the butt of the neck to a rubber stamped date. The neck width was also part of the stamp, most commonly the "B" width, where the "B" signifies a 1 5/8" nut width. More rare necks include an A width which was for the 1 1/2″ nut width. There were also C width nuts which measured 1 3/4″ and a D width measured at 1 7/8″.
+
+The biggest change is that Fender switched from the thick "slab" rosewood fingerboard to a thinner "veneer" style. Previously, the bottom of the fingerboard is flat, it is now radiused like the top playing surface of the fingerboard, rendering the fingerboard much thinner. This changed the Strat's sound a bit, making it less full and less warm.
+
+<div class="img_row">
+    <img class="col half" src="/assets/img/music/stratocaster/strat62_neck_june.jpg" alt="" title="62 neck june"/>
+    <img class="col half" src="/assets/img/music/stratocaster/strat62_neck_july.jpg" alt="" title="62 neck july"/>
+</div>
+<div class="col three caption">
+    Left: "slab" fingerboard neck in June 1962, Right: "veneer" fingerboard neck in July 1962. &copy; Michael Gilmer
+</div>
+
+In late 1962, the paint process is also changed. Fender used a "stick" to hold the guitar in the neck pocket while painting the Stratocaster, so the neck pocket is not entirely painted.
+
+<div class="img_row">
+    <img class="col half" src="/assets/img/music/stratocaster/strat62_april_neck_pocket.jpeg" alt="" title="62 april neck pocket"/>
+    <img class="col half" src="/assets/img/music/stratocaster/strat62_dec_neck_pocket.jpeg" alt="" title="62 dec neck pocket"/>
+</div>
+<div class="col three caption">
+    Left: April 1962 finish, Right: Dec 1962 finis. &copy; Michael Gilmer.
+</div>
+
+## 1963 Fender Stratocaster
+The serial number range for the 63 Fender Strat runs from 93000 to 99999 in the early part of the year. Then, in the spring of 63 Fender introduced the L series serial numbers. They started with L00001 and roughly go up to L20000.
+
+1963 did not bring any huge change to the Fender Stratocaster (compared to late 1962 models). The one subtle change is the location of the pickguard screw between the neck and middle pickup is moved about 1/2" towards the middle pickup.
+
+Another subtle change was the stamping of “Fender Pat. Pend” being slightly more pronounced on the bridge saddles.
+
+## 1964 Fender Stratocaster
+The serial number range for the 64 Fender Stratocaster are generally L20000 to L55000 (on the neck plate).
+
+By mid-1964, the peghead "Fender" logo changed from the small and thin "spaghetti" logo to a more bold "transition" logo. It also has an added 4th patent number 3,143,028 as well.
+
+<div class="img_row">
+    <img class="col three" src="/assets/img/music/stratocaster/strat64_log_change.jpg" alt="" title="64 log change"/>
+</div>
+<div class="col three caption">
+    Left: 1963-early 1964 “Spaghetti logo”, Right: mid-1964-1967 “transition
+    logo”. &copy; Michael Gilmer.
+</div>
+
+The finishing procedure also changed for the Stratocaster at about the same time, allowing Fender to use more pieces of woods and body wood of lesser visual quality.
+
+<div class="img_row">
+    <img class="col three" src="/assets/img/music/stratocaster/63-64-strat-sunburst.jpg" alt="" title="63-64-strat-sunburst"/>
+</div>
+<div class="col three caption">
+    Left: 1963 Stratocaster, Right: 1964 Stratocaster. &copy; Michael Gilmer.
+</div>
+
+By the fall of 1964 "clay" fingerboard dots were changed to Pearloid (a plastic that looks like pearl).
+
+<div class="img_row">
+    <img class="col three" src="/assets/img/music/stratocaster/clay-dot-vs-pearloid-dot-fret-markers.jpg" alt="" title="clay and pearloid dots"/>
+</div>
+<div class="col three caption">
+    Left: clay dots as fret markers, Right: Pearloid dots. &copy; Michael Gilmer.
+</div>
+
+Late 1964/early 1965 brought a change in pickguard material from the mint-green celluloid to a more stark white ABS plastic.
+
+Other notable changes to the 1964 Fender Stratocaster were the tuning keys. They had been using “single line” Kluson tuners since around 1956. Toward the end of 64, the Stratocaster switched to a “double line” Kluson tuner.
+
+<div class="img_row">
+    <img class="col three" src="/assets/img/music/stratocaster/kluson-stratocaster-tuning-keys.png" alt="" title="single and double line kluson tuner"/>
+</div>
+<div class="col three caption">
+    Left: single line Kluson tuner from 1956-1964, Right: double line Kluson tuner towards the end of 1964. &copy; Michael Gilmer.
+</div>
+
+Since it’s inception the Stratocaster had been using the black bottom single coil pickups. Around the spring to early summer, they started stamping the bottom of the pickups with a yellow date on the bottom showing when it was wound. As they moved through the year of 1964 they transitioned to a gray bottom pickup.
+
+<div class="img_row">
+    <img class="col half" src="/assets/img/music/stratocaster/strat64_pickup_with_stamp.jpg" alt="" title="64 strat with stamp"/>
+    <img class="col half" src="/assets/img/music/stratocaster/strat64_pickup_grey_bottom.jpg" alt="" title="64 strat grey bottom"/>
+</div>
+<div class="col three caption">
+    Left: black bottom pickup with yellow stamp, Right: pickup with grey bottom. &copy; Michael Gilmer.
+</div>
+
+## Guitar Heros
+
 ### Jimi Hendrix
+<div class="img_row">
+    <img class="col half" src="/assets/img/music/stratocaster/jimi_hendrix_woodstocks_68.jpg" alt="" title="Woodstock 86"/>
+    <img class="col half" src="/assets/img/music/stratocaster/jimi_hendrix_monterey.jpg" alt="" title="Monterey Pop Festival"/>
+</div>
+<div class="col three caption">
+    Left: hand painted Monterey Pop Festival Strat (burned during the fiery
+    culmination of his set), Right: Woodstock 1968 white strat.
+</div>
 
 ### Eric Clapton
+<div class="img_row">
+    <img class="col half" src="/assets/img/music/stratocaster/clapton_with_blackie.jpg" alt="" title="Clapton with Blackie"/>
+    <img class="col half" src="/assets/img/music/stratocaster/clapton_with_brownie.jpg" alt="" title="Clapton with Brownie"/>
+</div>
+<div class="col three caption">
+    Eric Clapton with Blackie and Brownie.
+</div>
 
 ### George Harrison
+<div class="img_row">
+    <img class="col half" src="/assets/img/music/stratocaster/george_harrison_with_rocky.jpg" alt="" title="George Harrison with Rocky"/>
+</div>
+<div class="col three caption">
+    George Harrison with Rocky.    
+</div>
 
 ### David Gilmour
+<div class="img_row">
+    <img class="col half" src="/assets/img/music/stratocaster/david-gilmour-black-strat.jpg" alt="" title="SRV with First Wife"/>
+</div>
+<div class="col three caption">
+    David Gilmour and his black Strat.
+</div>
+
 
 ### Stevie Ray Vaughan
+<div class="img_row">
+    <img class="col half" src="/assets/img/music/stratocaster/srv_first_wife.jpg" alt="" title="SRV with First Wife"/>
+</div>
+<div class="col three caption">
+    SRV and his "First Wife" (also called Number One).
+</div>
 
 ### John Mayer
+<div class="img_row">
+    <img class="col one" src="/assets/img/music/stratocaster/john_mayer_black_1.jpg" alt="" title="john mayer black 1"/>
+    <img class="col two" src="/assets/img/music/stratocaster/John-Mayer-Black_1.jpg" alt="" title="john mayer black 1"/>
+</div>
+<div class="col three caption">
+    John Mayer with Black 1.
+</div>
 
 ## Strat of Mine
 I don't name my guitars unless I'm certain that I will keep them for the rest of my life just in case I wouldn't get attached to them. My very first Strat is a Mexico-made Fender Player version Strat. To honor my favorite female author - Jane Austin, I decided to name her Jane.
