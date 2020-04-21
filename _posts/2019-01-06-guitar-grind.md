@@ -8,17 +8,6 @@ header:
   teaser: guitar.jpg
 ---
 
-## 2020/04/06 - 2020/04/12
-Warmup
- - String crossing: 4, 3, 2, 1 notes per string
- - Spider crawl
- - Chromatic scale
- - Power chord in Key of C
-New repertoire
- - Something - The Beatles
- - Here Comes the Sun - The Beatles
- - Layla - Eric Clapton
-
 ## Daily routine (10/28/2019)
 0. Finger exercise
   - [Finger gym](https://www.justinguitar.com/guitar-lessons/finger-gym-te-110)
