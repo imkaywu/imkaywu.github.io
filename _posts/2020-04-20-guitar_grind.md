@@ -12,6 +12,7 @@ header:
 Warmup
   - String crossing: 4, 3, 2, 1 notes per string
   - Hammer-on/Pull off: every finger combination, all six strings
+
 New songs
   - Here Comes the Sun - The Beatles
   - Wonderful Tonight  - Eric Clapton
@@ -22,6 +23,7 @@ Warmup
  - Spider crawl
  - Chromatic scale
  - Power chord in Key of C
+
 New songs
  - Something - The Beatles
  - Here Comes the Sun - The Beatles

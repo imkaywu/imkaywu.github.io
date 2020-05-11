@@ -381,8 +381,7 @@ Since it’s inception the Stratocaster had been using the black bottom single c
     <img class="col half" src="/assets/img/music/stratocaster/jimi_hendrix_monterey.jpg" alt="" title="Monterey Pop Festival"/>
 </div>
 <div class="col three caption">
-    Left: hand painted Monterey Pop Festival Strat (burned during the fiery
-    culmination of his set), Right: Woodstock 1968 white strat.
+    Left: Woodstock 1968 white strat, Right: hand painted Monterey Pop Festival Strat (burned during the fiery culmination of his set).
 </div>
 
 ### Eric Clapton
@@ -441,3 +440,4 @@ Primer](https://www.fender.com/articles/tech-talk/pitch-control-a-tremolo-primer
 [The stories behind eight ridiculously famous
 Stratocasters](https://happymag.tv/the-stories-behind-eight-ridiculously-famous-stratocasters/) \\
 [Pre CBS Stratocaster](https://precbsstratocasters.com) \\
+[Legendary Guitars](http://legendary-guitars.blogspot.com)
