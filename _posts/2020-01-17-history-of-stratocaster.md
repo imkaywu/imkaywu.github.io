@@ -6,36 +6,37 @@ tags:
   - Guitar
 ---
 
-- [Before Stratocaster]()
+- [Before Stratocaster](#background)
 - [Pre-CBS Years]()
-  - [1954 Fender Stratocaster: The Birth in October]()
-  - [1955 Fender Stratocaster]()
-  - [1956 Fender Stratocaster]()
-  - [1957 Fender Stratocaster]()
-  - [1958 Fender Stratocaster]()
-  - [1959 Fender Stratocaster]()
-  - [1960 Fender Stratocaster]()
-  - [1961 Fender Stratocaster]()
-  - [1962 Fender Stratocaster]()
-  - [1963 Fender Stratocaster]()
-  - [1964 Fender Stratocaster]()
-  - [1965 Fender Stratocaster]()
+  - [1954 Fender Stratocaster: The Birth of an Icon](#1954)
+  - [1955 Fender Stratocaster](#1955)
+  - [1956 Fender Stratocaster](#1956)
+  - [1957 Fender Stratocaster](#1957)
+  - [1958 Fender Stratocaster](#1958)
+  - [1959 Fender Stratocaster](#1959)
+  - [1960 Fender Stratocaster](#1960)
+  - [1961 Fender Stratocaster](#1961)
+  - [1962 Fender Stratocaster](#1962)
+  - [1963 Fender Stratocaster](#1963)
+  - [1964 Fender Stratocaster](#1964)
+  - [1965 Fender Stratocaster](#1965)
 - [Guitar Heros]()
-    - [Jimi Hendrix]()
-    - [Eric Clapton]()
-    - [George Harrison]()
-    - [David Gilmour]()
-    - [Stevie Ray Vaughan]()
-    - [John Mayer]()
-- [Strat of Mine]()
+    - [Jimi Hendrix](#jimi-hendrix)
+    - [Eric Clapton](#eric-clapton)
+    - [George Harrison](#george-harrison)
+    - [David Gilmour](#david-gilmour)
+    - [Stevie Ray Vaughan](#srv)
+    - [John Mayer](#john-mayer)
+- [My first Strat: Maple](#maple)
 
+<a id="background"></a>
 ## Before Stratocaster
 
 The design of Stratocaster (Strat for short) was heavily influenced by its two predecesors -- Telecaster (Tele for short) and the two-horned shape Precision Bass. Musician [Freddy Tavares](https://www.google.com/search?client=safari&rls=en&q=Freddy+Tavares&ie=UTF-8&oe=UTF-8) came up with a design that combined features from Fender's two first instruments.
 
 In early 1953, the body of the Strat still closely resembled that of a Tele. Tele wasn't known for its comfortability since the squared-off body digs into the player's body. Guitarist [Rex Gallion ]() was often credited with suggesting a rounded edges and contoured body.
 
-The Strat was so well designed that the world had to wait for 10 years to appreciate its greatness.
+#The Strat was so well designed that the world had to wait for 10 years to appreciate its greatness.
 
 <div class="img_row">
     <img class="col three" src="/assets/img/music/stratocaster/strat_original_design.jpeg" alt="" title="strat original design"/>
@@ -44,7 +45,8 @@ The Strat was so well designed that the world had to wait for 10 years to apprec
     The original design of Fender Stratocaster.
 </div>
 
-## 1954 Fender Stratocaster: The Birth in October
+<a id="1954"></a>
+## 1954 Fender Stratocaster: The Birth of an Icon
 
 The Strat body featured a two-horned cutaway, rounded edges and contoured body. It was made of ash, which is known to have a nice twang and a good sustain.
 
@@ -134,6 +136,7 @@ Some other interesting notes about the original production Strat: a slanting out
 - Neck: Maple, 'U'-shaped ('D'-shaped), 7.25" radius fingerboard
 - Pickup: 3 single coil, 3-way switch
 
+<a id="1955"></a>
 ## 1955 Fender Stratocaster
 There were not significant changes happening to Strat besides slightly refinements. The production process was improved, leading to a lighter weight. Serial number, located in the back metal neck plate, generally ranges from 6000 to 9000, 
 
@@ -148,6 +151,7 @@ The round string holes in the rear tremolo plate became oval-shaped in mid 1955.
 - Neck: Maple, 'U'-shaped ('D'-shaped), 7.25" radius fingerboard
 - Pickup: 3 single coil, 3-way switch
 
+<a id="1956"></a>
 ## 1956 Fender Stratocaster
 
 1956 Fender Stratocaster serial numbers generally run from 9000 to 16000 (stamped on the neck plate).
@@ -192,6 +196,7 @@ Pickup magnets were changed from alnico 3 to alnico 5 in late 1956.
 - Neck: Maple, soft 'V'-shaped, 7.25" radius fingerboard
 - Pickup: 3 single coil, 3-way switch
 
+<a id="1957"></a>
 ## 1957 Fender Stratocaster
 
 The 1957 Fender Stratocaster is considered a "classic" year by most with its two-tone sunburst finish on an Alder body wood with a Maple "V" neck. Serial number range for the 57 Fender Stratocaster are generally 16000 to 25000 (some numbers with a "0" or "-" prefix on the neck plate).
@@ -202,6 +207,7 @@ The plastics for a Stratocaster includes the volume and tone knobs, the pickup s
 
 George Fullerton created what is now referred to as the first “official” Fender custom color—the Fiesta Red—circa 1957.
 
+<a id="1958"></a>
 ## 1958 Fender Stratocaster
 
 The 1958 Fender Stratocaster saw some major changes take place. The serial number range for the 58 Fender Stratocaster’s are generally from 25000 to 30000 (some numbers start with a “0” or “-” prefix on the neck plate).
@@ -217,6 +223,7 @@ The two-color sunburst finish became a three-color sunburst finish in the first 
     1958 three-tone sunburst (amber to red to dark brown).
 </div>
 
+<a id="1959"></a>
 ## 1959 Fender Stratocaster
 The serial number range for the 59 Fender Stratocaster are generally 30000 to 40000.
 
@@ -261,11 +268,13 @@ The single-ply white pickguard was replaced by multi-ply white-black-white cellu
     Left: 8 hole pickguard with greenish tint; Right: 11 hole pickguard.
 </div>
 
+<a id="1960"></a>
 ## 1960 Fender Stratocaster
 The serial numbers for the 1960 Stratocasters generally fall within the 40,000 – 58,000 range stamped onto the neck plate. Not much changed from 1959 to 1960 but the guitar did become slightly more refined in the changes that took place over the 1959 year models.
 
 The biggest change for 1960 Strats is that Fender switched from North Wound Pickups to South Wound Pickups. North wound vs south wound pickups just relates to the position and polarity of the magnets used. There is no real difference in tone
 
+<a id="1961"></a>
 ## 1961 Fender Stratocaster
 The serial number range for the 61 Fender Stratocaster are generally 55000 to 72000 (on the neck plate).
 
@@ -280,6 +289,7 @@ Fender also added the patent numbers to the peghead during 1961, the peghead dec
     1961 Strat pedhead patent numbers: 2,573,254 and 2,741,146. &copy; guitarHQ.com
 </div>
 
+<a id="1962"></a>
 ## 1962 Fender Stratocaster
 The serial number range for the 62 Fender Stratocaster are generally 72000 to 93000 (on the neck plate).
 
@@ -314,6 +324,7 @@ In late 1962, the paint process is also changed. Fender used a "stick" to hold t
     Left: April 1962 finish, Right: Dec 1962 finis. &copy; Michael Gilmer.
 </div>
 
+<a id="1963"></a>
 ## 1963 Fender Stratocaster
 The serial number range for the 63 Fender Strat runs from 93000 to 99999 in the early part of the year. Then, in the spring of 63 Fender introduced the L series serial numbers. They started with L00001 and roughly go up to L20000.
 
@@ -321,6 +332,7 @@ The serial number range for the 63 Fender Strat runs from 93000 to 99999 in the 
 
 Another subtle change was the stamping of “Fender Pat. Pend” being slightly more pronounced on the bridge saddles.
 
+<a id="1964"></a>
 ## 1964 Fender Stratocaster
 The serial number range for the 64 Fender Stratocaster are generally L20000 to L55000 (on the neck plate).
 
@@ -375,6 +387,7 @@ Since it’s inception the Stratocaster had been using the black bottom single c
 
 ## Guitar Heros
 
+<a id="jimi-hendrix"></a>
 ### Jimi Hendrix
 <div class="img_row">
     <img class="col half" src="/assets/img/music/stratocaster/jimi_hendrix_woodstocks_68.jpg" alt="" title="Woodstock 86"/>
@@ -384,6 +397,7 @@ Since it’s inception the Stratocaster had been using the black bottom single c
     Left: Woodstock 1968 white strat, Right: hand painted Monterey Pop Festival Strat (burned during the fiery culmination of his set).
 </div>
 
+<a id="eric-clapton"></a>
 ### Eric Clapton
 <div class="img_row">
     <img class="col half" src="/assets/img/music/stratocaster/clapton_with_blackie.jpg" alt="" title="Clapton with Blackie"/>
@@ -393,6 +407,7 @@ Since it’s inception the Stratocaster had been using the black bottom single c
     Eric Clapton with Blackie and Brownie.
 </div>
 
+<a id="george-harrison"></a>
 ### George Harrison
 <div class="img_row">
     <img class="col half" src="/assets/img/music/stratocaster/george_harrison_with_rocky.jpg" alt="" title="George Harrison with Rocky"/>
@@ -401,6 +416,7 @@ Since it’s inception the Stratocaster had been using the black bottom single c
     George Harrison with Rocky.    
 </div>
 
+<a id="david-gilmour"></a>
 ### David Gilmour
 <div class="img_row">
     <img class="col half" src="/assets/img/music/stratocaster/david-gilmour-black-strat.jpg" alt="" title="SRV with First Wife"/>
@@ -409,7 +425,7 @@ Since it’s inception the Stratocaster had been using the black bottom single c
     David Gilmour and his black Strat.
 </div>
 
-
+<a id="srv"></a>
 ### Stevie Ray Vaughan
 <div class="img_row">
     <img class="col half" src="/assets/img/music/stratocaster/srv_first_wife.jpg" alt="" title="SRV with First Wife"/>
@@ -418,17 +434,19 @@ Since it’s inception the Stratocaster had been using the black bottom single c
     SRV and his "First Wife" (also called Number One).
 </div>
 
+<a id="john-mayer"></a>
 ### John Mayer
 <div class="img_row">
-    <img class="col one" src="/assets/img/music/stratocaster/john_mayer_black_1.jpg" alt="" title="john mayer black 1"/>
-    <img class="col two" src="/assets/img/music/stratocaster/John-Mayer-Black_1.jpg" alt="" title="john mayer black 1"/>
+    <img class="col one" src="/assets/img/music/stratocaster/john_mayer_black_1_0.jpg" alt="" title="john mayer black 1"/>
+    <img class="col two" src="/assets/img/music/stratocaster/john_mayer_black_1_1.JPG" alt="" title="john mayer black 1"/>
 </div>
 <div class="col three caption">
     John Mayer with Black 1.
 </div>
 
-## Strat of Mine
-I don't name my guitars unless I'm certain that I will keep them for the rest of my life just in case I wouldn't get attached to them. My very first Strat is a Mexico-made Fender Player version Strat. To honor my favorite female author - Jane Austin, I decided to name her Jane.
+<a id="maple"></a>
+## My first Strat: Maple
+I don't name my guitars unless I'm certain that I will keep them for the rest of my life just in case I wouldn't get attached to them. My very first Strat is a Mexico-made Fender Player Strat, and she is Maple.
 
 ## References
 [Leo Fender's
