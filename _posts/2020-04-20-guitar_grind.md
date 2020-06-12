@@ -4,8 +4,6 @@ categories:
   - Music
 tags:
   - Guitar
-header:
-  teaser: guitar.jpg
 ---
 
 ## 2020/04/20 - 2020/04/26
@@ -14,8 +12,8 @@ Warmup
   - Hammer-on/Pull off: every finger combination, all six strings
 
 New songs
-  - Here Comes the Sun - The Beatles
-  - Wonderful Tonight  - Eric Clapton
+  - Here Comes the Sun (Intro) - The Beatles
+  - Wonderful Tonight (Intro)  - Eric Clapton
 
 ## 2020/04/06 - 2020/04/12
 Warmup
@@ -25,6 +23,6 @@ Warmup
  - Power chord in Key of C
 
 New songs
- - Something - The Beatles
- - Here Comes the Sun - The Beatles
- - Layla - Eric Clapton
+ - Something (Solo) - The Beatles
+ - Here Comes the Sun (Intro) - The Beatles
+ - Layla (Intro) - Eric Clapton
