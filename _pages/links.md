@@ -93,7 +93,7 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [Sameer Agarwal](http://homes.cs.washington.edu/~sagarwal/)\\
 [Ronald T. Azuma, Ph.D.](http://www.ronaldazuma.com)\\
 [Tianqi Chen](http://homes.cs.washington.edu/~tqchen/)\\
-[Colah's blog](http://colah.github.io)\\
+[Colah's blog](http://colah.github.io) (Neural Networks tutorials)\\
 [Noam Chomsky](https://chomsky.info)\\
 [Shuoyang Ding](http://cs.jhu.edu/~sding/)\\
 [Ethan Eade](http://ethaneade.com)\\
@@ -291,6 +291,9 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 
 [CS231A: Computer Vision, From 3D Reconstruction to Recognition](http://web.stanford.edu/class/cs231a/syllabus.html)\\
 [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu)\\
+[Introduction to Deep Learning by Alex Smola and Mu Li](https://courses.d2l.ai/berkeley-stat-157/index.html)\\
+[SLAM by Prof. Cyrill Stachniss](http://ais.informatik.uni-freiburg.de/teaching/ws13/mapping/) \\
+[Photogrammetry by Prof. Cyrill Stachniss](https://www.youtube.com/playlist?list=PLgnQpQtFTOGRsi5vzy9PiQpNWHjq-bKN1)\\
 [COMPUTER VISION - EPFL, Pascal Fua](http://klewel.com/conferences/epfl-computer-vision/)\\
 [Physics based Methods in Vision - CMU](http://www.cs.cmu.edu/afs/cs/academic/class/16823-s16/www/)\\
 [3D Computer Vision - U of Utah](http://www.sci.utah.edu/%7Egerig/CS6320-S2015/CS6320_3D_Computer_Vision.html)\\
