@@ -49,7 +49,8 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [Wikitravel](https://wikitravel.org/en/Main_Page)\\
 [Wikivoyage](https://en.wikivoyage.org/wiki/Main_Page)\\
 [Flying the nest](http://flyingthenest.tv)\\
-[TRAVEL WITH WINNY](https://www.travelwithwinny.com/)
+[TRAVEL WITH WINNY](https://www.travelwithwinny.com/)\\
+[Kara and Nate](https://karaandnate.com)
 
 ---
 
@@ -383,6 +384,7 @@ Topcoder - Power up C++ with the Standard Template Library by Dmitry Korolev [Pa
 [Cracking the coding](http://www.hawstein.com/posts/ctci-solutions-contents.html)\\
 [Leetcode编程训练](http://coolshell.cn/articles/12052.html)\\
 [算法珠玑](https://www.gitbook.com/book/soulmachine/algorithm-essentials/details)
+[力扣(lucifer)](https://leetcode-solution.cn)\\
 [UDLS](http://www.cs.ubc.ca/~udls/)
 
 ---
