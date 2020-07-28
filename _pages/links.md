@@ -35,7 +35,9 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 ---
 
 ## Books
-[Book List]({{ site.url }}{{ site.baseurl }}/blog/2017/06/book-list)
+[Book List]({{ site.url }}{{ site.baseurl }}/blog/2017/06/book-list)\\
+[Physically Based Rendering](http://www.pbr-book.org/3ed-2018/contents.html)\\
+[Neural Networks and Deep Learning by Michael Nielsen](http://neuralnetworksanddeeplearning.com/index.html)
 
 ---
 
@@ -45,12 +47,18 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 
 ---
 
+## Finance
+[Beancount Documentation](https://bradyt.github.io/beancount-docs/)
+
+---
+
 ## Travel
 [Wikitravel](https://wikitravel.org/en/Main_Page)\\
 [Wikivoyage](https://en.wikivoyage.org/wiki/Main_Page)\\
 [Flying the nest](http://flyingthenest.tv)\\
 [TRAVEL WITH WINNY](https://www.travelwithwinny.com/)\\
-[Kara and Nate](https://karaandnate.com)
+[Kara and Nate](https://karaandnate.com) \\
+[Post Everest Recap](http://www.climbingonpurpose.com/2018/06/)
 
 ---
 
@@ -116,7 +124,7 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [Ce Liu](http://people.csail.mit.edu/celiu/)\\
 [SATYA MALLICK - Learn OpenCV](http://www.learnopencv.com)\\
 [Wojciech Matusik](http://people.csail.mit.edu/wojciech/)\\
-[Gregor Miller](http://www.ece.ubc.ca/~gregor/)\\
+[Lei Mao](https://leimao.github.io)\\
 [Free Mind](http://freemind.pluskid.org)\\
 [Matt Might](http://matt.might.net/articles/)\\
 [Matthias Nießner](http://www.graphics.stanford.edu/~niessner/)\\
@@ -336,6 +344,9 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [Comvex Optimization at Stanford](https://lagunita.stanford.edu/courses/Engineering/CVX101/Winter2014/about)\\
 [Numerical Optimization by Prof. MPF]()\\
 [MIT Deep Learning](https://deeplearning.mit.edu)
+
+### Stats
+[Probabilistic Graphical Models - CS 228](https://ermongroup.github.io/cs228-notes/)
 
 ### Math
 [Calculus Part 1](https://www.coursera.org/learn/calculus1/home/welcome)\\
