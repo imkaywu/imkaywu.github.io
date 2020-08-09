@@ -17,7 +17,7 @@ last_updated: # leave blank if you don't want to display last updated
 # Social integration
 # -----------------------------------------------------------------------------
 github_username: imkaywu # put your github username
-twitter_username: _kaiwu_ # put your twitter username
+twitter_username: # put your twitter username
 linkedin_username: kai-wu-/ # put your linkedin username
 scholar_authorid: # put your google scholar author id
 contact_note: >
@@ -26,7 +26,7 @@ contact_note: >
 # -----------------------------------------------------------------------------
 # Blog
 # -----------------------------------------------------------------------------
-blog_name: Kai's blog
+blog_name: KaiW's blog about technology and guitar
 blog_description: "Discipline Equals Freedom"
 
 # Pagination

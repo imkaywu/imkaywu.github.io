@@ -14,8 +14,7 @@ profile:
 news: true
 social: true
 ---
-I am a Compute Vision engineer working on autonomous driving, and love playing
-guitar in my spare time. My favorite guitar heros are: [Eric Clapton](https://en.wikipedia.org/wiki/Clapton_is_God) and [George Harrison](https://www.youtube.com/watch?v=2bOQH10Meq0&frags=pl%2Cwn) (favorite Beatle).
+I am a Computer Vision engineer working on perception in the autonomous driving industry, and an aspiring Blues guitarist. I have become a full-time bedroom guitarist since 2020. My favorite guitar heros are: [Eric Clapton](https://en.wikipedia.org/wiki/Clapton_is_God) and [George Harrison](https://www.youtube.com/watch?v=2bOQH10Meq0&frags=pl%2Cwn) (favorite Beatle). 
 
 Previously, I was a Master of Applied Science student at the HCT lab (Human Communication Technologies Lab) of ECE Department of UBC. Go to my [CV](https://imkaywu.github.io/cv) for more detailed information.
 

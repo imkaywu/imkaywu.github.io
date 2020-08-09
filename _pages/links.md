@@ -321,6 +321,7 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [Computer Graphics - Edx](https://www.edx.org/course/computer-graphics-uc-san-diegox-cse167x-1)\\
 Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~joy/ecs175/), [Videos](http://graphics.cs.ucdavis.edu/~joy/ecs175/))\\
 [CSC418/2504 Computer Graphics](http://www.dgp.toronto.edu/~egarfink/courses/CSC418/)\\
+[Introduction to Computer Graphics - CSCI 1230](https://cs.brown.edu/courses/cs123)\\
 [Nate Robins Tutorial]()\\
 [Song Ho Ahn's OpenGL Tutorial](http://www.songho.ca/opengl/index.html)\\
 [Learn OpenGL](https://learnopengl.com)\\
