@@ -215,6 +215,11 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [QHull](http://www.qhull.org)\\
 [Manolis Lourakis](http://users.ics.forth.gr/~lourakis/)
 
+#### Tracking
+[Multiple Hypothesis Tracking Revisited](http://rehg.org/mht/)\\
+[Multiple Hypothesis Tracking Code](https://ingemarcox.cs.ucl.ac.uk/?page_id=9)\\
+[Probabilistic Data Association Filters (PDAF) - a tracking demo](https://www.mathworks.com/matlabcentral/fileexchange/34146-probabilistic-data-association-filters-pdaf-a-tracking-demo) \\
+
 #### Calibration
 [Multi-Camera Self-Calibration](http://cmp.felk.cvut.cz/~svoboda/SelfCal/index.html)\\
 [Automatic camera pose estimation from dot pattern - Carlos Hernandez](http://george-vogiatzis.org/calib/)\\
@@ -296,6 +301,9 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 
 ## Courses & Tutorials
 
+### CS
+[https://missing.csail.mit.edu](https://missing.csail.mit.edu)
+
 ### Computer Vision
 
 [CS231A: Computer Vision, From 3D Reconstruction to Recognition](http://web.stanford.edu/class/cs231a/syllabus.html)\\
@@ -344,7 +352,14 @@ Comptuer Graphics - UC Davis ([Course website](http://graphics.cs.ucdavis.edu/~j
 [Machine Learning Reading Group at UBC](http://www.cs.ubc.ca/labs/lci/mlrg/)\\
 [Comvex Optimization at Stanford](https://lagunita.stanford.edu/courses/Engineering/CVX101/Winter2014/about)\\
 [Numerical Optimization by Prof. MPF]()\\
-[MIT Deep Learning](https://deeplearning.mit.edu)
+[MIT Deep Learning](https://deeplearning.mit.edu)\\
+[Algorithms for Convex Optimization](https://convex-optimization.github.io/)
+
+### Tracking
+[Stone Soup](https://stonesoup.readthedocs.io/en/latest/index.html)\\
+[A Crash Course in Basic Single-Scan Target Tracking by David Frederic Crouse](https://icerm.brown.edu/materials/Slides/sp-f17-w2/Intro._to_Single-Scan_Target_Tracking_]_David_Crouse,_Naval_Research_Laboratory.pdf)\\
+[KalmanFilter.NET](https://www.kalmanfilter.net/default.aspx)\\
+[An Elementary Introduction to Kalman Filtering](https://cacm.acm.org/magazines/2019/11/240389-an-elementary-introduction-to-kalman-filtering/fulltext)
 
 ### Stats
 [Probabilistic Graphical Models - CS 228](https://ermongroup.github.io/cs228-notes/)
