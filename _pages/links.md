@@ -121,6 +121,7 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [Satoshi Ikehata](https://www.hal.t.u-tokyo.ac.jp/~ikehata/)\\
 [Andrej Karpathy's Blog](http://cs.stanford.edu/people/karpathy/)\\
 [Johnny Lee](http://johnnylee.net)\\
+[Lilian Weng](https://lilianweng.github.io/lil-log/FAQ.html)\\
 [Ce Liu](http://people.csail.mit.edu/celiu/)\\
 [SATYA MALLICK - Learn OpenCV](http://www.learnopencv.com)\\
 [Wojciech Matusik](http://people.csail.mit.edu/wojciech/)\\
@@ -151,6 +152,7 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [Christopher Zach](http://www.cvg.ethz.ch/research/chzach/index.html)\\
 [Victor Zappi](http://toomuchidle.com/blog/)\\
 [Qianyi Zhou](http://qianyi.info)\\
+[Eric Zhang](https://www.ekzhang.com)
 [Wang Zhe](http://wangzheallen.github.io)
 
 ### Non-academia
@@ -162,7 +164,7 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [酷壳](http://coolshell.cn)\\
 [稚晖的个人站](http://pengzhihui.xyz)\\
 [AskTog](http://www.asktog.com)\\
-[Brandon Gregg](http://www.brendangregg.com)\\
+[Brendan Gregg](http://www.brendangregg.com)\\
 [BYVoid](https://www.byvoid.com/zhs/)\\
 [Clay Bavor](https://www.claybavor.com)\\
 [danielmiessler](https://danielmiessler.com)\\
@@ -308,6 +310,7 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 
 [CS231A: Computer Vision, From 3D Reconstruction to Recognition](http://web.stanford.edu/class/cs231a/syllabus.html)\\
 [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu)\\
+[Lecture: Computer Vision](https://uni-tuebingen.de/de/203146)\\
 [Introduction to Deep Learning by Alex Smola and Mu Li](https://courses.d2l.ai/berkeley-stat-157/index.html)\\
 [SLAM by Prof. Cyrill Stachniss](http://ais.informatik.uni-freiburg.de/teaching/ws13/mapping/) \\
 [Photogrammetry by Prof. Cyrill Stachniss](https://www.youtube.com/playlist?list=PLgnQpQtFTOGRsi5vzy9PiQpNWHjq-bKN1)\\
@@ -321,6 +324,10 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [3d Shape Reconstruction from Photographs: a Multi-View Stereo Approach](http://carlos-hernandez.org/cvpr2010/)\\
 [Build Your Own 3D Scanner: Optical Triangulation for Beginners](http://mesh.brown.edu/byo3d/index.html)\\
 [Visual 3D Modeling from Images](http://www.cs.unc.edu/~marc/tutorial/tutorial02.html)
+
+### Deep Learning
+[Dive into Deep Learning](https://d2l.ai/index.html)
+[Optimization Method for Deep Learning](https://www.csie.ntu.edu.tw/~cjlin/courses/optdl2021/)
 
 ### 3D Vision
 [Large-scale 3D Modelling from Crowdsourced Data](https://demuc.de/tutorials/cvpr2017).
@@ -412,7 +419,8 @@ Topcoder - Power up C++ with the Standard Template Library by Dmitry Korolev [Pa
 [Leetcode编程训练](http://coolshell.cn/articles/12052.html)\\
 [算法珠玑](https://www.gitbook.com/book/soulmachine/algorithm-essentials/details)
 [力扣(lucifer)](https://leetcode-solution.cn)\\
-[UDLS](http://www.cs.ubc.ca/~udls/)
+[UDLS](http://www.cs.ubc.ca/~udls/)\\
+[CS-Notes](http://www.cyc2018.xyz)\\
 
 ---
 ## CG softwares
