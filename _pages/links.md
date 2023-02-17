@@ -179,6 +179,16 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [Hujiawei Bujidao](http://javayhu.me)\\
 [An amateur programmer](https://dirtysalt.github.io/html/index.html)
 
+### Crypto
+[cryptoscores](https://www.cryptoscores.io) \\
+[openDAO](https://deepdao.io/#/deepdao/dashboard) \\
+[BTCStudy](https://www.btcstudy.org) \\
+[NFT 高阶工具](http://cytool.hns.is) \\
+[hic et nunc](https://hicetnunc.art/)
+[Marketplace Treasure](https://marketplace.treasure.lol/)
+[objkt.com](objkt.com)
+
+
 ### Misc
 [Hacker News](https://news.ycombinator.com)\\
 [George R.R. Martin](http://www.georgerrmartin.com)
@@ -323,7 +333,8 @@ Tips for Taylor GS Mini Owners: [Part 1](https://guitarbear.wordpress.com/2016/1
 [Open Source Structure-from-Motion](http://www.kitware.com/cvpr2015-tutorial.html)\\
 [3d Shape Reconstruction from Photographs: a Multi-View Stereo Approach](http://carlos-hernandez.org/cvpr2010/)\\
 [Build Your Own 3D Scanner: Optical Triangulation for Beginners](http://mesh.brown.edu/byo3d/index.html)\\
-[Visual 3D Modeling from Images](http://www.cs.unc.edu/~marc/tutorial/tutorial02.html)
+[Visual 3D Modeling from Images](http://www.cs.unc.edu/~marc/tutorial/tutorial02.html)\\
+[First Principle Computer Vision](https://fpcv.cs.columbia.edu)
 
 ### Deep Learning
 [Dive into Deep Learning](https://d2l.ai/index.html)
