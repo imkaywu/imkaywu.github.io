@@ -9,9 +9,7 @@ This tutorial is based on the code released for [ViSiL: Fine-grained Spatio-Temp
 Visil computes the video to video similarity score in three steps: 1) feature extraction, 2) frame-to-frame similarity, 3) video-to-video similarity. See the image below for an overview of the workflow.
 
 <div class="img_row">
-    <img class="col three"
-    scr="https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/visil_workflow.png"
-    alt="" title="visil overview"/>
+    <img class="col three" src="https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/visil_workflow.png" alt="" title="visil overview"/>
 </div>
 <div class="col three caption">
     ViSil Overview
@@ -25,14 +23,11 @@ Given a video of $P$, the input is $P\times H\times W\times C$, where $H$, $W$ i
 When we use ResNet-50 as our backbone, the feature map extracted from one video is $P\times 3\times 3\times 3840$, or it can also be rearranged to be $P\times 9\times 3840$.
 
 <div class="img_row">
-    <img class="col three"
-    alt="" title="feature extraction"/>
+    <img class="col three" src="https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/feature_extraction.png" alt="" title="feature extraction"/>
 </div>
 <div class="col three caption">
-    
+    ViSil: feature extraction
 </div>
-
-![ViSil: feature extraction](https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/feature_extraction.png)
 
 ## Frame-to-Frame similarity
 Given two frame $d$, $b$ and their corresponding feature map $M_d, M_b \in \mathbb{R}^{NxNxC}$. The region map can be decomposed into region vectors $d_{ij}, b_{kl} \in \mathbb{R}^C, i,j,k,l \in [1,N]$. Then the dot product between every pair of region vectors is calculated, creating a similarity matrix of the two frames. Chamfer similarity (CS) is applied on the similarity matrix to compute the frame-to-frame similarity
@@ -41,14 +36,24 @@ $$
 CS(d, b) = \frac{1}{N^2} \sum_{i,j=1}^N \max_{k,l\in[1,N]} d_{ij}^\top b_{kl}
 $$
 
-![ViSil: frame-to-frame similarity](https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/frame_to_frame_simi.png)
+<div class="img_row">
+    <img class="col three" src="https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/frame_to_frame_simi.png" alt="" title="f2f similarity"/>
+</div>
+<div class="col three caption">
+    ViSil: frame-to-frame similarity
+</div>
 
 ## Video-to-Video similarity
 Given two videos $X, Y$ with $P, Q$ frames respectively, we compute pairwise frame-to-frame similarity for all frames between these two videos and derive the frame-to-frame similarity matrix $S(X, Y)\in ℝ^{P \times Q}$
 
 Then we feed the frame-to-frame similarity matrix to a CNN to train a video level similarity model using triplet loss. We use a harh tanh to clip the output the network within $[-1, 1]$ and use triplet score as our loss function.
 
-![Visil: video-to-video similarity](https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/video_to_video_simi.png)
+<div class="img_row">
+    <img class="col three" src="https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/video_to_video_simi.png" alt="" title="v2v similarity"/>
+</div>
+<div class="col three caption">
+    ViSil: video-to-video similarity
+</div>
 
 # Walkthrough
 
@@ -178,7 +183,7 @@ def f2f_simi_score(frame_1, frame_2):
 Since there are $Q$ frames in the query video and $T$ frames from the target video, there are $Q \times T$ pairs of frames, and thus a frame2frame similarity matrix of size $(Q, T)$.
 
 
-> **Caveat**: as we can see from the pseduocode, `f2f_simi_score` is not commutative, i.e., `f2f_simi_score(frame_1, frame_2) != f2f_simi_score(frame_2, frame_1)`. We won't discuss apporaches to address this issue since it's out of the scope of this demo.
+**Caveat**: as we can see from the pseduocode, `f2f_simi_score` is not commutative, i.e., `f2f_simi_score(frame_1, frame_2) != f2f_simi_score(frame_2, frame_1)`. We won't discuss apporaches to address this issue since it's out of the scope of this demo.
 
 ```python
 def visualize_matrix(sim_matrix, title, step=1):
@@ -205,7 +210,12 @@ if device.type == 'cuda':
 visualize_matrix(sim_matrix[0], 'Frame-to-frame matrix')
 ```
 
-![Frame-to-Frame similarity result](/assets/img/research/dedup/f2f_similarity.png)
+<div class="img_row">
+    <img class="col three" src="/assets/img/research/dedup/f2f_similarity.png" alt="" title="f2f similarity"/>
+</div>
+<div class="col three caption">
+    Frame-to-frame similarity result
+</div>
 
 ### Compute Video-to-Video Similarity
 
@@ -229,10 +239,14 @@ if device.type == 'cuda':
   sim_matrix = sim_matrix.detach().to('cpu')
 visualize_matrix(sim_matrix[0], 'ViSiL output', step=4)
 ```
+<div class="img_row">
+    <img class="col three" src="/assets/img/research/dedup/v2v_similarity.png" alt="" title="v2v similarity"/>
+</div>
+<div class="col three caption">
+    Video-to-video similarity result
+</div>
 
-![Video-to-Video similarity result](/assets/img/research/dedup/v2v_similarity.png)
-
-> Interpretation video-to-video similarity: given a query video  𝑄  and a target video  𝑇 , the v2v similarity can be interpreted as the ratio of query video  𝑄  that can be matched in the target video  𝑇 .
+**Interpretation video-to-video similarity**: given a query video  𝑄  and a target video  𝑇 , the v2v similarity can be interpreted as the ratio of query video  𝑄  that can be matched in the target video  𝑇 .
 
 ### Compute pairwise Video-to-Video similarity
 ```python
@@ -255,7 +269,12 @@ df = pd.DataFrame(similarity_matrix)
 df.style.set_properties(**{'font-size':'6pt'}).background_gradient('Greys')
 ```
 
-![pairwise video-to-video similarity](/assets/img/research/dedup/pairwise_v2v_similarity_brute_force.png)
+<div class="img_row">
+    <img class="col three" src="/assets/img/research/dedup/pairwise_v2v_similarity_brute_force.png" alt="" title="pairwise v2v similarity"/>
+</div>
+<div class="col three caption">
+    Pairwise video-to-video similarity
+</div>
 
 ## Similar Video Detection: An Hierarchical Approach
 
@@ -263,7 +282,12 @@ In the previous section, we built a small yet fully functional similar video det
 
 We draw inspiration from a typical modern recommendation system, which typically has three components: 1) a feature extraction pipeline, 2) a candidate generation pipeline that generates tens of thousands of candidates from potentially millions of samples, 3) a scoring system that ranks the candidates.
 
-![recommendation system](https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/rec_sys.png)
+<div class="img_row">
+    <img class="col three" src="https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/rec_sys.png" alt="" title="recsys"/>
+</div>
+<div class="col three caption">
+    Typical recommendation system
+</div>
 
 In this section, we will discuss how to find the most likely candidates using nearest neighbor search. An alternative two-step approach is proposed as follows:
 
@@ -360,11 +384,13 @@ The curse of dimensionality is that as we increase the dimensionality of space, 
 
 Here is a simple illustration to demonstrate this effect: for the 1D case, we need to sample half of each dimension to retrieve half of all data samples; for the 2D case, we need to sample more than half of each dimension ($\frac{\sqrt{2}}{2}$ to be exact) to retrieve half of all data samples.
 
-![curse of dimensionality](https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/curse_of_dimensionality.png)
-
-> ## Dimension Reduction
+<div class="img_row">
+    <img class="col three" src="https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/curse_of_dimensionality.png" alt="" title="curse of dimensionality"/>
+</div>
+<div class="col three caption">
+    Curse of dimensionality
+</div>
 
 Please refer to [A Dimension Reduction Technique to Preserve
 Nearest Neighbors on High Dimensional Data](https://dspace.mit.edu/bitstream/handle/1721.1/127381/1192539440-MIT.pdf?sequence=1&isAllowed=y) for a reference.
-
 
