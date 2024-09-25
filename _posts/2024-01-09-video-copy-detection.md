@@ -1,5 +1,5 @@
 ---
-title: Content-based Video Copy Detection: a step by step walkthrough
+title: Content-based Video Copy Detection - a step by step walkthrough
 ---
 
 This tutorial is based on the code released for [ViSiL: Fine-grained Spatio-Temporal Video Similarity Learning](https://arxiv.org/pdf/1908.07410). Please refer to the paper for more technical details.
@@ -26,12 +26,13 @@ When we use ResNet-50 as our backbone, the feature map extracted from one video 
 
 <div class="img_row">
     <img class="col three"
-    scr="https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/feature_extraction.png"
     alt="" title="feature extraction"/>
 </div>
 <div class="col three caption">
-    ViSil: feature extraction
+    
 </div>
+
+![ViSil: feature extraction](https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/feature_extraction.png)
 
 ## Frame-to-Frame similarity
 Given two frame $d$, $b$ and their corresponding feature map $M_d, M_b \in \mathbb{R}^{NxNxC}$. The region map can be decomposed into region vectors $d_{ij}, b_{kl} \in \mathbb{R}^C, i,j,k,l \in [1,N]$. Then the dot product between every pair of region vectors is calculated, creating a similarity matrix of the two frames. Chamfer similarity (CS) is applied on the similarity matrix to compute the frame-to-frame similarity
@@ -40,28 +41,14 @@ $$
 CS(d, b) = \frac{1}{N^2} \sum_{i,j=1}^N \max_{k,l\in[1,N]} d_{ij}^\top b_{kl}
 $$
 
-<div class="img_row">
-    <img class="col three"
-    scr="https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/frame_to_frame_simi.png"
-    alt="" title="f2f similarity"/>
-</div>
-<div class="col three caption">
-    ViSil: frame-to-frame similarity
-</div>
+![ViSil: frame-to-frame similarity](https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/frame_to_frame_simi.png)
 
 ## Video-to-Video similarity
 Given two videos $X, Y$ with $P, Q$ frames respectively, we compute pairwise frame-to-frame similarity for all frames between these two videos and derive the frame-to-frame similarity matrix $S(X, Y)\in ℝ^{P \times Q}$
 
 Then we feed the frame-to-frame similarity matrix to a CNN to train a video level similarity model using triplet loss. We use a harh tanh to clip the output the network within $[-1, 1]$ and use triplet score as our loss function.
 
-<div class="img_row">
-    <img class="col three"
-    scr="https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/video_to_video_simi.png"
-    alt="" title="v2v similarity"/>
-</div>
-<div class="col three caption">
-    ViSil: video-to-video similarity
-</div>
+![Visil: video-to-video similarity](https://raw.githubusercontent.com/imkaywu/notebooks/master/data/visil/video_to_video_simi.png)
 
 # Walkthrough
 
@@ -218,14 +205,7 @@ if device.type == 'cuda':
 visualize_matrix(sim_matrix[0], 'Frame-to-frame matrix')
 ```
 
-<div class="img_row">
-    <img class="col three"
-    scr="/assets/img/research/dedup/f2f_similarity.png"
-    alt="" title="f2f similarity"/>
-</div>
-<div class="col three caption">
-    Frame-to-Frame similarity result
-</div>
+![Frame-to-Frame similarity result](/assets/img/research/dedup/f2f_similarity.png)
 
 ### Compute Video-to-Video Similarity
 
@@ -250,14 +230,7 @@ if device.type == 'cuda':
 visualize_matrix(sim_matrix[0], 'ViSiL output', step=4)
 ```
 
-<div class="img_row">
-    <img class="col three"
-    scr="/assets/img/research/dedup/v2v_similarity.png"
-    alt="" title="f2f similarity"/>
-</div>
-<div class="col three caption">
-    Video-to-Video similarity result
-</div>
+![Video-to-Video similarity result](/assets/img/research/dedup/v2v_similarity.png)
 
 > Interpretation video-to-video similarity: given a query video  𝑄  and a target video  𝑇 , the v2v similarity can be interpreted as the ratio of query video  𝑄  that can be matched in the target video  𝑇 .
 
@@ -282,14 +255,7 @@ df = pd.DataFrame(similarity_matrix)
 df.style.set_properties(**{'font-size':'6pt'}).background_gradient('Greys')
 ```
 
-<div class="img_row">
-    <img class="col three"
-    scr="/assets/img/research/dedup/pairwise_v2v_similarity_brute_force.png"
-    alt="" title="v2v similarity"/>
-</div>
-<div class="col three caption">
-    ViSil: pairwise video-to-video similarity
-</div>
+![pairwise video-to-video similarity](/assets/img/research/dedup/pairwise_v2v_similarity_brute_force.png)
 
 ## Similar Video Detection: An Hierarchical Approach
 
