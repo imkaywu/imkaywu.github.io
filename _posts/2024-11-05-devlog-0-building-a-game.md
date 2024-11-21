@@ -1,5 +1,5 @@
 ---
-title: I'm building a pixel-art life sim game
+title: Devlog 0: Building a pixel-art life sim game
 categories: 
   - Dev
 tags:
