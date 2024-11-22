@@ -8,17 +8,17 @@ profile:
   align: right
   image: profile/clapton_harrison.jpg
   address: >
-    <p>450 National Ave,</p>
-    <p>Mountain View, CA, 94043</p>
+    <p>San Francisco Bay Area</p>
 
 news: true
 social: true
 ---
-I am a Computer Vision engineer working on perception in the autonomous driving industry, and an aspiring Blues guitarist. I have become a full-time bedroom guitarist since 2020. My favorite guitar heros are: [Eric Clapton](https://en.wikipedia.org/wiki/Clapton_is_God) and [George Harrison](https://www.youtube.com/watch?v=2bOQH10Meq0&frags=pl%2Cwn) (favorite Beatle). 
+I am a Computer Vision engineer working on perception in the autonomous driving industry. I work on my pixel-art farming simulation game and play electric guitar in my spared time. My favorite guitar heros are: [Eric Clapton](https://en.wikipedia.org/wiki/Clapton_is_God) and [George Harrison](https://www.youtube.com/watch?v=2bOQH10Meq0&frags=pl%2Cwn).
 
-Previously, I was a Master of Applied Science student at the HCT lab (Human Communication Technologies Lab) of ECE Department of UBC. Go to my [CV](https://imkaywu.github.io/cv) for more detailed information.
+I was a Master of Applied Science student at the HCT lab (Human Communication Technologies Lab) of ECE Department of UBC. Go to my [CV](https://imkaywu.github.io/cv) for more details.
 
 ## Interests
+- Machine Learning
 - 3D computer vision (check out [open3DCV]({{ site.url }}{{ site.baseurl }}/open3DCV/))
 	- Multiple View Geometry
 	- Multi-View Stereo
