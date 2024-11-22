@@ -27,13 +27,13 @@ contact_note: >
 # Blog
 # -----------------------------------------------------------------------------
 blog_name: KaiW's blog about technology and guitar
-blog_description: "Discipline Equals Freedom"
+blog_description: "Be Happy"
 
 # Pagination
 paginate: 10
 permalink: /blog/:year/:month/:title/
 paginate_path: /blog/page:num/
-timezone: Canada/Pacific # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: America/Los_Angeles # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 text:
   pagination:
